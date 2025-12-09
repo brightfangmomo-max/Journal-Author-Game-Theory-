@@ -229,43 +229,28 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
-INPUT ./static_analysis.png
-INPUT ./static_analysis.png
-INPUT ./static_analysis.png
-INPUT ./static_analysis.png
-INPUT ./static_analysis.png
-INPUT ./dynamic_evolution.png
-INPUT ./dynamic_evolution.png
-INPUT ./dynamic_evolution.png
-INPUT ./dynamic_evolution.png
-INPUT ./dynamic_evolution.png
-INPUT ./phase_plane_global.png
-INPUT ./phase_plane_global.png
-INPUT ./phase_plane_global.png
-INPUT ./phase_plane_global.png
-INPUT ./phase_plane_global.png
-INPUT ./GX_and_K.png
-INPUT ./GX_and_K.png
-INPUT ./GX_and_K.png
-INPUT ./GX_and_K.png
-INPUT ./GX_and_K.png
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx7.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx5.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx8.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx6.tfm
-INPUT ./GX_alpha.png
-INPUT ./GX_alpha.png
-INPUT ./GX_alpha.png
-INPUT ./GX_alpha.png
-INPUT ./GX_alpha.png
-INPUT ./replicator dynamics.png
-INPUT ./replicator dynamics.png
-INPUT ./replicator dynamics.png
-INPUT ./replicator dynamics.png
-INPUT ./replicator dynamics.png
+INPUT c:/texlive/2025/texmf-dist/tex/latex/base/omscmr.fd
+INPUT c:/texlive/2025/texmf-dist/tex/latex/base/omscmr.fd
+INPUT c:/texlive/2025/texmf-dist/tex/latex/base/omscmr.fd
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbsy10.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbxti10.tfm
+INPUT ./polynomial_graph_1.png
+INPUT ./polynomial_graph_1.png
+INPUT ./polynomial_graph_1.png
+INPUT ./polynomial_graph_1.png
+INPUT ./polynomial_graph_1.png
+INPUT ./impact_N_K.png
+INPUT ./impact_N_K.png
+INPUT ./impact_N_K.png
+INPUT ./impact_N_K.png
+INPUT ./impact_N_K.png
 INPUT main.aux
+INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
+INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb
@@ -279,5 +264,4 @@ INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
-INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb
 INPUT c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb
