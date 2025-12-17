@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.5)  16 DEC 2025 00:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.5)  17 DEC 2025 19:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -337,7 +337,31 @@ File: pgfmodulematrix.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \tikz@expandcount=\count319
  (c:/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-))) (c:/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshapes.geometric.code.tex
+))) (c:/texlive/2025/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+ (c:/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+ (c:/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen274
+\captionmargin=\dimen275
+\caption@leftmargin=\dimen276
+\caption@rightmargin=\dimen277
+\caption@width=\dimen278
+\caption@indent=\dimen279
+\caption@parindent=\dimen280
+\caption@hangindent=\dimen281
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count320
+\c@continuedfloat=\count321
+Package caption Info: float package is loaded.
+)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count322
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count323
+) (c:/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshapes.geometric.code.tex
 File: tikzlibraryshapes.geometric.code.tex 2025-08-29 v3.1.11a (3.1.11a)
  (c:/texlive/2025/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshapes.geometric.code.tex
 File: pgflibraryshapes.geometric.code.tex 2025-08-29 v3.1.11a (3.1.11a)
@@ -345,7 +369,7 @@ File: pgflibraryshapes.geometric.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 File: tikzlibraryarrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
  (c:/texlive/2025/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.code.tex
 File: pgflibraryarrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\arrowsize=\dimen274
+\arrowsize=\dimen282
 )) (c:/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 ) (c:/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarycalc.code.tex
@@ -356,24 +380,24 @@ File: tikzlibrarypatterns.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 File: pgflibrarypatterns.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )) (c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count320
+\l__color_backend_stack_int=\count324
 ) (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -411,16 +435,16 @@ LaTeX Font Info:    ... okay on input line 17.
 
 (c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count321
-\scratchdimen=\dimen275
+\scratchcounter=\count325
+\scratchdimen=\dimen283
 \scratchbox=\box68
-\nofMPsegments=\count322
-\nofMParguments=\count323
+\nofMPsegments=\count326
+\nofMParguments=\count327
 \everyMPshowfont=\toks40
-\MPscratchCnt=\count324
-\MPscratchDim=\dimen276
-\MPnumerator=\count325
-\makeMPintoPDFobject=\count326
+\MPscratchCnt=\count328
+\MPscratchDim=\dimen284
+\MPnumerator=\count329
+\makeMPintoPDFobject=\count330
 \everyMPtoPDFconversion=\toks41
 ) (c:/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -428,11 +452,13 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (c:/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-LaTeX Font Info:    Trying to load font information for U+msa on input line 19.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 21.
  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 19.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 21.
  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
@@ -446,115 +472,142 @@ LaTeX Warning: No \author given.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [2] [3] [4] [5]
-Underfull \hbox (badness 2538) in paragraph at lines 372--372
+Underfull \hbox (badness 2538) in paragraph at lines 374--374
 []\OT1/cmr/m/n/10 Optimal when com-pe-ti-tion is
  []
 
 
-Underfull \hbox (badness 3590) in paragraph at lines 374--375
+Underfull \hbox (badness 3590) in paragraph at lines 376--377
 []\OT1/cmr/m/n/10 Dominated by AR. Penal-ties
  []
 
 
-Underfull \hbox (badness 3323) in paragraph at lines 375--376
+Underfull \hbox (badness 3323) in paragraph at lines 377--378
 []\OT1/cmr/m/n/10 Dominated by AR if $\OML/cmm/m/it/10 D >
  []
 
 
-Overfull \hbox (81.14345pt too wide) in paragraph at lines 365--379
+Overfull \hbox (81.14345pt too wide) in paragraph at lines 367--381
  [][] 
  []
 
 [6]
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 397.
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 399.
  (c:/texlive/2025/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2024/11/19 v2.5n Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/bx/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/b/n' tried instead on input line 397.
+(Font)              Font shape `OMS/cmsy/b/n' tried instead on input line 399.
 LaTeX Font Info:    Font shape `OMS/cmr/bx/it' in size <10> not available
-(Font)              Font shape `OMS/cmsy/b/n' tried instead on input line 414.
+(Font)              Font shape `OMS/cmsy/b/n' tried instead on input line 416.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 431.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 433.
  [7] [8]
 <polynomial_graph_1.pdf, id=50, 844.65562pt x 596.98032pt>
 File: polynomial_graph_1.pdf Graphic file (type pdf)
 <use polynomial_graph_1.pdf>
-Package pdftex.def Info: polynomial_graph_1.pdf  used on input line 526.
+Package pdftex.def Info: polynomial_graph_1.pdf  used on input line 528.
 (pdftex.def)             Requested size: 407.66833pt x 288.1323pt.
 <impossible_scenario.pdf, id=51, 845.07718pt x 597.19106pt>
 File: impossible_scenario.pdf Graphic file (type pdf)
 <use impossible_scenario.pdf>
-Package pdftex.def Info: impossible_scenario.pdf  used on input line 535.
+Package pdftex.def Info: impossible_scenario.pdf  used on input line 537.
 (pdftex.def)             Requested size: 362.37569pt x 256.07639pt.
- [9 <./polynomial_graph_1.pdf>]
-<impact_N_K.pdf, id=58, 844.65562pt x 596.98032pt>
-File: impact_N_K.pdf Graphic file (type pdf)
-<use impact_N_K.pdf>
-Package pdftex.def Info: impact_N_K.pdf  used on input line 563.
-(pdftex.def)             Requested size: 407.66833pt x 288.1323pt.
- [10 <./impossible_scenario.pdf>]
+ [9 <./polynomial_graph_1.pdf>] [10 <./impossible_scenario.pdf>]
+Overfull \hbox (7.53983pt too wide) in paragraph at lines 594--595
+[]\OT1/cmr/m/n/10 Mathematically, the equi-lib-rium re-quires the gen-er-ated vol-ume $\OML/cmm/m/it/10 V\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[]\OT1/cmr/m/n/10 )$ to match the capacity-constrained
+ []
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[11 <./impact_N_K.pdf>]
-<K_x.pdf, id=73, 845.07718pt x 597.19106pt>
-File: K_x.pdf Graphic file (type pdf)
-<use K_x.pdf>
-Package pdftex.def Info: K_x.pdf  used on input line 629.
+<k_x.pdf, id=66, 845.07718pt x 597.19106pt>
+File: k_x.pdf Graphic file (type pdf)
+<use k_x.pdf>
+Package pdftex.def Info: k_x.pdf  used on input line 607.
 (pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
- [12] [13 <./K_x.pdf>]
-<N_x.pdf, id=85, 845.07718pt x 597.19106pt>
+[11] [12 <./K_x.pdf>]
+<N_x.pdf, id=77, 845.07718pt x 597.19106pt>
 File: N_x.pdf Graphic file (type pdf)
 <use N_x.pdf>
-Package pdftex.def Info: N_x.pdf  used on input line 671.
+Package pdftex.def Info: N_x.pdf  used on input line 639.
 (pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
- [14 <./N_x.pdf>]
-<alpha_x.pdf, id=94, 845.07718pt x 597.19106pt>
+ [13]
+<alpha_x.pdf, id=82, 845.07718pt x 597.19106pt>
 File: alpha_x.pdf Graphic file (type pdf)
 <use alpha_x.pdf>
-Package pdftex.def Info: alpha_x.pdf  used on input line 711.
+Package pdftex.def Info: alpha_x.pdf  used on input line 679.
 (pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
- [15 <./alpha_x.pdf>]
-<epsilon_x.pdf, id=102, 845.07718pt x 597.19106pt>
+ [14 <./N_x.pdf>]
+<epsilon_x.pdf, id=91, 845.07718pt x 597.19106pt>
 File: epsilon_x.pdf Graphic file (type pdf)
 <use epsilon_x.pdf>
-Package pdftex.def Info: epsilon_x.pdf  used on input line 733.
+Package pdftex.def Info: epsilon_x.pdf  used on input line 701.
 (pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
- [16 <./epsilon_x.pdf>]
-<lambda_x.pdf, id=110, 845.07718pt x 597.19106pt>
+ [15 <./alpha_x.pdf>] [16 <./epsilon_x.pdf>]
+<lambda_x.pdf, id=106, 845.07718pt x 597.19106pt>
 File: lambda_x.pdf Graphic file (type pdf)
 <use lambda_x.pdf>
-Package pdftex.def Info: lambda_x.pdf  used on input line 771.
+Package pdftex.def Info: lambda_x.pdf  used on input line 739.
 (pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
-<B_x.pdf, id=111, 845.07718pt x 597.19106pt>
+<B_x.pdf, id=107, 845.07718pt x 597.19106pt>
 File: B_x.pdf Graphic file (type pdf)
 <use B_x.pdf>
-Package pdftex.def Info: B_x.pdf  used on input line 786.
+Package pdftex.def Info: B_x.pdf  used on input line 754.
 (pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
 
 
-LaTeX Warning: Reference `fig:B_x_extended' on page 17 undefined on input line 795.
+LaTeX Warning: Reference `fig:B_x_extended' on page 17 undefined on input line 763.
 
-[17] [18 <./lambda_x.pdf>]
+[17 <./lambda_x.pdf>] [18 <./B_x.pdf>]
 <D_x.pdf, id=122, 845.07718pt x 597.19106pt>
 File: D_x.pdf Graphic file (type pdf)
 <use D_x.pdf>
-Package pdftex.def Info: D_x.pdf  used on input line 833.
+Package pdftex.def Info: D_x.pdf  used on input line 801.
 (pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
- [19 <./B_x.pdf>]
+ [19 <./D_x.pdf>]
 <C_x.pdf, id=131, 845.07718pt x 597.19106pt>
 File: C_x.pdf Graphic file (type pdf)
 <use C_x.pdf>
-Package pdftex.def Info: C_x.pdf  used on input line 852.
+Package pdftex.def Info: C_x.pdf  used on input line 820.
 (pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
- [20 <./D_x.pdf>]
+ [20 <./C_x.pdf>]
 <CJ_x.pdf, id=139, 845.07718pt x 597.19106pt>
 File: CJ_x.pdf Graphic file (type pdf)
 <use CJ_x.pdf>
-Package pdftex.def Info: CJ_x.pdf  used on input line 871.
+Package pdftex.def Info: CJ_x.pdf  used on input line 839.
 (pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
- [21 <./C_x.pdf>] [22 <./Cj_x.pdf>] [23] (./main.aux)
+ [21 <./Cj_x.pdf>]
+Overfull \hbox (1.40646pt too wide) in paragraph at lines 860--860
+[]\OT1/cmr/bx/n/14.4 Joint Im-pact of Pop-u-la-tion and Ca-pac-ity on Pub-li-ca-tion Qual-
+ []
+
+[22]
+<impact_N_K.pdf, id=151, 844.65562pt x 596.98032pt>
+File: impact_N_K.pdf Graphic file (type pdf)
+<use impact_N_K.pdf>
+Package pdftex.def Info: impact_N_K.pdf  used on input line 876.
+(pdftex.def)             Requested size: 217.42265pt x 153.66266pt.
+<average_quality.pdf, id=152, 845.07718pt x 597.19106pt>
+File: average_quality.pdf Graphic file (type pdf)
+<use average_quality.pdf>
+Package pdftex.def Info: average_quality.pdf  used on input line 883.
+(pdftex.def)             Requested size: 217.42265pt x 153.644pt.
+ [23 <./impact_N_K.pdf> <./average_quality.pdf>]
+<N_K_x.pdf, id=166, 845.07718pt x 597.19106pt>
+File: N_K_x.pdf Graphic file (type pdf)
+<use N_K_x.pdf>
+Package pdftex.def Info: N_K_x.pdf  used on input line 905.
+(pdftex.def)             Requested size: 430.31812pt x 304.08957pt.
+<alpha_epsilon_lambda_x.pdf, id=167, 845.07718pt x 597.19106pt>
+File: alpha_epsilon_lambda_x.pdf Graphic file (type pdf)
+<use alpha_epsilon_lambda_x.pdf>
+Package pdftex.def Info: alpha_epsilon_lambda_x.pdf  used on input line 916.
+(pdftex.def)             Requested size: 430.31812pt x 304.08957pt.
+ [24 <./N_K_x.pdf>]
+<B_D_x.pdf, id=175, 845.07718pt x 597.19106pt>
+File: B_D_x.pdf Graphic file (type pdf)
+<use B_D_x.pdf>
+Package pdftex.def Info: B_D_x.pdf  used on input line 927.
+(pdftex.def)             Requested size: 430.31812pt x 304.08957pt.
+ [25 <./alpha_epsilon_lambda_x.pdf>] [26 <./B_D_x.pdf>] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-14>
@@ -565,18 +618,18 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 15175 strings out of 467538
- 309671 string characters out of 5423725
- 711060 words of memory out of 5000000
- 43812 multiletter control sequences out of 15000+600000
- 638745 words of font info for 82 fonts, out of 8000000 for 9000
+ 16677 strings out of 467538
+ 338696 string characters out of 5423725
+ 737200 words of memory out of 5000000
+ 45301 multiletter control sequences out of 15000+600000
+ 640290 words of font info for 88 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,13n,104p,1387b,858s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on main.pdf (23 pages, 1138195 bytes).
+ 84i,13n,104p,1595b,875s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
+Output written on main.pdf (26 pages, 1464602 bytes).
 PDF statistics:
- 247 PDF objects out of 1000 (max. 8388607)
- 141 compressed objects within 2 object streams
+ 292 PDF objects out of 1000 (max. 8388607)
+ 165 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 77 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 97 words of extra memory for PDF output out of 10000 (max. 10000000)
 
