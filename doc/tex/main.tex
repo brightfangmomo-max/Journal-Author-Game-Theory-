@@ -32,7 +32,7 @@ This mechanism creates a zero-sum element: as the number of submissions increase
 
 The updated interaction proceeds in the following stages:
 \begin{enumerate}
-    \item \textbf{Submission:} $N$ authors choose a strategy $s \in \{OG, AS, \dots\}$.
+    \item \textbf{Submission:} $N$ authors choose a strategy $s \in \{\text{OG}, \text{AS}, \dots\}$.
     \item \textbf{Peer Review (Perception):} All submissions undergo peer review characterized by false negative rate $\epsilon$ and false positive rate $\lambda$.
     Papers that pass peer review enter a ``Perception Pool'' of size $M$.
     \item \textbf{Competition (Threshold Cut):} The journal has a maximum capacity $K$.
@@ -48,62 +48,64 @@ Let $\alpha$ be the probability an author produces a good paper.
 The probability that a single author's submission passes the peer review stage, denoted as $P_{pass}(s)$, depends on their chosen strategy $s$:
 
 \begin{align}
-    P_{pass}(OG) &= \alpha(1-\epsilon) \\
-    P_{pass}(AS) &= \alpha(1-\epsilon) + (1-\alpha)\lambda
+    P_{pass}(\text{OG}) &= \alpha(1-\epsilon) \\
+    P_{pass}(\text{AS}) &= \alpha(1-\epsilon) + (1-\alpha)\lambda
 \end{align}
 
-Here, $OG$ authors only submit good papers, while $AS$ authors submit both good and bad papers, benefiting from the false positive rate $\lambda$.
+Here, OG authors only submit good papers, while AS authors submit both good and bad papers, benefiting from the false positive rate $\lambda$.
 
 \begin{figure}[htbp]
     \centering
-    % 这一行让图片自动缩放适应页面宽度
     \resizebox{\textwidth}{!}{
         \begin{tikzpicture}[node distance=2cm, auto, >=stealth]
 
-        % --- 定义样式 ---
+        % --- Styles ---
         \tikzstyle{process} = [rectangle, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=orange!10]
         \tikzstyle{pool} = [rectangle, minimum width=2cm, minimum height=4cm, draw=black, fill=gray!5]
         \tikzstyle{arrow} = [thick,->]
 
-        % --- 节点定义 ---
+        % --- Nodes ---
 
         % 1. Authors
         \node (authors) [process, align=center] {Population $N$ \\ Authors \\ \scriptsize (Strategies: OG / AS)};
-        % 2. Submission Pool
-        \node (submit_pool) [pool, right=1.5cm of authors, label=above:\textbf{Submission Pool ($S$)}] {};
+        
+        % 2. Submission Pool (UPDATED: S -> V)
+        \node (submit_pool) [pool, right=1.5cm of authors, label=above:\textbf{Submission Pool ($V$)}] {};
         \fill[pattern=north east lines, pattern color=blue] ($(submit_pool.south west) + (0.2,0.2)$) rectangle ($(submit_pool.south east) + (-0.2, 2.5)$);
         \node at ($(submit_pool.south) + (0, 1.5)$) {\scriptsize Submissions};
 
         % 3. Peer Review
         \node (review) [process, right=1.5cm of submit_pool, align=center] {Peer Review \\ $\epsilon$ (False Neg) \\ $\lambda$ (False Pos)};
+        
         % 4. Perception Pool
         \node (percep_pool) [pool, right=1.5cm of review, label=above:\textbf{Perception Pool ($M$)}] {};
         \fill[pattern=north east lines, pattern color=green!50!black] ($(percep_pool.south west) + (0.2,0.2)$) rectangle ($(percep_pool.south east) + (-0.2, 3.0)$);
         \node at ($(percep_pool.south) + (0, 1.0)$) {\scriptsize Passed Papers};
 
-        % --- Threshold K (红色虚线与文字) ---
+        % --- Threshold K ---
         \draw[red, thick, dashed] ($(percep_pool.south west) + (-0.5, 2.0)$) -- ($(percep_pool.south east) + (0.5, 2.0)$);
-        % 文字在虚线右下方
         \node[text=red, anchor=north east, yshift=-0.05cm] at ($(percep_pool.south east) + (0.5, 2.0)$) {\scriptsize Threshold $K$};
+        
         % 5. Final Selection
         \node (final) [process, right=2.5cm of percep_pool, align=center, fill=blue!10] {Final Acceptance \\ $\min(M, K)$};
-        % --- 连线 ---
+        
+        % --- Arrows ---
         \draw[arrow] (authors) -- node[above] {Submit} (submit_pool);
         \draw[arrow] (submit_pool) -- (review);
         \draw[arrow] (review) -- node[above] {Filter} (percep_pool);
-        % --- Cutoff (Cutoff 在 Random Selection 上方，箭头向左) ---
         \draw[arrow] (percep_pool) -- node[above, align=center] (rand_sel) {\scriptsize Random\\Selection} (final);
-        % Label
+        
+        % Label and Cutoff Arrow
         \node[above=0.2cm of rand_sel, xshift=0.5cm, text=red] (cutoff_label) {\scriptsize Cutoff};
-        % Arrow pointing LEFT
         \draw[->, red, thick] (cutoff_label.west) -- ++(-1.0, 0);
-        % --- 底部注释 ---
+        
+        % --- Footnotes ---
         \node [below=0.2cm of submit_pool, text width=2.5cm, align=center] {\scriptsize Real Quality Mix\\(Good \& Bad)};
         \node [below=0.2cm of percep_pool, text width=2.5cm, align=center] {\scriptsize Perceived Good\\($M$ papers)};
         \node [below=0.5cm of final, text width=3cm, align=center, font=\scriptsize] {If $M > K$: \\ $M-K$ papers rejected \\ despite passing review};
         \end{tikzpicture}
     }
-    \caption{\textbf{Schematic representation of the Threshold Competition Model.} The process unfolds in three stages: (1) Submission into a pool $S$;
+    \caption{\textbf{Schematic representation of the Threshold Competition Model.} The process unfolds in three stages: (1) Submission into a pool $V$;
     (2) Peer review filtering into a perception pool $M$; and (3) A hard capacity constraint $K$ (red dashed line).
     If $M > K$, a random cutoff occurs, rejecting surplus papers even if they passed review.
     This introduces the rationing probability $\rho$.}
@@ -127,12 +129,12 @@ The rationing probability for the focal author is defined as:
 
 \subsection{Expected Rationing Probability}
 Since $M_{-i}$ is a random variable, authors base their decisions on the expected value $E[\rho_{\text{focal}}]$.
-Assume the population consists of $N_{OG}$ authors playing $OG$ and $N_{AS}$ authors playing $AS$ (where $N_{OG} + N_{AS} = N - 1$, excluding the focal author).
+Assume the population consists of $N_{\text{OG}}$ authors playing OG and $N_{\text{AS}}$ authors playing AS (where $N_{\text{OG}} + N_{\text{AS}} = N - 1$, excluding the focal author).
 The variable $M_{-i}$ is the sum of two independent binomial distributions:
 \begin{equation}
-    M_{-i} = X_{OG} + X_{AS}
+    M_{-i} = X_{\text{OG}} + X_{\text{AS}}
 \end{equation}
-where $X_{OG} \sim B(N_{OG}, P_{pass}(OG))$ and $X_{AS} \sim B(N_{AS}, P_{pass}(AS))$.
+where $X_{\text{OG}} \sim B(N_{\text{OG}}, P_{pass}(\text{OG}))$ and $X_{\text{AS}} \sim B(N_{\text{AS}}, P_{pass}(\text{AS}))$.
 The expected rationing probability is given by:
 \begin{equation}
     E[\rho_{\text{focal}}] = \sum_{m=0}^{N-1} \Pr(M_{-i} = m) \cdot \min\left(1, \frac{K}{1 + m}\right)
@@ -152,7 +154,7 @@ We first define the key variables used in the payoff derivation:
 \textbf{Symbol} & \textbf{Description} \\ \hline
 $N$ & Total number of authors \\
 $K$ & Journal capacity (maximum number of accepted papers) \\
-$S$ & Total number of submissions (Submission Pool) \\
+$V$ & Total number of submissions (Submission Pool) \\
 $M$ & Number of papers passing peer review (Perception Pool) \\
 $\rho$ & Rationing probability, probability of acceptance after passing review \\
 $\alpha$ & Probability that an author produces a good paper \\
@@ -162,7 +164,7 @@ $r$ & Reward for an accepted paper (Author) \\
 $c$ & Cost of submission (Author) \\
 $B$ & Benefit for accepting a good paper (Journal) \\
 $D$ & Penalty for accepting a bad paper (Journal) \\
-$C(S)$ & Cost of reviewing $S$ submissions \\
+$C(V)$ & Cost of reviewing $V$ submissions \\
 \hline
 \end{tabular}
 \caption{Key notation and definitions.}
@@ -173,46 +175,46 @@ $C(S)$ & Cost of reviewing $S$ submissions \\
 
 The journal's payoff is determined by the quality of the accepted papers minus the cost of reviewing.
 The crucial addition in this model is that the rationing probability $\rho$ is endogenous to the journal's strategy.
-The journal maximizes its utility by choosing a strategy $S_J \in \{OG, AA, OB, AR\}$.
+The journal maximizes its utility by choosing a strategy $S_J \in \{\text{OG}, \text{AA}, \text{OB}, \text{AR}\}$.
 The rationing probability $\rho$ is defined as the ratio of capacity $K$ to the size of the perception pool $M$, capped at 1:
 \begin{equation}
     \rho(S_J) = \min\left(1, \frac{K}{M(S_J)}\right)
 \end{equation}
 Since the screening policy (determined by effective $\epsilon$ and $\lambda$) changes the size of $M$, $\rho$ varies across strategies.
-Let $S_{good}$ and $S_{bad}$ be the total number of good and bad papers submitted by the authors, such that $S = S_{good} + S_{bad}$.
+Let $V_{good}$ and $V_{bad}$ be the total number of good and bad papers submitted by the authors, such that $V = V_{good} + V_{bad}$.
 
 \paragraph{Only Good (OG) -- Selective Strategy}
 The journal applies standard peer review to filter papers, aiming to accept good papers and reject bad ones.
 \begin{itemize}
     \item \textbf{Screening parameters:} Standard $\epsilon$ and $\lambda$.
-    \item \textbf{Perception Pool ($M_{OG}$):} Contains accepted good papers and falsely accepted bad papers.
+    \item \textbf{Perception Pool ($M_{\text{OG}}$):} Contains accepted good papers and falsely accepted bad papers.
     \begin{equation}
-        M_{OG} = S_{good}(1-\epsilon) + S_{bad}\lambda
+        M_{\text{OG}} = V_{good}(1-\epsilon) + V_{bad}\lambda
     \end{equation}
-    \item \textbf{Rationing Probability ($\rho_{OG}$):}
+    \item \textbf{Rationing Probability ($\rho_{\text{OG}}$):}
     \begin{equation}
-        \rho_{OG} = \min\left(1, \frac{K}{S_{good}(1-\epsilon) + S_{bad}\lambda}\right)
+        \rho_{\text{OG}} = \min\left(1, \frac{K}{V_{good}(1-\epsilon) + V_{bad}\lambda}\right)
     \end{equation}
-    \item \textbf{Payoff ($U_J(OG)$):} The journal gains $B$ from good papers and loses $D$ from bad papers, scaled by $\rho_{OG}$.
+    \item \textbf{Payoff ($U_J(\text{OG})$):} The journal gains $B$ from good papers and loses $D$ from bad papers, scaled by $\rho_{\text{OG}}$.
     \begin{equation}
-        U_J(OG) = \rho_{OG} \left[ B \cdot S_{good}(1-\epsilon) - D \cdot S_{bad}\lambda \right] - C(S)
+        U_J(\text{OG}) = \rho_{\text{OG}} \left[ B \cdot V_{good}(1-\epsilon) - D \cdot V_{bad}\lambda \right] - C(V)
     \end{equation}
 \end{itemize}
 
 \paragraph{Always Accept (AA) -- Permissive Strategy}
 The journal abandons screening, effectively setting $\epsilon=0$ and $\lambda=1$.
 \begin{itemize}
-    \item \textbf{Perception Pool ($M_{AA}$):} All submissions enter the pool.
+    \item \textbf{Perception Pool ($M_{\text{AA}}$):} All submissions enter the pool.
     \begin{equation}
-        M_{AA} = S = S_{good} + S_{bad}
+        M_{\text{AA}} = V = V_{good} + V_{bad}
     \end{equation}
-    \item \textbf{Rationing Probability ($\rho_{AA}$):} This strategy maximizes congestion.
+    \item \textbf{Rationing Probability ($\rho_{\text{AA}}$):} This strategy maximizes congestion.
     \begin{equation}
-        \rho_{AA} = \min\left(1, \frac{K}{S}\right)
+        \rho_{\text{AA}} = \min\left(1, \frac{K}{V}\right)
     \end{equation}
-    \item \textbf{Payoff ($U_J(AA)$):}
+    \item \textbf{Payoff ($U_J(\text{AA})$):}
     \begin{equation}
-        U_J(AA) = \rho_{AA} \left[ B \cdot S_{good} - D \cdot S_{bad} \right] - C(S)
+        U_J(\text{AA}) = \rho_{\text{AA}} \left[ B \cdot V_{good} - D \cdot V_{bad} \right] - C(V)
     \end{equation}
 \end{itemize}
 
@@ -220,36 +222,36 @@ The journal abandons screening, effectively setting $\epsilon=0$ and $\lambda=1$
 The journal adopts an inverse selection policy, accepting papers that are perceived as ``bad'' by the peer review process.
 This strategy effectively targets papers that fail the standard quality threshold.
 \begin{itemize}
-    \item \textbf{Perception Pool ($M_{OB}$):} The pool consists of good papers that were falsely rejected (false negatives) and bad papers that were correctly identified as bad (true negatives).
+    \item \textbf{Perception Pool ($M_{\text{OB}}$):} The pool consists of good papers that were falsely rejected (false negatives) and bad papers that were correctly identified as bad (true negatives).
     \begin{equation}
-        M_{OB} = S_{good}\epsilon + S_{bad}(1-\lambda)
+        M_{\text{OB}} = V_{good}\epsilon + V_{bad}(1-\lambda)
     \end{equation}
-    \item \textbf{Rationing Probability ($\rho_{OB}$):}
+    \item \textbf{Rationing Probability ($\rho_{\text{OB}}$):}
     \begin{equation}
-        \rho_{OB} = \min\left(1, \frac{K}{S_{good}\epsilon + S_{bad}(1-\lambda)}\right)
+        \rho_{\text{OB}} = \min\left(1, \frac{K}{V_{good}\epsilon + V_{bad}(1-\lambda)}\right)
     \end{equation}
-    \item \textbf{Payoff ($U_J(OB)$):} Although the journal intends to select bad papers, it may accidentally accept good papers due to review errors ($\epsilon$).
+    \item \textbf{Payoff ($U_J(\text{OB})$):} Although the journal intends to select bad papers, it may accidentally accept good papers due to review errors ($\epsilon$).
     However, it also accepts the vast majority of bad papers.
     \begin{equation}
-        U_J(OB) = \rho_{OB} \left[ B \cdot S_{good}\epsilon - D \cdot S_{bad}(1-\lambda) \right] - C(S)
+        U_J(\text{OB}) = \rho_{\text{OB}} \left[ B \cdot V_{good}\epsilon - D \cdot V_{bad}(1-\lambda) \right] - C(V)
     \end{equation}
-    Note that despite the potential small gain from $B \cdot S_{good}\epsilon$, the term $-D \cdot S_{bad}(1-\lambda)$ typically dominates because $D > B$ and $(1-\lambda) \gg \epsilon$ in realistic settings.
-    Thus, $U_J(OB)$ remains strictly dominated by strategies that do not actively seek penalties.
+    Note that despite the potential small gain from $B \cdot V_{good}\epsilon$, the term $-D \cdot V_{bad}(1-\lambda)$ typically dominates because $D > B$ and $(1-\lambda) \gg \epsilon$ in realistic settings.
+    Thus, $U_J(\text{OB})$ remains strictly dominated by strategies that do not actively seek penalties.
 \end{itemize}
 
 \paragraph{Always Reject (AR) -- Baseline Strategy}
 The journal rejects all submissions.
 The perception pool is empty ($M=0$), and no papers are published.
 \begin{itemize}
-    \item \textbf{Payoff ($U_J(AR)$):}
+    \item \textbf{Payoff ($U_J(\text{AR})$):}
     \begin{equation}
-        U_J(AR) = 0
+        U_J(\text{AR}) = 0
     \end{equation}
 \end{itemize}
 
 \subsection{Author}
 
-An author chooses a strategy $S_A \in \{OG, OB, AS, NS\}$.
+An author chooses a strategy $S_A \in \{\text{OG}, \text{OB}, \text{AS}, \text{NS}\}$.
 The author's expected utility depends on the probability of producing a good paper ($\alpha$), the cost of submission ($c$), the reward ($r$), and the probability of acceptance.
 The probability of acceptance is a two-step process: passing the peer review (denoted as $P_{pass}$) and surviving the competition cut (denoted by $\rho$).
 The expected payoff is generally given by:
@@ -257,7 +259,7 @@ The expected payoff is generally given by:
     U_A = P(\text{Good}) \cdot P(\text{Accept}|\text{Good}) \cdot r + P(\text{Bad}) \cdot P(\text{Accept}|\text{Bad}) \cdot r - \text{Total Cost}
 \end{equation}
 
-Assuming the journal plays the standard \textit{Only Good} strategy (implying the rationing probability is $\rho_{OG}$), the payoffs for the four author strategies are derived as follows:
+Assuming the journal plays the standard \textit{Only Good} strategy (implying the rationing probability is $\rho_{\text{OG}}$), the payoffs for the four author strategies are derived as follows:
 
 \paragraph{Only Good (OG)}
 The author submits only if the paper is good.
@@ -266,7 +268,7 @@ The author submits only if the paper is good.
     \item Probability of passing review: $1-\epsilon$
     \item \textbf{Payoff:}
     \begin{equation}
-        U_A(OG) = \alpha \left[ (1-\epsilon) \rho_{OG} r - c \right]
+        U_A(\text{OG}) = \alpha \left[ (1-\epsilon) \rho_{\text{OG}} r - c \right]
     \end{equation}
 \end{itemize}
 
@@ -277,7 +279,7 @@ The author submits only if the paper is bad, attempting to exploit the false pos
     \item Probability of passing review: $\lambda$
     \item \textbf{Payoff:}
     \begin{equation}
-        U_A(OB) = (1-\alpha) \left[ \lambda \rho_{OG} r - c \right]
+        U_A(\text{OB}) = (1-\alpha) \left[ \lambda \rho_{\text{OG}} r - c \right]
     \end{equation}
 \end{itemize}
 
@@ -288,7 +290,7 @@ The author submits regardless of quality.
     \item Probability of passing review: The paper passes if it is good and correctly identified ($1-\epsilon$), or if it is bad and falsely accepted ($\lambda$).
     \item \textbf{Payoff:}
     \begin{equation}
-        U_A(AS) = \left[ \alpha(1-\epsilon) + (1-\alpha)\lambda \right] \rho_{OG} r - c
+        U_A(\text{AS}) = \left[ \alpha(1-\epsilon) + (1-\alpha)\lambda \right] \rho_{\text{OG}} r - c
     \end{equation}
 \end{itemize}
 
@@ -297,7 +299,7 @@ The author does not submit any papers.
 \begin{itemize}
     \item \textbf{Payoff:}
     \begin{equation}
-        U_A(NS) = 0
+        U_A(\text{NS}) = 0
     \end{equation}
 \end{itemize}
 
@@ -307,32 +309,32 @@ the lower bound on $\rho$ posits that the journal has not reached a state of tot
 and the reputation constraint on $D$ distinguishes legitimate, quality-seeking venues from predatory publishers.
 By restricting our analysis to this valid parameter space, we filter out trivial breakdown scenarios to focus exclusively on the non-trivial evolutionary dynamics: how resource scarcity ($K$) and congestion precipitate a tragedy of the commons, and how the interplay between institutional screening and authorial strategy can resolve it.
 We incorporate $E[\rho_{\text{focal}}]$ into the utility functions. Let $r$ be the reward for acceptance and $c$ be the cost of submission.
-An $OG$ author submits with probability $\alpha$. If they submit, they pay cost $c$. They pass review with probability $1-\epsilon$.
+An OG author submits with probability $\alpha$. If they submit, they pay cost $c$. They pass review with probability $1-\epsilon$.
 If they pass, they are accepted with probability $E[\rho_{\text{focal}}]$.
 
 \begin{equation}
-    U_A(OG) = \alpha \left[ (1-\epsilon) \cdot E[\rho_{\text{focal}}] \cdot r - c \right]
+    U_A(\text{OG}) = \alpha \left[ (1-\epsilon) \cdot E[\rho_{\text{focal}}] \cdot r - c \right]
 \end{equation}
 \textit{Note: Assuming cost is paid per submission regardless of acceptance.}
 
-An $AS$ author always submits (probability 1), paying cost $c$.
-They pass review with probability $P_{pass}(AS)$. If they pass, they are accepted with probability $E[\rho_{\text{focal}}]$.
+An AS author always submits (probability 1), paying cost $c$.
+They pass review with probability $P_{pass}(\text{AS})$. If they pass, they are accepted with probability $E[\rho_{\text{focal}}]$.
 \begin{equation}
-    U_A(AS) = \left[ (\alpha(1-\epsilon) + (1-\alpha)\lambda) \cdot E[\rho_{\text{focal}}] \cdot r \right] - c
+    U_A(\text{AS}) = \left[ (\alpha(1-\epsilon) + (1-\alpha)\lambda) \cdot E[\rho_{\text{focal}}] \cdot r \right] - c
 \end{equation}
 
 The journal's utility depends on the quality of the final accepted papers and the cost of reviewing the total volume of submissions.
 Let $B$ be the benefit for accepting a good paper and $D$ be the penalty for accepting a bad paper.
-The total submission volume $S$ is given by:
+The total submission volume $V$ is given by:
 \begin{equation}
-    E[S] = N_{OG} \cdot \alpha + N_{AS} \cdot 1
+    E[V] = N_{\text{OG}} \cdot \alpha + N_{\text{AS}} \cdot 1
 \end{equation}
 
 The ``Perception Pool'' $M$ contains a mix of good and bad papers that passed review.
 The expected number of good papers ($M_G$) and bad papers ($M_B$) in the pool are:
 \begin{align}
-    E[M_G] &= (N_{OG} + N_{AS}) \cdot \alpha(1-\epsilon) \\
-    E[M_B] &= N_{AS} \cdot (1-\alpha)\lambda
+    E[M_G] &= (N_{\text{OG}} + N_{\text{AS}}) \cdot \alpha(1-\epsilon) \\
+    E[M_B] &= N_{\text{AS}} \cdot (1-\alpha)\lambda
 \end{align}
 \textit{Note: Both OG and AS authors contribute to $M_G$, but only AS authors contribute to $M_B$.}
 
@@ -340,10 +342,10 @@ Since the journal selects $K$ papers randomly from $M$ (if $M > K$), the final a
 The expected acceptance rate for any paper in the pool is approximated by the system-wide rationing probability $\bar{\rho} = E[\min(1, K/M)]$.
 The journal's expected payoff is:
 \begin{equation}
-    U_J = B \cdot (E[M_G] \cdot \bar{\rho}) - D \cdot (E[M_B] \cdot \bar{\rho}) - C(E[S])
+    U_J = B \cdot (E[M_G] \cdot \bar{\rho}) - D \cdot (E[M_B] \cdot \bar{\rho}) - C(E[V])
 \end{equation}
 
-Where $C(S)$ is the cost function (e.g., linear or convex with respect to total submissions).
+Where $C(V)$ is the cost function (e.g., linear or convex with respect to total submissions).
 This formulation highlights that while $K$ limits the absolute number of bad papers accepted (by reducing $\bar{\rho}$), it does not improve the \textit{ratio} of good to bad papers, which is still determined by $\epsilon$ and $\lambda$.
 
 \section{Conditional Dominated strategies}
@@ -351,21 +353,21 @@ This formulation highlights that while $K$ limits the absolute number of bad pap
 To determine the evolutionary stability of the system, we perform a pairwise comparison of payoffs to identify strictly dominated strategies that can be eliminated from the strategy space.
 A strategy is considered strictly dominated if its expected utility is lower than that of another strategy under all admissible parameter configurations.
 Conversely, a strategy is conditionally viable if its dominance depends on specific inequalities involving the rationing probability $\rho$ and the penalty structure.
-We first analyze the author's strategy space. The strategy \textit{Never Submit} (NS) serves as the baseline with a fixed payoff of $U_A(NS) = 0$.
+We first analyze the author's strategy space. The strategy \textit{Never Submit} (NS) serves as the baseline with a fixed payoff of $U_A(\text{NS}) = 0$.
 Consider the \textit{Only Bad} (OB) strategy, where an author submits only bad papers to exploit the false positive rate $\lambda$.
-The expected payoff is $U_A(OB) = (1-\alpha)[\lambda \rho r - c]$.
+The expected payoff is $U_A(\text{OB}) = (1-\alpha)[\lambda \rho r - c]$.
 Given the fundamental cost constraint $c > \lambda r$ (assuming submission costs exceed the expected reward of a lucky acceptance in a vacuum) and the fact that $\rho \le 1$, the term $[\lambda \rho r - c]$ is strictly negative.
-Consequently, $U_A(OB) < U_A(NS)$ holds universally, rendering OB a strictly dominated strategy.
+Consequently, $U_A(\text{OB}) < U_A(\text{NS})$ holds universally, rendering OB a strictly dominated strategy.
 In contrast, the \textit{Only Good} (OG) and \textit{Always Submit} (AS) strategies are conditionally viable.
-$U_A(OG)$ remains positive as long as the rationing probability satisfies $\rho > c/[r(1-\epsilon)]$.
+$U_A(\text{OG})$ remains positive as long as the rationing probability satisfies $\rho > c/[r(1-\epsilon)]$.
 Similarly, AS remains viable only when the dilution of acceptance probability $\rho$ does not render the submission of bad papers prohibitively costly.
-Thus, the author's effective strategy space reduces to $\{OG, AS, NS\}$.
-Next, we examine the journal's strategy space, using \textit{Always Reject} (AR) as the baseline with $U_J(AR)=0$.
-The \textit{Only Bad} (OB) strategy, representing an irrational inverse selection policy, yields a payoff of $U_J(OB) = \rho_{OB} [ B S_{good}\epsilon - D S_{bad}(1-\lambda) ] - C(S)$.
+Thus, the author's effective strategy space reduces to $\{\text{OG}, \text{AS}, \text{NS}\}$.
+Next, we examine the journal's strategy space, using \textit{Always Reject} (AR) as the baseline with $U_J(\text{AR})=0$.
+The \textit{Only Bad} (OB) strategy, representing an irrational inverse selection policy, yields a payoff of $U_J(\text{OB}) = \rho_{\text{OB}} [ B V_{good}\epsilon - D V_{bad}(1-\lambda) ] - C(V)$.
 Although there is a non-zero probability $\epsilon$ of accepting a good paper by mistake, the operational parameters of a functional peer review system satisfy $(1-\lambda) \gg \epsilon$ and $D > B$.
-The penalty term from correctly identifying bad papers overwhelmingly dominates the accidental benefit term, ensuring $U_J(OB) < 0$ for any non-zero submission volume.
+The penalty term from correctly identifying bad papers overwhelmingly dominates the accidental benefit term, ensuring $U_J(\text{OB}) < 0$ for any non-zero submission volume.
 Thus, Journal OB is strictly dominated by AR. The \textit{Always Accept} (AA) strategy is conditionally dominated.
-Its payoff $U_J(AA)$ becomes negative if the penalty for bad papers satisfies the reputation constraint $D > B (S_{good}/S_{bad})$.
+Its payoff $U_J(\text{AA})$ becomes negative if the penalty for bad papers satisfies the reputation constraint $D > B (V_{good}/V_{bad})$.
 Under strict reputation mechanisms, AA is eliminated, leaving \textit{Only Good} (OG) as the sole dominant strategy for the journal, provided the screening costs do not exceed the utility of publishing good research.
 The complete classification of strategy dominance is summarized in Table \ref{tab:dominance_analysis}.
 
@@ -375,16 +377,16 @@ The complete classification of strategy dominance is summarized in Table \ref{ta
 \begin{tabular}{lp{5cm}lp{5cm}}
 \hline
 \textbf{Strategy} & \textbf{Payoff Function} & \textbf{Status} & \textbf{Condition / Reasoning} \\ \hline
-\multicolumn{4}{l}{\textit{Author Strategies (Baseline: $U_A(NS)=0$)}} \\
+\multicolumn{4}{l}{\textit{Author Strategies (Baseline: $U_A(\text{NS})=0$)}} \\
 Only Bad (OB) & $(1-\alpha)[\lambda \rho r - c]$ & \textbf{Strictly Dominated} & Dominated by NS since $c > \lambda r$ and $\rho \le 1$. \\
 Only Good (OG) & $\alpha [(1-\epsilon)\rho r - c]$ & Conditionally Viable & Viable if $\rho > \frac{c}{r(1-\epsilon)}$. \\
 Always Submit (AS) & $[\alpha(1-\epsilon) + (1-\alpha)\lambda]\rho r - c$ & Conditionally Viable & Dominated by OG if congestion is high ($\rho \to 0$); viable if $\rho \to 1$ and costs are low. \\
 Never Submit (NS) & $0$ & Survival & Optimal when competition is prohibitive. \\ \hline
-\multicolumn{4}{l}{\textit{Journal Strategies (Baseline: $U_J(AR)=0$)}} \\
-Only Bad (OB) & $\rho_{OB}[B S_{good}\epsilon - D S_{bad}(1-\lambda)] - C(S)$ & \textbf{Strictly Dominated} & Dominated by AR. Penalties ($D$) outweigh accidental benefits ($B\epsilon$). \\
-Always Accept (AA) & $\rho_{AA}[B S_{good} - D S_{bad}] - C(S)$ & Conditionally Dominated & Dominated by AR if $D > B \frac{S_{good}}{S_{bad}}$. \\
-Only Good (OG) & $\rho_{OG}[B S_{good}(1-\epsilon) - D S_{bad}\lambda] - C(S)$ & \textbf{Dominant} & Strictly yields highest utility under standard parameters. \\
-Always Reject (AR) & $0$ & Survival & Optimal only if system collapses ($U_J(OG) < 0$). \\ \hline
+\multicolumn{4}{l}{\textit{Journal Strategies (Baseline: $U_J(\text{AR})=0$)}} \\
+Only Bad (OB) & $\rho_{\text{OB}}[B V_{good}\epsilon - D V_{bad}(1-\lambda)] - C(V)$ & \textbf{Strictly Dominated} & Dominated by AR. Penalties ($D$) outweigh accidental benefits ($B\epsilon$). \\
+Always Accept (AA) & $\rho_{\text{AA}}[B V_{good} - D V_{bad}] - C(V)$ & Conditionally Dominated & Dominated by AR if $D > B \frac{V_{good}}{V_{bad}}$. \\
+Only Good (OG) & $\rho_{\text{OG}}[B V_{good}(1-\epsilon) - D V_{bad}\lambda] - C(V)$ & \textbf{Dominant} & Strictly yields highest utility under standard parameters. \\
+Always Reject (AR) & $0$ & Survival & Optimal only if system collapses ($U_J(\text{OG}) < 0$). \\ \hline
 \end{tabular}
 \caption{Pairwise comparison and dominance analysis of Author and Journal strategies under the Threshold Competition Model.}
 \label{tab:dominance_analysis}
@@ -406,15 +408,15 @@ Where $c$ is the submission cost, $r$ is the reward for authors, $D$ is the dama
 
 \textbf{1. Elimination of Author Strategies}
 
-The strategy \textbf{\{Never Submit\}}, defined as $\sigma_A = (NS|G, NS|B)$, is strictly dominated for Good ($G$) types due to the \textbf{Viability Constraint}.
+The strategy \textbf{\{Never Submit\}}, defined as $\sigma_A = (\text{NS}|G, \text{NS}|B)$, is strictly dominated for Good ($G$) types due to the \textbf{Viability Constraint}.
 \begin{align*}
-    U_A(NS \mid G) &= 0 \\
+    U_A(\text{NS} \mid G) &= 0 \\
     U_A(S \mid G) &= \rho \cdot r \cdot (1-\epsilon) - c
 \end{align*}
 From inequality (3), we have $\rho > \frac{c}{r(1-\epsilon)}$, implying $U_A(S \mid G) > 0$.
 Rational authors holding good papers will always submit.
 
-The strategy \textbf{\{Only Bad\}}, defined as $\sigma_A = (NS|G, S|B)$, is eliminated due to the violation of \textbf{Monotonicity}, rather than cost.
+The strategy \textbf{\{Only Bad\}}, defined as $\sigma_A = (\text{NS}|G, S|B)$, is eliminated due to the violation of \textbf{Monotonicity}, rather than cost.
 While Inequality (1) $\lambda r > c$ implies that submitting a bad paper \textit{can} be profitable (if the Journal accepts), submitting a good paper is strictly \textit{more} profitable because the reward $r$ is strictly greater than the discounted reward $\lambda r$ (assuming $\lambda < 1$).
 \begin{align*}
     U_A(S \mid G) &\approx r - c \\
@@ -422,7 +424,7 @@ While Inequality (1) $\lambda r > c$ implies that submitting a bad paper \textit
 \end{align*}
 Since $r > \lambda r$, we have $U_A(S \mid G) > U_A(S \mid B)$.
 If a rational author chooses to submit a Bad paper ($S|B$), they must strictly prefer submitting a Good paper ($S|G$).
-Therefore, the strategy $(NS|G, S|B)$ is strictly dominated by \textbf{\{Always Submit\}} $(S|G, S|B)$.
+Therefore, the strategy $(\text{NS}|G, S|B)$ is strictly dominated by \textbf{\{Always Submit\}} $(S|G, S|B)$.
 \textit{Note: Unlike the simplified static model, the strategy \textbf{\{Always Submit\}} is NOT dominated here, as Inequality (1) allows $U_A(S|B) > 0$ under conditions of high congestion (low screening).}
 
 \textbf{2. Elimination of Journal Strategies}

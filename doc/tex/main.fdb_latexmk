@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1767757682.01082 "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" "main.pdf" "main" 1767757682.98693 0
+["pdflatex"] 1767758800.46131 "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" "main.pdf" "main" 1767758801.42719 0
   "B_D_x.pdf" 1765961427 72102 5ccf0d0afddc1753338758826499d4ff ""
   "B_x.pdf" 1765806403 64859 209a6ca1ebcc207e0cd56aa82a8cb27a ""
   "C_x.pdf" 1765806403 70614 0b736a7e0d0a18cc2ca383e2fbacad4d ""
@@ -11,7 +11,7 @@
   "alpha_epsilon_lambda_x.pdf" 1765961225 68898 5f73301bf86e3abffb5738bce936acdf ""
   "alpha_x.pdf" 1765806403 67228 3b106fde673ed70627ea9239818c1cc1 ""
   "average_quality.pdf" 1765959719 65214 2480642413d205f1ec00a5c503093ef4 ""
-  "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" 1767757678 83839 c4530827599a897b566b58026a054596 ""
+  "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" 1767758798 84304 aeb0b3fdb593e408c3024cd2e794991e ""
   "c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1764847260 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1764848708 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1764848077 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -45,9 +45,11 @@
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1764847246 1120 8b7d695260f3cff42e636090a8002094 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm" 1764847246 1116 25a7bf822c58caf309a702ef79f4afbb ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmti10.tfm" 1764847246 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
+  "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmti7.tfm" 1764847246 1492 86331993fe614793f5e7e755835c31c5 ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb" 1764846232 34793 ae7a3e2775dc0ce90475eeabcb46f9f1 ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1764846232 34811 78b52f49e893bcba91bd7581cdc144c0 ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1764846232 32080 340ef9bf63678554ee606688e7b5339d ""
+  "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb" 1764846232 32007 e8fa0078355f39467039935974716569 ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb" 1764846232 36554 b67dc2cfa451409e100b3fcf5f506509 ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1764846232 30251 6afa5cb1d0204815a708a080681d4674 ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1764846232 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
@@ -180,8 +182,8 @@
   "impact_N_K.pdf" 1765806403 70676 21e3c4b1c2e1a295898cc96ef5e966ff ""
   "impossible_scenario.pdf" 1765806403 48916 342604f642ff6cb13987852f91127808 ""
   "lambda_x.pdf" 1765806403 70903 81bb0a7b0b7234d1a1b32f6211ca5ec3 ""
-  "main.aux" 1767757682 15092 fca1aedfa85a4958762c8f53d8b9d9ca "pdflatex"
-  "main.tex" 1767757678 83839 c4530827599a897b566b58026a054596 ""
+  "main.aux" 1767758801 15092 359b00c46a8bf8d2206949ec34583236 "pdflatex"
+  "main.tex" 1767758798 84304 aeb0b3fdb593e408c3024cd2e794991e ""
   "polynomial_graph_1.pdf" 1765806403 78655 b8761451025dffbd350711e8745431c8 ""
   (generated)
   "main.aux"
