@@ -8,6 +8,10 @@
 \usepackage{tikz}
 \usepackage{graphicx}   
 \usepackage{subcaption} 
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+
 \usetikzlibrary{shapes.geometric, arrows, positioning, calc, patterns}
 
 \geometry{a4paper, margin=1in}
@@ -374,6 +378,7 @@ The complete classification of strategy dominance is summarized in Table \ref{ta
 \begin{table}[!h]
 \centering
 \renewcommand{\arraystretch}{1.5}
+\small
 \begin{tabular}{lp{5cm}lp{5cm}}
 \hline
 \textbf{Strategy} & \textbf{Payoff Function} & \textbf{Status} & \textbf{Condition / Reasoning} \\ \hline
@@ -547,7 +552,7 @@ At $x=1$, volume is low, $\sigma$ is high, and cheating is punished. This trade-
 
 \begin{figure}[hbt!]
     \centering
-    \includegraphics[width=0.9\textwidth]{polynomial_graph_1.pdf}
+    \includegraphics[width=0.75\textwidth]{polynomial_graph_1.pdf}
     \caption{Replicator Dynamics $\frac{dx}{dt}$ vs $x$ with $K=100$.
     The system exhibits bistability. The internal root $x^* \approx 0.786$ acts as an unstable repeller.
     If the initial proportion of honest authors $x < x^*$, the system collapses to full corruption ($x=0$).
