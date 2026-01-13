@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1767762282.99862 "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" "main.pdf" "main" 1767762283.98131 0
+["pdflatex"] 1768302040.2564 "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" "main.pdf" "main" 1768302041.28976 0
   "B_D_x.pdf" 1765961427 72102 5ccf0d0afddc1753338758826499d4ff ""
   "B_x.pdf" 1765806403 64859 209a6ca1ebcc207e0cd56aa82a8cb27a ""
   "C_x.pdf" 1765806403 70614 0b736a7e0d0a18cc2ca383e2fbacad4d ""
@@ -11,7 +11,7 @@
   "alpha_epsilon_lambda_x.pdf" 1765961225 68898 5f73301bf86e3abffb5738bce936acdf ""
   "alpha_x.pdf" 1765806403 67228 3b106fde673ed70627ea9239818c1cc1 ""
   "average_quality.pdf" 1765959719 65214 2480642413d205f1ec00a5c503093ef4 ""
-  "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" 1767762280 84363 0c3f580dc5928a876d30511e17267d69 ""
+  "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" 1768302038 106727 f0834ec9a920d181270ae1533d9d1a20 ""
   "c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1764847260 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1764848708 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1764848077 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -192,9 +192,18 @@
   "impact_N_K.pdf" 1765806403 70676 21e3c4b1c2e1a295898cc96ef5e966ff ""
   "impossible_scenario.pdf" 1765806403 48916 342604f642ff6cb13987852f91127808 ""
   "lambda_x.pdf" 1765806403 70903 81bb0a7b0b7234d1a1b32f6211ca5ec3 ""
-  "main.aux" 1767762283 15092 6c284a02273a8189f4f34c522ed00f6a "pdflatex"
-  "main.tex" 1767762280 84363 0c3f580dc5928a876d30511e17267d69 ""
+  "main.aux" 1768302041 20660 3c709955f6f6da01813404cfae6f0420 "pdflatex"
+  "main.tex" 1768302038 106727 f0834ec9a920d181270ae1533d9d1a20 ""
   "polynomial_graph_1.pdf" 1767761551 77574 223214205cf738a494542f0589102dec ""
+  "quality_B.pdf" 1768299921 65084 3fb7df24cb9eae586eb2385d58bd109e ""
+  "quality_Cj.pdf" 1768301840 81282 15a8f07405b1f7ca401c614bae6d6685 ""
+  "quality_D.pdf" 1768300493 59327 7f8161912e464cbd240aee0d560583cf ""
+  "quality_K.pdf" 1768295645 64875 c48d6ff2fce9ea1823c5548931ac5413 ""
+  "quality_N.pdf" 1768296160 66002 a99f7d7d45a16d60f90277e31b4e2fc5 ""
+  "quality_alpha.pdf" 1768297283 82584 998fda2155540aeb0f15443e9ef24e68 ""
+  "quality_c.pdf" 1768301430 76656 8636593e35f6fe061b41088ba2c9c2ce ""
+  "quality_epsilon.pdf" 1768298619 66796 aa35e84294aebb285a88f9b7c8cb3d3d ""
+  "quality_lambda.pdf" 1768299119 65387 26d5b217ce969b057ea5296fcb91cb29 ""
   (generated)
   "main.aux"
   "main.log"

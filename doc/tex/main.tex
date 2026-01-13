@@ -12,27 +12,23 @@
 \usepackage{booktabs}
 
 
+
 \usetikzlibrary{shapes.geometric, arrows, positioning, calc, patterns}
 
 \geometry{a4paper, margin=1in}
 
-\title{Model Extension: Author-Journal Game with Competition and Capacity Constraints}
-
+\title{Big science and peer review, a game theoretical model}
 \date{\today}
 
 \begin{document}
 
 \maketitle
 
-\section{Motivation and Problem Statement}
+\section{Introduction}
 
-In our previous evolutionary game-theoretic model of the author-journal interaction, we observed that the equilibrium strategies were largely insensitive to the population size $N$.
-This phenomenon arises because, in the original formulation, the payoff of a focal author depends solely on their own strategy and the journal's acceptance policy, but is independent of the actions of other authors.
-Consequently, there is no \textit{congestion effect} or \textit{competition} for limited resources.
-To address this and model a more realistic academic publishing environment (e.g., conferences with fixed acceptance rates or journals with limited pages), we introduce a capacity threshold $K$.
-This mechanism creates a zero-sum element: as the number of submissions increases, the probability of acceptance for a passed paper decreases, potentially disincentivizing opportunistic strategies like \textit{Always Submit} (AS).
 
-\section{The Threshold Competition Model}
+
+\section{Model}
 
 The updated interaction proceeds in the following stages:
 \begin{enumerate}
@@ -673,6 +669,20 @@ In this scenario, the journal possesses sufficient resources to rigorously scree
 Because the screening threat remains credible regardless of the number of authors choosing to cheat, the internal equilibrium $x^*$ drops below zero, signifying that the unstable tipping point has vanished from the physical state space.
 Under these conditions, the evolutionary dynamics unconditionally drive the population towards full honesty, as the high probability of detection renders the "Always Submit" strategy unprofitable under any circumstance, irrespective of the initial population distribution.
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{quality_K.pdf} 
+    \caption{The impact of Journal Capacity $K$ on the Average Publication Quality $Q$. The system exhibits a discontinuous phase transition at the critical capacity $K \approx 269.2$. In the Corruption Regime (Red), quality improves marginally due to mechanical screening but remains low. Once capacity exceeds the threshold, the system jumps to the Honesty Regime (Green), achieving perfect quality ($Q=1.0$).}
+    \label{fig:quality_K}
+\end{figure}
+
+While the previous analysis of $x^*$ describes the \textit{intent} of the authors, Figure \ref{fig:quality_K} illustrates the resulting \textit{outcome} for the journal: the Average Publication Quality $Q$. The relationship reveals a critical distinction between ``mechanical screening'' and ``strategic deterrence.''
+
+In the \textbf{Corruption Regime} ($K < 269.2$), the system is trapped in a state where cheating remains profitable ($x^* > 0$, effectively $x=0$ under worst-case assumptions). As capacity $K$ increases within this region, we observe a gradual, linear improvement in quality (from $Q \approx 0.2$ to $0.35$). This rise is purely mechanical: the journal has more resources to catch bad papers, increasing the realized screening probability $\sigma$. However, because the incentive structure has not fundamentally changed, authors continue to submit bad papers en masse. The journal is fighting a war of attrition—improving its filter but failing to stop the flood of submissions.
+
+The most striking feature is the \textbf{Phase Transition} at the critical threshold $K \approx 269.2$. At this precise point, the capacity becomes sufficient to enforce a screening probability $\sigma^*$ that neutralizes the expected utility of cheating. The vertical jump in quality from $\approx 0.35$ to $1.0$ represents a sudden strategic shift: rational authors abruptly cease submitting bad papers, not because they are all caught, but because the \textit{risk} of detection has finally outweighed the \textit{reward}. 
+
+This creates a ``Perception Cliff'': below the threshold, investing in capacity yields only diminishing marginal returns in quality; crossing the threshold yields an instantaneous recovery of the journal's reputation. This finding suggests that a journal cannot gradually reform itself out of corruption; it must secure enough capacity to trigger the phase transition.
 \subsection{Impact of Total Population $N$}
 
 While the journal capacity $K$ represents the supply side of the screening resources, the total population $N$ determines the demand intensity.
@@ -712,6 +722,18 @@ Recovery would require a massive reduction in $N$ or increase in $K$ to shift $x
     \label{fig:N_impact}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{quality_N.pdf}
+    \caption{The impact of Total Population $N$ on the Average Publication Quality $Q$. Similar to the capacity analysis, the system undergoes a sharp phase transition. When the population exceeds the critical carrying capacity ($N \approx 371.4$), the submission volume overwhelms the journal's fixed resources ($K=100$), causing quality to plummet from $1.0$ to $\approx 0.35$.}
+    \label{fig:quality_N}
+\end{figure}
+
+While the bifurcation analysis in Figure 5 outlines the theoretical stability regions, Figure \ref{fig:quality_N} illustrates the catastrophic consequence for the journal's output quality. 
+
+\textbf{The Symmetry of Collapse:} By comparing Figure \ref{fig:quality_N} with the previous capacity analysis (Figure \ref{fig:quality_K}), we identify a fundamental symmetry. In the capacity analysis, the system failed when resources dropped below a critical threshold ($K \approx 269.2$ for $N=1000$); here, the system fails when the load exceeds a critical limit ($N \approx 371.4$ for $K=100$). 
+
+This confirms that the ecosystem's integrity is not determined by $N$ or $K$ in isolation, but by the \textit{ratio} of screening capacity to submission volume. The "Phase Transition" at $N \approx 371.4$ represents the precise moment where the population's demand saturates the journal's screening capability. Beyond this point, the realized screening probability $\sigma$ falls below the deterrence threshold $\sigma^*$. Consequently, the strategy of "Strategic Deterrence" collapses, and the journal enters a "Congestion Trap": the flood of bad papers (generated by $N > N_{crit}$) further dilutes the screening effectiveness, locking the system into a low-quality equilibrium ($Q \approx 0.35$) that cannot be reversed simply by reducing the population marginally.
 \subsection{Impact of Author Productivity $\alpha$}
 
 Finally, we investigate the influence of the author's productivity parameter $\alpha$, which represents the probability that a submission is genuinely "Good".
@@ -764,6 +786,18 @@ At this point, the combined volume of high-quality submissions and opportunistic
     \label{fig:alpha_impact}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{quality_alpha.pdf}
+    \caption{The impact of Author Productivity $\alpha$ on Average Publication Quality $Q$. Unlike the capacity and population metrics, quality $Q$ exhibits a monotonic increase, creating a deceptive ``Productivity Paradox.'' The system lacks a Global Honesty Regime (Green) due to initial saturation. Crucially, in the Global Corruption Regime (Red), $Q$ continues to rise mechanically towards $1.0$, masking the collapse of the screening system.}
+    \label{fig:quality_alpha}
+\end{figure}
+
+While Figure 8 demonstrates that higher productivity ($\alpha$) destabilizes the strategic equilibrium $x^*$, Figure \ref{fig:quality_alpha} reveals the paradoxical outcome for the journal's publication quality. This visualization highlights a dangerous ``Trap of Prosperity'' that is distinct from the dynamics observed in $N$ and $K$.
+
+Crucially, even after the system crosses the Sustainability Limit ($\alpha \approx 0.371$) and collapses into the Global Corruption Regime, the quality metric continues to improve mechanically. This improvement occurs because as the proportion of good papers in the submission pool increases, the final accepted set naturally contains a higher ratio of good papers, even if the journal's screening capability has been rendered ineffective by congestion. The rise in quality is therefore a reflection of the input material rather than the efficacy of the peer review process.
+
+This dynamic creates a profound systemic risk best described as a "Trap of Prosperity." An observer looking solely at the output metric would see a thriving journal with improving standards approaching perfect quality, yet the underlying structure has transitioned into a state where the screening mechanism has failed and the journal is functionally defenseless against opportunism. This high-quality corruption represents a stable but fragile state where the journal's reputation is sustained not by its rigorous process, but merely by the high productivity of its authors, leaving it vulnerable to any sudden shift in submission behavior.
 \subsection{Impact of Screening Friction $\epsilon$}
 
 The parameter $\epsilon$ in the screening function $\sigma(x) = \frac{K}{C_J V(x) + \epsilon}$ represents the operational friction or fixed overhead of the peer-review process that is independent of the submission volume.
@@ -804,6 +838,19 @@ The dynamic response is illustrated in Figure \ref{fig:epsilon_impact}.
     If $\epsilon$ becomes too large, $x^*$ may exceed 1, pushing the system into inevitable Global Corruption solely due to administrative inefficiency.
 \end{enumerate}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{quality_epsilon.pdf} 
+    \caption{The impact of Screening Friction $\epsilon$ on Average Publication Quality $Q$. The flat trajectory reveals the limits of operational efficiency. Under the default high-load conditions ($N=1000$), the system remains trapped in the Corruption Regime (Red) across the entire range of $\epsilon$. Reducing friction to zero yields negligible quality improvements because the variable cost of reviewing the massive volume of submissions ($C_J \cdot N$) already exceeds the journal's capacity.}
+    \label{fig:quality_epsilon}
+\end{figure}
+
+Complementing the stability analysis, Figure \ref{fig:quality_epsilon} illustrates the insensitivity of publication quality $Q$ to the friction parameter $\epsilon$. This result provides a critical "sanity check" for policy interventions focused solely on administrative optimization.
+
+The curve is virtually flat. Numerical analysis reveals that reducing friction from its maximum ($\epsilon=1.0$) to perfect efficiency ($\epsilon=0.0$) yields a negligible improvement, raising quality from a minimum of $Q \approx 0.3857$ to a maximum of only $Q \approx 0.3861$. This gain of less than $0.1\%$ indicates that the "bottleneck" of the system is not the fixed overhead ($\epsilon$), but the variable load generated by the population ($N$). When the journal is structurally overwhelmed (where $N \cdot C_J \gg K$), optimizing the submission system or reducing administrative delays ($\epsilon \to 0$) provides no strategic benefit. It is akin to widening the door of a room that is already full; it does not change the capacity constraint.
+
+The absence of a phase transition in this plot confirms that the system is structurally locked into the Corruption Regime. The condition for the Honesty Regime ($x^* < 0$) would require $\epsilon < K/\sigma^* - N C_J$. Under default parameters, this threshold is negative ($\approx -75$), which is physically impossible. This mathematical impossibility signifies that no amount of administrative streamlining can restore the journal's reputation without fundamentally addressing the primary imbalances in Capacity ($K$) or Population ($N$).
+
 \subsection{Impact of False Positive Reward $\lambda$}
 
 Finally, we investigate the role of $\lambda$, the false positive rate, which serves as a proxy for the return rate on bad papers.
@@ -841,6 +888,19 @@ We identify three distinct phases of stability based on this net profit, as illu
     As $\lambda$ increases, the profitable region requires an increasing proportion of honest authors to maintain stability (Yellow), eventually leading to inevitable collapse (Red) when the incentive exceeds the system's maximum screening potential.}
     \label{fig:lambda_impact}
 \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{quality_lambda.pdf}
+    \caption{The impact of False Positive Reward $\lambda$ on Average Publication Quality $Q$. The system exhibits a sharp phase transition at $\lambda \approx 0.25$. Unlike the operational friction $\epsilon$, the strategic parameter $\lambda$ acts as a "switch" for corruption. Once the return on bad papers exceeds the critical threshold, quality collapses immediately and continues to degrade as $\lambda$ increases, directly diluting the publication pool.}
+    \label{fig:quality_lambda}
+\end{figure}
+
+While the previous stability analysis focused on the intent to cheat ($x^*$), Figure \ref{fig:quality_lambda} illustrates the catastrophic consequence of the false positive rate $\lambda$ on the actual publication quality $Q$. The graph reveals a brutal phase transition at $\lambda \approx 0.25$. Below this threshold, the system resides in the Honesty Regime where quality is perfect ($Q=1.0$), as the low probability of success renders cheating irrational. However, once $\lambda$ crosses the critical point where the expected return covers the submission cost, the system does not degrade gradually; it collapses instantly. Following this phase transition, $Q$ follows a declining curve in the Corruption Regime. This downward trajectory occurs because $\lambda$ acts not only as an incentive but also as a direct "noise injector": as $\lambda$ increases, a higher proportion of the bad papers submitted by the now-corrupt population physically penetrate the review filter, mathematically diluting the ratio of good papers in the final publication record.
+
+This result stands in stark contrast to the negligible impact of screening friction $\epsilon$ observed earlier. While $\epsilon$ is merely an "administrative parameter" that affects the processing speed of the flood, $\lambda$ functions as a "strategic parameter" that controls the source of the flood itself. In our model, $\lambda$ enters directly into the author's utility function ($\pi_{bad} = \lambda B - C$), granting it the power to switch the community's strategy from "silence" to "spamming." The comparison between the flat trajectory of $\epsilon$ and the sharp cliff of $\lambda$ highlights a fundamental asymmetry: administrative inefficiency ($\epsilon$) is a bottleneck, but high false-positive rewards ($\lambda$) are a structural fatal flaw. No amount of administrative optimization (lowering $\epsilon$) can save a journal if the strategic incentive structure ($\lambda$) makes fraud profitable.
+
+The real-world implication of this dynamic is significant for academic policy. It suggests that the current focus on "optimizing peer review workflows" or "increasing submission speeds" (reducing $\epsilon$) is largely futile in the face of structural congestion. To prevent the collapse of scientific quality, interventions must focus strictly on the "strategic" side of the equation: reducing the utility of bad papers. This means technically lowering $\lambda$ (through stricter, albeit slower, review standards) or economically neutralizing it (by increasing penalties $D$). The model confirms that a slow but rigorous journal is sustainable, whereas a fast but permeable one is destined for immediate collapse into the low-quality trap.
 
 \subsection{Impact of Acceptance Benefit $B$}
 
@@ -891,6 +951,18 @@ Consequently, the asymptote $x^*_{inf}$ settles slightly above 1:
 This result signifies that while high rewards drive the system towards corruption, the failure is driven by the \textbf{physical saturation} of capacity rather than the economic incentive itself.
 The journal simply cannot physically review even the honest papers strictly enough to deter the infinite temptation.
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{quality_B.pdf}
+    \caption{The impact of Acceptance Benefit $B$ on Average Publication Quality $Q$. The system displays a binary outcome: perfect honesty or complete collapse, separated by a sharp phase transition at $B \approx 31.2$. The flat trajectory in the Corruption Regime indicates that once the incentive to cheat saturates the population's strategy, further increases in reward have no impact on the physical degradation of the journal.}
+    \label{fig:quality_B}
+\end{figure}
+
+The relationship between the Acceptance Benefit $B$ and publication quality $Q$ reveals the decoupling of economic incentives from physical outcomes once a system is saturated. The phase transition at $B \approx 31.2$ marks the "Tipping Point of Greed," where the expected return on fraud surpasses the journal's deterrence threshold. Before this point, the deterrent ($D$) dominates, ensuring perfect quality ($Q=1.0$). Immediately after crossing this threshold, the strategic equilibrium flips to Global Corruption.
+
+Crucially, the quality curve in the Corruption Regime is a horizontal line. This flatness signifies a "Saturation of Failure." Once $B$ is high enough to induce the "Always Submit" strategy ($x=0$), the system reaches its physical limit: the submission volume hits the population cap ($N$), and the screening capability hits the capacity floor ($K$). Further increasing $B$—even to infinity—cannot induce "more" cheating, nor can it further degrade a screening process that is already overwhelmed. The economic driver ($B$) has done its damage, and the system is now locked into a state determined solely by physical constraints.
+
+In this collapsed state, the average quality $Q$ settles at approximately $0.2$, which corresponds to the author productivity $\alpha$. This occurs because the overwhelmed journal effectively loses its ability to filter, reducing the selection process to a near-random sampling of the submission pool. Since the pool contains a natural mix of $\alpha$ good papers and $(1-\alpha)$ bad papers, the output quality mirrors the input ratio. Interestingly, the technical parameters $\epsilon$ (friction) and $\lambda$ (false positive rate) exert no visible influence on this baseline. In a state of structural congestion, the primary source of error is no longer the microscopic technical failure of reviewers ($\lambda$), but the macroscopic breakdown of processing capacity. The "flood" of submissions renders fine-tuned screening parameters irrelevant, anchoring the journal's quality firmly to the base productivity of the community.
 \subsection{Impact of Rejection Penalty $D$}
 
 The parameter $D$ represents the reputational or administrative penalty imposed on an author when a submitted paper is identified as "Bad" and rejected.
@@ -930,6 +1002,17 @@ As $D$ increases, the "risk premium" of cheating rises. The system enters the Bi
 Finally, when $D$ exceeds a critical threshold, the penalty becomes so severe that even a minimal screening probability (which allows for maximum submission volume) is sufficient to render cheating unprofitable.
 In this regime ($x^* < 0$), the system converges to Global Honesty regardless of the initial population state, as the cost of detection outweighs any potential gain.
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{quality_D.pdf}
+    \caption{The impact of Rejection Penalty $D$ on Average Publication Quality $Q$. The trajectory acts as the geometric inverse of the Benefit curve. The system is trapped in a flat, low-quality state ($Q \approx 0.24$) for all penalties below the critical threshold $D \approx 270.1$. Once the penalty exceeds this "Deterrence Threshold," the quality instantaneously jumps to perfection ($Q=1.0$), confirming the non-linear nature of sanctions.}
+    \label{fig:quality_D}
+\end{figure}
+
+Figure \ref{fig:quality_D} completes the economic picture by illustrating the impact of the Rejection Penalty $D$ on publication quality. The resulting curve is the precise geometric inverse of the Acceptance Benefit curve observed in Figure \ref{fig:quality_B}. While increasing the benefit $B$ drives the system down a cliff into corruption, increasing the penalty $D$ pushes the system up a step into honesty. The "Step-Up" phase transition at $D \approx 270.1$ represents the "Deterrence Threshold." Below this critical value, the penalty is insufficient to outweigh the immense expected gain from cheating ($\lambda B - C$). Consequently, the system remains saturated with bad papers, and the quality stays flat at the baseline level determined by author productivity ($\alpha \approx 0.2$). This flatness mirrors the behavior in the corruption regime of the Benefit analysis: once the penalty is too weak to deter the "Always Submit" strategy, making it \textit{slightly} weaker (lowering $D$) does not worsen the quality, because the journal's physical capacity is already maxed out by the flood of spam.
+
+The symmetry between the Benefit and Penalty curves carries a profound implication for institutional policy: Greed and Fear are not linear counterweights, but threshold-based switches. The "flatness" on the left side of the graph indicates that weak sanctions are functionally equivalent to no sanctions. In a congested system where the probability of detection is low (due to low $\sigma$), incremental increases in penalties—such as small fines or temporary suspensions—are completely futile if they remain below the critical threshold ($D < 270$). To restore a corrupted journal to the Honesty Regime, the administration must implement a "radical shock," increasing the penalty discontinuously to cross the threshold. This confirms that in a resource-constrained environment ($K \ll N$), where the journal cannot afford to screen everyone thoroughly, severe, high-stakes sanctions are the only viable mechanism to maintain scientific integrity.
+
 \subsection{Impact of Submission Cost $C$}
 
 The submission cost $C$ represents the economic or temporal barrier to entry for submitting a manuscript, including submission fees, formatting effort, or the opportunity cost of time.
@@ -962,7 +1045,18 @@ As the cost $C$ increases, the burden on the screening system relaxes, and the e
 Ultimately, a critical singularity emerges when the cost fully offsets the expected benefit of a false positive, specifically when $C \ge \lambda B$.
 In this Unconditional Honesty regime, the expected utility of a bad paper becomes negative even in the absence of screening ($\sigma=0$).
 Consequently, rational opportunistic authors voluntarily abstain from submission, leading to $x^* \to -\infty$ and ensuring global stability regardless of journal capacity.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{quality_c.pdf}
+    \caption{The impact of Submission Cost $C$ on Average Publication Quality $Q$. The system demonstrates three distinct phases: (1) \textbf{Corruption Regime} (Red), where low costs ($C < 54.0$) invite spam; (2) \textbf{Honesty Regime} (Green), where moderate costs ($54.0 \le C < 99.0$) filter out bad papers while retaining good ones; and (3) \textbf{Journal Collapse} (Gray), where excessive costs ($C \ge 99.0$) make submission unprofitable even for honest authors, resulting in zero submissions and the effective death of the journal.}
+    \label{fig:quality_C}
+\end{figure}
 
+The extended analysis of Submission Cost $C$ in Figure \ref{fig:quality_C} reveals a "Goldilocks Zone" for academic economics. The curve exhibits two critical transitions, framing submission cost as a double-edged sword. The first transition at $C \approx 54.0$, termed the "Filter Threshold," marks the point where the cost becomes sufficiently prohibitive to deter opportunistic spam. Below this threshold, in the Corruption Regime, the low barrier to entry invites a flood of bad papers, overwhelming the journal's capacity and trapping quality at the stagnant baseline ($Q \approx 0.24$) determined by the "Diluted Limit" of random sampling. Crossing this threshold triggers an instantaneous recovery to perfect quality ($Q=1.0$), as the cost effectively filters out the noise while remaining affordable for valid research.
+
+However, the corrected model reveals a second, fatal transition at $C \approx 99.0$, termed the "Collapse Threshold." If the cost continues to rise and exceeds the expected utility of a good paper ($B(1-\epsilon)$), the system enters the "Journal Collapse" zone. In this regime, the economic barrier is so high that it renders submission irrational even for honest authors with high-quality work. Consequently, the submission volume drops to zero, and the journal effectively dies. This stark drop in quality to zero (representing no output) serves as a critical warning: while economic barriers are essential to prevent congestion and corruption, excessive barriers—akin to exorbitant open-access fees—risk suffocating the scientific enterprise entirely by pricing out legitimate knowledge production.
+
+This tri-phasic behavior highlights the delicate balance required in policy design. The "Saturation Plateau" on the left confirms that low-cost venues are structurally doomed to low quality due to congestion, validating the need for some friction. Yet, the "Collapse Zone" on the right warns against the unrestricted escalation of costs. A sustainable academic ecosystem must therefore operate strictly within the Honesty Regime ($54 < C < 99$), maintaining barriers high enough to deter fraud but low enough to foster discovery.
 \subsection{Impact of Unit Review Cost $C_J$}
 
 The parameter $C_J$ represents the unit cost or resource consumption required to review a single submission.
@@ -1001,7 +1095,18 @@ Under the default parameter $\alpha=0.2$, this limit is $1.25$.
 The physical interpretation of this saturation limit is profound: if the review process becomes infinitely expensive, the journal's effective capacity drops to zero.
 At this point, even if the entire population is honest ($x=1$) and submits only good papers, the resulting volume $V_{min} = N\alpha$ is still infinitely greater than the journal's zero capacity.
 Therefore, once the cost $C_J$ exceeds the critical threshold where $x^*=1$, the system is structurally doomed to Global Corruption, not because of spam, but because it lacks the efficiency to handle even the legitimate scientific output of the community.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{quality_CJ.pdf}
+    \caption{The impact of Unit Review Cost $C_J$ on Average Publication Quality $Q$. The system behaves in reverse to capacity, with high costs (inefficiency) driving collapse. The graph reveals three distinct regimes: (1) \textbf{Honesty Regime} (Green), where high efficiency ($C_J < 0.23$) allows the journal to screen all submissions effectively; (2) \textbf{Bistability Regime} (Yellow), where rising costs ($0.23 < C_J < 1.16$) force the journal to ration capacity, allowing a gradual infiltration of bad papers; and (3) \textbf{Corruption Regime} (Red), where inefficiency ($C_J > 1.16$) renders screening impossible, locking quality at the random baseline ($Q \approx 0.24$).}
+    \label{fig:quality_CJ}
+\end{figure}
 
+The analysis of Unit Review Cost $C_J$ in Figure \ref{fig:quality_CJ} underscores that operational efficiency is not merely a budgetary concern but a structural determinant of scientific quality. The variable $C_J$ represents the inverse of efficiency—the resources (time, money, effort) required to review a single paper. The graph demonstrates that as this cost rises, the system undergoes a two-stage degradation process, transitioning from perfect integrity to complete collapse.
+
+The first transition occurs at the "Efficiency Limit" ($C_J \approx 0.23$). Below this value, the journal is efficient enough to process the entire potential volume of submissions ($N$) without compromising its screening rigor. Consequently, the threat of detection remains credible, and the system maintains the Honesty Regime ($Q=1.0$). However, once $C_J$ exceeds this limit, the journal enters the "Bistability Regime." Here, the cost of reviewing becomes too high to screen everyone, forcing the journal to lower its rationing probability $\rho$. This creates a "cracked door": the reduced probability of being reviewed (and thus detected) emboldens a fraction of opportunists to cheat ($0 < x^* < 1$). The curve in this yellow region visually represents this gradual erosion: as inefficiency ($C_J$) rises, the equilibrium fraction of bad papers increases, causing the average quality $Q$ to decline smoothly.
+
+The final blow comes at the "Collapse Point" ($C_J \approx 1.16$). Beyond this threshold, the review process becomes so expensive that the journal's effective capacity drops below the volume of even just the bad papers. The "Always Submit" strategy becomes the dominant equilibrium ($x^* > 1$), and the system falls into the Corruption Regime. In this red zone, the quality line flattens at the "Diluted Limit" ($Q \approx 0.24$). This flatness indicates that further inefficiency does not worsen the quality because the system is already maximally saturated with spam. The policy implication is stark: simply "funding" a journal is insufficient if the per-paper processing cost remains high. To restore integrity, institutions must invest in technologies or workflows that drastically reduce $C_J$, pushing the system back across the threshold into the efficient, honest regime.
 \subsection{Summary of Findings: The Dual Constraints of Capacity and Incentive}
 
 Our comprehensive sensitivity analysis reveals that the stability of the academic peer-review ecosystem is not governed by a single factor, but rather by the delicate interplay between two fundamental forces: physical capacity constraints and economic incentive structures.
