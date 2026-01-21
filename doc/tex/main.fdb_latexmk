@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1768974879.0181 "main.aux" "main.bbl" "main" 1768974879.66887 0
-  "./references.bib" 1768974878 1311 304ecf4c61e5806cac417ee400ca6b20 ""
+["bibtex main"] 1768990872.10855 "main.aux" "main.bbl" "main" 1768991015.24077 0
+  "./references.bib" 1768990854 2481 810cdb9564aac47c492ee48699c8189a ""
   "c:/texlive/2025/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1764851182 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "main.aux" 1768974602 23593 aa839268b0f1ae3b9de4c6b0221d9371 "pdflatex"
+  "main.aux" 1768991014 24543 ed895aca0932fa85c03b06ce382ea130 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1768974601.89637 "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" "main.pdf" "main" 1768974879.66925 0
+["pdflatex"] 1768991013.48364 "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" "main.pdf" "main" 1768991015.24122 0
   "B_D_x.pdf" 1765961427 72102 5ccf0d0afddc1753338758826499d4ff ""
   "B_x.pdf" 1765806403 64859 209a6ca1ebcc207e0cd56aa82a8cb27a ""
   "C_x.pdf" 1765806403 70614 0b736a7e0d0a18cc2ca383e2fbacad4d ""
@@ -19,7 +19,7 @@
   "alpha_epsilon_lambda_x.pdf" 1765961225 68898 5f73301bf86e3abffb5738bce936acdf ""
   "alpha_x.pdf" 1765806403 67228 3b106fde673ed70627ea9239818c1cc1 ""
   "average_quality.pdf" 1765959719 65214 2480642413d205f1ec00a5c503093ef4 ""
-  "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" 1768974601 118765 087cd838698709416e9f2fd0ec06b321 ""
+  "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" 1768991012 122002 4c64cfa2544a38207ae54a67c09dbe45 ""
   "c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1764847260 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1764848708 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1764848077 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -209,9 +209,9 @@
   "impact_N_K.pdf" 1765806403 70676 21e3c4b1c2e1a295898cc96ef5e966ff ""
   "impossible_scenario.pdf" 1765806403 48916 342604f642ff6cb13987852f91127808 ""
   "lambda_x.pdf" 1765806403 70903 81bb0a7b0b7234d1a1b32f6211ca5ec3 ""
-  "main.aux" 1768974602 23593 aa839268b0f1ae3b9de4c6b0221d9371 "pdflatex"
-  "main.bbl" 1768974879 1402 53e173fd0cb665c991cc203bdc0441e4 "bibtex main"
-  "main.tex" 1768974601 118765 087cd838698709416e9f2fd0ec06b321 ""
+  "main.aux" 1768991014 24543 ed895aca0932fa85c03b06ce382ea130 "pdflatex"
+  "main.bbl" 1768990872 2340 dd6fcf61a92ed7a2bea975241b369539 "bibtex main"
+  "main.tex" 1768991012 122002 4c64cfa2544a38207ae54a67c09dbe45 ""
   "polynomial_graph_1.pdf" 1767761551 77574 223214205cf738a494542f0589102dec ""
   "quality_B.pdf" 1768299921 65084 3fb7df24cb9eae586eb2385d58bd109e ""
   "quality_Cj.pdf" 1768301840 81282 15a8f07405b1f7ca401c614bae6d6685 ""

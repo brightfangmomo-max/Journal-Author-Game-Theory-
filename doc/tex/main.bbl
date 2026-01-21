@@ -1,14 +1,29 @@
-\begin{thebibliography}{4}
+\begin{thebibliography}{8}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
+\bibitem[Azar(2005)]{Azar2005}
+Ofer~H Azar.
+\newblock The review process in economics: Is it too fast?
+\newblock \emph{Southern Economic Journal}, 72\penalty0 (2):\penalty0 482--491, 2005.
+
 \bibitem[Bornmann(2011)]{Bornmann2011}
 Lutz Bornmann.
 \newblock Scientific peer review.
 \newblock \emph{Annual Review of Information Science and Technology}, 45\penalty0 (1):\penalty0 197--245, 2011.
+
+\bibitem[Cotton(2013)]{Cotton2013}
+Christopher Cotton.
+\newblock Submission fees and response times in academic publishing.
+\newblock \emph{American Economic Review}, 103\penalty0 (1):\penalty0 501--509, 2013.
+
+\bibitem[Ellison(2002)]{Ellison2002}
+Glenn Ellison.
+\newblock Evolving standards for academic publishing: A q-r theory.
+\newblock \emph{Journal of Political Economy}, 110\penalty0 (5):\penalty0 994--1034, 2002.
 
 \bibitem[Kovanis et~al.(2016)Kovanis, Porcher, Ravaud, and Trinquart]{Kovanis2016}
 Michail Kovanis, Raphael Porcher, Philippe Ravaud, and Ludovic Trinquart.
@@ -19,6 +34,11 @@ Michail Kovanis, Raphael Porcher, Philippe Ravaud, and Ludovic Trinquart.
 Stefan Thurner and Rudolf Hanel.
 \newblock Peer-review in a world with rational scientists: Toward a selection of the average.
 \newblock \emph{The European Physical Journal B}, 84\penalty0 (4):\penalty0 707--711, 2011.
+
+\bibitem[Tiokhin et~al.(2021)Tiokhin, Panchanathan, Lakens, Vazire, Morgan, and Zollman]{Tiokhin2021}
+Leonid Tiokhin, Karthik Panchanathan, Daniel Lakens, Simine Vazire, Thomas Morgan, and Kevin Zollman.
+\newblock Honest signaling in academic publishing.
+\newblock \emph{PLoS One}, 16\penalty0 (2):\penalty0 e0246675, 2021.
 
 \bibitem[Zollman et~al.(2024)Zollman, Garc{\'i}a, and Handfield]{Zollman2024}
 Kevin J.~S. Zollman, Julian Garc{\'i}a, and Toby Handfield.
