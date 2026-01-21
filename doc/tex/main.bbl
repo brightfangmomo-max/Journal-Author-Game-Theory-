@@ -1,0 +1,28 @@
+\begin{thebibliography}{4}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bornmann(2011)]{Bornmann2011}
+Lutz Bornmann.
+\newblock Scientific peer review.
+\newblock \emph{Annual Review of Information Science and Technology}, 45\penalty0 (1):\penalty0 197--245, 2011.
+
+\bibitem[Kovanis et~al.(2016)Kovanis, Porcher, Ravaud, and Trinquart]{Kovanis2016}
+Michail Kovanis, Raphael Porcher, Philippe Ravaud, and Ludovic Trinquart.
+\newblock The global burden of journal peer review in the biomedical literature: Strong imbalance in the collective enterprise.
+\newblock \emph{PLoS One}, 11\penalty0 (11):\penalty0 e0166387, 2016.
+
+\bibitem[Thurner and Hanel(2011)]{Thurner2011}
+Stefan Thurner and Rudolf Hanel.
+\newblock Peer-review in a world with rational scientists: Toward a selection of the average.
+\newblock \emph{The European Physical Journal B}, 84\penalty0 (4):\penalty0 707--711, 2011.
+
+\bibitem[Zollman et~al.(2024)Zollman, Garc{\'i}a, and Handfield]{Zollman2024}
+Kevin J.~S. Zollman, Julian Garc{\'i}a, and Toby Handfield.
+\newblock Academic journals, incentives, and the quality of peer review: A model.
+\newblock \emph{Philosophy of Science}, 91\penalty0 (1):\penalty0 186--203, 2024.
+
+\end{thebibliography}

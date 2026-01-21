@@ -10,9 +10,9 @@
 \usepackage{subcaption} 
 \usepackage{tabularx}
 \usepackage{booktabs}
+\usepackage[round]{natbib}
 
-
-
+\author{Yuhui Fang} 
 \usetikzlibrary{shapes.geometric, arrows, positioning, calc, patterns}
 
 \geometry{a4paper, margin=1in}
@@ -26,33 +26,253 @@
 
 \section{Introduction}
 
+\section{Model}
+\subsection{Environment and timeline}
+\label{subsec:environment}
 
+We consider a publication game involving a finite population of $N$ authors and a single academic journal. 
+Our framework aligns with established game-theoretic models of scientific publishing \cite{Thurner2011}, while specifically building on the incentive structures analyzed by Zollman et al. \cite{Zollman2024}.
+Unlike previous static models, we extend the analysis to encompass system-wide congestion.
+The fundamental unit of the game is a research paper, which possesses a binary intrinsic quality $q \in \{0, 1\}$. 
+A paper is defined as ``good'' ($q=1$) or ``bad'' ($q=0$). 
+In each period, authors make submission decisions, and the journal enforces quality control standards subject to a physical capacity constraint.
+
+The publication process unfolds in a strictly sequential timeline, as illustrated in Figure~\ref{fig:process_flow}:
+
+\begin{enumerate}
+    \item \textbf{Submission (Generation of $V$):} 
+    Based on their strategies, authors decide whether to submit their work. 
+    The aggregate collection of all submitted manuscripts forms the \textit{Submission Pool}, denoted by $V \le N$.
+    
+    \item \textbf{Peer Review (Generation of $M$):} 
+    The journal applies a peer review process to filter the submission pool. 
+    Acknowledging the inherent unreliability of assessment documented in empirical studies \cite{Bornmann2011}, we model reviewers as imperfect classifiers.
+    They are subject to Type I errors (False Positives, rate $\lambda$) and Type II errors (False Negatives, rate $\epsilon$). 
+    Papers that successfully pass this screening form the set of \textit{Peer-accepted papers}, denoted by $M$. 
+    It is important to note that membership in $M$ signifies that a paper is ``scientifically acceptable,'' but not necessarily ``published.''
+    
+    \item \textbf{Capacity Check and Storage ($K$):} 
+    The journal has a fixed resource limit or \textit{Journal Storage}, denoted by $K$. 
+    This constraint reflects the physical limits on publication slots or the administrative burden of processing manuscripts \cite{Kovanis2016}.
+    
+    \item \textbf{Final Acceptance ($\rho$):} 
+    The final publication decision depends on the relationship between the volume of peer-accepted papers ($M$) and the journal storage ($K$). 
+    We define $\rho$ as the \textit{probability of being accepted conditional on being peer-accepted}. 
+    This variable captures the congestion effect:
+    \begin{equation}
+        \rho = \begin{cases} 
+        1 & \text{if } M \le K \quad \text{(No Congestion)} \\
+        K/M & \text{if } M > K \quad \text{(Rationing triggered)}
+        \end{cases}
+    \end{equation}
+\end{enumerate}
+
+In this framework, a paper is published if and only if it passes two hurdles: the quality hurdle (peer review) and the congestion hurdle (storage constraint).
+
+\begin{figure}[htbp]
+    \centering
+    \resizebox{\textwidth}{!}{
+        \begin{tikzpicture}[node distance=2.0cm, auto, >=stealth]
+
+        % --- Styles ---
+        \tikzstyle{process} = [rectangle, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=orange!10, rounded corners]
+        \tikzstyle{decision} = [diamond, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=yellow!10, inner sep=0pt]
+        \tikzstyle{pool} = [rectangle, minimum width=2.2cm, minimum height=3.5cm, draw=black, fill=gray!5]
+        \tikzstyle{arrow} = [thick, ->]
+        \tikzstyle{line} = [thick, -]
+
+        % --- Nodes ---
+
+        % 1. Authors
+        \node (authors) [process, align=center] {\textbf{Population $N$}\\ Authors \\ \scriptsize ($S_A$: OG / AS)};
+        
+        % 2. Submission Pool V
+        \node (submit_pool) [pool, right=1.2cm of authors, label=above:\textbf{Submission Pool ($V$)}] {};
+        \fill[pattern=north east lines, pattern color=blue] ($(submit_pool.south west) + (0.2,0.2)$) rectangle ($(submit_pool.south east) + (-0.2, 2.0)$);
+        \node at ($(submit_pool.south) + (0, 1.0)$) [align=center, font=\scriptsize] {Submitted\\Papers};
+
+        % 3. Peer Review Process
+        \node (review) [process, right=1.2cm of submit_pool, align=center] {\textbf{Peer Review} \\ $\epsilon$ (False Neg) \\ $\lambda$ (False Pos)};
+        
+        % 4. Peer-accepted Papers M
+        \node (accepted_pool) [pool, right=1.2cm of review, label=above:\textbf{Peer-accepted ($M$)}] {};
+        \fill[pattern=north east lines, pattern color=green!50!black] ($(accepted_pool.south west) + (0.2,0.2)$) rectangle ($(accepted_pool.south east) + (-0.2, 2.5)$);
+        \node at ($(accepted_pool.south) + (0, 1.5)$) [align=center, font=\scriptsize] {Passed\\Review};
+
+        % 5. Decision: Capacity Constraint
+        \node (decision) [decision, right=2.5cm of accepted_pool, align=center, font=\small] {$M > K$?};
+
+        % 6. Outcome Branches
+        % Branch A: Congestion (Top)
+        \node (congestion) [process, right=3.0cm of decision, yshift=1.5cm, fill=red!10, align=center] {\textbf{Storage Full} \\ Accept $K$ papers \\ Reject $M-K$};
+        
+        % Branch B: No Congestion (Bottom)
+        \node (no_congestion) [process, right=3.0cm of decision, yshift=-1.5cm, fill=green!10, align=center] {\textbf{Storage Open} \\ Accept all $M$ papers};
+
+        % --- Arrows and Connections ---
+        \draw[arrow] (authors) -- node[above, font=\scriptsize] {Submit} (submit_pool);
+        \draw[arrow] (submit_pool) -- (review);
+        \draw[arrow] (review) -- node[above, font=\scriptsize] {Filter} (accepted_pool);
+        
+        % Check Capacity Arrow
+        \draw[arrow] (accepted_pool) -- node[above, font=\scriptsize] {Check Capacity} (decision);
+
+        % Decision Arrows
+        % FIX: Increased yshift to +/- 0.4cm to push text further away from lines
+        \draw[arrow] (decision.north) |- node[near start, above, yshift=0.4cm, font=\scriptsize] {Yes (Scarcity)} (congestion.west);
+        \draw[arrow] (decision.south) |- node[near start, below, yshift=-0.4cm, font=\scriptsize] {No (Abundance)} (no_congestion.west);
+
+        % --- Annotations for Rho ---
+        \node [right=0.2cm of congestion, text=red, align=left, font=\small] {$\rho = K/M$};
+        \node [right=0.2cm of no_congestion, text=green!50!black, align=left, font=\small] {$\rho = 1$};
+
+
+        \node [below=1.5cm of decision, text width=5cm, align=center, font=\scriptsize, color=gray] {Journal Storage Limit ($K$) \\ determines the regime};
+
+        \end{tikzpicture}
+    }
+    \caption{\textbf{Schematic representation of the Threshold Competition Model.} 
+    The process unfolds in stages: (1) Authors from population $N$ submit papers into pool $V$; 
+    (2) Peer review filters submissions into a set of peer-accepted papers $M$; 
+    (3) The volume $M$ is compared against the journal storage capacity $K$. 
+    If $M > K$, a rationing mechanism is triggered, reducing the conditional acceptance probability $\rho$ below 1.}
+    \label{fig:process_flow}
+\end{figure}
 
 \section{Model}
 
-The updated interaction proceeds in the following stages:
-\begin{enumerate}
-    \item \textbf{Submission:} $N$ authors choose a strategy $s \in \{\text{OG}, \text{AS}, \dots\}$.
-    \item \textbf{Peer Review (Perception):} All submissions undergo peer review characterized by false negative rate $\epsilon$ and false positive rate $\lambda$.
-    Papers that pass peer review enter a ``Perception Pool'' of size $M$.
-    \item \textbf{Competition (Threshold Cut):} The journal has a maximum capacity $K$.
-    \begin{itemize}
-        \item If $M \le K$, all papers in the pool are accepted.
-        \item If $M > K$, the journal randomly selects $K$ papers from the pool to accept.
-        The remaining $M-K$ papers are rejected despite passing review.
-    \end{itemize}
-\end{enumerate}
+\subsection{Players and timing}\label{subsec:players-timing}
+We study a one-journal, multi-author publication ecosystem. The player set consists of a single journal
+\(J\) and a population of \(N_A \ge 1\) authors \(A=\{1,2,\dots,N_A\}\).
+In each round (or submission opportunity), each author independently draws a paper quality
+\(q \in \{0,1\}\), where \(q=1\) denotes a \emph{good} paper and \(q=0\) denotes a \emph{bad} paper.
+Let
+\[
+\alpha := \Pr(q=1) \in (0,1)
+\]
+denote the probability that a randomly produced paper is good.
+
+The journal commits to an editorial rule (strategy) that maps perceived quality into an accept/reject
+decision. Authors then choose whether and what to submit according to their submission strategies.
+
+\subsection{Author strategies}\label{subsec:author-strategies}
+Each author \(i \in A\) chooses one of four pure strategies:
+\[
+S_A=\{AS,\,OG,\,OB,\,NS\},
+\]
+representing extreme submission behaviours under binary research quality:
+\begin{itemize}
+  \item \(AS\) (\emph{Always Submit}): submit regardless of quality;
+  \item \(OG\) (\emph{Only Good}): submit if and only if \(q=1\);
+  \item \(OB\) (\emph{Only Bad}): submit if and only if \(q=0\);
+  \item \(NS\) (\emph{No Submit}): never submit.
+\end{itemize}
+Equivalently, the implied proportions of good/bad submissions \((p_g,p_b)\) from a representative author are
+\[
+(p_g,p_b)=
+\begin{cases}
+(\alpha,\,1-\alpha), & AS,\\
+(\alpha,\,0), & OG,\\
+(0,\,1-\alpha), & OB,\\
+(0,\,0), & NS.
+\end{cases}
+\]
+
+\subsection{Journal strategies}\label{subsec:journal-strategies}
+The journal chooses one of four editorial strategies:
+\[
+S_J=\{OA,\,OG,\,OB,\,NS\},
+\]
+defined as acceptance rules based on perceived paper quality:
+\begin{itemize}
+  \item \(OA\) (\emph{Open/Always Accept}): accept all submissions;
+  \item \(OG\) (\emph{Only Good}): accept submissions perceived as good;
+  \item \(OB\) (\emph{Only Bad}): accept submissions perceived as bad;
+  \item \(NS\) (\emph{No Select/Reject All}): reject all submissions.
+\end{itemize}
+
+\subsection{Binary quality and noisy review}\label{subsec:quality-review}
+Paper quality is binary, \(q \in \{0,1\}\).
+To allow imperfect peer review, assume the journal observes a noisy signal \(\hat{q}\in\{0,1\}\) with
+misclassification errors
+\[
+\varepsilon := \Pr(\hat{q}=0 \mid q=1) \quad \text{(false rejection / Type I error)}, \qquad
+\lambda := \Pr(\hat{q}=1 \mid q=0) \quad \text{(false acceptance / Type II error)}.
+\]
+Under this formulation, the acceptance probabilities for a truly good/bad paper are
+\[
+(q_g, q_b) =
+\begin{cases}
+(1,\,1), & OA,\\
+(1-\varepsilon,\,\lambda), & OG,\\
+(\varepsilon,\,1-\lambda), & OB,\\
+(0,\,0), & NS,
+\end{cases}
+\]
+where \(q_g := \Pr(\text{accept}\mid q=1)\) and \(q_b := \Pr(\text{accept}\mid q=0)\).
 
 
-Let $\alpha$ be the probability an author produces a good paper.
-The probability that a single author's submission passes the peer review stage, denoted as $P_{pass}(s)$, depends on their chosen strategy $s$:
+\subsection{Notation and parameters}\label{subsec:notation-parameters}
+This subsection summarises the key parameters used in the model.
 
-\begin{align}
-    P_{pass}(\text{OG}) &= \alpha(1-\epsilon) \\
-    P_{pass}(\text{AS}) &= \alpha(1-\epsilon) + (1-\alpha)\lambda
-\end{align}
+\paragraph{Population and quality generation.}
+\begin{itemize}
+  \item \(N_A \in \mathbb{N}\): number of authors in the population.
+  \item \(q \in \{0,1\}\): true (intrinsic) paper quality, where \(q=1\) is \emph{good} and \(q=0\) is \emph{bad}.
+  \item \(\alpha \in (0,1)\): probability that an author produces a good paper in a given round,
+  \[
+  \alpha := \Pr(q=1), \qquad \Pr(q=0)=1-\alpha.
+  \]
+\end{itemize}
 
-Here, OG authors only submit good papers, while AS authors submit both good and bad papers, benefiting from the false positive rate $\lambda$.
+\paragraph{Peer review (noisy signal).}
+\begin{itemize}
+  \item \(\hat{q} \in \{0,1\}\): journal's perceived quality signal after review.
+  \item \(\varepsilon \in [0,1]\): Type I error (false rejection / false negative),
+  \[
+  \varepsilon := \Pr(\hat{q}=0 \mid q=1),
+  \]
+  i.e., a good paper is mistakenly perceived as bad.
+  \item \(\lambda \in [0,1]\): Type II error (false acceptance / false positive),
+  \[
+  \lambda := \Pr(\hat{q}=1 \mid q=0),
+  \]
+  i.e., a bad paper is mistakenly perceived as good.
+\end{itemize}
+
+\paragraph{Editorial rules and acceptance probabilities.}
+Given a journal strategy \(s_J \in S_J=\{OA,OG,OB,NS\}\), define:
+\begin{itemize}
+  \item \(q_g(s_J)\): acceptance probability conditional on a truly good paper \(q=1\),
+  \[
+  q_g(s_J) := \Pr(\text{accept}\mid q=1, s_J).
+  \]
+  \item \(q_b(s_J)\): acceptance probability conditional on a truly bad paper \(q=0\),
+  \[
+  q_b(s_J) := \Pr(\text{accept}\mid q=0, s_J).
+  \]
+\end{itemize}
+Under the binary-signal error structure above,
+\[
+(q_g(s_J), q_b(s_J)) =
+\begin{cases}
+(1,\,1), & s_J=OA,\\
+(1-\varepsilon,\,\lambda), & s_J=OG,\\
+(\varepsilon,\,1-\lambda), & s_J=OB,\\
+(0,\,0), & s_J=NS.
+\end{cases}
+\]
+
+\paragraph{Author strategy set.}
+Authors choose \(s_A \in S_A=\{AS,OG,OB,NS\}\), where:
+\begin{itemize}
+  \item \(AS\): submit regardless of \(q\);
+  \item \(OG\): submit iff \(q=1\);
+  \item \(OB\): submit iff \(q=0\);
+  \item \(NS\): never submit.
+\end{itemize}
+
+
 
 \begin{figure}[htbp]
     \centering
@@ -1224,7 +1444,7 @@ The Benefit of Acceptance ($B$) serves as the primary incentive for opportunisti
 Conversely, the Penalty for Rejection ($D$) acts as the deterrent, suppressing $x^*$ back toward the honesty zone.
 The graph demonstrates that maintaining stability requires the penalty $D$ to scale proportionally with the benefit $B$.
 
-\begin{figure}[hbt!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{B_D_x.pdf}
     \caption{Comparative analysis of Economic Forces using a dual x-axis.
@@ -1232,5 +1452,34 @@ The graph demonstrates that maintaining stability requires the penalty $D$ to sc
     \label{fig:app_bd}
 \end{figure}
 
+\appendix
+\section{Model Parameters}
 
+The following table summarizes the key parameters used in the evolutionary game model, consistent with the empirical calibration and theoretical definitions discussed in the main text.
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{cll}
+\hline
+\textbf{Symbol} & \textbf{Description} & \textbf{Role in Model} \\ \hline
+$N$ & Total number of authors & Determines congestion intensity \\
+$K$ & Journal capacity & Sets the physical limit on publications \\
+$\alpha$ & Good paper probability & Intrinsic productivity of authors \\
+$\epsilon$ & False negative rate & Probability good papers are rejected \\
+$\lambda$ & False positive rate & Probability bad papers are accepted \\
+$r$ & Author reward & Incentive for publication \\
+$c$ & Submission cost & Barrier to entry for authors \\
+$B$ & Journal benefit & Utility from publishing good science \\
+$D$ & Journal penalty & Reputational cost of bad science \\
+$\rho$ & Rationing probability & Endogenous probability of acceptance \\
+\hline
+\end{tabular}
+\caption{Key notation and definitions for the Author-Journal Game.}
+\label{tab:variables_appendix}
+\end{table}
+
+
+\bibliographystyle{plainnat}
+\bibliography{references}
 \end{document}
