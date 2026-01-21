@@ -465,101 +465,106 @@ For completeness, Table~\ref{tab:prob_matrix} summarizes the effective probabili
 \subsection{Dominance analysis and reduced game}
 \label{subsec:dominance}
 
-Before analyzing the evolutionary dynamics, we simplify the strategy space by identifying dominated strategies.
+Before analyzing the evolutionary dynamics, we simplify the strategy space by iteratively eliminating strictly dominated strategies. 
 We conduct this analysis under the standard \textbf{mean-field approximation}, holding the aggregate congestion factor $\bar{\rho}$ fixed.
-This implies that a single agent's deviation does not materially change the macroscopic congestion level.
+The elimination proceeds in two stages: first, we identify strategies that are dominated purely by the structural logic of the game (independent of specific cost-benefit inequalities); second, we introduce parameter constraints to eliminate strategies based on economic trade-offs.
+
+\subsubsection{Stage 1: Structural elimination (Unconditional dominance)}
+
+We first establish dominance relations that hold under weak axiomatic assumptions regarding the nature of peer review and scientific value.
+
+\paragraph{Elimination of Journal "Only Bad" (OB).}
+The strategy \textbf{Only Bad (OB)} represents an inverse selection policy. We compare it to \textbf{Only Good (OG)}.
+Using the payoff functions derived in Section~\ref{subsec:payoffs}, the difference in expected utility is:
+\begin{align}
+    \Delta U_J &= U_J(\text{OG}) - U_J(\text{OB}) \nonumber \\
+    &= \bar{\rho} \left[ B V_G (1-\epsilon) - D V_B \lambda \right] - \bar{\rho} \left[ B V_G \epsilon - D V_B (1-\lambda) \right] \nonumber \\
+    &= \bar{\rho} \left[ B V_G (1 - 2\epsilon) + D V_B (1 - 2\lambda) \right]
+\end{align}
+\textbf{Condition:} We assume peer review is \textbf{informative}, defined as performing better than random guessing:
+\begin{equation}
+    \epsilon < 0.5 \quad \text{and} \quad \lambda < 0.5.
+\end{equation}
+Under this definition, both $(1-2\epsilon)$ and $(1-2\lambda)$ are strictly positive. 
+Since $B, D, V_G, \bar{\rho} > 0$, it follows that $\Delta U_J > 0$.
+Thus, \textbf{Journal OB is strictly dominated by OG} solely by virtue of the definition of peer review quality, regardless of the magnitude of rewards or penalties.
+
+\paragraph{Elimination of Author "Only Bad" (OB).}
+Consider the choice between \textbf{Always Submit (AS)} and \textbf{Only Bad (OB)}.
+AS submits both paper types ($q \in \{0,1\}$), while OB submits only bad papers ($q=0$).
+The payoff difference is the marginal utility of submitting a good paper:
+\begin{align}
+    \Delta U_A &= U_A(\text{AS}, \text{OG}) - U_A(\text{OB}, \text{OG}) \nonumber \\
+    &= \left[ U_A(q=1) + U_A(q=0) \right] - U_A(q=0) \nonumber \\
+    &= U_A(q=1) = \alpha \left[ r \bar{\rho} (1-\epsilon) - c \right]
+\end{align}
+\textbf{Condition:} We assume the \textbf{Axiom of Value}: in a functional scientific system, a correctly identified high-quality paper yields a positive net return (i.e., $r(1-\epsilon) > c$). 
+If this axiom holds, then $\Delta U_A > 0$ for any non-zero congestion $\bar{\rho}$.
+Thus, \textbf{Author OB is strictly dominated by AS} due to monotonicity: a rational author will never withhold a high-quality paper while simultaneously submitting a low-quality one.
 
 \subsubsection{Parameter constraints for a non-trivial game}
 
-To ensure the game yields interesting evolutionary dynamics, we define the "viable region" of the parameter space using the \textbf{abundance benchmark} ($\bar{\rho}=1$).
-These conditions ensure the system is neither trivially collapsed nor utopically perfect.
+Having eliminated the structurally irrational strategies, we now focus on the remaining set. To ensure the game yields interesting evolutionary dynamics (avoiding trivial collapse or utopian perfection), we define the "viable region" of the parameter space using the \textbf{abundance benchmark} ($\bar{\rho}=1$).
 
 \begin{enumerate}
-    \item \textbf{Viability Constraint (Honesty is profitable in abundance):}
+    \item \textbf{Viability Constraint (Honesty is profitable):}
     \begin{equation}
         r(1-\epsilon) > c
         \label{eq:constraint_viability}
     \end{equation}
-    This ensures that without congestion, submitting a good paper yields a positive expected return.
-    If this condition fails, the unique equilibrium is strict silence (NS).
+    This formally restates the Axiom of Value. It ensures that without congestion, the honest strategy (OG) dominates silence (NS).
 
-    \item \textbf{Profitability Constraint (Spamming is profitable in abundance):}
+    \item \textbf{Profitability Constraint (Spamming is profitable):}
     \begin{equation}
         \lambda r > c
         \label{eq:constraint_profitability}
     \end{equation}
-    This constraint acts as the engine of congestion. It implies that in a frictionless system ($\bar{\rho}=1$), the expected reward of a bad paper exceeds the submission cost.
-    If $c > \lambda r$, bad papers would never be submitted, and the game would trivially converge to perfect honesty.
+    This constraint drives the congestion dilemma. It implies that in a frictionless system ($\bar{\rho}=1$), the expected reward of a bad paper exceeds the submission cost. 
+    If $c > \lambda r$, bad papers are never submitted, and the game trivially converges to perfect honesty.
 
     \item \textbf{Reputation Constraint (Screening is preferred):}
     \begin{equation}
         D V_B (1-\lambda) > B V_G \epsilon
         \label{eq:constraint_reputation}
     \end{equation}
-    This condition ensures the journal prefers screening (OG) over blind acceptance (AA) for any relevant volume mix $(V_G, V_B)$.
+    This condition ensures the journal prefers screening (OG) over blind acceptance (AA). 
     It states that the aggregate penalty avoided by rejecting bad papers outweighs the benefit lost from accidentally rejecting good ones.
 \end{enumerate}
 
-\subsubsection{Elimination of Author strategies}
+\subsubsection{Stage 2: Conditional elimination (Economic dominance)}
 
-We compare the expected utilities derived in Section~\ref{subsec:payoffs}.
+We now eliminate strategies based on the specific economic trade-offs defined above.
 
-\paragraph{Dominance of "Only Bad" (OB).}
-Consider the payoff difference between \textbf{Always Submit (AS)} and \textbf{Only Bad (OB)}.
-Since AS submits both paper types while OB submits only bad ones, the difference is simply the utility of the good paper:
+\paragraph{Dominance of Journal "Always Accept" (AA).}
+We compare \textbf{Only Good (OG)} with \textbf{Always Accept (AA)}. 
+Assuming the processing cost $C_J$ applies to all submissions (Processing Cost Model), the difference depends on the net value of papers rejected by OG but accepted by AA:
 \begin{align}
-    U_A(\text{AS}, \text{OG}) - U_A(\text{OB}, \text{OG}) &= \alpha [ r \bar{\rho} (1-\epsilon) - c ]
+    U_J(\text{OG}) - U_J(\text{AA}) &= \bar{\rho} \left[ (B M_G^{\text{OG}} - D M_B^{\text{OG}}) - (B M_G^{\text{AA}} - D M_B^{\text{AA}}) \right] \nonumber \\
+    &= \bar{\rho} \left[ D (V_B - M_B^{\text{OG}}) - B (V_G - M_G^{\text{OG}}) \right] \nonumber \\
+    &= \bar{\rho} \left[ D V_B (1-\lambda) - B V_G \epsilon \right]
 \end{align}
-Under the \textbf{Viability Constraint} (\ref{eq:constraint_viability}), whenever the congestion level satisfies $\bar{\rho} > \frac{c}{r(1-\epsilon)}$, this difference is strictly positive.
-Thus, \textbf{OB is strictly dominated by AS} in any viable regime.
-
-\paragraph{Dominance of "Never Submit" (NS).}
-Comparing \textbf{Only Good (OG)} with \textbf{Never Submit (NS)} ($U_A=0$):
-\begin{equation}
-    U_A(\text{OG}, \text{OG}) - U_A(\text{NS}, \text{OG}) = \alpha [ r \bar{\rho} (1-\epsilon) - c ]
-\end{equation}
-Under the same condition ($\bar{\rho} > \frac{c}{r(1-\epsilon)}$), submitting good papers is strictly preferred to inactivity.
-Thus, \textbf{NS is strictly dominated by OG} (and by AS).
-
-\textit{Result:} The Author's strategy space reduces to $S_A' = \{\text{OG}, \text{AS}\}$.
-
-\subsubsection{Elimination of Journal strategies}
-
-We analyze the Journal's best response, assuming the processing cost $C_J$ applies to all incoming submissions regardless of the decision rule (Processing Cost Model). This simplifies the comparison to the net value of published papers.
-
-\paragraph{Dominance of "Always Accept" (AA).}
-The difference between filtering (OG) and accepting all (AA) is:
-\begin{equation}
-    U_J(\text{OG}) - U_J(\text{AA}) = \bar{\rho} \left[ D V_B (1-\lambda) - B V_G \epsilon \right]
-\end{equation}
-Under the \textbf{Reputation Constraint} (\ref{eq:constraint_reputation}), the term in the brackets is positive.
+Under the \textbf{Reputation Constraint} (\ref{eq:constraint_reputation}), the penalty avoided (first term) exceeds the benefit lost (second term).
 Thus, \textbf{AA is strictly dominated by OG}.
 
-\paragraph{Dominance of "Only Bad" (OB).}
-Comparing OG with the inverse selection strategy OB:
-\begin{align}
-    U_J(\text{OG}) - U_J(\text{OB}) &= \bar{\rho} \left[ B V_G ((1-\epsilon) - \epsilon) - D V_B (\lambda - (1-\lambda)) \right] \nonumber \\
-    &= \bar{\rho} \left[ B V_G (1-2\epsilon) + D V_B (1-2\lambda) \right]
-\end{align}
-Assuming informative review ($\epsilon, \lambda < 0.5$) and non-zero submissions, both terms are positive.
-Thus, \textbf{OG strictly dominates OB}.
+\paragraph{Dominance of Journal "Reject All" (AR).}
+Strategy AR yields a normalized payoff of $0$ (or $-C_J V$). 
+Since OG generates positive utility from good papers ($B > 0$) and filters bad ones, OG dominates AR provided the net value of the peer-accepted pool is positive: $B M_G > D M_B$. 
+We assume the journal operates in a parameter region where valid science is net positive.
 
-\paragraph{Dominance of "Reject All" (AR).}
-Strategy AR yields a payoff of $-C_J V$ (assuming processing costs are sunk).
-Comparing OG with AR:
+\paragraph{Dominance of Author "Never Submit" (NS).}
+Comparing \textbf{Only Good (OG)} with \textbf{Never Submit (NS)} ($U_A=0$):
 \begin{equation}
-    U_J(\text{OG}) - U_J(\text{AR}) = \bar{\rho} [ B M_G(\text{OG}) - D M_B(\text{OG}) ]
+    U_A(\text{OG}, \text{OG}) - U_A(\text{NS}, \text{OG}) = \alpha \left[ r \bar{\rho} (1-\epsilon) - c \right]
 \end{equation}
-Provided the journal's expected benefit from good papers exceeds the expected penalty from false positives ($B M_G > D M_B$), \textbf{OG dominates AR}.
-This condition is satisfied when the proportion of good submissions is sufficiently high or screening is accurate.
+Under the \textbf{Viability Constraint} (\ref{eq:constraint_viability}), this difference is positive as long as the congestion does not exceed the critical threshold $\bar{\rho} > \frac{c}{r(1-\epsilon)}$.
+In the viable regime, \textbf{NS is strictly dominated by OG} (and by AS).
 
 \subsubsection{The reduced evolutionary game}
 
-Within the viable parameter region defined above, the journal's dominated strategies are eliminated, leaving \textbf{Only Good (OG)} as the unique surviving policy.
-Consequently, the complex multi-strategy interaction reduces to a specific $2 \times 1$ asymmetric game.
+Following the two-stage elimination process, the complex multi-strategy interaction reduces to a concise $2 \times 1$ asymmetric game.
 
 \begin{enumerate}
-    \item \textbf{The Journal} acts as a fixed institutional player locked into the \textbf{Only Good (OG)} strategy, applying a filter $(\epsilon, \lambda)$ and a capacity constraint $K$.
+    \item \textbf{The Journal} is a fixed institutional player locked into the \textbf{Only Good (OG)} strategy. It acts as the environment, applying a filter $(\epsilon, \lambda)$ and a capacity constraint $K$.
     \item \textbf{The Author Population} evolves between two surviving pure strategies:
     \begin{itemize}
         \item \textbf{Only Good (OG) [Cooperators]:} Authors who submit only high-quality work ($q=1$).
@@ -567,11 +572,72 @@ Consequently, the complex multi-strategy interaction reduces to a specific $2 \t
     \end{itemize}
 \end{enumerate}
 
-We define the \textbf{population state} $x(t) \in [0,1]$ as the fraction of authors adopting the \textbf{Only Good} strategy at time $t$.
+We define the \textbf{population state} $x(t) \in [0,1]$ as the fraction of authors adopting the \textbf{Only Good} strategy.
 The evolutionary dynamics of the system are thus entirely determined by the time evolution of $x$.
 
+\begin{figure}[H]
+    \centering
+    \resizebox{0.9\textwidth}{!}{
+        \begin{tikzpicture}[node distance=2.5cm, auto, >=stealth]
 
 
+        \tikzset{
+            player/.style={rectangle, minimum width=2.5cm, minimum height=1cm, align=center, draw=black, fill=blue!10, rounded corners},
+            strategy/.style={rectangle, minimum width=3cm, minimum height=1.2cm, align=center, draw=black, fill=white},
+            mechanism/.style={rectangle, minimum width=4cm, minimum height=3cm, align=center, draw=black, fill=gray!5, dashed}, % 稍微增加高度
+            payoff/.style={ellipse, minimum width=2.5cm, minimum height=1cm, align=center, draw=black, fill=green!10},
+            arrow/.style={thick, ->},
+            line/.style={thick, -}
+        }
+
+
+        \node (pop) [player, fill=orange!10] {\textbf{Author Population} \\ State $x \in [0,1]$};
+
+
+        \node (og) [strategy, below left=1.5cm and 0.5cm of pop] {\textbf{Only Good (OG)} \\ Submit if $q=1$ \\ (Cooperators)};
+        \node (as) [strategy, below right=1.5cm and 0.5cm of pop] {\textbf{Always Submit (AS)} \\ Submit all $q \in \{0,1\}$ \\ (Defectors)};
+
+
+        \node (journal) [mechanism, below=3.5cm of pop, inner sep=0.5cm] {};
+        \node [above=0.1cm, font=\small] at (journal.north) {\textbf{Journal Mechanism (Fixed OG)}};
+        
+  
+        \node (filter) [rectangle, draw, fill=white, below=0.3cm of journal.north, align=center, font=\footnotesize] {Peer Review Filter \\ $(\epsilon, \lambda)$};
+        \node (capacity) [rectangle, draw, fill=red!5, below=0.3cm of filter, align=center, font=\footnotesize] {Capacity Constraint \\ $\bar{\rho} = \min(1, K/M)$};
+
+
+        \node (payoff_og) [payoff, left=2.0cm of journal] {Payoff $U_A(\text{OG})$};
+        \node (payoff_as) [payoff, right=2.0cm of journal] {Payoff $U_A(\text{AS})$};
+
+
+        \draw[line] (pop) -- (0, -1.2);
+        \draw[arrow] (0, -1.2) -| (og);
+        \draw[arrow] (0, -1.2) -| (as);
+
+
+        \draw[arrow] (og) -- node[left, font=\scriptsize, align=right, pos=0.3] {Good\\Papers} (journal.west |- filter.west);
+        \draw[arrow] (as) -- node[right, font=\scriptsize, align=left, pos=0.3] {Good + Bad\\Papers} (journal.east |- filter.east);
+
+
+        \draw[arrow] (filter) -- (capacity);
+
+
+        \draw[arrow, dashed, red] (capacity.west) -- ++(-0.8,0) |- node[above, font=\scriptsize, text=red, pos=0.7] {Congestion $\bar{\rho}$} (payoff_og.east);
+        \draw[arrow, dashed, red] (capacity.east) -- ++(0.8,0) |- node[above, font=\scriptsize, text=red, pos=0.7] {Congestion $\bar{\rho}$} (payoff_as.west);
+
+
+        \draw[arrow, bend left=45] (payoff_og.north) to node[left, font=\scriptsize] {Fitness} (pop.west);
+        \draw[arrow, bend right=45] (payoff_as.north) to node[right, font=\scriptsize] {Fitness} (pop.east);
+
+        \end{tikzpicture}
+    }
+    \caption{\textbf{Structure of the Reduced Evolutionary Game.} 
+    The author population evolves between two strategies: Only Good (OG) and Always Submit (AS). 
+    The Journal acts as a fixed mechanism consisting of a peer review filter and a capacity constraint.
+    Submissions from AS authors increase the total volume $M$, triggering the capacity constraint.
+    The resulting \textbf{Congestion Externality} ($\bar{\rho}$) reduces the publication probability for all papers, feeding back into the payoffs and driving the evolutionary dynamics.}
+    \label{fig:reduced_game}
+\end{figure}
 
 \section{Replicator Dynamics and Bifurcation Analysis}
 
