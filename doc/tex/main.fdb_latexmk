@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1768990872.10855 "main.aux" "main.bbl" "main" 1768991015.24077 0
-  "./references.bib" 1768990854 2481 810cdb9564aac47c492ee48699c8189a ""
+["bibtex main"] 1769002689.6818 "main.aux" "main.bbl" "main" 1769002691.76282 0
+  "./references.bib" 1768997288 3732 aa634ca4ff8e19535efaf4c8c2282115 ""
   "c:/texlive/2025/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1764851182 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "main.aux" 1768991014 24543 ed895aca0932fa85c03b06ce382ea130 "pdflatex"
+  "main.aux" 1769002690 26040 b788f72db11ef70050a0de393116d138 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1768991013.48364 "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" "main.pdf" "main" 1768991015.24122 0
+["pdflatex"] 1769002690.01253 "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" "main.pdf" "main" 1769002691.76322 0
   "B_D_x.pdf" 1765961427 72102 5ccf0d0afddc1753338758826499d4ff ""
   "B_x.pdf" 1765806403 64859 209a6ca1ebcc207e0cd56aa82a8cb27a ""
   "C_x.pdf" 1765806403 70614 0b736a7e0d0a18cc2ca383e2fbacad4d ""
@@ -19,7 +19,7 @@
   "alpha_epsilon_lambda_x.pdf" 1765961225 68898 5f73301bf86e3abffb5738bce936acdf ""
   "alpha_x.pdf" 1765806403 67228 3b106fde673ed70627ea9239818c1cc1 ""
   "average_quality.pdf" 1765959719 65214 2480642413d205f1ec00a5c503093ef4 ""
-  "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" 1768991012 122002 4c64cfa2544a38207ae54a67c09dbe45 ""
+  "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" 1769002687 126495 e5b0c0570c91bde96702903081a9a062 ""
   "c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1764847260 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1764848708 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1764848077 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -36,7 +36,9 @@
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1764847246 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1764847246 1324 c910af8c371558dc20f2d7822f66fe64 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx5.tfm" 1764847246 1332 f817c21a1ba54560425663374f1b651a ""
+  "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx6.tfm" 1764847246 1344 8a0be4fe4d376203000810ad4dc81558 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx7.tfm" 1764847246 1336 3125ccb448c1a09074e3aa4a9832f130 ""
+  "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx8.tfm" 1764847246 1332 1fde11373e221473104d6cc5993f046e ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx9.tfm" 1764847246 1328 5442e22a7072966dbaf88ca900acf3f0 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbxti10.tfm" 1764847246 1532 9162035f4e7176612125649e348e2195 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmex10.tfm" 1764847246 992 662f679a0b3d2d53c1b94050fdaa3f50 ""
@@ -209,9 +211,9 @@
   "impact_N_K.pdf" 1765806403 70676 21e3c4b1c2e1a295898cc96ef5e966ff ""
   "impossible_scenario.pdf" 1765806403 48916 342604f642ff6cb13987852f91127808 ""
   "lambda_x.pdf" 1765806403 70903 81bb0a7b0b7234d1a1b32f6211ca5ec3 ""
-  "main.aux" 1768991014 24543 ed895aca0932fa85c03b06ce382ea130 "pdflatex"
-  "main.bbl" 1768990872 2340 dd6fcf61a92ed7a2bea975241b369539 "bibtex main"
-  "main.tex" 1768991012 122002 4c64cfa2544a38207ae54a67c09dbe45 ""
+  "main.aux" 1769002690 26040 b788f72db11ef70050a0de393116d138 "pdflatex"
+  "main.bbl" 1769002690 3399 3d47307dcdd731c201e9003ed55d7f49 "bibtex main"
+  "main.tex" 1769002687 126495 e5b0c0570c91bde96702903081a9a062 ""
   "polynomial_graph_1.pdf" 1767761551 77574 223214205cf738a494542f0589102dec ""
   "quality_B.pdf" 1768299921 65084 3fb7df24cb9eae586eb2385d58bd109e ""
   "quality_Cj.pdf" 1768301840 81282 15a8f07405b1f7ca401c614bae6d6685 ""

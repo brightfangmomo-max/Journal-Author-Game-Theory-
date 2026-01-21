@@ -1,4 +1,4 @@
-\begin{thebibliography}{8}
+\begin{thebibliography}{12}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -15,6 +15,16 @@ Lutz Bornmann.
 \newblock Scientific peer review.
 \newblock \emph{Annual Review of Information Science and Technology}, 45\penalty0 (1):\penalty0 197--245, 2011.
 
+\bibitem[Bornmann et~al.(2010)Bornmann, Mutz, and Daniel]{Bornmann2010}
+Lutz Bornmann, R{\"u}diger Mutz, and Hans-Dieter Daniel.
+\newblock A reliability-generalization study of journal peer reviews: A multilevel meta-analysis of inter-rater reliability and its determinants.
+\newblock \emph{PLoS One}, 5\penalty0 (12):\penalty0 e14331, 2010.
+
+\bibitem[Cicchetti(1991)]{Cicchetti1991}
+Domenic~V Cicchetti.
+\newblock The reliability of peer review for manuscript and grant submissions: A cross-disciplinary investigation.
+\newblock \emph{Behavioral and Brain Sciences}, 14\penalty0 (1):\penalty0 119--135, 1991.
+
 \bibitem[Cotton(2013)]{Cotton2013}
 Christopher Cotton.
 \newblock Submission fees and response times in academic publishing.
@@ -29,6 +39,16 @@ Glenn Ellison.
 Michail Kovanis, Raphael Porcher, Philippe Ravaud, and Ludovic Trinquart.
 \newblock The global burden of journal peer review in the biomedical literature: Strong imbalance in the collective enterprise.
 \newblock \emph{PLoS One}, 11\penalty0 (11):\penalty0 e0166387, 2016.
+
+\bibitem[Muller-Itten(2022)]{MullerItten2022}
+Michele Muller-Itten.
+\newblock Gatekeeper competition.
+\newblock \emph{European Economic Review}, 148:\penalty0 104230, 2022.
+
+\bibitem[Siler et~al.(2015)Siler, Lee, and Bero]{Siler2015}
+Kyle Siler, Kirby Lee, and Lisa Bero.
+\newblock Measuring the effectiveness of scientific gatekeeping.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 112\penalty0 (2):\penalty0 360--365, 2015.
 
 \bibitem[Thurner and Hanel(2011)]{Thurner2011}
 Stefan Thurner and Rudolf Hanel.
