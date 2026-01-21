@@ -264,11 +264,15 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx8.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx6.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbxti10.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx9.tfm
+INPUT ./polynomial_graph_1.pdf
+INPUT ./polynomial_graph_1.pdf
+INPUT ./polynomial_graph_1.pdf
+INPUT ./polynomial_graph_1.pdf
+INPUT ./polynomial_graph_1.pdf
 INPUT c:/texlive/2025/texmf-dist/tex/latex/base/omscmr.fd
 INPUT c:/texlive/2025/texmf-dist/tex/latex/base/omscmr.fd
 INPUT c:/texlive/2025/texmf-dist/tex/latex/base/omscmr.fd
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbsy10.tfm
-INPUT ./polynomial_graph_1.pdf
 INPUT ./polynomial_graph_1.pdf
 INPUT ./polynomial_graph_1.pdf
 INPUT ./polynomial_graph_1.pdf
