@@ -828,6 +828,169 @@ The emergence of a stable internal equilibrium ($x^* \approx 0.49$) offers profo
 
 In summary, the stable coexistence curve suggests that physical constraints (page budgets), while often criticized for slowing down science, play a hidden structural role in stabilizing the incentive landscape against total corruption.
 
+\section{Parameter Sensitivity and Regime Transitions}
+\label{sec:sensitivity}
+
+\subsection{Methodology and Baseline Calibration}
+
+The ultimate goal of any academic publishing policy is to maximize the \textbf{Average Publication Quality ($Q$)} and minimize the prevalence of academic misconduct.
+However, due to the non-linear interplay between the review bottleneck ($\eta$) and the storage bottleneck ($\bar{\rho}$), the system's response to policy changes is discontinuous.
+Instead of smooth adjustments, the ecosystem undergoes topological phase transitions between qualitatively distinct regimes.
+
+To analyze these transitions, we employ \textbf{Numerical Bifurcation Analysis}. 
+We define the instantaneous Average Publication Quality $Q(x)$ as the proportion of good papers within the set of accepted publications:
+\begin{equation}
+    Q(x) = \frac{N\alpha \cdot \pi_1(x)}{M(x)} = \frac{\alpha \pi_1(x)}{\alpha \pi_1(x) + (1-\alpha)(1-x)\pi_0(x)}
+\end{equation}
+Crucially, the long-term quality $Q_\infty$ is determined by the system's stable attractors. In bistable regimes, $Q_\infty$ is path-dependent, meaning the final quality depends on whether the system started from a high-trust or low-trust state.
+
+We classify the system into four regimes based on the stability of equilibria:
+\begin{enumerate}
+    \item \textbf{Global Honesty (GH):} The system converges to $x=1$, yielding $Q_\infty = 1.0$ (Perfect Quality).
+    \item \textbf{Global Corruption (GC):} The system collapses to $x=0$, yielding $Q_\infty \approx \alpha$ (Baseline Quality), indicating a failure to filter noise.
+    \item \textbf{Bistability (BS):} Two stable attractors exist. The outcome is determined by history (Hysteresis).
+    \item \textbf{Stable Coexistence (SC):} An internal equilibrium $x^*$ exists, maintained by congestion. Quality stabilizes at a mediocre level ($Q_\infty \approx 0.5$).
+\end{enumerate}
+
+To ensure comparative consistency, we establish two representative parameter sets (Table \ref{tab:calibration}). 
+\textbf{Set A (Baseline)} represents a typical "Vulnerable System" (e.g., a standard journal with moderate capacity), prone to bistability.
+\textbf{Set B (High-Pressure)} represents a "Rationing-Dominated System" (e.g., a top-tier journal with strict page limits and high rewards), prone to stable coexistence.
+
+\begin{table}[hbt!]
+    \centering
+    \caption{Parameter Calibration for Numerical Analysis}
+    \label{tab:calibration}
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{clcc}
+        \toprule
+        \textbf{Symbol} & \textbf{Description} & \textbf{Set A (Baseline)} & \textbf{Set B (High-Pressure)} \\ 
+        \midrule
+        $N$ & Total Population & 1000 & 1000 \\
+        $\alpha$ & Author Productivity & 0.2 & 0.2 \\
+        \midrule
+        $K_{rev}$ & Review Capacity & \textbf{300} & \textbf{1200} \\
+        $K$ & Slot Capacity & \textbf{400} & \textbf{180} \\
+        \midrule
+        $r$ & Reward & 100 & \textbf{150} \\
+        $c$ & Cost & 25 & \textbf{30} \\
+        $\lambda$ & False Positive Rate & 0.1 & \textbf{0.4} \\
+        $\epsilon$ & False Negative Rate & 0.05 & 0.01 \\
+        \bottomrule
+    \end{tabular}
+    \footnotesize{\\ \textit{Note: Set A is used as the default for sensitivity sweeps. Set B is used to illustrate the defense-by-congestion mechanism.}}
+\end{table}
+\subsubsection*{Justification for Dual Parameter Calibration}
+
+The necessity of defining two distinct parameter sets stems from the complex, non-monotonic nature of the dual-bottleneck mechanism. A single baseline cannot capture the full range of the system's dynamical behaviors. We distinguish between two fundamental ecosystem archetypes:
+
+\begin{enumerate}
+    \item \textbf{Set A (The Vulnerable Regime - \textit{Review-Dominated}):}
+    This set represents the default state of many modern academic journals: moderate prestige ($r=100$) and limited but not extreme storage constraints ($K=400$).
+    In this regime, the primary failure mode is the \textbf{Review Bottleneck} ($K_{rev}=300$).
+    When submission volume rises, the review process collapses before the storage limit is reached.
+    This generates the \textbf{Bistable} topology, where the system is fragile and prone to catastrophic tipping.
+    Sensitivity analysis around Set A reveals how easy it is to destroy a functioning journal.
+
+    \item \textbf{Set B (The High-Pressure Regime - \textit{Rationing-Dominated}):}
+    This set represents the ecosystem of top-tier prestige journals (e.g., \textit{Nature} or \textit{Science}).
+    Here, the reward is significantly higher ($r=150$), attracting massive attention.
+    Crucially, the defining constraint is not the lack of reviewers (we assume ample review capacity $K_{rev}=1200$), but the extreme scarcity of publication slots ($K=180$).
+    In this regime, the primary force is the \textbf{Storage Bottleneck}.
+    This generates the \textbf{Stable Coexistence} topology, illustrating the \textit{Defense by Congestion} mechanism.
+    Sensitivity analysis around Set B reveals why elite journals remain stable (albeit congested) despite high incentives to cheat.
+\end{enumerate}
+
+By analyzing these two distinct sets, we decouple the effects of \textit{Review Collapse} versus \textit{Slot Rationing}, ensuring our conclusions are robust across different segments of the academic publishing hierarchy.
+
+\subsection{The Decoupling of Capacities: Phase Diagram Analysis}
+
+In standard academic models, "journal capacity" is often treated as a unified resource. However, our dual-bottleneck framework reveals that the system's fate depends on the precise decoupling of Review Capacity ($K_{rev}$) and Slot Capacity ($K_{store}$). 
+
+To clarify the distinct roles of these parameters, we define the following key variables:
+\begin{itemize}
+    \item $K_{rev}$: \textbf{Review Capacity}. Determines the screening intensity $\eta(x)$. High $K_{rev}$ prevents review collapse.
+    \item $K_{store}$: \textbf{Slot Capacity}. Determines the rationing probability $\bar{\rho}(x)$. Low $K_{store}$ creates a "Defense by Congestion."
+    \item $\eta(x)$: Probability of rigorous screening (Stage 1).
+    \item $\bar{\rho}(x)$: Probability of publication after passing Stage 1 (Stage 2).
+    \item $Q(x)$: Average Publication Quality, defined as the proportion of good papers among all accepted papers.
+\end{itemize}
+
+To visualize the interaction between these forces, we perform a two-dimensional bifurcation scan across the parameter space $(K_{rev}, K_{store})$. The resulting Phase Diagram (Figure \ref{fig:regime_map}) maps the system's topological regimes.
+
+\begin{figure}[hbt!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{regime_map_final.pdf}
+    \caption{\textbf{Phase Diagram of the Dual-Bottleneck System.} 
+    The map classifies the topological regime based on the availability of review resources ($K_{rev}$) versus publication slots ($K_{store}$).
+    \textbf{Green (Global Honesty):} High review capacity ensures cheating is unprofitable ($Q \to 1.0$).
+    \textbf{Blue (Stable Coexistence):} Extreme slot scarcity ($K_{store} \ll N$) triggers the "Defense by Congestion," stabilizing the system at a mediocre but functional level.
+    \textbf{Yellow (Bistability):} A transition zone where the outcome is history-dependent.
+    \textbf{Red (Global Corruption):} When slots are abundant but review is weak, the defense mechanism vanishes, leading to total collapse ($Q \to \alpha$).
+    \textbf{Gray (System Collapse):} Feasibility constraint violated ($K_{store}$ too low); even honest authors cannot break even.}
+    \label{fig:regime_map}
+\end{figure}
+
+The topology of Figure \ref{fig:regime_map} highlights two critical dynamical phenomena:
+
+\subsubsection{The Paradox of Slot Expansion}
+Moving vertically from the bottom of the diagram corresponds to increasing the journal's publication volume ($K_{store}$).
+The diagram reveals a non-monotonic response:
+\begin{enumerate}
+    \item \textbf{From Gray to Blue (Feasibility):} Initially, increasing slots rescues the system from total collapse (Gray), making participation rational for honest authors.
+    \item \textbf{From Blue to Red (Destabilization):} However, further increasing $K_{store}$ leads to a dangerous trajectory. Rising from the \textbf{Stable Coexistence (Blue)} zone, the system crosses into \textbf{Global Corruption (Red)} or \textbf{Bistability (Yellow)}.
+\end{enumerate}
+This latter transition is the \textbf{Paradox of Slot Expansion}. It occurs because tight storage constraints act as a passive "Defense by Congestion," keeping $\bar{\rho}$ low enough to deter spam. 
+By increasing $K_{store}$, the journal inadvertently dismantles this defense. As $\bar{\rho}$ rises, the "lottery" becomes winnable again. If $K_{rev}$ is not increased simultaneously to catch the resulting flood of bad papers, the incentive to cheat reactivates, and the system tips into full corruption. 
+This finding suggests that while expanding capacity is necessary for viability, doing so without scaling review rigour is a recipe for quality collapse.
+
+\subsubsection{The Necessity of Review Resources}
+Moving horizontally to the right corresponds to investing in Review Capacity ($K_{rev}$).
+Provided the system is in a feasible region (not Gray), increasing $K_{rev}$ is unconditionally beneficial, expanding the \textbf{Global Honesty (Green)} zone.
+Crucially, the boundary between corruption and honesty slopes upward: as $K_{store}$ increases (more slots), the journal requires \textit{disproportionately} more review capacity to maintain honesty.
+This implies that larger journals are inherently harder to police than smaller ones, requiring a review infrastructure that scales super-linearly with volume to maintain the same level of integrity.
+
+\subsection{Population Pressure and Hysteresis: The Cost of Lost Trust}
+
+While capacity parameters define the structural limits of the journal, the Total Population ($N$) represents the external load. 
+Standard economic theory might suggest that system performance degrades smoothly as load increases. 
+However, our analysis reveals a critical \textbf{Hysteresis} phenomenon in the Bistable regime, indicating that the system's response to population pressure is highly path-dependent.
+
+To rigorously capture this effect, we employ a numerical \textbf{Adiabatic Continuation} method. 
+We track the \textit{selected stable equilibrium}, denoted as $x_{st}(N)$, rather than the unstable tipping point.
+For the \textbf{Forward Path} (crowding phase), we increment $N$ and use the previous stable state $x_{st}(N_{i-1})$ as the initial condition for solving the system at $N_i$. 
+For the \textbf{Backward Path} (recovery phase), we decrement $N$ similarly.
+Figure \ref{fig:hysteresis} illustrates the resulting trajectories for system state and quality.
+
+\begin{figure}[hbt!]
+    \centering
+    \includegraphics[width=1.0\textwidth]{hysteresis_combined.pdf}
+    \caption{\textbf{Hysteresis Loop and Quality Collapse.} 
+    The shaded region represents the bistable interval $[N_{\downarrow}, N_{\uparrow}]$.
+    \textbf{Left Panel (State):} On the Forward Path (Blue), the "Honest Norm" is resilient ($x_{st} \approx 1$) until the collapse threshold $N_{\uparrow} \approx 1800$. Once corrupted (Red Dashed), the system is trapped in the low-honesty attractor ($x_{st} \approx 0$). Recovery requires reducing $N$ below the distinct recovery threshold $N_{\downarrow} \approx 350$.
+    \textbf{Right Panel (Quality):} The collapse leads to a discrete jump in quality from $Q=1.0$ to the baseline productivity $Q \approx \alpha \approx 0.2$. This degradation persists even if $N$ is reduced moderately, illustrating the "Quality Trap."}
+    \label{fig:hysteresis}
+\end{figure}
+
+The analysis yields three critical insights:
+
+\subsubsection{Structural Resilience (Forward Path)}
+A journal with a strong reputation demonstrates remarkable resilience. 
+As seen in the Blue trajectory, the system maintains $x_{st} \approx 1$ and perfect quality ($Q=1.0$) even when $N$ far exceeds the nominal capacity. 
+This persists as long as the net utility of cheating at the honest boundary remains negative: $\Pi_{bad}(1; N) < 0$.
+The \textbf{Collapse Point} $N_{\uparrow} \approx 1800$ is mathematically defined as the threshold where the honest equilibrium loses stability ($\Pi_{bad}(1) = 0$), forcing the system to jump to the only remaining attractor (corruption).
+
+\subsubsection{The Stickiness of Corruption (Backward Path)}
+Once the system settles into the corrupt equilibrium, the sheer volume of spam saturates the review capacity.
+Even if $N$ is reduced, the system remains trapped in the low-quality state as long as $\Pi_{bad}(0; N) > 0$.
+The \textbf{Recovery Point} $N_{\downarrow} \approx 350$ corresponds to the threshold where the corrupt equilibrium finally becomes unstable ($\Pi_{bad}(0) = 0$).
+Crucially, since slot rationing applies uniformly to the pool of passed papers, it does not alter the ratio of good-to-bad papers.\footnote{We assume rationing is a random thinning process. Thus, $Q$ mirrors the composition of the pool $M(x)$ emerging from the review stage. In the corrupt state, $M(x)$ is dominated by false positives, pinning $Q$ near the baseline $\alpha$.}
+Consequently, quality remains stagnant at the baseline level ($\approx 0.2$) throughout the backward path until the critical transition occurs.
+
+\subsubsection{Policy Implication: Basin Hopping}
+The disparity between $N_{\uparrow}$ and $N_{\downarrow}$ validates the theoretical basis for "Shock Therapy."
+For a corrupted journal operating at, for example, $N=1000$, incremental policies that reduce submissions by 10\% or 20\% are insufficient to escape the basin of attraction of the corrupt equilibrium.
+To restore integrity, interventions must be drastic enough to push the system across the recovery threshold ($N < 350$). 
+This suggests that while "soft" measures (e.g., minor fee increases) work for maintenance, "hard" measures (e.g., temporary submission moratoriums) are structural necessities for recovery.
 \section{Joint Impact of Population and Capacity on Publication Quality}
 
 In this section, we extend our analysis from the internal stability equilibrium ($x^*$) to the macroscopic observable of the academic ecosystem: the \textit{Average Quality of Published Papers} ($Q$).

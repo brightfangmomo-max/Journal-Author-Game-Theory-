@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.5)  23 JAN 2026 13:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.5)  23 JAN 2026 14:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -549,37 +549,50 @@ File: polynomial_graph_2.pdf Graphic file (type pdf)
 <use polynomial_graph_2.pdf>
 Package pdftex.def Info: polynomial_graph_2.pdf  used on input line 763.
 (pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
- [12 <./polynomial_graph_2.pdf>] [13]
-<impact_N_K.pdf, id=82, 844.65562pt x 596.98032pt>
+ [12 <./polynomial_graph_2.pdf>] [13] [14]
+<regime_map_final.pdf, id=86, 845.07718pt x 597.19106pt>
+File: regime_map_final.pdf Graphic file (type pdf)
+<use regime_map_final.pdf>
+Package pdftex.def Info: regime_map_final.pdf  used on input line 922.
+(pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
+ [15] [16 <./regime_map_final.pdf>]
+<hysteresis_combined.pdf, id=97, 845.07718pt x 597.19106pt>
+File: hysteresis_combined.pdf Graphic file (type pdf)
+<use hysteresis_combined.pdf>
+Package pdftex.def Info: hysteresis_combined.pdf  used on input line 966.
+(pdftex.def)             Requested size: 452.9679pt x 320.10004pt.
+ [17 <./hysteresis_combined.pdf>]
+<impact_N_K.pdf, id=105, 844.65562pt x 596.98032pt>
 File: impact_N_K.pdf Graphic file (type pdf)
 <use impact_N_K.pdf>
-Package pdftex.def Info: impact_N_K.pdf  used on input line 862.
+Package pdftex.def Info: impact_N_K.pdf  used on input line 1025.
 (pdftex.def)             Requested size: 217.42265pt x 153.66266pt.
-<average_quality.pdf, id=83, 845.07718pt x 597.19106pt>
+<average_quality.pdf, id=106, 845.07718pt x 597.19106pt>
 File: average_quality.pdf Graphic file (type pdf)
 <use average_quality.pdf>
-Package pdftex.def Info: average_quality.pdf  used on input line 869.
+Package pdftex.def Info: average_quality.pdf  used on input line 1032.
 (pdftex.def)             Requested size: 217.42265pt x 153.644pt.
- [14]
-<N_K_x.pdf, id=87, 845.07718pt x 597.19106pt>
+ [18]
+<N_K_x.pdf, id=111, 845.07718pt x 597.19106pt>
 File: N_K_x.pdf Graphic file (type pdf)
 <use N_K_x.pdf>
-Package pdftex.def Info: N_K_x.pdf  used on input line 905.
+Package pdftex.def Info: N_K_x.pdf  used on input line 1068.
 (pdftex.def)             Requested size: 430.31812pt x 304.08957pt.
-<alpha_epsilon_lambda_x.pdf, id=88, 845.07718pt x 597.19106pt>
+<alpha_epsilon_lambda_x.pdf, id=112, 845.07718pt x 597.19106pt>
 File: alpha_epsilon_lambda_x.pdf Graphic file (type pdf)
 <use alpha_epsilon_lambda_x.pdf>
-Package pdftex.def Info: alpha_epsilon_lambda_x.pdf  used on input line 918.
+Package pdftex.def Info: alpha_epsilon_lambda_x.pdf  used on input line 1081.
 (pdftex.def)             Requested size: 430.31812pt x 304.08957pt.
-<B_D_x.pdf, id=89, 845.07718pt x 597.19106pt>
+ [19 <./impact_N_K.pdf> <./average_quality.pdf>]
+<B_D_x.pdf, id=125, 845.07718pt x 597.19106pt>
 File: B_D_x.pdf Graphic file (type pdf)
 <use B_D_x.pdf>
-Package pdftex.def Info: B_D_x.pdf  used on input line 933.
+Package pdftex.def Info: B_D_x.pdf  used on input line 1096.
 (pdftex.def)             Requested size: 430.31812pt x 304.08957pt.
- [15 <./impact_N_K.pdf> <./average_quality.pdf>] [16 <./N_K_x.pdf>]
+ [20 <./N_K_x.pdf>]
 Overfull \vbox (15.67227pt too high) has occurred while \output is active []
 
- [17 <./alpha_epsilon_lambda_x.pdf> <./B_D_x.pdf>] (./main.bbl) [18] (./main.aux)
+ [21 <./alpha_epsilon_lambda_x.pdf> <./B_D_x.pdf>] (./main.bbl) [22] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-14>
@@ -590,18 +603,18 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 17841 strings out of 467538
- 358151 string characters out of 5423725
- 756529 words of memory out of 5000000
- 46421 multiletter control sequences out of 15000+600000
- 639717 words of font info for 85 fonts, out of 8000000 for 9000
+ 17862 strings out of 467538
+ 358699 string characters out of 5423725
+ 756623 words of memory out of 5000000
+ 46441 multiletter control sequences out of 15000+600000
+ 640069 words of font info for 86 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,12n,104p,868b,951s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on main.pdf (18 pages, 867507 bytes).
+ 84i,12n,104p,1039b,951s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
+Output written on main.pdf (22 pages, 1131639 bytes).
 PDF statistics:
- 227 PDF objects out of 1000 (max. 8388607)
- 133 compressed objects within 2 object streams
+ 260 PDF objects out of 1000 (max. 8388607)
+ 152 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 52 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 62 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,18 +1,18 @@
 # Fdb version 4
-["bibtex main"] 1769135362.14004 "main.aux" "main.bbl" "main" 1769135364.20272 0
+["bibtex main"] 1769138491.12242 "main.aux" "main.bbl" "main" 1769138589.37495 0
   "./references.bib" 1768997288 3732 aa634ca4ff8e19535efaf4c8c2282115 ""
   "c:/texlive/2025/texmf-dist/bibtex/bst/natbib/plainnat.bst" 1764851182 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "main.aux" 1769135363 15282 3c1093c05f39a45c3f979e9354a0daea "pdflatex"
+  "main.aux" 1769138587 18680 915b005e556c5a4caf4e63f67a038389 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1769135362.49494 "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" "main.pdf" "main" 1769135364.20314 0
+["pdflatex"] 1769138586.10537 "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" "main.pdf" "main" 1769138589.37582 0
   "B_D_x.pdf" 1765961427 72102 5ccf0d0afddc1753338758826499d4ff ""
   "N_K_x.pdf" 1765961028 83027 3c8315110bc3f69b0ab55f4a3b43bcd5 ""
   "alpha_epsilon_lambda_x.pdf" 1765961225 68898 5f73301bf86e3abffb5738bce936acdf ""
   "average_quality.pdf" 1765959719 65214 2480642413d205f1ec00a5c503093ef4 ""
-  "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" 1769135359 62358 193d9e6890e0842744b2b81a75008697 ""
+  "c:/Users/User/Desktop/author_journal_game/doc/tex/main.tex" 1769138487 76605 f94a48241fc7989fab596500ec7a2a99 ""
   "c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1764847260 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "c:/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1764848708 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1764848077 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -48,6 +48,7 @@
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1764847246 1120 8b7d695260f3cff42e636090a8002094 ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm" 1764847246 1116 25a7bf822c58caf309a702ef79f4afbb ""
   "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmti10.tfm" 1764847246 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
+  "c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmti8.tfm" 1764847246 1504 1747189e0441d1c18f3ea56fafc1c480 ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1764846232 34811 78b52f49e893bcba91bd7581cdc144c0 ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1764846232 32080 340ef9bf63678554ee606688e7b5339d ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb" 1764846232 32298 c6d25bb16d1eac01ebdc6d7084126a1e ""
@@ -63,6 +64,7 @@
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1764846232 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb" 1764846232 32362 bc3f3eec7ab7d65fe700963d4017d32c ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb" 1764846232 31809 8670ca339bf94e56da1fc21c80635e2a ""
+  "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb" 1764846232 32734 69e00a6b65cedb993666e42eedb3d48f ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1764846232 32762 7fee39e011c23b3589931effd97b9702 ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb" 1764846232 32726 39f0f9e62e84beb801509898a605dbd5 ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb" 1764846232 33993 9b89b85fd2d9df0482bd47194d1d3bf3 ""
@@ -71,6 +73,7 @@
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb" 1764846232 32587 65067f817f408bc71a7312f3d9828a9b ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1764846232 32716 08e384dc442464e7285e891af9f45947 ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb" 1764846232 37944 359e864bd06cde3b1cf57bb20757fb06 ""
+  "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb" 1764846232 35660 fb24af7afbadb71801619f1415838111 ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb" 1764846232 34694 870c211f62cb72718a00e353f14f254d ""
   "c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb" 1764847260 138258 6525c253f16cededa14c7fd0da7f67b2 ""
   "c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1764851060 71627 94eb9990bed73c364d7f53f960cc8c5b ""
@@ -190,12 +193,14 @@
   "c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1764854791 5587484 30eee748fa419a911c40b0c750dd21ba ""
   "c:/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1764854939 3635700 a76e0a7c599c12c572f46ccde1bdb294 ""
   "c:/texlive/2025/texmf.cnf" 1764854761 713 e69b156964470283e0530f5060668171 ""
+  "hysteresis_combined.pdf" 1769138584 68835 963e33433701d5b3594059dc6487c594 ""
   "impact_N_K.pdf" 1765806403 70676 21e3c4b1c2e1a295898cc96ef5e966ff ""
-  "main.aux" 1769135363 15282 3c1093c05f39a45c3f979e9354a0daea "pdflatex"
-  "main.bbl" 1769135362 3399 3d47307dcdd731c201e9003ed55d7f49 "bibtex main"
-  "main.tex" 1769135359 62358 193d9e6890e0842744b2b81a75008697 ""
+  "main.aux" 1769138587 18680 915b005e556c5a4caf4e63f67a038389 "pdflatex"
+  "main.bbl" 1769138491 3399 3d47307dcdd731c201e9003ed55d7f49 "bibtex main"
+  "main.tex" 1769138487 76605 f94a48241fc7989fab596500ec7a2a99 ""
   "polynomial_graph_1.pdf" 1769130666 80322 788acd1c24cc173d0fda5abb2f739f84 ""
   "polynomial_graph_2.pdf" 1769133385 67852 95ef0c865bb0e162977dd542027958f3 ""
+  "regime_map_final.pdf" 1769138085 156499 dc805875c63e0fd4a030202725d0e0ba ""
   (generated)
   "main.aux"
   "main.log"

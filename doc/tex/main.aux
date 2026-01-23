@@ -92,24 +92,40 @@
 \newlabel{eq:stable_condition}{{52}{13}{}{equation.52}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.2}Physical interpretation}{13}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.3}Real-world implication: The "Defense by Congestion" paradox}{13}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Joint Impact of Population and Capacity on Publication Quality}{14}{}\protected@file@percent }
-\newlabel{fig:nk_stability}{{5a}{15}{}{subfigure.5.1}{}}
-\newlabel{sub@fig:nk_stability}{{a}{15}{}{subfigure.5.1}{}}
-\newlabel{fig:nk_quality}{{5b}{15}{}{subfigure.5.2}{}}
-\newlabel{sub@fig:nk_quality}{{b}{15}{}{subfigure.5.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Joint analysis of system stability and publication quality under varying Population ($N$) and Capacity ($K$). (a) The stability landscape shows the transition from Global Honesty (Green/Blue) to Global Corruption (Red) via a Bistable region. (b) The quality landscape reveals a sharp \textbf  {Phase Transition}. The quality remains at a perfect $1.0$ (Green) until the critical threshold is crossed, causing an instantaneous drop to a low plateau of $\approx 0.4$ (Red), signifying the catastrophic collapse of the peer-review filter due to congestion.}}{15}{}\protected@file@percent }
-\newlabel{fig:joint_NK_analysis}{{5}{15}{}{figure.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Supplementary Integrated Analysis}{15}{}\protected@file@percent }
-\newlabel{sec:appendix_integrated}{{A}{15}{}{section.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Supply vs. Demand: Population and Capacity}{15}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Normalized Parameter Sensitivity: Productivity, Friction, and Risk}{15}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Economic Forces: Incentive vs. Deterrent}{15}{}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Comparative impact of Total Population ($N$, Bottom Axis) and Journal Capacity ($K$, Top Axis) on the internal equilibrium $x^*$. The opposing slopes illustrate how population growth acts as a destabilizing force ($x^*$ increases), while capacity expansion acts as a stabilizing force ($x^*$ decreases).}}{16}{}\protected@file@percent }
-\newlabel{fig:app_nk}{{6}{16}{}{figure.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Unified sensitivity analysis for normalized parameters. The plot compares the linear impact of friction ($\epsilon $, Brown), the hyperbolic impact of author productivity ($\alpha $, Purple), and the threshold-based phase transition triggered by the false positive rate ($\lambda $, Teal).}}{17}{}\protected@file@percent }
-\newlabel{fig:app_combined_params}{{7}{17}{}{figure.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Comparative analysis of Economic Forces using a dual x-axis. The Purple line (Bottom Axis) shows how increasing the Benefit ($B$) destabilizes the system, while the Cyan dashed line (Top Axis) illustrates the stabilizing effect of increasing the Penalty ($D$).}}{17}{}\protected@file@percent }
-\newlabel{fig:app_bd}{{8}{17}{}{figure.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Parameter Sensitivity and Regime Transitions}{14}{}\protected@file@percent }
+\newlabel{sec:sensitivity}{{4}{14}{}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Methodology and Baseline Calibration}{14}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Parameter Calibration for Numerical Analysis}}{14}{}\protected@file@percent }
+\newlabel{tab:calibration}{{3}{14}{}{table.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}The Decoupling of Capacities: Phase Diagram Analysis}{15}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}The Paradox of Slot Expansion}{15}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces \textbf  {Phase Diagram of the Dual-Bottleneck System.} The map classifies the topological regime based on the availability of review resources ($K_{rev}$) versus publication slots ($K_{store}$). \textbf  {Green (Global Honesty):} High review capacity ensures cheating is unprofitable ($Q \to 1.0$). \textbf  {Blue (Stable Coexistence):} Extreme slot scarcity ($K_{store} \ll N$) triggers the "Defense by Congestion," stabilizing the system at a mediocre but functional level. \textbf  {Yellow (Bistability):} A transition zone where the outcome is history-dependent. \textbf  {Red (Global Corruption):} When slots are abundant but review is weak, the defense mechanism vanishes, leading to total collapse ($Q \to \alpha $). \textbf  {Gray (System Collapse):} Feasibility constraint violated ($K_{store}$ too low); even honest authors cannot break even.}}{16}{}\protected@file@percent }
+\newlabel{fig:regime_map}{{5}{16}{}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}The Necessity of Review Resources}{16}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Population Pressure and Hysteresis: The Cost of Lost Trust}{16}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces \textbf  {Hysteresis Loop and Quality Collapse.} The shaded region represents the bistable interval $[N_{\downarrow }, N_{\uparrow }]$. \textbf  {Left Panel (State):} On the Forward Path (Blue), the "Honest Norm" is resilient ($x_{st} \approx 1$) until the collapse threshold $N_{\uparrow } \approx 1800$. Once corrupted (Red Dashed), the system is trapped in the low-honesty attractor ($x_{st} \approx 0$). Recovery requires reducing $N$ below the distinct recovery threshold $N_{\downarrow } \approx 350$. \textbf  {Right Panel (Quality):} The collapse leads to a discrete jump in quality from $Q=1.0$ to the baseline productivity $Q \approx \alpha \approx 0.2$. This degradation persists even if $N$ is reduced moderately, illustrating the "Quality Trap."}}{17}{}\protected@file@percent }
+\newlabel{fig:hysteresis}{{6}{17}{}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Structural Resilience (Forward Path)}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}The Stickiness of Corruption (Backward Path)}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}Policy Implication: Basin Hopping}{18}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Joint Impact of Population and Capacity on Publication Quality}{18}{}\protected@file@percent }
+\newlabel{fig:nk_stability}{{7a}{19}{}{subfigure.7.1}{}}
+\newlabel{sub@fig:nk_stability}{{a}{19}{}{subfigure.7.1}{}}
+\newlabel{fig:nk_quality}{{7b}{19}{}{subfigure.7.2}{}}
+\newlabel{sub@fig:nk_quality}{{b}{19}{}{subfigure.7.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Joint analysis of system stability and publication quality under varying Population ($N$) and Capacity ($K$). (a) The stability landscape shows the transition from Global Honesty (Green/Blue) to Global Corruption (Red) via a Bistable region. (b) The quality landscape reveals a sharp \textbf  {Phase Transition}. The quality remains at a perfect $1.0$ (Green) until the critical threshold is crossed, causing an instantaneous drop to a low plateau of $\approx 0.4$ (Red), signifying the catastrophic collapse of the peer-review filter due to congestion.}}{19}{}\protected@file@percent }
+\newlabel{fig:joint_NK_analysis}{{7}{19}{}{figure.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Supplementary Integrated Analysis}{19}{}\protected@file@percent }
+\newlabel{sec:appendix_integrated}{{A}{19}{}{section.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Supply vs. Demand: Population and Capacity}{19}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Normalized Parameter Sensitivity: Productivity, Friction, and Risk}{19}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Comparative impact of Total Population ($N$, Bottom Axis) and Journal Capacity ($K$, Top Axis) on the internal equilibrium $x^*$. The opposing slopes illustrate how population growth acts as a destabilizing force ($x^*$ increases), while capacity expansion acts as a stabilizing force ($x^*$ decreases).}}{20}{}\protected@file@percent }
+\newlabel{fig:app_nk}{{8}{20}{}{figure.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Economic Forces: Incentive vs. Deterrent}{20}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Unified sensitivity analysis for normalized parameters. The plot compares the linear impact of friction ($\epsilon $, Brown), the hyperbolic impact of author productivity ($\alpha $, Purple), and the threshold-based phase transition triggered by the false positive rate ($\lambda $, Teal).}}{21}{}\protected@file@percent }
+\newlabel{fig:app_combined_params}{{9}{21}{}{figure.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Comparative analysis of Economic Forces using a dual x-axis. The Purple line (Bottom Axis) shows how increasing the Benefit ($B$) destabilizes the system, while the Cyan dashed line (Top Axis) illustrates the stabilizing effect of increasing the Penalty ($D$).}}{21}{}\protected@file@percent }
+\newlabel{fig:app_bd}{{10}{21}{}{figure.10}{}}
 \bibstyle{plainnat}
 \bibdata{references}
 \bibcite{Azar2005}{{1}{2005}{{Azar}}{{}}}
@@ -124,7 +140,7 @@
 \bibcite{Thurner2011}{{10}{2011}{{Thurner and Hanel}}{{}}}
 \bibcite{Tiokhin2021}{{11}{2021}{{Tiokhin et~al.}}{{Tiokhin, Panchanathan, Lakens, Vazire, Morgan, and Zollman}}}
 \bibcite{Zollman2024}{{12}{2024}{{Zollman et~al.}}{{Zollman, Garc{\'i}a, and Handfield}}}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Model Parameters}{18}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Key notation and definitions for the Author-Journal Game.}}{18}{}\protected@file@percent }
-\newlabel{tab:variables_appendix}{{3}{18}{}{table.3}{}}
-\gdef \@abspage@last{18}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Model Parameters}{22}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Key notation and definitions for the Author-Journal Game.}}{22}{}\protected@file@percent }
+\newlabel{tab:variables_appendix}{{4}{22}{}{table.4}{}}
+\gdef \@abspage@last{22}
