@@ -1,1 +1,7 @@
 *.gz
+/doc/tex/main.synctex.gz
+/doc/tex/main.log
+/doc/tex/main.fls
+/doc/tex/main.fdb_latexmk
+/doc/tex/main.blg
+/doc/tex/main.aux
