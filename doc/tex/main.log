@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.5)  23 JAN 2026 13:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.12.5)  23 JAN 2026 13:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -550,143 +550,36 @@ File: polynomial_graph_2.pdf Graphic file (type pdf)
 Package pdftex.def Info: polynomial_graph_2.pdf  used on input line 763.
 (pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
  [12 <./polynomial_graph_2.pdf>] [13]
-<k_x.pdf, id=82, 845.07718pt x 597.19106pt>
-File: k_x.pdf Graphic file (type pdf)
-<use k_x.pdf>
-Package pdftex.def Info: k_x.pdf  used on input line 878.
-(pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
- [14]
-<quality_K.pdf, id=86, 845.07718pt x 597.19106pt>
-File: quality_K.pdf Graphic file (type pdf)
-<use quality_K.pdf>
-Package pdftex.def Info: quality_K.pdf  used on input line 903.
-(pdftex.def)             Requested size: 362.37569pt x 256.07639pt.
- [15 <./K_x.pdf>] [16 <./quality_K.pdf>]
-<N_x.pdf, id=101, 845.07718pt x 597.19106pt>
-File: N_x.pdf Graphic file (type pdf)
-<use N_x.pdf>
-Package pdftex.def Info: N_x.pdf  used on input line 947.
-(pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
-<quality_N.pdf, id=102, 845.07718pt x 597.19106pt>
-File: quality_N.pdf Graphic file (type pdf)
-<use quality_N.pdf>
-Package pdftex.def Info: quality_N.pdf  used on input line 956.
-(pdftex.def)             Requested size: 362.37569pt x 256.07639pt.
- [17 <./N_x.pdf>] [18 <./quality_N.pdf>]
-<alpha_x.pdf, id=118, 845.07718pt x 597.19106pt>
-File: alpha_x.pdf Graphic file (type pdf)
-<use alpha_x.pdf>
-Package pdftex.def Info: alpha_x.pdf  used on input line 1011.
-(pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
-<quality_alpha.pdf, id=119, 845.07718pt x 597.19106pt>
-File: quality_alpha.pdf Graphic file (type pdf)
-<use quality_alpha.pdf>
-Package pdftex.def Info: quality_alpha.pdf  used on input line 1020.
-(pdftex.def)             Requested size: 362.37569pt x 256.07639pt.
- [19 <./alpha_x.pdf>]
-<epsilon_x.pdf, id=128, 845.07718pt x 597.19106pt>
-File: epsilon_x.pdf Graphic file (type pdf)
-<use epsilon_x.pdf>
-Package pdftex.def Info: epsilon_x.pdf  used on input line 1048.
-(pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
- [20 <./quality_alpha.pdf>]
-<quality_epsilon.pdf, id=136, 845.07718pt x 597.19106pt>
-File: quality_epsilon.pdf Graphic file (type pdf)
-<use quality_epsilon.pdf>
-Package pdftex.def Info: quality_epsilon.pdf  used on input line 1072.
-(pdftex.def)             Requested size: 362.37569pt x 256.07639pt.
- [21 <./epsilon_x.pdf>] [22 <./quality_epsilon.pdf>]
-<lambda_x.pdf, id=151, 845.07718pt x 597.19106pt>
-File: lambda_x.pdf Graphic file (type pdf)
-<use lambda_x.pdf>
-Package pdftex.def Info: lambda_x.pdf  used on input line 1114.
-(pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
-<quality_lambda.pdf, id=152, 845.07718pt x 597.19106pt>
-File: quality_lambda.pdf Graphic file (type pdf)
-<use quality_lambda.pdf>
-Package pdftex.def Info: quality_lambda.pdf  used on input line 1123.
-(pdftex.def)             Requested size: 362.37569pt x 256.07639pt.
- [23 <./lambda_x.pdf>] [24 <./quality_lambda.pdf>]
-<B_x.pdf, id=167, 845.07718pt x 597.19106pt>
-File: B_x.pdf Graphic file (type pdf)
-<use B_x.pdf>
-Package pdftex.def Info: B_x.pdf  used on input line 1147.
-(pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
-
-
-LaTeX Warning: Reference `fig:B_x_extended' on page 25 undefined on input line 1160.
-
-[25 <./B_x.pdf>]
-<quality_B.pdf, id=176, 845.07718pt x 597.19106pt>
-File: quality_B.pdf Graphic file (type pdf)
-<use quality_B.pdf>
-Package pdftex.def Info: quality_B.pdf  used on input line 1185.
-(pdftex.def)             Requested size: 362.37569pt x 256.07639pt.
- [26 <./quality_B.pdf>]
-<D_x.pdf, id=184, 845.07718pt x 597.19106pt>
-File: D_x.pdf Graphic file (type pdf)
-<use D_x.pdf>
-Package pdftex.def Info: D_x.pdf  used on input line 1219.
-(pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
- [27 <./D_x.pdf>]
-<quality_D.pdf, id=192, 845.07718pt x 597.19106pt>
-File: quality_D.pdf Graphic file (type pdf)
-<use quality_D.pdf>
-Package pdftex.def Info: quality_D.pdf  used on input line 1236.
-(pdftex.def)             Requested size: 362.37569pt x 256.07639pt.
- [28 <./quality_D.pdf>]
-<C_x.pdf, id=200, 845.07718pt x 597.19106pt>
-File: C_x.pdf Graphic file (type pdf)
-<use C_x.pdf>
-Package pdftex.def Info: C_x.pdf  used on input line 1262.
-(pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
-<quality_c.pdf, id=201, 845.07718pt x 597.19106pt>
-File: quality_c.pdf Graphic file (type pdf)
-<use quality_c.pdf>
-Package pdftex.def Info: quality_c.pdf  used on input line 1279.
-(pdftex.def)             Requested size: 362.37569pt x 256.07639pt.
- [29 <./C_x.pdf>] [30 <./quality_c.pdf>]
-<CJ_x.pdf, id=216, 845.07718pt x 597.19106pt>
-File: CJ_x.pdf Graphic file (type pdf)
-<use CJ_x.pdf>
-Package pdftex.def Info: CJ_x.pdf  used on input line 1310.
-(pdftex.def)             Requested size: 407.66833pt x 288.08821pt.
-<quality_CJ.pdf, id=217, 845.07718pt x 597.19106pt>
-File: quality_CJ.pdf Graphic file (type pdf)
-<use quality_CJ.pdf>
-Package pdftex.def Info: quality_CJ.pdf  used on input line 1329.
-(pdftex.def)             Requested size: 362.37569pt x 256.07639pt.
- [31 <./Cj_x.pdf>] [32 <./quality_Cj.pdf>] [33]
-<impact_N_K.pdf, id=237, 844.65562pt x 596.98032pt>
+<impact_N_K.pdf, id=82, 844.65562pt x 596.98032pt>
 File: impact_N_K.pdf Graphic file (type pdf)
 <use impact_N_K.pdf>
-Package pdftex.def Info: impact_N_K.pdf  used on input line 1387.
+Package pdftex.def Info: impact_N_K.pdf  used on input line 862.
 (pdftex.def)             Requested size: 217.42265pt x 153.66266pt.
-<average_quality.pdf, id=238, 845.07718pt x 597.19106pt>
+<average_quality.pdf, id=83, 845.07718pt x 597.19106pt>
 File: average_quality.pdf Graphic file (type pdf)
 <use average_quality.pdf>
-Package pdftex.def Info: average_quality.pdf  used on input line 1394.
+Package pdftex.def Info: average_quality.pdf  used on input line 869.
 (pdftex.def)             Requested size: 217.42265pt x 153.644pt.
-<N_K_x.pdf, id=239, 845.07718pt x 597.19106pt>
+ [14]
+<N_K_x.pdf, id=87, 845.07718pt x 597.19106pt>
 File: N_K_x.pdf Graphic file (type pdf)
 <use N_K_x.pdf>
-Package pdftex.def Info: N_K_x.pdf  used on input line 1430.
+Package pdftex.def Info: N_K_x.pdf  used on input line 905.
 (pdftex.def)             Requested size: 430.31812pt x 304.08957pt.
- [34 <./impact_N_K.pdf> <./average_quality.pdf>]
-<alpha_epsilon_lambda_x.pdf, id=251, 845.07718pt x 597.19106pt>
+<alpha_epsilon_lambda_x.pdf, id=88, 845.07718pt x 597.19106pt>
 File: alpha_epsilon_lambda_x.pdf Graphic file (type pdf)
 <use alpha_epsilon_lambda_x.pdf>
-Package pdftex.def Info: alpha_epsilon_lambda_x.pdf  used on input line 1443.
+Package pdftex.def Info: alpha_epsilon_lambda_x.pdf  used on input line 918.
 (pdftex.def)             Requested size: 430.31812pt x 304.08957pt.
-<B_D_x.pdf, id=252, 845.07718pt x 597.19106pt>
+<B_D_x.pdf, id=89, 845.07718pt x 597.19106pt>
 File: B_D_x.pdf Graphic file (type pdf)
 <use B_D_x.pdf>
-Package pdftex.def Info: B_D_x.pdf  used on input line 1458.
+Package pdftex.def Info: B_D_x.pdf  used on input line 933.
 (pdftex.def)             Requested size: 430.31812pt x 304.08957pt.
- [35 <./N_K_x.pdf>]
+ [15 <./impact_N_K.pdf> <./average_quality.pdf>] [16 <./N_K_x.pdf>]
 Overfull \vbox (15.67227pt too high) has occurred while \output is active []
 
- [36 <./alpha_epsilon_lambda_x.pdf> <./B_D_x.pdf>] (./main.bbl) [37] (./main.aux)
+ [17 <./alpha_epsilon_lambda_x.pdf> <./B_D_x.pdf>] (./main.bbl) [18] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-14>
@@ -697,18 +590,18 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 17987 strings out of 467538
- 361246 string characters out of 5423725
- 757005 words of memory out of 5000000
- 46567 multiletter control sequences out of 15000+600000
+ 17841 strings out of 467538
+ 358151 string characters out of 5423725
+ 756529 words of memory out of 5000000
+ 46421 multiletter control sequences out of 15000+600000
  639717 words of font info for 85 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,12n,104p,1191b,951s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on main.pdf (37 pages, 2165947 bytes).
+ 84i,12n,104p,868b,951s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
+Output written on main.pdf (18 pages, 867507 bytes).
 PDF statistics:
- 386 PDF objects out of 1000 (max. 8388607)
- 216 compressed objects within 3 object streams
+ 227 PDF objects out of 1000 (max. 8388607)
+ 133 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 142 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 52 words of extra memory for PDF output out of 10000 (max. 10000000)
 
