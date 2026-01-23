@@ -651,269 +651,182 @@ The evolutionary dynamics of the system are thus entirely determined by the time
 
 \subsection{Model reduction and population state}
 
-Following the dominance analysis in Section~\ref{subsec:dominance}, the complex strategy space reduces to a dynamic contest between two surviving Author strategies, with the Journal playing a fixed filtering role.
-We define the \textbf{population state} $x \in [0, 1]$ as the prevalence of honest behavior:
-\begin{itemize}
-    \item $x$: Proportion of Authors playing \textbf{Only Good (OG)} (Cooperators).
-    \item $1-x$: Proportion of Authors playing \textbf{Always Submit (AS)} (Defectors).
-\end{itemize}
+Following the dominance analysis, the strategy space reduces to a dynamic contest between two surviving Author strategies, with the Journal playing a fixed filtering role.
+We define the \textbf{population state} $x(t) \in [0, 1]$ as the proportion of authors playing \textbf{Only Good (OG)}, while $1-x(t)$ play \textbf{Always Submit (AS)}.
 
-The evolutionary trajectory of $x$ is governed by the payoff differential between these two strategies.
-We assume the \textbf{Profitability Constraint} ($\lambda r > c$) holds, meaning that in a functional system, speculative submission of bad papers is potentially profitable if not detected.
-
-\subsection{The congestion-dependent screening function}
-
-A static capacity constraint $K$ (as used in the rationing model) explains limits on publication volume.
-However, to model the collapse of scientific integrity, we must account for the **degradation of review quality** under load.
-We introduce the \textbf{Screening Intensity} function, $\eta(x)$, which represents the probability that a submitted paper undergoes rigorous peer review rather than superficial processing ("rubber-stamping").
-
-\subsubsection{Definitions of dynamic variables}
-We define the relevant physical variables in Table~\ref{tab:dynamic_vars} to ensure clarity and consistency with previous sections.
-
-\begin{table}[h]
-\centering
-\caption{Variables governing the evolutionary dynamics.}
-\label{tab:dynamic_vars}
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{c l l}
-\toprule
-\textbf{Symbol} & \textbf{Definition} & \textbf{Functional Form / Context} \\ 
-\midrule
-$x$ & Population state & Fraction of honest authors (OG) \\
-$V(x)$ & Total submission volume & $N[\alpha x + 1(1-x)] = N[1 - (1-\alpha)x]$ \\
-$K_{rev}$ & Review capacity & Max submissions the journal can rigorously screen \\
-$C_J$ & Unit review effort & Resource cost to review one paper \\
-$\eta(x)$ & Screening intensity & Probability a paper is rigorously checked \\
-$r, c$ & Reward \& Cost & Author's payoff parameters (from Sec.~\ref{subsec:payoffs}) \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsubsection{The screening intensity function $\eta(x)$}
-The total submission volume $V(x)$ is strictly decreasing in $x$ (as honest authors withhold bad papers).
-The journal's ability to screen depends on the ratio of its fixed Review Capacity ($K_{rev}$) to the incoming volume.
-We model the endogenous screening intensity as:
+The evolutionary trajectory is governed by the payoff differential.
+We assume the system operates in the \textbf{Conditional Profitability Region}:
 \begin{equation}
-    \eta(x) = \min\left(1, \frac{K_{rev}}{C_J \cdot V(x) + \delta} \right)
+    \lambda r < c < r
 \end{equation}
-where $\delta > 0$ is a small regularization term.
-This function creates a feedback loop: as honesty $x$ drops, volume $V(x)$ rises, causing screening intensity $\eta(x)$ to collapse.
+This condition implies that in the un-congested limit ($\eta \approx 1, \bar{\rho} \approx 1$), cheating is unprofitable ($\lambda r - c < 0$). Cheating becomes viable only if the screening mechanism collapses significantly due to congestion.
+
+\subsection{Endogenous congestion functions}
+
+To capture the dual impact of congestion, we model two distinct bottlenecks. While numerical simulations use a smoothed approximation (Soft Minimum) to capture pre-congestion friction, we present the analytical forms using standard cutoffs for clarity.
+
+\subsubsection{Stage 1: The screening intensity function $\eta(x)$}
+The total submission volume is $V(x) = N [ 1 - (1 - \alpha)x ]$.
+The screening intensity $\eta(x)$ represents the probability that a paper undergoes rigorous peer review. It degrades when volume exceeds the review capacity $K_{rev}$:
+\begin{equation}
+    \eta(x) = \min\left(1, \frac{K_{rev}}{V(x)}\right)
+\end{equation}
+We assume "rubber-stamping" implies unconditional acceptance of unscreened papers.
+Thus, the pass probability for a bad paper, $\pi_0(x)$, increases as screening fails:
+\begin{equation}
+    \pi_0(x) = \eta(x) \lambda + (1 - \eta(x)) \cdot 1 = 1 - \eta(x)(1-\lambda)
+\end{equation}
+For a good paper, the pass probability $\pi_1(x)$ also approaches 1 as scrutiny relaxes (assuming false negatives $\epsilon$ only occur during rigorous review):
+\begin{equation}
+    \pi_1(x) = \eta(x) (1-\epsilon) + (1 - \eta(x)) \cdot 1 = 1 - \eta(x)\epsilon
+\end{equation}
+
+\subsubsection{Stage 2: The rationing probability function $\bar{\rho}(x)$}
+Let $K$ be the publication slot capacity. The expected volume of papers entering the "perceived good" pool $M(x)$ is:
+\begin{align}
+    M(x) &= V_G(x)\pi_1(x) + V_B(x)\pi_0(x) \nonumber \\
+    &= N\alpha \cdot \pi_1(x) + N(1-\alpha)(1-x) \cdot \pi_0(x)
+\end{align}
+Using a mean-field approximation, the expected rationing probability is:
+\begin{equation}
+    \bar{\rho}(x) \approx \min\left(1, \frac{K}{M(x)}\right)
+\end{equation}
 
 \subsection{Derivation of the replicator equation}
 
-The evolutionary dynamics are driven by the standard replicator equation:
+Since both OG and AS strategies submit good papers whenever they occur (with identical acceptance probabilities), the expected payoff component from good papers cancels out in the differential.
+The dynamics are driven entirely by the net utility of the additional "bad" papers submitted by AS authors, denoted as $\Pi_{bad}(x)$.
+The replicator equation is:
 \begin{equation}
-    \dot{x} = x(1-x) \left[ U_A(\text{OG}) - U_A(\text{AS}) \right]
+    \dot{x} = -x(1-x)(1-\alpha)\Pi_{bad}(x)
 \end{equation}
-From the dominance analysis, the difference between Always Submit and Only Good is simply the utility of submitting a bad paper.
-Thus, $U_A(\text{AS}) - U_A(\text{OG}) = U_A(\text{Bad Paper})$.
-The dynamics depend entirely on the expected utility of submitting a bad paper, denoted as $\Pi_{bad}(x)$.
 
-\subsubsection{Expected utility of a bad paper $\Pi_{bad}(x)$}
-A bad paper submitted by an AS author faces two potential paths:
-\begin{enumerate}
-    \item \textbf{Path A: Rigorous Screening (Prob. $\eta(x)$).} The paper is reviewed. It passes with probability $\lambda$ (false positive).
-    \item \textbf{Path B: Rubber-stamping (Prob. $1-\eta(x)$).} Due to congestion, the paper bypasses rigorous review and is accepted by default.
-\end{enumerate}
-
-The expected payoff is:
-\begin{align}
-    \Pi_{bad}(x) &= \eta(x) \underbrace{(\lambda r - c)}_{\text{Screened Payoff}} + (1 - \eta(x)) \underbrace{(r - c)}_{\text{Unscreened Payoff}} \nonumber \\
-    &= r \left[ \lambda \eta(x) + 1 - \eta(x) \right] - c \nonumber \\
-    &= r \left[ 1 - \eta(x)(1-\lambda) \right] - c
-\end{align}
-This equation reveals the core tension: if screening is perfect ($\eta=1$), $\Pi_{bad} = \lambda r - c$ (which determines the viable region). If screening collapses ($\eta \to 0$), $\Pi_{bad} \to r - c$ (highly profitable).
-
-\subsubsection{The polynomial system}
-Substituting $\Pi_{bad}(x)$ into the replicator equation $\dot{x} = -x(1-x)(1-\alpha)\Pi_{bad}(x)$:
+A bad paper yields reward $r$ only if it passes both bottlenecks. The expected net utility is:
 \begin{equation}
-    \dot{x} = -x(1-x)(1-\alpha) \left( r [ 1 - \eta(x)(1-\lambda) ] - c \right)
-\end{equation}
-The sign of $\dot{x}$ is determined by the sign of $-\Pi_{bad}(x)$.
-Equilibrium occurs when the incentive to cheat is exactly zero ($\Pi_{bad}(x^*) = 0$).
-Solving for the critical screening intensity $\eta^*$:
-\begin{equation}
-    \eta^* = \frac{r - c}{r(1-\lambda)}
-\end{equation}
-We can then map this back to the population state $x^*$ by inverting the screening function $\eta(x)$.
-This yields the analytical tipping point:
-\begin{equation}
-    x^* = \frac{1}{1-\alpha} \left[ 1 - \frac{K_{rev}}{C_J \cdot N \cdot \eta^*} \right]
+    \Pi_{bad}(x) = r \cdot \bar{\rho}(x) \cdot \pi_0(x) - c
 \end{equation}
 
 \subsection{Bifurcation and stability analysis}
 
-The system exhibits **Bistability** when the internal root $x^*$ lies within the physical range $(0, 1)$.
-This creates two distinct basins of attraction:
-
-\begin{enumerate}
-    \item \textbf{Basin of Honesty ($x > x^*$):}
-    Here, the population is sufficiently honest that submission volume is low.
-    Consequently, screening remains rigorous ($\eta(x) > \eta^*$), making the submission of bad papers unprofitable ($\Pi_{bad} < 0$).
-    The system converges to $x=1$ (Ideal Honesty).
-
-    \item \textbf{Trap of Corruption ($x < x^*$):}
-    Here, the prevalence of spammers creates high submission volume.
-    The review capacity is overwhelmed ($\eta(x) < \eta^*$), causing the journal to rubber-stamp submissions.
-    This makes cheating highly profitable ($\Pi_{bad} > 0$), creating a positive feedback loop that drives the system to $x=0$ (Full Corruption).
-\end{enumerate}
+The system exhibits **Bistability** because the two congestion effects work in opposition:
+\begin{itemize}
+    \item \textbf{Review Collapse ($\pi_0 \uparrow$):} Increases the incentive to cheat.
+    \item \textbf{Storage Rationing ($\bar{\rho} \downarrow$):} Decreases the incentive to cheat.
+\end{itemize}
+When the review collapse effect dominates, $\Pi_{bad}(x)$ becomes positive at low $x$, creating a corruption trap.
 
 \begin{figure}[hbt!]
     \centering
-    \includegraphics[width=0.75\textwidth]{polynomial_graph_1.pdf}
-    \caption{Replicator Dynamics $\frac{dx}{dt}$ vs $x$ with $K=100$.
-    The system exhibits bistability. The internal root $x^* \approx 0.786$ acts as an unstable repeller.
-    If the initial proportion of honest authors $x < x^*$, the system collapses to full corruption ($x=0$).
-    If $x > x^*$, it converges to full honesty ($x=1$).}
+    \includegraphics[width=0.9\textwidth]{polynomial_graph_1.pdf}
+    \caption{\textbf{Phase Portrait of the Dual-Bottleneck Dynamics.} 
+    The curve shows the evolutionary velocity $\dot{x}$ using a smoothed simulation model.
+    The system exhibits three equilibria:
+    (1) \textbf{Trap of Corruption ($x=0$)}: Stable, as review collapse makes spamming profitable.
+    (2) \textbf{Basin of Honesty ($x=1$)}: Stable, as strict screening deters spamming.
+    (3) \textbf{Tipping Point ($x^* \approx 0.803$)}: An unstable internal root.
+    Initial states $x > x^*$ recover to honesty, while $x < x^*$ collapse.}
     \label{fig:replicator_dynamics}
 \end{figure}
 
-Figure \ref{fig:replicator_dynamics} visualizes this dynamic.
-The existence of $x^*$ in $(0, 1)$ confirms that the "Always Submit" strategy is viable only when the journal is congested.
+\subsubsection{Analytical Condition for Instability of the Internal Equilibrium}
 
-
-
-\subsection{Reduction to a Two-Strategy System and Congestion Model}
-Following the elimination of strictly dominated strategies (specifically \{Only Bad\} and \{Never Submit\}), the game is reduced to a dynamic contest between two Author strategies, while the Journal plays a fixed strategy of \textit{Only Good}.
-We define the population state $x \in [0, 1]$ as follows:
-\begin{itemize}
-    \item $x$: The proportion of Authors playing \textbf{\{Only Good\}}.
-    \item $1-x$: The proportion of Authors playing \textbf{\{Always Submit\}}.
-\end{itemize}
-
-Since the Journal's strategy is fixed, the evolutionary dynamics are driven entirely by the payoff difference between the Author's two remaining strategies.
-To allow for the survival of the \textit{Always Submit} strategy and the emergence of complex dynamics, we assume the \textbf{Profitability Condition} ($\lambda B > c$) holds.
-This implies that submitting a "Bad" paper is profitable \textit{if} the journal fails to screen it.
-
-\subsubsection{Physical Definitions and Variables}
-We introduce a finite resource constraint on the Journal to model the \textbf{Congestion Effect}.
-The parameters are defined as follows:
-\begin{itemize}
-    \item $N$: Total population of authors.
-    \item $K$: Journal processing capacity (total review effort available).
-    \item $C_J$: Cost per review.
-    Thus, $K/C_J$ represents the maximum number of papers the journal can effectively screen.
-    \item $\alpha$: The prior probability that an author holds a "Good" paper.
-    \item $B$: Benefit (Reward) of acceptance.
-    \item $C$: Cost of submission.
-    \item $D$: Reputational damage penalty for a rejected "Bad" paper.
-    \item $\lambda$: The discount factor for a "Bad" paper (Payoff = $\lambda B$).
-    \item $\epsilon$: A friction term to prevent singularities.
-\end{itemize}
-
-\subsection{Derivation of the Polynomial Dynamics}
-
-To analyze the stability of the system, we express the rate of change $\frac{dx}{dt}$ as a function of the submission volume and screening effectiveness.
-
-\subsubsection{Volume and Screening Functions}
-The total submission volume $V(x)$ depends on the strategy distribution.
-"Only Good" authors submit with probability $\alpha$, while "Always Submit" authors submit with probability 1:
+To rigorously characterize the stability of the internal equilibrium $x^*$, we analyze the derivative of the velocity field.
+Since $\dot{x} \propto -\Pi_{bad}(x)$, the equilibrium $x^*$ is **unstable** (a repeller) if and only if:
 \begin{equation}
-    V(x) = N [ \alpha x + (1 - x) ] = N [ 1 - (1 - \alpha)x ]
+    \frac{d \Pi_{bad}}{d x} \bigg|_{x^*} < 0
 \end{equation}
-Note that $V(x)$ is linear and decreasing in $x$;
-as honesty increases, junk submissions decrease.
-
-The screening probability $\sigma(x)$ is endogenous and depends on the ratio of capacity to volume:
+Using the chain rule via submission volume $V$:
 \begin{equation}
-    \sigma(x) = \frac{K}{C_J \cdot V(x) + \epsilon}
+    \frac{d \Pi_{bad}}{d x} = \frac{d \Pi_{bad}}{d V} \cdot \frac{d V}{d x}
 \end{equation}
-This inverse relationship creates the nonlinearity required for bistability.
-
-\subsubsection{Utility Functions and Replicator Equation}
-The evolutionary dynamics depend on the expected utility of submitting a "Bad" paper, $E[U_{Bad}]$.
-\begin{itemize}
-    \item If screened (probability $\sigma$): Payoff is $-C - D$.
-    \item If unscreened (probability $1-\sigma$): Payoff is $\lambda B - C$.
-\end{itemize}
-The expected utility is:
-\begin{align}
-    E[U_{Bad}](x) &= \sigma(x) (-C - D) + (1 - \sigma(x)) (\lambda B - C) \nonumber \\
-    &= \sigma(x) (-D - \lambda B) + (\lambda B - C)
-\end{align}
-
-Substituting this into the standard replicator equation $\frac{dx}{dt} = -x(1-x)(1-\alpha)E[U_{Bad}]$, and clearing the denominator $(C_J V(x) + \epsilon)$, we derive the polynomial $P(x)$ that characterizes the sign of the dynamics:
+We know $\frac{d V}{d x} = -N(1-\alpha) < 0$. Thus, instability requires $\frac{d \Pi_{bad}}{d V} > 0$.
+Expanding $\Pi_{bad}(V) = r \bar{\rho}(V) \pi_0(V) - c$:
 \begin{equation}
-    P(x) = \underbrace{x(1-x)}_{\text{Deg 2}} \cdot \underbrace{\Big[ K(-D - \lambda B) + (\lambda B - C)(C_J N(1 - (1-\alpha)x) + \epsilon) \Big]}_{\text{Deg 1}}
+    \frac{d \Pi_{bad}}{d V} = r \left( \bar{\rho}(V) \frac{d \pi_0}{d V} + \pi_0(V) \frac{d \bar{\rho}}{d V} \right)
+\end{equation}
+Here, $\frac{d \pi_0}{d V} > 0$ (Review Collapse helps cheating) and $\frac{d \bar{\rho}}{d V} < 0$ (Rationing hurts cheating).
+Therefore, the tipping point is unstable if and only if the **Review-Dominated Condition** holds:
+\begin{equation}
+    \label{eq:instability_condition}
+    \underbrace{\bar{\rho}(V) \frac{d \pi_0}{d V}}_{\text{Gain from lax review}} > \underbrace{\left| \pi_0(V) \frac{d \bar{\rho}}{d V} \right|}_{\text{Loss from rationing}}
+\end{equation}
+This mathematically confirms that bistability arises when the degradation of peer review quality outpaces the tightening of publication slots. 
+If this condition holds, $\Pi_{bad}(x)$ is monotonically decreasing in $x$, forcing the dynamics to bifurcate.
+
+\subsection{The regime of stable coexistence: Rationing-dominated dynamics}
+
+While the default scenario exhibits bistability (a "tipping point" dynamic), a fundamentally different topological regime emerges when the storage constraint ($K$) is significantly tighter than the review constraint ($K_{rev}$).
+Figure \ref{fig:stable_coexistence} illustrates this scenario, where the evolutionary velocity $\dot{x}$ transitions from positive to negative, creating a **Stable Internal Equilibrium** ($x^* \approx 0.49$).
+
+\begin{figure}[hbt!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{polynomial_graph_2.pdf}
+    \caption{\textbf{Phase Portrait of Stable Coexistence (Rationing-Dominated).} 
+    The system exhibits a stable attractor at $x^* \approx 0.49$.
+    \textbf{Left Zone (Self-Correction):} At low honesty ($x < x^*$), the massive volume of spam triggers severe storage rationing ($\bar{\rho} \to 0$), reducing the expected payoff of cheating below zero. This forces the population to become more honest.
+    \textbf{Right Zone (Temptation):} At high honesty ($x > x^*$), the low volume relaxes rationing ($\bar{\rho} \to 1$), making speculative cheating profitable again due to the base false-positive rate $\lambda$.
+    The system settles into a permanent mix of honest and opportunistic authors.}
+    \label{fig:stable_coexistence}
+\end{figure}
+
+\subsubsection{Mathematical derivation of the stability condition}
+
+For an internal equilibrium $x^*$ to be \textbf{stable} (an attractor), the dynamics must be restorative: positive when $x < x^*$ and negative when $x > x^*$.
+Mathematically, this requires the slope of the velocity field to be negative at the equilibrium:
+\begin{equation}
+    \frac{d \dot{x}}{d x} \bigg|_{x^*} < 0
+\end{equation}
+Since $\dot{x} \propto -\Pi_{bad}(x)$, this implies that the net utility of cheating $\Pi_{bad}(x)$ must be an **increasing function** of honesty $x$ (or equivalently, a decreasing function of submission volume $V$).
+Using the chain rule, we derive the necessary condition:
+\begin{equation}
+    \frac{d \Pi_{bad}}{d x} = \underbrace{\frac{d \Pi_{bad}}{d V}}_{\text{Net Congestion Effect}} \cdot \underbrace{\frac{d V}{d x}}_{< 0} > 0
+\end{equation}
+Since $\frac{d V}{d x}$ is strictly negative, the condition for stability requires $\frac{d \Pi_{bad}}{d V} < 0$.
+Expanding the utility gradient with respect to volume:
+\begin{equation}
+    \frac{d \Pi_{bad}}{d V} = r \left( \underbrace{\frac{d \bar{\rho}}{d V} \pi_0}_{\text{Marginal Rationing Loss}} + \underbrace{\bar{\rho} \frac{d \pi_0}{d V}}_{\text{Marginal Screening Gain}} \right) < 0
+\end{equation}
+Rearranging terms, we obtain the **Rationing-Dominated Condition**:
+\begin{equation}
+    \label{eq:stable_condition}
+    \underbrace{\left| \pi_0(V) \frac{d \bar{\rho}}{d V} \right|}_{\text{Penalty from Crowding}} > \underbrace{\bar{\rho}(V) \frac{d \pi_0}{d V}}_{\text{Benefit from Chaos}}
 \end{equation}
 
-\subsubsection{Degree Analysis and Root Configuration}
-The polynomial $P(x)$ is of \textbf{Degree 3 (Cubic)}. This is confirmed by the product of the quadratic replicator term $x(1-x)$ and the linear volume term nested within the utility function.
-Consequently, the system admits up to three real roots in $[0, 1]$:
+\subsubsection{Physical interpretation}
+This inequality describes a system where the "punishment" from overcrowding (the drop in $\bar{\rho}$) outweighs the "opportunity" from collapsed screening (the rise in $\pi_0$).
+
 \begin{enumerate}
-    \item $x=0$: \textbf{Full Corruption} (Stable if congestion makes cheating profitable).
-    \item $x=1$: \textbf{Ideal Honesty} (Stable if low volume makes screening strict).
-    \item $x=x^*$: An internal \textbf{Tipping Point} (Unstable).
+    \item \textbf{The Self-Correction Mechanism ($x \to 0$):}
+    When the system is flooded with spam ($x \approx 0$), the submission volume $V$ is maximized.
+    In this regime, if the publication capacity $K$ is sufficiently small (tight storage bottleneck), the rationing probability $\bar{\rho} \approx K/V$ becomes infinitesimal.
+    Even if the peer review system completely fails ($\pi_0 \approx 1$), the probability of securing a publication slot is so low that the expected reward $r \cdot \bar{\rho}$ fails to cover the submission cost $c$.
+    Thus, $\Pi_{bad} < 0$, and rational actors switch to the honest strategy ($\dot{x} > 0$).
+
+    \item \textbf{The Temptation Mechanism ($x \to 1$):}
+    When the system is clean ($x \approx 1$), volume is low.
+    Rationing is relaxed ($\bar{\rho} \approx 1$), and screening is functional but imperfect ($\pi_0 = \lambda$).
+    If the parameters satisfy the conditional profitability condition ($\lambda r > c$), cheating becomes profitable.
+    Thus, $\Pi_{bad} > 0$, and actors switch to the opportunistic strategy ($\dot{x} < 0$).
 \end{enumerate}
 
-The analytical form of the internal root is derived as:
-\begin{equation}
-    x^* = \frac{1}{1-\alpha} \left[ 1 + \frac{\epsilon}{C_J N} - \frac{K (D + \lambda B)}{C_J N (\lambda B - C)} \right]
-\end{equation}
+The system is therefore trapped between the "Scylla" of unprofitable congestion and the "Charybdis" of profitable temptation, settling into a stable equilibrium of coexistence where the marginal entrant is indifferent between honesty and spamming.
+\subsubsection{Real-world implication: The "Defense by Congestion" paradox}
 
-\subsection{Numerical Simulation and Parameter Analysis}
+The emergence of a stable internal equilibrium ($x^* \approx 0.49$) offers profound insights into the resilience and vulnerability of academic ecosystems. Unlike the bistable regime where the system collapses completely, this regime represents a state of **permanent mediocrity**—a "tolerable" level of pollution that the system sustains indefinitely.
 
-\subsubsection{Case 1: The Failure of Congestion ($K=500$)}
-In the initial simulation with $N=1000$ and $K=500$, the journal capacity was sufficient to screen all papers even at maximum volume ($N$).
-Mathematically, this resulted in $x^* < 0$. Under these conditions, the effective screening rate $\sigma \approx 1$ rendered cheating globally unprofitable ($U_{Bad} < 0$), collapsing the game to a single stable equilibrium at $x=1$.
+\begin{enumerate}
+    \item \textbf{The "Defense by Congestion" Mechanism:}
+    The self-correction observed at low honesty ($x < x^*$) reveals a paradoxical phenomenon: \textbf{extreme congestion acts as an unintentional defense mechanism}. 
+    In prestigious journals with strict page limits ($K \ll V$), even if peer review fails completely (rubber-stamping), the sheer volume of submissions drives the acceptance rate ($\bar{\rho}$) so low that "spamming" becomes statistically unprofitable. 
+    This explains why top-tier journals do not degenerate into full corruption even when their review processes are strained—the "lottery" is simply too hard to win, forcing authors to self-regulate.
 
-\subsubsection{Case 2: The Emergence of Bistability ($K=100$)}
-By reducing capacity to $K=100$, we induced the congestion effect.
-At $x=0$, high volume overwhelms the journal ($\sigma$ is low), satisfying the profitability condition $\lambda B > C$.
-At $x=1$, volume is low, $\sigma$ is high, and cheating is punished. This trade-off creates the internal root $x^*$.
+    \item \textbf{The Vulnerability of "Open" Systems:}
+    Conversely, the temptation observed at high honesty ($x > x^*$) warns against complacency in well-functioning systems. 
+    When a journal is efficient and uncrowded ($\bar{\rho} \approx 1$), the only barrier to entry is peer review quality. If this quality is merely "good but not perfect" ($\lambda > c/r$), the system is inherently unstable. 
+    This suggests that \textbf{capacity expansion} (increasing $K$)—often seen in the shift to Mega-Journals—can destabilize a healthy ecosystem. By removing the storage bottleneck, the system loses its passive defense against spam, potentially shifting the topology from stable coexistence to a catastrophic collapse (the bistable regime).
+\end{enumerate}
 
-\begin{figure}[hbt!]
-    \centering
-    \includegraphics[width=0.75\textwidth]{polynomial_graph_1.pdf}
-    \caption{Replicator Dynamics $\frac{dx}{dt}$ vs $x$ with $K=100$.
-    The system exhibits bistability. The internal root $x^* \approx 0.786$ acts as an unstable repeller.
-    If the initial proportion of honest authors $x < x^*$, the system collapses to full corruption ($x=0$).
-    If $x > x^*$, it converges to full honesty ($x=1$).}
-    \label{fig:replicator_dynamics}
-\end{figure}
-
-Figure \ref{fig:replicator_dynamics} visualizes this dynamic.
-The existence of $x^*$ in $(0, 1)$ confirms that the "Always Submit" strategy is viable only when the journal is congested.
-
-\subsubsection{Analytical Proof of Equilibrium Instability via Monotonicity}
-\begin{figure}[hbt!]
-    \centering
-    \includegraphics[width=0.8\textwidth]{impossible_scenario.pdf}
-    \caption{Hypothetical representation of a stable internal equilibrium (Counter-Factual).
-    This dynamic profile, where $\dot{x}$ transitions from positive to negative at $x^*$, would require the strictly decreasing volume function $V(x)$ to be increasing.
-    Mathematically, this implies $\alpha > 1$, which violates the physical definition of probability.
-    Thus, a stable mixed strategy is structurally impossible in this model.}
-    \label{fig:impossible_scenario}
-\end{figure}
-To rigorously characterize the stability of the internal equilibrium $x^*$, we analyze the first derivative of the evolutionary velocity field with respect to the population state $x$.
-The sign of the replicator dynamic equation $\dot{x}$ is determined strictly by the payoff differential between the "Only Good" and "Always Submit" strategies.
-Since the payoff for honest authors is strictly positive under the viability constraint, the system's trajectory is governed by the sign of the net disadvantage of the "Always Submit" strategy.
-We define the stability indicator function $\Psi(x)$ as the negative expected utility of submitting a "Bad" paper:
-
-\begin{equation}
-    \Psi(x) = -E[U_{Bad}](x) = \sigma(x)(D + \lambda B) - (\lambda B - C)
-\end{equation}
-
-The stability of any fixed point $x^*$ where $\Psi(x^*) = 0$ depends on the slope $\Psi'(x^*)$.
-A positive slope implies that the dynamics transition from negative to positive as $x$ increases, identifying $x^*$ as an unstable repeller.
-We first observe that the total submission volume $V(x)$ is linearly decreasing in $x$, given the physical constraint $\alpha < 1$:
-
-\begin{equation}
-    \frac{d V(x)}{d x} = \frac{d}{d x} \left[ N(1 - (1-\alpha)x) \right] = -N(1-\alpha) < 0
-\end{equation}
-
-Since the screening probability $\sigma(x)$ is inversely proportional to the volume $V(x)$, and the indicator function $\Psi(x)$ is linear in $\sigma(x)$, we apply the chain rule to determine the monotonicity of the system:
-
-\begin{equation}
-    \frac{d \Psi}{d x} = \underbrace{\frac{\partial \Psi}{\partial \sigma}}_{(D+\lambda B) > 0} \cdot \underbrace{\frac{d \sigma}{d V}}_{-\frac{K}{C_J V^2} < 0} \cdot \underbrace{\frac{d V}{d x}}_{-N(1-\alpha) < 0}
-\end{equation}
-
-The product of two negative terms and one positive term yields a strictly positive result: $\Psi'(x) > 0$ for all $x \in [0, 1]$.
-This strict monotonicity proves that the function $\Psi(x)$ can cross zero at most once, and must do so from below.
-Consequently, the replicator dynamics $\dot{x}$ must change sign from negative to positive at $x^*$.
-This mathematically precludes the existence of a stable internal equilibrium (which would require $\Psi'(x) < 0$) and confirms that the system exhibits global bistability, where $x^*$ acts as a basin boundary separating the regions of convergence to full corruption ($x=0$) and full honesty ($x=1$).
-We performed a parameter sweep to analyze how the tipping point $x^*$ shifts with $N$ and $K$.
-
+In summary, the stable coexistence curve suggests that physical constraints (page budgets), while often criticized for slowing down science, play a hidden structural role in stabilizing the incentive landscape against total corruption.
 \section{Parameter Sensitivity and Bifurcation Analysis}
 
 In this section, we explore how the internal equilibrium $x^*$ shifts in response to variations in the journal capacity $K$, which is the primary determinant of the congestion effect in our model.
