@@ -708,128 +708,162 @@ A bad paper yields reward $r$ only if it passes both bottlenecks. The expected n
 
 \subsection{Bifurcation and stability analysis}
 
-The system exhibits **Bistability** because the two congestion effects work in opposition:
+The system exhibits \textbf{Bistability} because the two congestion effects work in opposition:
 \begin{itemize}
-    \item \textbf{Review Collapse ($\pi_0 \uparrow$):} Increases the incentive to cheat.
-    \item \textbf{Storage Rationing ($\bar{\rho} \downarrow$):} Decreases the incentive to cheat.
+    \item \textbf{Review Collapse ($\pi_0 \uparrow$):} Increases the incentive to cheat (pro-corruption).
+    \item \textbf{Storage Rationing ($\bar{\rho} \downarrow$):} Decreases the incentive to cheat (pro-honesty).
 \end{itemize}
-When the review collapse effect dominates, $\Pi_{bad}(x)$ becomes positive at low $x$, creating a corruption trap.
+When the review collapse effect dominates at low honesty, $\Pi_{bad}(x)$ becomes positive, creating a corruption trap. Conversely, when strict screening dominates at high honesty, $\Pi_{bad}(x)$ becomes negative, creating a basin of honesty.
 
 \begin{figure}[hbt!]
     \centering
     \includegraphics[width=0.9\textwidth]{polynomial_graph_1.pdf}
-    \caption{\textbf{Phase Portrait of the Dual-Bottleneck Dynamics.} 
-    The curve shows the evolutionary velocity $\dot{x}$ using a smoothed simulation model.
+    \caption{\textbf{Phase Portrait of the Dual-Bottleneck Dynamics (Bistability).} 
+    Parameters: $N=1000, K_{rev}=300, K_{store}=400, r=100, c=25, \lambda=0.1$.
+    The curve shows the evolutionary velocity $\dot{x}$.
     The system exhibits three equilibria:
-    (1) \textbf{Trap of Corruption ($x=0$)}: Stable, as review collapse makes spamming profitable.
-    (2) \textbf{Basin of Honesty ($x=1$)}: Stable, as strict screening deters spamming.
-    (3) \textbf{Tipping Point ($x^* \approx 0.803$)}: An unstable internal root.
-    Initial states $x > x^*$ recover to honesty, while $x < x^*$ collapse.}
+    (1) \textbf{Trap of Corruption ($x=0$)}: Stable ($\Pi_{bad}(0) > 0$).
+    (2) \textbf{Basin of Honesty ($x=1$)}: Stable ($\Pi_{bad}(1) < 0$).
+    (3) \textbf{Tipping Point ($x^* \approx 0.82$)}: An unstable internal repeller.
+    The orange marker indicates the critical threshold separating the two basins of attraction.}
     \label{fig:replicator_dynamics}
 \end{figure}
 
 \subsubsection{Analytical Condition for Instability of the Internal Equilibrium}
 
-To rigorously characterize the stability of the internal equilibrium $x^*$, we analyze the derivative of the velocity field.
-Since $\dot{x} \propto -\Pi_{bad}(x)$, the equilibrium $x^*$ is **unstable** (a repeller) if and only if:
+To rigorously characterize the stability of an interior equilibrium $x^* \in (0,1)$, we analyze the local derivative of the velocity field.
+The linearized dynamics around $x^*$ are given by $\dot{x}'(x^*) \propto \Pi_{bad}'(x^*)$. Thus, the equilibrium is unstable (a repeller) if and only if the net utility of cheating is locally decreasing in $x$:
 \begin{equation}
     \frac{d \Pi_{bad}}{d x} \bigg|_{x^*} < 0
 \end{equation}
-Using the chain rule via submission volume $V$:
+Recall that $\Pi_{bad}(x) = r \cdot \bar{\rho}(M(x)) \cdot \pi_0(x) - c$. Using the chain rule, we decompose the total derivative into two competing forces:
 \begin{equation}
-    \frac{d \Pi_{bad}}{d x} = \frac{d \Pi_{bad}}{d V} \cdot \frac{d V}{d x}
+    \frac{d \Pi_{bad}}{d x} = r \left( \underbrace{\bar{\rho}(M) \frac{d \pi_0}{d x}}_{\text{Review Effect}} + \underbrace{\pi_0(x) \frac{d \bar{\rho}}{d M} \frac{d M}{d x}}_{\text{Rationing Effect}} \right)
 \end{equation}
-We know $\frac{d V}{d x} = -N(1-\alpha) < 0$. Thus, instability requires $\frac{d \Pi_{bad}}{d V} > 0$.
-Expanding $\Pi_{bad}(V) = r \bar{\rho}(V) \pi_0(V) - c$:
-\begin{equation}
-    \frac{d \Pi_{bad}}{d V} = r \left( \bar{\rho}(V) \frac{d \pi_0}{d V} + \pi_0(V) \frac{d \bar{\rho}}{d V} \right)
-\end{equation}
-Here, $\frac{d \pi_0}{d V} > 0$ (Review Collapse helps cheating) and $\frac{d \bar{\rho}}{d V} < 0$ (Rationing hurts cheating).
-Therefore, the tipping point is unstable if and only if the **Review-Dominated Condition** holds:
+Note that $\frac{d \pi_0}{d x} < 0$ (since higher honesty reduces volume $V$, improving review quality $\eta$, thus lowering $\pi_0$).
+Conversely, the rationing term is typically positive (higher honesty reduces false positives in $M$, relaxing rationing, thus increasing $\bar{\rho}$).
+Therefore, the tipping point is unstable if and only if the Review-Dominated Condition holds locally:
 \begin{equation}
     \label{eq:instability_condition}
-    \underbrace{\bar{\rho}(V) \frac{d \pi_0}{d V}}_{\text{Gain from lax review}} > \underbrace{\left| \pi_0(V) \frac{d \bar{\rho}}{d V} \right|}_{\text{Loss from rationing}}
+    \underbrace{\left| \bar{\rho}(M) \frac{d \pi_0}{d x} \right|}_{\text{Loss from stricter review}} > \underbrace{\pi_0(x) \frac{d \bar{\rho}}{d M} \frac{d M}{d x}}_{\text{Gain from relaxed rationing}}
 \end{equation}
-This mathematically confirms that bistability arises when the degradation of peer review quality outpaces the tightening of publication slots. 
-If this condition holds, $\Pi_{bad}(x)$ is monotonically decreasing in $x$, forcing the dynamics to bifurcate.
+This condition confirms that bistability arises when the recovery of peer review quality (as $x$ increases) outweighs the relaxation of publication slots.
 
 \subsection{The regime of stable coexistence: Rationing-dominated dynamics}
 
-While the default scenario exhibits bistability (a "tipping point" dynamic), a fundamentally different topological regime emerges when the storage constraint ($K$) is significantly tighter than the review constraint ($K_{rev}$).
-Figure \ref{fig:stable_coexistence} illustrates this scenario, where the evolutionary velocity $\dot{x}$ transitions from positive to negative, creating a **Stable Internal Equilibrium** ($x^* \approx 0.49$).
+While the default scenario exhibits bistability, a fundamentally different topological regime emerges when the storage constraint ($K_{store}$) is significantly tighter than the review constraint ($K_{rev}$).
+Figure \ref{fig:stable_coexistence} illustrates this scenario, where the evolutionary velocity $\dot{x}$ transitions from positive to negative, creating a Stable Internal Equilibrium ($x^* \approx 0.44$).
 
 \begin{figure}[hbt!]
     \centering
     \includegraphics[width=0.9\textwidth]{polynomial_graph_2.pdf}
     \caption{\textbf{Phase Portrait of Stable Coexistence (Rationing-Dominated).} 
-    The system exhibits a stable attractor at $x^* \approx 0.49$.
-    \textbf{Left Zone (Self-Correction):} At low honesty ($x < x^*$), the massive volume of spam triggers severe storage rationing ($\bar{\rho} \to 0$), reducing the expected payoff of cheating below zero. This forces the population to become more honest.
-    \textbf{Right Zone (Temptation):} At high honesty ($x > x^*$), the low volume relaxes rationing ($\bar{\rho} \to 1$), making speculative cheating profitable again due to the base false-positive rate $\lambda$.
-    The system settles into a permanent mix of honest and opportunistic authors.}
+    Parameters: $N=1000, K_{rev}=1000, K_{store}=150, r=150, c=30, \lambda=0.4$.
+    The system exhibits a stable attractor at $x^* \approx 0.44$.
+    \textbf{Left Zone (Self-Correction):} At low honesty ($x < x^*$), severe storage rationing reduces the payoff below zero ($\Pi_{bad} < 0$), forcing the population to become more honest.
+    \textbf{Right Zone (Temptation):} At high honesty ($x > x^*$), the relaxed rationing makes cheating profitable again ($\Pi_{bad} > 0$), forcing the population towards corruption.
+    The system settles into a permanent mix of honest and opportunistic authors (Blue Point).}
     \label{fig:stable_coexistence}
 \end{figure}
 
-\subsubsection{Mathematical derivation of the stability condition}
+\subsubsection{Existence and Stability Conditions}
 
-For an internal equilibrium $x^*$ to be \textbf{stable} (an attractor), the dynamics must be restorative: positive when $x < x^*$ and negative when $x > x^*$.
-Mathematically, this requires the slope of the velocity field to be negative at the equilibrium:
-\begin{equation}
-    \frac{d \dot{x}}{d x} \bigg|_{x^*} < 0
-\end{equation}
-Since $\dot{x} \propto -\Pi_{bad}(x)$, this implies that the net utility of cheating $\Pi_{bad}(x)$ must be an **increasing function** of honesty $x$ (or equivalently, a decreasing function of submission volume $V$).
-Using the chain rule, we derive the necessary condition:
-\begin{equation}
-    \frac{d \Pi_{bad}}{d x} = \underbrace{\frac{d \Pi_{bad}}{d V}}_{\text{Net Congestion Effect}} \cdot \underbrace{\frac{d V}{d x}}_{< 0} > 0
-\end{equation}
-Since $\frac{d V}{d x}$ is strictly negative, the condition for stability requires $\frac{d \Pi_{bad}}{d V} < 0$.
-Expanding the utility gradient with respect to volume:
-\begin{equation}
-    \frac{d \Pi_{bad}}{d V} = r \left( \underbrace{\frac{d \bar{\rho}}{d V} \pi_0}_{\text{Marginal Rationing Loss}} + \underbrace{\bar{\rho} \frac{d \pi_0}{d V}}_{\text{Marginal Screening Gain}} \right) < 0
-\end{equation}
-Rearranging terms, we obtain the **Rationing-Dominated Condition**:
-\begin{equation}
-    \label{eq:stable_condition}
-    \underbrace{\left| \pi_0(V) \frac{d \bar{\rho}}{d V} \right|}_{\text{Penalty from Crowding}} > \underbrace{\bar{\rho}(V) \frac{d \pi_0}{d V}}_{\text{Benefit from Chaos}}
-\end{equation}
-
-\subsubsection{Physical interpretation}
-This inequality describes a system where the "punishment" from overcrowding (the drop in $\bar{\rho}$) outweighs the "opportunity" from collapsed screening (the rise in $\pi_0$).
-
+For a stable coexistence equilibrium to exist, two conditions must be met:
 \begin{enumerate}
-    \item \textbf{The Self-Correction Mechanism ($x \to 0$):}
-    When the system is flooded with spam ($x \approx 0$), the submission volume $V$ is maximized.
-    In this regime, if the publication capacity $K$ is sufficiently small (tight storage bottleneck), the rationing probability $\bar{\rho} \approx K/V$ becomes infinitesimal.
-    Even if the peer review system completely fails ($\pi_0 \approx 1$), the probability of securing a publication slot is so low that the expected reward $r \cdot \bar{\rho}$ fails to cover the submission cost $c$.
-    Thus, $\Pi_{bad} < 0$, and rational actors switch to the honest strategy ($\dot{x} > 0$).
-
-    \item \textbf{The Temptation Mechanism ($x \to 1$):}
-    When the system is clean ($x \approx 1$), volume is low.
-    Rationing is relaxed ($\bar{\rho} \approx 1$), and screening is functional but imperfect ($\pi_0 = \lambda$).
-    If the parameters satisfy the conditional profitability condition ($\lambda r > c$), cheating becomes profitable.
-    Thus, $\Pi_{bad} > 0$, and actors switch to the opportunistic strategy ($\dot{x} < 0$).
+    \item \textbf{Boundary Conditions:} The system must be repelled from both extremes. This requires $\Pi_{bad}(1) > 0$ (Temptation at Honesty) and $\Pi_{bad}(0) < 0$ (Unprofitability at Corruption). By the Intermediate Value Theorem, there must exist at least one root $x^* \in (0,1)$ where $\Pi_{bad}(x^*) = 0$.
+    \item \textbf{Stability Condition:} The slope of the velocity field must be negative, i.e., $\frac{d \Pi_{bad}}{d x} \big|_{x^*} > 0$. This corresponds to the Rationing-Dominated Condition*, where the "punishment" from overcrowding (tightening $\bar{\rho}$) outweighs the "opportunity" from collapsed screening.
 \end{enumerate}
 
-The system is therefore trapped between the "Scylla" of unprofitable congestion and the "Charybdis" of profitable temptation, settling into a stable equilibrium of coexistence where the marginal entrant is indifferent between honesty and spamming.
 \subsubsection{Real-world implication: The "Defense by Congestion" paradox}
 
-The emergence of a stable internal equilibrium ($x^* \approx 0.49$) offers profound insights into the resilience and vulnerability of academic ecosystems. Unlike the bistable regime where the system collapses completely, this regime represents a state of **permanent mediocrity**—a "tolerable" level of pollution that the system sustains indefinitely.
+The emergence of a stable internal equilibrium reveals a paradoxical phenomenon: \textbf{extreme congestion acts as an unintentional defense mechanism}. 
+In journals with strict page limits ($K_{store} \ll N$), even if peer review fails ($\pi_0 \to 1$), the sheer volume of submissions drives the acceptance rate $\bar{\rho}$ so low that spamming becomes statistically unprofitable. 
+This explains why top-tier journals do not degenerate into full corruption even under heavy load—the "lottery" is simply too hard to win.
+However, it also implies vulnerability: if capacity is expanded (increasing $K_{store}$), the system loses this passive defense, potentially shifting the topology to bistability or collapse.
 
-\begin{enumerate}
-    \item \textbf{The "Defense by Congestion" Mechanism:}
-    The self-correction observed at low honesty ($x < x^*$) reveals a paradoxical phenomenon: \textbf{extreme congestion acts as an unintentional defense mechanism}. 
-    In prestigious journals with strict page limits ($K \ll V$), even if peer review fails completely (rubber-stamping), the sheer volume of submissions drives the acceptance rate ($\bar{\rho}$) so low that "spamming" becomes statistically unprofitable. 
-    This explains why top-tier journals do not degenerate into full corruption even when their review processes are strained—the "lottery" is simply too hard to win, forcing authors to self-regulate.
+\subsection{Boundary Regimes: Global Honesty and Global Corruption}
 
-    \item \textbf{The Vulnerability of "Open" Systems:}
-    Conversely, the temptation observed at high honesty ($x > x^*$) warns against complacency in well-functioning systems. 
-    When a journal is efficient and uncrowded ($\bar{\rho} \approx 1$), the only barrier to entry is peer review quality. If this quality is merely "good but not perfect" ($\lambda > c/r$), the system is inherently unstable. 
-    This suggests that \textbf{capacity expansion} (increasing $K$)—often seen in the shift to Mega-Journals—can destabilize a healthy ecosystem. By removing the storage bottleneck, the system loses its passive defense against spam, potentially shifting the topology from stable coexistence to a catastrophic collapse (the bistable regime).
-\end{enumerate}
+Beyond the complex interior dynamics, the system may exhibit monotonic behaviors where the incentive to cheat is uniformly positive or negative.
 
-In summary, the stable coexistence curve suggests that physical constraints (page budgets), while often criticized for slowing down science, play a hidden structural role in stabilizing the incentive landscape against total corruption.
+\subsubsection{Global Honesty ($x^* = 1$): Defense by Rigor}
 
+When $\Pi_{bad}(x) < 0$ for all $x \in [0,1]$, the evolutionary velocity $\dot{x}$ remains positive throughout the domain, driving the system unconditionally toward $x^* = 1$ (Figure \ref{fig:global_honesty}).
+A sufficient condition for this regime is that the payoff is negative even at the most favorable boundary ($x=1$):
+\begin{equation}
+    \Pi_{bad}(1) = r \cdot \lambda - c < 0
+\end{equation}
+This implies that suppressing the false-positive rate $\lambda$ below the cost-reward ratio $c/r$ is the primary safeguard for global honesty.
+
+\begin{figure}[hbt!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{polynomial_graph_3.pdf}
+    \caption{\textbf{Phase Portrait of Global Honesty.} 
+    Parameters: $N=1000, K_{rev}=800, K_{store}=400, r=100, c=35, \lambda=0.1$.
+    The velocity is strictly positive (Green Zone), ensuring convergence to $x=1$ from any initial state.}
+    \label{fig:global_honesty}
+\end{figure}
+
+\subsubsection{Global Corruption ($x^* = 0$): Systemic Failure}
+
+Conversely, when $\Pi_{bad}(x) > 0$ for all $x \in [0,1]$, the system collapses unconditionally to $x^* = 0$ (Figure \ref{fig:global_corruption}).
+This occurs when the payoff remains positive even under maximum congestion ($x=0$):
+\begin{equation}
+    \Pi_{bad}(0) = r \cdot \bar{\rho}(V_{max}) \cdot \pi_0(V_{max}) - c > 0
+\end{equation}
+This regime represents a total failure of governance, often seen in predatory journals where the profit motive drives acceptance regardless of quality.
+
+\begin{figure}[hbt!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{polynomial_graph_4.pdf}
+    \caption{\textbf{Phase Portrait of Global Corruption.} 
+    Parameters: $N=1000, K_{rev}=200, K_{store}=1500, r=150, c=5, \lambda=0.3$.
+    The velocity is strictly negative (Red Zone), ensuring collapse to $x=0$.}
+    \label{fig:global_corruption}
+\end{figure}
+
+\subsection{Summary: A Topological Classification of Regimes}
+
+The dynamical behavior is ultimately determined by the interplay between the boundary payoffs. Table \ref{tab:regime_classification} summarizes the four topological regimes.
+
+\begin{table}[hbt!]
+\centering
+\caption{\textbf{Topological Classification of Dynamical Regimes based on Boundary Payoffs}}
+\label{tab:regime_classification}
+\renewcommand{\arraystretch}{1.5}
+\small
+\begin{tabular}{|c|c|c|p{7.8cm}|}
+\hline
+\textbf{Regime} & \(\mathbf{\Pi_{bad}(1)}\) & \(\mathbf{\Pi_{bad}(0)}\) & \textbf{Dynamical Topology \& Implication} \\
+& \textit{(Low-spam Limit)} & \textit{(Max-load Limit)} & \\
+\hline
+\textbf{GH} & \(<0\) & \(<0\) &
+\textbf{Honesty-dominant.} \newline
+\(x=1\) is locally stable; \(x=0\) is unstable. \newline
+Trajectories converge to \(x=1\) globally, \textit{provided \(\Pi_{bad}(x)\) has no interior root}. \\
+\hline
+\textbf{GC} & \(>0\) & \(>0\) &
+\textbf{Corruption-dominant.} \newline
+\(x=0\) is locally stable; \(x=1\) is unstable. \newline
+Trajectories collapse to \(x=0\) globally, \textit{provided \(\Pi_{bad}(x)\) has no interior root}. \\
+\hline
+\textbf{BS} & \(<0\) & \(>0\) &
+\textbf{Bistability.} \newline
+Both boundaries are locally stable attractors. \newline
+By continuity, \textbf{at least one} unstable interior equilibrium \(x^*\) exists to separate the basins. \\
+\hline
+\textbf{SC} & \(>0\) & \(<0\) &
+\textbf{Stable Coexistence.} \newline
+Both boundaries are unstable repellers. \newline
+By continuity, \textbf{at least one} stable interior equilibrium \(x^*\) exists (trapped by congestion). Uniqueness depends on monotonicity. \\
+\hline
+\multicolumn{4}{p{13cm}}{\footnotesize \textit{Note:} The \textbf{Low-spam Limit} (\(x=1\)) is driven primarily by review rigor (\(\lambda\)) via \(\Pi_{bad}(1) \approx r\lambda - c\). The \textbf{Max-load Limit} (\(x=0\)) is driven by the collapse of acceptance rate (\(\bar{\rho}\)) under maximum volume, regardless of review failure.} \\
+\hline
+\end{tabular}
+\end{table}
+
+This classification reveals a dual-control mechanism: \textbf{Review Quality ($\lambda$)} secures the honest boundary ($x=1$), while \textbf{Storage Capacity ($K_{store}$)} secures the corrupt boundary ($x=0$).
 \section{Parameter Sensitivity and Regime Transitions}
-\label{sec:sensitivity}
+
 
 \subsection{Methodology and Baseline Calibration}
 
@@ -952,22 +986,28 @@ This implies that larger journals are inherently harder to police than smaller o
 \subsection{Population Pressure and Hysteresis: The Cost of Lost Trust}
 
 While capacity parameters define the structural limits of the journal, the Total Population ($N$) represents the external load. 
-Standard economic theory might suggest that system performance degrades smoothly as load increases. 
+A naive intuition assuming monotonic degradation might suggest that quality declines smoothly as load increases.
 However, our analysis reveals a critical \textbf{Hysteresis} phenomenon in the Bistable regime, indicating that the system's response to population pressure is highly path-dependent.
 
 To rigorously capture this effect, we employ a numerical \textbf{Adiabatic Continuation} method. 
-We track the \textit{selected stable equilibrium}, denoted as $x_{st}(N)$, rather than the unstable tipping point.
-For the \textbf{Forward Path} (crowding phase), we increment $N$ and use the previous stable state $x_{st}(N_{i-1})$ as the initial condition for solving the system at $N_i$. 
-For the \textbf{Backward Path} (recovery phase), we decrement $N$ similarly.
-Figure \ref{fig:hysteresis} illustrates the resulting trajectories for system state and quality.
+We define the system state $x_{st}(N)$ as the stable equilibrium selected by continuity from the previous state:
+\begin{equation}
+    x_{st}(N_i) = \arg\min_{x \in \mathcal{E}_{st}(N_i)} |x - x_{st}(N_{i-1})|
+\end{equation}
+where $\mathcal{E}_{st}(N_i)$ is the set of stable fixed points at $N_i$.
+\begin{itemize}
+    \item \textbf{Forward Path (Crowding):} Increments $N$, initializing from $x_{st}(N_{min}) \approx 1$.
+    \item \textbf{Backward Path (Recovery):} Decrements $N$, initializing from $x_{st}(N_{max}) \approx 0$.
+\end{itemize}
+Figure \ref{fig:hysteresis} illustrates the resulting trajectories using Baseline Set A.
 
 \begin{figure}[hbt!]
     \centering
     \includegraphics[width=1.0\textwidth]{hysteresis_combined.pdf}
-    \caption{\textbf{Hysteresis Loop and Quality Collapse.} 
+    \caption{\textbf{Hysteresis Loop and Quality Collapse (Baseline Set A).} 
     The shaded region represents the bistable interval $[N_{\downarrow}, N_{\uparrow}]$.
     \textbf{Left Panel (State):} On the Forward Path (Blue), the "Honest Norm" is resilient ($x_{st} \approx 1$) until the collapse threshold $N_{\uparrow} \approx 1800$. Once corrupted (Red Dashed), the system is trapped in the low-honesty attractor ($x_{st} \approx 0$). Recovery requires reducing $N$ below the distinct recovery threshold $N_{\downarrow} \approx 350$.
-    \textbf{Right Panel (Quality):} The collapse leads to a discrete jump in quality from $Q=1.0$ to the baseline productivity $Q \approx \alpha \approx 0.2$. This degradation persists even if $N$ is reduced moderately, illustrating the "Quality Trap."}
+    \textbf{Right Panel (Quality):} The collapse leads to a discrete jump in quality. In the corrupt state (Red Dashed), quality is dominated by the baseline productivity ($\alpha=0.2$) but fluctuates slightly as review intensity $\eta(N)$ varies. Recovery only occurs when the system crosses $N_{\downarrow}$.}
     \label{fig:hysteresis}
 \end{figure}
 
@@ -976,158 +1016,80 @@ The analysis yields three critical insights:
 \subsubsection{Structural Resilience (Forward Path)}
 A journal with a strong reputation demonstrates remarkable resilience. 
 As seen in the Blue trajectory, the system maintains $x_{st} \approx 1$ and perfect quality ($Q=1.0$) even when $N$ far exceeds the nominal capacity. 
-This persists as long as the net utility of cheating at the honest boundary remains negative: $\Pi_{bad}(1; N) < 0$.
-The \textbf{Collapse Point} $N_{\uparrow} \approx 1800$ is mathematically defined as the threshold where the honest equilibrium loses stability ($\Pi_{bad}(1) = 0$), forcing the system to jump to the only remaining attractor (corruption).
+This persists because honest authors self-regulate, keeping the effective load $V(1) = N\alpha$ manageable.
+The \textbf{Collapse Point} $N_{\uparrow} \approx 1800$ is mathematically defined as the threshold where the honest equilibrium loses stability: $N_{\uparrow} = \inf \{N : \Pi_{bad}(1; N) \ge 0\}$.
 
 \subsubsection{The Stickiness of Corruption (Backward Path)}
 Once the system settles into the corrupt equilibrium, the sheer volume of spam saturates the review capacity.
 Even if $N$ is reduced, the system remains trapped in the low-quality state as long as $\Pi_{bad}(0; N) > 0$.
-The \textbf{Recovery Point} $N_{\downarrow} \approx 350$ corresponds to the threshold where the corrupt equilibrium finally becomes unstable ($\Pi_{bad}(0) = 0$).
-Crucially, since slot rationing applies uniformly to the pool of passed papers, it does not alter the ratio of good-to-bad papers.\footnote{We assume rationing is a random thinning process. Thus, $Q$ mirrors the composition of the pool $M(x)$ emerging from the review stage. In the corrupt state, $M(x)$ is dominated by false positives, pinning $Q$ near the baseline $\alpha$.}
-Consequently, quality remains stagnant at the baseline level ($\approx 0.2$) throughout the backward path until the critical transition occurs.
+The \textbf{Recovery Point} $N_{\downarrow} \approx 350$ corresponds to the threshold where the corrupt equilibrium finally becomes unstable.
+Crucially, we define the Average Publication Quality $Q(x)$ as the proportion of good papers in the passed pool $M(x)$:
+\begin{equation}
+    Q(x) = \frac{N\alpha \pi_1(x)}{N\alpha \pi_1(x) + N(1-\alpha)(1-x)\pi_0(x)}
+\end{equation}
+Since slot rationing ($\bar{\rho}$) applies uniformly to $M(x)$, it does not alter the ratio of good-to-bad papers. Consequently, quality remains low throughout the backward path until the critical transition occurs.
 
 \subsubsection{Policy Implication: Basin Hopping}
-The disparity between $N_{\uparrow}$ and $N_{\downarrow}$ validates the theoretical basis for "Shock Therapy."
-For a corrupted journal operating at, for example, $N=1000$, incremental policies that reduce submissions by 10\% or 20\% are insufficient to escape the basin of attraction of the corrupt equilibrium.
-To restore integrity, interventions must be drastic enough to push the system across the recovery threshold ($N < 350$). 
-This suggests that while "soft" measures (e.g., minor fee increases) work for maintenance, "hard" measures (e.g., temporary submission moratoriums) are structural necessities for recovery.
-\section{Joint Impact of Population and Capacity on Publication Quality}
+The disparity between $N_{\uparrow}$ and $N_{\downarrow}$ implies that incremental reforms are structurally insufficient for a corrupted journal.
+Within the bistable interval, marginal reductions in submissions do not change the long-run attractor.
+Escaping the low-quality basin requires interventions strong enough to move the system across the recovery threshold ($N < N_{\downarrow}$). 
+This suggests that while "soft" measures work for maintenance, "hard" measures (e.g., temporary submission moratoriums) are structural necessities for recovery.
 
-In this section, we extend our analysis from the internal stability equilibrium ($x^*$) to the macroscopic observable of the academic ecosystem: the \textit{Average Quality of Published Papers} ($Q$).
-By varying the total author population ($N$) and journal capacity ($K$) simultaneously, we construct a phase diagram that reveals the structural limits of the peer-review system.
-To map this quality landscape, we first determine the final evolutionary state of the population, denoted as $x_{final}$, based on the previously derived tipping point analysis.
-The system's behavior can be categorized into three distinct regimes based on the stability of the equilibrium.
-In the Global Honesty Regime ($x^* < 0$), the system possesses a single stable attractor at $x=1$, implying that the final state is one of full honesty ($x_{final} = 1$).
-Conversely, in the Global Corruption Regime ($x^* > 1$), the single stable attractor lies at $x=0$, leading to a final state of full corruption ($x_{final} = 0$).
-The intermediate Bistability Regime ($0 \le x^* \le 1$) presents a more complex scenario with two stable attractors.
-To evaluate the structural risk posed by congestion in this region, we adopt a "Worst-Case Scenario" approach, assuming that stochastic perturbations or insufficient initial trust will inevitably drive the system toward the corrupt attractor.
-Consequently, for the purpose of risk mapping, we assign $x_{final} = 0$ throughout the bistable region.
-Based on the determined final state $x_{final}$, we calculate the Average Quality ($Q$) of the accepted papers, defined as the ratio of valid scientific contributions to the total volume of accepted literature:
-\begin{equation}
-    Q(x_{final}) = \frac{V_{good}^{acc}}{V_{good}^{acc} + V_{bad}^{acc}}
-\end{equation}
-The volume of accepted papers depends critically on the submission behavior and the screening intensity $\sigma$.
-We assume that honest authors produce good papers at a rate $\alpha$.
-Since the review process targets logical fallacies and misconduct rather than legitimate research, good papers are assumed to pass screening with probability 1, yielding a volume of $V_{good}^{acc} = N \alpha$.
-In contrast, opportunistic authors submit bad papers at a rate $(1-\alpha)$.
-These papers are accepted only if they successfully evade the screening process.
-The probability of evasion is given by $(1 - \sigma)$, where $\sigma = \min\left(1, \frac{K}{C_J V_{total} + \epsilon}\right)$ is the realized screening probability constrained by capacity $K$ and the total submission volume.
-Thus, the volume of accepted bad papers is expressed as $V_{bad}^{acc} = N (1-\alpha) (1 - x_{final}) (1 - \sigma)$.
-We present the comparative analysis of the stability landscape and the resulting quality landscape in Figure \ref{fig:joint_NK_analysis}.
-Figure \ref{fig:joint_NK_analysis}(a) displays the internal equilibrium $x^*$, identifying the boundaries of stability, while Figure \ref{fig:joint_NK_analysis}(b) visualizes the resulting average publication quality.
-A striking feature of the quality landscape is the sharp, non-smooth discontinuity where the average publication quality plunges abruptly from a perfect score of $1.0$ to a low plateau of approximately $0.4$.
-This "cliff-like" behavior represents a Phase Transition of the academic ecosystem, occurring when a macroscopic property of the system changes discontinuously as a control parameter crosses a critical threshold.
+
+\subsection{Strategic Levers and Regime Transitions}
+
+While capacity parameters define the structural limits, strategic parameters ($r, c, \lambda, \epsilon, \alpha$) determine the incentives. 
+To provide a comprehensive policy guide, we perform a comparative sensitivity analysis across all five dimensions. 
+Figure \ref{fig:strategic_regimes} visualizes the impact of these levers using \textbf{Regime Strips}, where the background color indicates the topological state, and the black line tracks the Average Quality ($Q$) along the \textbf{Forward Continuation Path} (starting from $x=1$).
 
 \begin{figure}[hbt!]
     \centering
-    \begin{subfigure}[b]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{impact_N_K.pdf}
-        \caption{Stability Landscape ($x^*$)}
-        \label{fig:nk_stability}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{average_quality.pdf}
-        \caption{Quality Landscape ($Q$)}
-        \label{fig:nk_quality}
-    \end{subfigure}
-    \caption{Joint analysis of system stability and publication quality under varying Population ($N$) and Capacity ($K$).
-    (a) The stability landscape shows the transition from Global Honesty (Green/Blue) to Global Corruption (Red) via a Bistable region.
-    (b) The quality landscape reveals a sharp \textbf{Phase Transition}. The quality remains at a perfect $1.0$ (Green) until the critical threshold is crossed, causing an instantaneous drop to a low plateau of $\approx 0.4$ (Red), signifying the catastrophic collapse of the peer-review filter due to congestion.}
-    \label{fig:joint_NK_analysis}
+    \includegraphics[width=1.0\textwidth]{strategic_regimes_scan.pdf}
+    \caption{\textbf{Regime Transitions under Strategic Levers.} 
+    Each panel displays the topological regime (background color) and the resulting Average Quality (black line, Forward Path) as a function of a key parameter.
+    \textbf{Green:} Global Honesty ($Q=1.0$); 
+    \textbf{Yellow:} Bistability (High Risk); 
+    \textbf{Blue:} Stable Coexistence (Mediocre $Q$); 
+    \textbf{Red:} Global Corruption ($Q \approx \alpha$); 
+    \textbf{Gray:} System Collapse (Non-viable, $\Pi_{good}(1) < 0$).
+    Note that in the Yellow zone, the black line represents the optimistic outcome (Honest Equilibrium); a parallel pessimistic outcome (Corrupt Equilibrium) exists but is not shown.
+    \textbf{(a) $\lambda$:} Acts as a destabilizer, pushing the system from Green into the risky Yellow zone and finally to Red.
+    \textbf{(b) $\epsilon$:} Has negligible impact on the regime boundaries under baseline calibration.
+    \textbf{(c) $r$:} High rewards expand the corrupt zones.
+    \textbf{(d) $c$:} Submission fees effectively shift the system from Red back to Green.
+    \textbf{(e) $\alpha$:} Higher productivity increases congestion, paradoxically narrowing the stability window.}
+    \label{fig:strategic_regimes}
 \end{figure}
 
-The mechanism driving this phase transition can be understood by examining the system's response to congestion.
-In the "Safe Zone," where capacity $K$ is sufficient relative to population $N$, the system's attractor is $x_{final}=1$.
-The submission pool consists exclusively of good papers, maintaining a perfect quality score of $Q=1.0$.
-However, the moment the population $N$ exceeds the critical carrying capacity defined by the contour $x^*=0$, the system undergoes a catastrophic collapse, flipping to the corrupt attractor $x_{final}=0$.
-This microscopic jump in strategy triggers a macroscopic explosion in submission volume from $N\alpha$ to $N$.
-In this corrupt state, the massive volume overwhelms the journal capacity, significantly diluting the screening probability $\sigma$.
-Consequently, the quality does not decay gradually to zero but settles at a "Diluted Limit" determined by the ratio of signal to noise.
-For instance, with $\alpha=0.2$ and a saturated screening capability of $\sigma \approx 0.6$, the quality stabilizes at $Q_{corrupt} \approx \frac{\alpha}{\alpha + (1-\alpha)(1-\sigma)} \approx 0.38$.
-This analysis highlights a profound structural fragility: the system provides no early warning signs of impending failure.
-A journal can appear to be in perfect health with high-quality output while sitting immediately adjacent to the tipping point, where a minor increase in submissions or a slight reduction in budget can trigger an instantaneous and irreversible collapse in reputation.
+\subsubsection{Screening Parameters: The "Kill Switch" vs. The "Silent Factor"}
+Panel (a) reveals that the \textbf{False Positive Rate ($\lambda$)} is the most critical parameter. 
+As $\lambda$ increases, the system shifts from \textbf{Green} to \textbf{Yellow}. In this yellow zone, while the black line shows high quality, the system loses resilience—a minor perturbation can trigger a catastrophic tip into the unshown corrupt equilibrium.
+In stark contrast, Panel (b) shows that Friction ($\epsilon$) is a "Silent Factor." Within the explored range, the regime boundaries remain largely unchanged.
+This implies that policies focused on "efficiency" (reducing administrative friction) yield negligible structural improvements in integrity.
 
-\appendix
-\section{Supplementary Integrated Analysis}
-\label{sec:appendix_integrated}
+\subsubsection{Economic Levers: The Filter and The Accelerant}
+Panel (c) and (d) demonstrate the opposing forces of reward and cost.
+\begin{itemize}
+    \item \textbf{Reward ($r$) as Accelerant:} Increasing $r$ expands the \textbf{Red} and \textbf{Yellow} zones. When publication rewards are excessive, the "lottery" of rubber-stamping becomes profitable even at low probabilities.
+    \item \textbf{Cost ($c$) as Filter:} Panel (d) clearly shows the transition from \textbf{Red (Corruption)} at low costs to \textbf{Green (Honesty)} at moderate costs. However, pushing costs too high forces the system into the \textbf{Gray Zone}, where even honest authors cannot sustain participation ($\Pi_{good} < 0$).
+\end{itemize}
 
-In this appendix, we present unified visualizations that integrate the individual parameter sensitivity analyses discussed in the main text.
-By plotting related variables on dual axes or within normalized ranges, we illustrate the comparative magnitude and directional impact of competing forces within the academic ecosystem.
+\subsubsection{The Productivity Paradox ($\alpha$)}
+Panel (e) highlights a counter-intuitive risk regarding Author Productivity ($\alpha$). 
+As $\alpha$ increases, the black line (quality) rises mechanically due to the higher proportion of good papers in the input.
+However, the background colors shift towards unstable regimes (Yellow/Red).
+This is the \textbf{Productivity Paradox}: as legitimate authors produce more papers, the total volume rises, consuming review capacity. 
+If $K_{rev}$ is fixed, this "good congestion" dilutes the screening intensity for everyone, paradoxically making the system more vulnerable to invasion by spammers.
 
-\subsection{Supply vs. Demand: Population and Capacity}
 
-Figure \ref{fig:app_nk} contrasts the opposing effects of the demand-side pressure (Total Population $N$) and the supply-side constraint (Journal Capacity $K$).
-The dual x-axis format highlights a critical dynamic: increasing the population drives the system linearly toward corruption (Blue line), whereas increasing capacity provides a stabilizing force that restores honesty (Red dashed line).
-The intersection of these trends defines the sustainability limit of the journal.
-
-\begin{figure}[hbt!]
-    \centering
-    \includegraphics[width=0.95\textwidth]{N_K_x.pdf}
-    \caption{Comparative impact of Total Population ($N$, Bottom Axis) and Journal Capacity ($K$, Top Axis) on the internal equilibrium $x^*$.
-    The opposing slopes illustrate how population growth acts as a destabilizing force ($x^*$ increases), while capacity expansion acts as a stabilizing force ($x^*$ decreases).}
-    \label{fig:app_nk}
-\end{figure}
-
-\subsection{Normalized Parameter Sensitivity: Productivity, Friction, and Risk}
-
-Figure \ref{fig:app_combined_params} integrates the sensitivity analysis for three parameters defined on the unit interval $[0,1]$: Author Productivity ($\alpha$), Screening Friction ($\epsilon$), and False Positive Rate ($\lambda$).
-This visualization isolates the distinct functional forms of instability: $\epsilon$ introduces linear degradation, $\alpha$ exhibits hyperbolic growth characteristic of the "Productivity Paradox," and $\lambda$ demonstrates a non-linear phase transition from unconditional honesty to rapid corruption.
-
-\begin{figure}[hbt!]
-    \centering
-    \includegraphics[width=0.95\textwidth]{alpha_epsilon_lambda_x.pdf}
-    \caption{Unified sensitivity analysis for normalized parameters.
-    The plot compares the linear impact of friction ($\epsilon$, Brown), the hyperbolic impact of author productivity ($\alpha$, Purple), and the threshold-based phase transition triggered by the false positive rate ($\lambda$, Teal).}
-    \label{fig:app_combined_params}
-\end{figure}
-
-\subsection{Economic Forces: Incentive vs. Deterrent}
-
-Figure \ref{fig:app_bd} visualizes the fundamental tug-of-war between the economic drivers of the system.
-The Benefit of Acceptance ($B$) serves as the primary incentive for opportunistic behavior, pulling the equilibrium $x^*$ upward into the corruption zone.
-Conversely, the Penalty for Rejection ($D$) acts as the deterrent, suppressing $x^*$ back toward the honesty zone.
-The graph demonstrates that maintaining stability requires the penalty $D$ to scale proportionally with the benefit $B$.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.95\textwidth]{B_D_x.pdf}
-    \caption{Comparative analysis of Economic Forces using a dual x-axis.
-    The Purple line (Bottom Axis) shows how increasing the Benefit ($B$) destabilizes the system, while the Cyan dashed line (Top Axis) illustrates the stabilizing effect of increasing the Penalty ($D$).}
-    \label{fig:app_bd}
-\end{figure}
-
-\appendix
-\section{Model Parameters}
-
-The following table summarizes the key parameters used in the evolutionary game model, consistent with the empirical calibration and theoretical definitions discussed in the main text.
-
-% Move this table environment outside of any restrictive environments like align, equation, or tabular
-\begin{table}[h]
-\centering
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{cll}
-\hline
-\textbf{Symbol} & \textbf{Description} & \textbf{Role in Model} \\ \hline
-$N$ & Total number of authors & Determines congestion intensity \\
-$K$ & Journal capacity & Sets the physical limit on publications \\
-$\alpha$ & Good paper probability & Intrinsic productivity of authors \\
-$\epsilon$ & False negative rate & Probability good papers are rejected \\
-$\lambda$ & False positive rate & Probability bad papers are accepted \\
-$r$ & Author reward & Incentive for publication \\
-$c$ & Submission cost & Barrier to entry for authors \\
-$B$ & Journal benefit & Utility from publishing good science \\
-$D$ & Journal penalty & Reputational cost of bad science \\
-$\rho$ & Rationing probability & Endogenous probability of acceptance \\
-\hline
-\end{tabular}
-\caption{Key notation and definitions for the Author-Journal Game.}
-\label{tab:variables_appendix}
-\end{table}
 
 
 \bibliographystyle{plainnat}
 \bibliography{references}
+
+
+
+
+
+
 \end{document}
