@@ -937,7 +937,7 @@ To clarify the distinct roles of these parameters, we define the following key v
     \item $Q(x)$: Average Publication Quality, defined as the proportion of good papers among all accepted papers.
 \end{itemize}
 
-To visualize the interaction between these forces, we perform a two-dimensional bifurcation scan across the parameter space $(K_{rev}, K_{store})$. The resulting Phase Diagram (Figure \ref{fig:regime_map}) maps the system's topological regimes. We focus on the range $K_{rev} \in [0, 200]$ to capture the critical transition zones.
+To visualize the interaction between these forces, we perform a two-dimensional bifurcation scan across the parameter space $(K_{rev}, K_{store})$. The resulting Phase Diagram (Figure \ref{fig:regime_map}) maps the system's topological regimes.
 
 \begin{figure}[hbt!]
     \centering
@@ -952,36 +952,18 @@ To visualize the interaction between these forces, we perform a two-dimensional 
     \label{fig:regime_map}
 \end{figure}
 
-The topology of Figure \ref{fig:regime_map} is defined by the boundaries separating these regimes. We interpret the physical meaning of each transition boundary as follows:
+The topology of Figure \ref{fig:regime_map} highlights two critical dynamical phenomena:
 
-\subsubsection{Boundary Analysis: The Anatomy of Transitions}
-
-\paragraph{1. The Feasibility Frontier (Gray $\leftrightarrow$ Blue/Green)}
-The horizontal boundary at the bottom separating the non-viable \textbf{Gray} zone from the active regimes (Blue and Green) represents the \textbf{Participation Constraint}. 
-Here, slot capacity $K_{store}$ is so low that the rationing probability $\bar{\rho}$ drops below the break-even point for honest authors ($r \bar{\rho} (1-\epsilon) < c$). 
-Below this line, the journal effectively dies because no rational author (honest or opportunistic) will submit. Crossing this boundary upwards marks the economic birth of the journal.
-
-\paragraph{2. The "Defense by Congestion" Limit (Red $\leftrightarrow$ Blue)}
-The horizontal boundary separating \textbf{Global Corruption (Red)} and \textbf{Stable Coexistence (Blue)} is determined by $K_{store}$. This line marks the failure point of the passive defense mechanism.
-\begin{itemize}
-    \item \textbf{In the Blue Zone:} Slots are scarce enough that the "lottery" of publication ($\bar{\rho}$) is tough, making spamming unprofitable on the margin.
-    \item \textbf{Crossing Upwards (Blue $\to$ Red):} As slot capacity expands, rationing relaxes. Once $\bar{\rho}$ rises above the critical threshold, the "lottery" becomes winnable. The internal equilibrium vanishes, and the system tips into total corruption. 
-    This transition illustrates the \textbf{Paradox of Slot Expansion}. It confirms that artificial scarcity—keeping $K_{store}$ strictly limited—serves as a strategic gatekeeping device to maintain signal quality when review resources are insufficient \citep{MullerItten2022}.
-\end{itemize}
-
-\paragraph{3. The Review Robustness Thresholds (Red $\leftrightarrow$ Yellow $\leftrightarrow$ Green)}
-In the upper region (high slot capacity), transitions are driven horizontally by Review Capacity ($K_{rev}$).
-\begin{itemize}
-    \item \textbf{Red $\leftrightarrow$ Yellow (Corruption to Bistability):} As $K_{rev}$ increases, the system gains enough review capacity to support an Honest Equilibrium \emph{if} the submission volume is low (starting from Honesty). However, it is not yet strong enough to recover from a high-volume Corrupt Equilibrium. This creates the path-dependent Bistability zone.
-    \item \textbf{Yellow $\leftrightarrow$ Green (Bistability to Honesty):} Further increasing $K_{rev}$ crosses the threshold where the journal can effectively police even the maximum potential submission load ($V \approx N$). The Corrupt Equilibrium destabilizes, leaving Global Honesty as the unique attractor.
-\end{itemize}
-
-\paragraph{4. The Efficiency Frontier (Blue $\leftrightarrow$ Green)}
-The curved boundary separating \textbf{Stable Coexistence (Blue)} and \textbf{Global Honesty (Green)} represents the substitution between "policing by luck" (rationing) and "policing by scrutiny" (review).
-\begin{itemize}
-    \item \textbf{Crossing Rightwards (Blue $\to$ Green):} Here, the system transitions from relying on blind congestion to relying on active screening. As review capacity increases, the rigorous detection of bad papers renders the "spamming" strategy unprofitable, eliminating the mixed equilibrium and forcing full honesty.
-    \item \textbf{Slope Implication:} Crucially, this boundary slopes upwards to the right. This indicates that journals with more slots (higher $K_{store}$) require disproportionately higher review capacity to maintain Global Honesty. Larger journals are structurally harder to police than smaller ones, exacerbating the global burden of peer review \citep{Kovanis2016}.
-\end{itemize}
+\subsubsection{The Paradox of Slot Expansion}
+Moving vertically from the bottom of the diagram corresponds to increasing the journal's publication volume ($K_{store}$).
+The diagram reveals a non-monotonic response:
+\begin{enumerate}
+    \item \textbf{From Gray to Blue (Feasibility):} Initially, increasing slots rescues the system from total collapse (Gray), making participation rational for honest authors.
+    \item \textbf{From Blue to Red (Destabilization):} However, further increasing $K_{store}$ leads to a dangerous trajectory. Rising from the \textbf{Stable Coexistence (Blue)} zone, the system crosses into \textbf{Global Corruption (Red)} or \textbf{Bistability (Yellow)}.
+\end{enumerate}
+This latter transition is the \textbf{Paradox of Slot Expansion}. It occurs because tight storage constraints act as a passive "Defense by Congestion," keeping $\bar{\rho}$ low enough to deter spam. 
+By increasing $K_{store}$, the journal inadvertently dismantles this defense. As $\bar{\rho}$ rises, the "lottery" becomes winnable again. If $K_{rev}$ is not increased simultaneously to catch the resulting flood of bad papers, the incentive to cheat reactivates, and the system tips into full corruption. 
+This finding aligns with strategic gatekeeping models, suggesting that while expanding capacity improves access, doing so without scaling review rigour destroys the signal value of the journal \citep{MullerItten2022}.
 
 \subsubsection{The Necessity of Review Resources}
 Moving horizontally to the right corresponds to investing in Review Capacity ($K_{rev}$).
@@ -1047,49 +1029,64 @@ This suggests that while ``soft'' measures work for maintenance, ``hard'' measur
 
 While capacity parameters define the structural limits, strategic parameters ($r, c, \lambda, \epsilon, \alpha$) determine the incentives. 
 To provide a comprehensive policy guide, we perform a comparative sensitivity analysis across all five dimensions. 
-Figure \ref{fig:strategic_regimes} visualizes the impact of these levers using \textbf{Regime Strips}, where the background color indicates the topological state, and the black line tracks the Average Quality ($Q$) along the \textbf{Forward Continuation Path} (starting from $x=1$).
-
-\begin{figure}[hbt!]
-    \centering
-    \includegraphics[width=1.0\textwidth]{strategic_regimes_scan.pdf}
-    \caption{\textbf{Regime Transitions under Strategic Levers.} 
-    Each panel displays the topological regime (background color) and the resulting Average Quality (black line, Forward Path) as a function of a key parameter.
-    \textbf{Green:} Global Honesty ($Q=1.0$); 
-    \textbf{Yellow:} Bistability (High Risk); 
-    \textbf{Blue:} Stable Coexistence (Mediocre $Q$); 
-    \textbf{Red:} Global Corruption ($Q \approx \alpha$); 
-    \textbf{Gray:} System Collapse (Non-viable, $\Pi_{good}(1) < 0$).
-    Note that in the Yellow zone, the black line represents the optimistic outcome (Honest Equilibrium); a parallel pessimistic outcome (Corrupt Equilibrium) exists but is not shown.
-    \textbf{(a) $\lambda$:} Acts as a destabilizer, pushing the system from Green into the risky Yellow zone and finally to Red.
-    \textbf{(b) $\epsilon$:} Has negligible impact on the regime boundaries under baseline calibration.
-    \textbf{(c) $r$:} High rewards expand the corrupt zones.
-    \textbf{(d) $c$:} Submission fees effectively shift the system from Red back to Green.
-    \textbf{(e) $\alpha$:} Higher productivity increases congestion, paradoxically narrowing the stability window.}
-    \label{fig:strategic_regimes}
-\end{figure}
+The following analysis decomposes these levers into three functional groups: Screening, Economic Incentives, and Productivity.
 
 \subsubsection{Screening Parameters: The "Kill Switch" vs. The "Silent Factor"}
-Panel (a) reveals that the \textbf{False Positive Rate ($\lambda$)} is the most critical parameter. 
-As $\lambda$ increases, the system shifts from \textbf{Green} to \textbf{Yellow}. In this yellow zone, while the black line shows high quality, the system loses resilience—a minor perturbation can trigger a catastrophic tip into the unshown corrupt equilibrium.
-This aligns with signaling theory, where the reliability of the signal (low $\lambda$) is paramount for maintaining the separating equilibrium \citep{Tiokhin2021}.
-In stark contrast, Panel (b) shows that Friction ($\epsilon$) is a "Silent Factor." Within the explored range, the regime boundaries remain largely unchanged.
-This implies that policies focused on "efficiency" (reducing administrative friction) yield negligible structural improvements in integrity compared to improving detection accuracy.
+
+First, we analyze the technical parameters controlling the peer review filter (Figure \ref{fig:strategic_part1}).
+
+Panel (a) reveals that the \textbf{False Positive Rate ($\lambda$)} is the most critical parameter in the entire system. 
+As $\lambda$ increases, the system shifts rapidly from \textbf{Green (Honesty)} to \textbf{Yellow (Bistability)}, and finally to \textbf{Red (Corruption)}. In the yellow zone, resilience is lost—a minor perturbation can trigger a catastrophic tip into the corrupt equilibrium. This aligns with signaling theory, where the reliability of the signal (low $\lambda$) is paramount for maintaining the separating equilibrium \citep{Tiokhin2021}.
+
+In stark contrast, Panel (b) shows that \textbf{Friction ($\epsilon$)} acts as a "Silent Factor." Within the explored range, the regime boundaries remain largely unchanged. This implies that policies focused solely on "efficiency" (reducing administrative friction for good papers) yield negligible structural improvements in integrity compared to improving detection accuracy.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{strategic_regimes_scan_1.pdf}
+    \caption{\textbf{Screening Parameters and Regime Stability.} 
+    \textbf{(a) False Positive Rate $\lambda$:} Acts as a major destabilizer. Increasing $\lambda$ destroys the honest equilibrium, pushing the system into high-risk bistability.
+    \textbf{(b) Friction $\epsilon$:} Has negligible impact on regime boundaries, acting merely as a silent administrative cost.}
+    \label{fig:strategic_part1}
+\end{figure}
 
 \subsubsection{Economic Levers: The Filter and The Accelerant}
-Panel (c) and (d) demonstrate the opposing forces of reward and cost.
-\begin{itemize}
-    \item \textbf{Reward ($r$) as Accelerant:} Increasing $r$ expands the \textbf{Red} and \textbf{Yellow} zones. When publication rewards are excessive, the "lottery" of rubber-stamping becomes profitable even at low probabilities. This confirms the mechanism of "natural selection of bad science," where high incentives select for strategies that maximize output at the expense of quality \citep{Smaldino2016}.
-    \item \textbf{Cost ($c$) as Filter:} Panel (d) clearly shows the transition from \textbf{Red (Corruption)} at low costs to \textbf{Green (Honesty)} at moderate costs. This provides theoretical support for submission fees as a tool to reduce congestion and filter out low-quality submissions \citep{Cotton2013}. However, pushing costs too high forces the system into the \textbf{Gray Zone}, where even honest authors cannot sustain participation ($\Pi_{good} < 0$).
-\end{itemize}
 
-\subsubsection{The Productivity Paradox ($\alpha$)}
-Panel (e) highlights a counter-intuitive risk regarding Author Productivity ($\alpha$). 
-As $\alpha$ increases, the black line (quality) rises mechanically due to the higher proportion of good papers in the input.
-However, the background colors shift towards unstable regimes (Yellow/Red).
-This is the \textbf{Productivity Paradox}: as legitimate authors produce more papers, the total volume rises, consuming review capacity. 
-If $K_{rev}$ is fixed, this ``good congestion'' dilutes the screening intensity for everyone, paradoxically making the system more vulnerable to invasion by spammers.
+Next, we examine the financial and reputational incentives (Figure \ref{fig:strategic_part2}).
+
+Panel (c) demonstrates that high \textbf{Rewards ($r$)} act as an accelerant for corruption. Increasing $r$ significantly expands the \textbf{Red} and \textbf{Yellow} zones. When publication rewards are excessive, the "lottery" of rubber-stamping becomes profitable even at low probabilities. This confirms the mechanism of "natural selection of bad science," where high incentives select for strategies that maximize output at the expense of quality \citep{Smaldino2016}.
+
+Conversely, Panel (d) identifies \textbf{Submission Cost ($c$)} as a powerful filter. Increasing costs effectively shifts the system from \textbf{Red} back to \textbf{Green}. This provides theoretical support for submission fees as a tool to reduce congestion and filter out low-quality submissions \citep{Cotton2013}. However, pushing costs too high forces the system into the \textbf{Gray Zone}, where even honest authors cannot sustain participation ($\Pi_{good} < 0$).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{strategic_regimes_scan_2.pdf}
+    \caption{\textbf{Economic Incentives and Filtering.} 
+    \textbf{(c) Reward $r$:} High rewards expand the corrupt zones (Red/Yellow), incentivizing spamming strategies.
+    \textbf{(d) Cost $c$:} Submission fees filter out spam, restoring Green, but excessive costs kill the journal (Gray).}
+    \label{fig:strategic_part2}
+\end{figure}
+
+\subsubsection{The Productivity Paradox}
+
+Finally, we analyze the impact of aggregate author productivity (Figure \ref{fig:strategic_part3}).
+
+Panel (e) highlights a counter-intuitive risk: as \textbf{Productivity ($\alpha$)} increases, the system becomes \emph{less} stable.
+Although the average quality (black line) rises mechanically due to a better input mix, the background topology shifts towards unstable regimes (Yellow/Red).
+This is the \textbf{Productivity Paradox}: as legitimate authors produce more papers, the total volume rises, consuming scarce review capacity. If $K_{rev}$ is fixed, this "good congestion" dilutes the screening intensity for everyone, paradoxically making the system more vulnerable to invasion by spammers.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{strategic_regimes_scan_3.pdf}
+    \caption{\textbf{The Productivity Paradox.} 
+    \textbf{(e) Productivity $\alpha$:} Higher productivity increases total congestion. While observable quality rises (black line), the structural stability degrades (background shifts to Red), narrowing the window of stability.}
+    \label{fig:strategic_part3}
+\end{figure}
 
 
+\section{Conclusion}
+
+
+\clearpage
 
 \bibliographystyle{plainnat}
 \bibliography{references}
