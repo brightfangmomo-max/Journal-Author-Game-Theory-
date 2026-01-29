@@ -61,8 +61,8 @@ The publication process unfolds in a strictly sequential timeline, as illustrate
     This variable captures the congestion effect:
     \begin{equation}
         \rho = \begin{cases} 
-        1 & \text{if } M \le K \quad \text{(No Congestion)} \\
-        K/M & \text{if } M > K \quad \text{(Rationing triggered)}
+            1 & \text{if } M \le K \quad \text{(No Congestion)} \\
+            K/M & \text{if } M > K \quad \text{(Rationing triggered)} 
         \end{cases}
     \end{equation}
 \end{enumerate}
@@ -142,8 +142,7 @@ In this framework, a paper is published if and only if it passes two hurdles: th
 
 
 
-\subsection{Players, strategies, and quality generation}
-\label{subsec:players_strategies}
+\subsection{Players, strategies, and quality generation}\label{subsec:players_strategies}
 
 The publication game involves a single journal ($J$) and a finite population of authors $\mathcal{A}=\{1,2,\dots,N\}$.  
 We treat $N$ as a finite exogenous parameter. 
@@ -192,8 +191,7 @@ To clarify the mechanics of congestion, we distinguish between fixed environment
 \begin{itemize}
     \item \textbf{Exogenous parameters:} Population size ($N$), productivity ($\alpha$), journal size ($K$), review noise parameters ($\epsilon,\lambda$), and payoff primitives, discussed below: $c$, cost of submission for authors; $r$, the reward for an author derived from successful publication; $B$, the benefit to the journal derived from publishing good papers; and $D$, the the penalty for journals from publishing bad papers.
     \item \textbf{Endogenous variables:} Submission volume ($V$), peer-accepted volume ($M$), the rationing factor ($\rho = \max \left\{ \frac{K}{M}, 1 \right\} $), and the population state $x$ (strategy shares) governing the equilibrium distribution.
-\end{itemize}
-\label{subsec:environment}
+\end{itemize}\label{subsec:environment}
 
 \subsection{Review noise and acceptance probabilities}
 \label{subsec:review_noise}
@@ -939,7 +937,7 @@ To clarify the distinct roles of these parameters, we define the following key v
     \item $Q(x)$: Average Publication Quality, defined as the proportion of good papers among all accepted papers.
 \end{itemize}
 
-To visualize the interaction between these forces, we perform a two-dimensional bifurcation scan across the parameter space $(K_{rev}, K_{store})$. The resulting Phase Diagram (Figure \ref{fig:regime_map}) maps the system's topological regimes.
+To visualize the interaction between these forces, we perform a two-dimensional bifurcation scan across the parameter space $(K_{rev}, K_{store})$. The resulting Phase Diagram (Figure \ref{fig:regime_map}) maps the system's topological regimes. We focus on the range $K_{rev} \in [0, 200]$ to capture the critical transition zones.
 
 \begin{figure}[hbt!]
     \centering
@@ -954,18 +952,36 @@ To visualize the interaction between these forces, we perform a two-dimensional 
     \label{fig:regime_map}
 \end{figure}
 
-The topology of Figure \ref{fig:regime_map} highlights two critical dynamical phenomena:
+The topology of Figure \ref{fig:regime_map} is defined by the boundaries separating these regimes. We interpret the physical meaning of each transition boundary as follows:
 
-\subsubsection{The Paradox of Slot Expansion}
-Moving vertically from the bottom of the diagram corresponds to increasing the journal's publication volume ($K_{store}$).
-The diagram reveals a non-monotonic response:
-\begin{enumerate}
-    \item \textbf{From Gray to Blue (Feasibility):} Initially, increasing slots rescues the system from total collapse (Gray), making participation rational for honest authors.
-    \item \textbf{From Blue to Red (Destabilization):} However, further increasing $K_{store}$ leads to a dangerous trajectory. Rising from the \textbf{Stable Coexistence (Blue)} zone, the system crosses into \textbf{Global Corruption (Red)} or \textbf{Bistability (Yellow)}.
-\end{enumerate}
-This latter transition is the \textbf{Paradox of Slot Expansion}. It occurs because tight storage constraints act as a passive "Defense by Congestion," keeping $\bar{\rho}$ low enough to deter spam. 
-By increasing $K_{store}$, the journal inadvertently dismantles this defense. As $\bar{\rho}$ rises, the "lottery" becomes winnable again. If $K_{rev}$ is not increased simultaneously to catch the resulting flood of bad papers, the incentive to cheat reactivates, and the system tips into full corruption. 
-This finding aligns with strategic gatekeeping models, suggesting that while expanding capacity improves access, doing so without scaling review rigour destroys the signal value of the journal \citep{MullerItten2022}.
+\subsubsection{Boundary Analysis: The Anatomy of Transitions}
+
+\paragraph{1. The Feasibility Frontier (Gray $\leftrightarrow$ Blue/Green)}
+The horizontal boundary at the bottom separating the non-viable \textbf{Gray} zone from the active regimes (Blue and Green) represents the \textbf{Participation Constraint}. 
+Here, slot capacity $K_{store}$ is so low that the rationing probability $\bar{\rho}$ drops below the break-even point for honest authors ($r \bar{\rho} (1-\epsilon) < c$). 
+Below this line, the journal effectively dies because no rational author (honest or opportunistic) will submit. Crossing this boundary upwards marks the economic birth of the journal.
+
+\paragraph{2. The "Defense by Congestion" Limit (Red $\leftrightarrow$ Blue)}
+The horizontal boundary separating \textbf{Global Corruption (Red)} and \textbf{Stable Coexistence (Blue)} is determined by $K_{store}$. This line marks the failure point of the passive defense mechanism.
+\begin{itemize}
+    \item \textbf{In the Blue Zone:} Slots are scarce enough that the "lottery" of publication ($\bar{\rho}$) is tough, making spamming unprofitable on the margin.
+    \item \textbf{Crossing Upwards (Blue $\to$ Red):} As slot capacity expands, rationing relaxes. Once $\bar{\rho}$ rises above the critical threshold, the "lottery" becomes winnable. The internal equilibrium vanishes, and the system tips into total corruption. 
+    This transition illustrates the \textbf{Paradox of Slot Expansion}. It confirms that artificial scarcity—keeping $K_{store}$ strictly limited—serves as a strategic gatekeeping device to maintain signal quality when review resources are insufficient \citep{MullerItten2022}.
+\end{itemize}
+
+\paragraph{3. The Review Robustness Thresholds (Red $\leftrightarrow$ Yellow $\leftrightarrow$ Green)}
+In the upper region (high slot capacity), transitions are driven horizontally by Review Capacity ($K_{rev}$).
+\begin{itemize}
+    \item \textbf{Red $\leftrightarrow$ Yellow (Corruption to Bistability):} As $K_{rev}$ increases, the system gains enough review capacity to support an Honest Equilibrium \emph{if} the submission volume is low (starting from Honesty). However, it is not yet strong enough to recover from a high-volume Corrupt Equilibrium. This creates the path-dependent Bistability zone.
+    \item \textbf{Yellow $\leftrightarrow$ Green (Bistability to Honesty):} Further increasing $K_{rev}$ crosses the threshold where the journal can effectively police even the maximum potential submission load ($V \approx N$). The Corrupt Equilibrium destabilizes, leaving Global Honesty as the unique attractor.
+\end{itemize}
+
+\paragraph{4. The Efficiency Frontier (Blue $\leftrightarrow$ Green)}
+The curved boundary separating \textbf{Stable Coexistence (Blue)} and \textbf{Global Honesty (Green)} represents the substitution between "policing by luck" (rationing) and "policing by scrutiny" (review).
+\begin{itemize}
+    \item \textbf{Crossing Rightwards (Blue $\to$ Green):} Here, the system transitions from relying on blind congestion to relying on active screening. As review capacity increases, the rigorous detection of bad papers renders the "spamming" strategy unprofitable, eliminating the mixed equilibrium and forcing full honesty.
+    \item \textbf{Slope Implication:} Crucially, this boundary slopes upwards to the right. This indicates that journals with more slots (higher $K_{store}$) require disproportionately higher review capacity to maintain Global Honesty. Larger journals are structurally harder to police than smaller ones, exacerbating the global burden of peer review \citep{Kovanis2016}.
+\end{itemize}
 
 \subsubsection{The Necessity of Review Resources}
 Moving horizontally to the right corresponds to investing in Review Capacity ($K_{rev}$).
