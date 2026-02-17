@@ -746,8 +746,8 @@ Figure \ref{fig:stable_coexistence} illustrates this scenario, where the evoluti
     \centering
     \includegraphics[width=0.9\textwidth]{polynomial_graph_2.pdf}
     \caption{\textbf{Phase Portrait of Stable Coexistence (Rationing-Dominated).} 
-    Parameters: $N=1000, K_{rev}=1000, K_{store}=150, r=150, c=30, \lambda=0.4$.
-    The system exhibits a stable attractor at $x^* \approx 0.44$.
+    Parameters: $N=1000, K_{rev}=1000, K_{store}=180, r=150, c=30, \lambda=0.4$.
+    The system exhibits a stable attractor at $x^* \approx 0.49$.
     \textbf{Left Zone (Self-Correction):} At low honesty ($x < x^*$), severe storage rationing reduces the payoff below zero ($\Pi_{bad} < 0$), forcing the population to become more honest.
     \textbf{Right Zone (Temptation):} At high honesty ($x > x^*$), the relaxed rationing makes cheating profitable again ($\Pi_{bad} > 0$), forcing the population towards corruption.
     The system settles into a permanent mix of honest and opportunistic authors (Blue Point).}
@@ -1082,6 +1082,55 @@ This is the \textbf{Productivity Paradox}: as legitimate authors produce more pa
     \label{fig:strategic_part3}
 \end{figure}
 
+
+\section{Agent-Based Modeling}
+\label{sec:abm}
+
+\subsection{Motivation and Micro-foundations}
+The analytical results presented in previous sections rely on the replicator dynamics, which assume an infinite population ($N \to \infty$) and a deterministic evolution of strategies. However, real-world academic communities consist of a finite number of researchers subject to stochastic fluctuations. 
+To validate the robustness of our topological classification, we implement a microscopic \textbf{Agent-Based Model (ABM)}. This approach serves two purposes: first, it tests whether the predicted equilibria emerge from local interactions under stochastic noise; second, it verifies that the "Defense by Congestion" mechanism is not an artifact of the mean-field approximation.
+
+\subsection{Simulation Design}
+We simulate a population of $N=1000$ agents. The time evolution follows the standard protocols of evolutionary game theory in finite populations. The process proceeds as follows:
+
+\begin{enumerate}
+    \item \textbf{Interaction Phase:} In each time step $t$, agents generate submissions based on their strategy ($s_i \in \{\text{OG}, \text{AS}\}$). The aggregate volume $V$ and peer-accepted volume $M$ are calculated endogenously, determining the congestion levels $\eta$ and $\rho$.
+    \item \textbf{Payoff Realization:} Agents receive payoffs $\Pi_i$ based on the realized publication outcomes. This captures the "lottery" nature of the congestion bottleneck.
+    \item \textbf{Strategy Update (Social Learning):} We employ the \textbf{pairwise comparison process} to model strategy evolution. A randomly selected agent $A$ considers mimicking agent $B$'s strategy. The probability of switching $s_A \to s_B$ is given by the Fermi function:
+    \begin{equation}
+        P(s_A \to s_B) = \frac{1}{1 + \exp(-\beta [\Pi_B - \Pi_A])}
+    \end{equation}
+    where $\beta$ represents the intensity of selection. This update rule is the standard method for introducing bounded rationality and noise into evolutionary dynamics.
+\end{enumerate}
+
+\subsection{Simulation Results}
+
+We performed simulations using the parameter sets defined in Table \ref{tab:calibration}, employing a high selection intensity ($\beta=1.0$) to reduce noise. As shown in Figure \ref{fig:abm_results}, the microscopic agent-based simulations provide strong corroboration for the macroscopic predictions derived in Section 3.
+
+\textbf{Scenario A (Review-Dominated):} 
+In the review-dominated regime, the dynamics exhibit sharp bistability (Figure \ref{fig:abm_bistability}). Unlike the continuous mean-field approximation, the finite population dynamics drive the system into one of two \textbf{absorbing states}: full honesty ($x=1$) or full corruption ($x=0$). The final outcome is strictly path-dependent: starting above the tipping point leads to a virtuous cycle, while starting below it triggers a collapse. This confirms that the "Hysteresis" loop is a potent trap in finite populations.
+
+\textbf{Scenario B (Rationing-Dominated):} 
+In the rationing-dominated regime, the population converges to a stable interior equilibrium (Figure \ref{fig:abm_stable}). The simulation settles at a long-run average of $x^* \approx 0.49$. This result aligns precisely with the analytical fixed point ($x^* \approx 0.49$) identified in the phase portrait analysis. The close correspondence between the microscopic ABM and the macroscopic replicator dynamics confirms that the \textbf{"Defense by Congestion"} mechanism is not an artifact of the mean-field limit, but a robust emergent property. Regardless of the initial condition, the storage constraint forces the system into this mixed state, effectively preventing both total corruption and total honesty.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{ABM_bistability.pdf}
+        \caption{Scenario A: Review-Dominated Dynamics}
+        \label{fig:abm_bistability}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{ABM_stable.pdf}
+        \caption{Scenario B: Stable Coexistence}
+        \label{fig:abm_stable}
+    \end{subfigure}
+    \caption{\textbf{Agent-Based Model Trajectories ($\beta=1.0$).} The plots show the time evolution of the honest fraction $x(t)$. \textbf{(a)} Strong Bistability: The system is absorbed into either full honesty ($x=1$) or full corruption ($x=0$) depending on initial conditions, confirming the existence of a critical tipping point. \textbf{(b)} Stable Coexistence: The population rapidly converges to a mixed equilibrium ($x^* \approx 0.49$) from both high and low initial states. The precise agreement with the analytical prediction confirms that congestion acts as a robust stabilizer.}
+    \label{fig:abm_results}
+\end{figure}
 
 \section{Conclusion}
 
