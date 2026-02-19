@@ -1088,13 +1088,13 @@ This is the \textbf{Productivity Paradox}: as legitimate authors produce more pa
 
 \subsection{Motivation and Micro-foundations}
 The analytical results presented in previous sections rely on the replicator dynamics, which assume an infinite population ($N \to \infty$) and a deterministic evolution of strategies. However, real-world academic communities consist of a finite number of researchers subject to stochastic fluctuations. 
-To validate the robustness of our topological classification, we implement a microscopic \textbf{Agent-Based Model (ABM)}. This approach serves two purposes: first, it tests whether the predicted equilibria emerge from local interactions under stochastic noise; second, it verifies that the "Defense by Congestion" mechanism is not an artifact of the mean-field approximation.
+To validate the robustness of our topological classification and the mathematical dominance analysis, we implement a microscopic \textbf{Agent-Based Model (ABM)}. This approach serves three critical purposes: first, it tests whether the strictly dominated strategies naturally die out in a dynamic environment; second, it verifies if the predicted equilibria emerge from local interactions under stochastic noise; third, it confirms that the "Defense by Congestion" mechanism is not an artifact of the mean-field approximation.
 
 \subsection{Simulation Design}
-We simulate a population of $N=1000$ agents. The time evolution follows the standard protocols of evolutionary game theory in finite populations. The process proceeds as follows:
+We simulate a population of $N=1000$ agents. The time evolution follows the standard protocols of evolutionary game theory in finite populations. To rigorously test the system's evolutionary trajectory without assuming a pre-reduced state, the population is initialized with a uniform distribution across all four strategies (25\% for each strategy). The process proceeds as follows:
 
 \begin{enumerate}
-    \item \textbf{Interaction Phase:} In each time step $t$, agents generate submissions based on their strategy ($s_i \in \{\text{OG}, \text{AS}\}$). The aggregate volume $V$ and peer-accepted volume $M$ are calculated endogenously, determining the congestion levels $\eta$ and $\rho$.
+    \item \textbf{Interaction Phase:} In each time step $t$, agents generate submissions based on their full strategy space ($s_i \in \{\text{OG}, \text{AS}, \text{OB}, \text{NS}\}$). The aggregate volume $V$ and peer-accepted volume $M$ are calculated endogenously, determining the congestion levels $\eta$ and $\rho$.
     \item \textbf{Payoff Realization:} Agents receive payoffs $\Pi_i$ based on the realized publication outcomes. This captures the "lottery" nature of the congestion bottleneck.
     \item \textbf{Strategy Update (Social Learning):} We employ the \textbf{pairwise comparison process} to model strategy evolution. A randomly selected agent $A$ considers mimicking agent $B$'s strategy. The probability of switching $s_A \to s_B$ is given by the Fermi function:
     \begin{equation}
@@ -1105,15 +1105,18 @@ We simulate a population of $N=1000$ agents. The time evolution follows the stan
 
 \subsection{Simulation Results}
 
-We performed simulations using the parameter sets defined in Table \ref{tab:calibration}, employing a high selection intensity ($\beta=1.0$) to reduce noise. As shown in Figure \ref{fig:abm_results}, the microscopic agent-based simulations provide strong corroboration for the macroscopic predictions derived in Section 3.
+We performed simulations using the parameter sets defined in Table \ref{tab:calibration}, employing a high selection intensity ($\beta=1.0$) to reduce noise. As shown in Figure \ref{fig:abm_results}, the microscopic agent-based simulations provide strong corroboration for both the strategy elimination and the macroscopic predictions derived in Section 3.
+
+\textbf{Validation of Dominance Analysis:} 
+In both scenarios, the "Only Bad" (OB) and "Never Submit" (NS) strategies are rapidly driven to extinction within the first few hundred time steps. This dynamic directly verifies the Iterated Elimination of Strictly Dominated Strategies (IESDS) conducted in Section 2.6, demonstrating that the system autonomously reduces to a binary contest between OG and AS.
 
 \textbf{Scenario A (Review-Dominated):} 
-In the review-dominated regime, the dynamics exhibit sharp bistability (Figure \ref{fig:abm_bistability}). Unlike the continuous mean-field approximation, the finite population dynamics drive the system into one of two \textbf{absorbing states}: full honesty ($x=1$) or full corruption ($x=0$). The final outcome is strictly path-dependent: starting above the tipping point leads to a virtuous cycle, while starting below it triggers a collapse. This confirms that the "Hysteresis" loop is a potent trap in finite populations.
+In the review-dominated regime, the dynamics exhibit sharp bistability (Figure \ref{fig:abm_bistability}). Because the initial proportion of honest OG authors ($25\%$) falls well below the theoretical unstable tipping point ($x^* \approx 0.82$), the system is unable to self-correct. Once the inferior OB and NS strategies vanish, the AS strategy outcompetes the remaining honest authors, driving the system into the absorbing state of full corruption ($x=0$). This confirms the severe path-dependence and "Hysteresis" trap inherent in finite populations.
 
 \textbf{Scenario B (Rationing-Dominated):} 
-In the rationing-dominated regime, the population converges to a stable interior equilibrium (Figure \ref{fig:abm_stable}). The simulation settles at a long-run average of $x^* \approx 0.49$. This result aligns precisely with the analytical fixed point ($x^* \approx 0.49$) identified in the phase portrait analysis. The close correspondence between the microscopic ABM and the macroscopic replicator dynamics confirms that the \textbf{"Defense by Congestion"} mechanism is not an artifact of the mean-field limit, but a robust emergent property. Regardless of the initial condition, the storage constraint forces the system into this mixed state, effectively preventing both total corruption and total honesty.
+In the rationing-dominated regime, the population converges to a stable interior equilibrium (Figure \ref{fig:abm_stable}). Despite the initial chaotic interaction of all four strategies, the population rapidly settles to a long-run average of $x^* \approx 0.49$ for OG and AS, while OB and NS remain extinct. This result aligns precisely with the analytical fixed point ($x^* \approx 0.49$) identified in the phase portrait analysis. The close correspondence confirms that the \textbf{"Defense by Congestion"} mechanism is a robust emergent property, immune to initial strategy turbulence.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
@@ -1128,7 +1131,7 @@ In the rationing-dominated regime, the population converges to a stable interior
         \caption{Scenario B: Stable Coexistence}
         \label{fig:abm_stable}
     \end{subfigure}
-    \caption{\textbf{Agent-Based Model Trajectories ($\beta=1.0$).} The plots show the time evolution of the honest fraction $x(t)$. \textbf{(a)} Strong Bistability: The system is absorbed into either full honesty ($x=1$) or full corruption ($x=0$) depending on initial conditions, confirming the existence of a critical tipping point. \textbf{(b)} Stable Coexistence: The population rapidly converges to a mixed equilibrium ($x^* \approx 0.49$) from both high and low initial states. The precise agreement with the analytical prediction confirms that congestion acts as a robust stabilizer.}
+    \caption{\textbf{Agent-Based Model Trajectories with 4 Strategies ($\beta=1.0$).} The plots show the time evolution of the strategy proportions. \textbf{(a)} Strong Bistability: Starting from an equal uniform mix, the system rapidly eliminates OB and NS. Because the initial OG fraction ($0.25$) is below the critical tipping point, the system collapses to full corruption ($x=0$). \textbf{(b)} Stable Coexistence: OB and NS are quickly eliminated, and the remaining OG and AS populations converge to a mixed equilibrium ($x^* \approx 0.49$). The precise agreement with analytical predictions confirms both the theoretical dominance analysis and the structural congestion stabilization.}
     \label{fig:abm_results}
 \end{figure}
 
