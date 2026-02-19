@@ -1087,20 +1087,20 @@ This is the \textbf{Productivity Paradox}: as legitimate authors produce more pa
 \label{sec:abm}
 
 \subsection{Motivation and Micro-foundations}
-The analytical results presented in previous sections rely on the replicator dynamics, which assume an infinite population ($N \to \infty$) and a deterministic evolution of strategies. However, real-world academic communities consist of a finite number of researchers subject to stochastic fluctuations. 
-To validate the robustness of our topological classification and the mathematical dominance analysis, we implement a microscopic \textbf{Agent-Based Model (ABM)}. This approach serves three critical purposes: first, it tests whether the strictly dominated strategies naturally die out in a dynamic environment; second, it verifies if the predicted equilibria emerge from local interactions under stochastic noise; third, it confirms that the "Defense by Congestion" mechanism is not an artifact of the mean-field approximation.
+The analytical results presented in previous sections rely on the replicator dynamics, which assume an infinite population ($N \to \infty$) and a deterministic evolution of strategies \cite{Hofbauer1998}. However, real-world academic communities consist of a finite number of researchers subject to stochastic fluctuations and finite-size effects \cite{Nowak2006}. 
+To validate the robustness of our topological classification and the mathematical dominance analysis, we implement a microscopic \textbf{Agent-Based Model (ABM)}. This approach, widely used in the study of complex adaptive systems \cite{Bonabeau2002}, serves three critical purposes: first, it tests whether the strictly dominated strategies naturally die out in a dynamic environment; second, it verifies if the predicted equilibria emerge from local interactions under stochastic noise; third, it confirms that the "Defense by Congestion" mechanism is not an artifact of the mean-field approximation.
 
 \subsection{Simulation Design}
-We simulate a population of $N=1000$ agents. The time evolution follows the standard protocols of evolutionary game theory in finite populations. To rigorously test the system's evolutionary trajectory without assuming a pre-reduced state, the population is initialized with a uniform distribution across all four strategies (25\% for each strategy). The process proceeds as follows:
+We simulate a population of $N=1000$ agents. The time evolution follows the standard protocols of stochastic evolutionary game theory in finite populations \cite{Traulsen2009}. To rigorously test the system's evolutionary trajectory without assuming a pre-reduced state, the population is initialized with a uniform distribution across all four strategies (25\% for each strategy). The process proceeds as follows:
 
 \begin{enumerate}
     \item \textbf{Interaction Phase:} In each time step $t$, agents generate submissions based on their full strategy space ($s_i \in \{\text{OG}, \text{AS}, \text{OB}, \text{NS}\}$). The aggregate volume $V$ and peer-accepted volume $M$ are calculated endogenously, determining the congestion levels $\eta$ and $\rho$.
     \item \textbf{Payoff Realization:} Agents receive payoffs $\Pi_i$ based on the realized publication outcomes. This captures the "lottery" nature of the congestion bottleneck.
-    \item \textbf{Strategy Update (Social Learning):} We employ the \textbf{pairwise comparison process} to model strategy evolution. A randomly selected agent $A$ considers mimicking agent $B$'s strategy. The probability of switching $s_A \to s_B$ is given by the Fermi function:
+    \item \textbf{Strategy Update (Social Learning):} We employ the \textbf{pairwise comparison process} to model strategy evolution. A randomly selected agent $A$ considers mimicking agent $B$'s strategy. The probability of switching $s_A \to s_B$ is given by the Fermi function derived from statistical mechanics \cite{Szabo1998}:
     \begin{equation}
         P(s_A \to s_B) = \frac{1}{1 + \exp(-\beta [\Pi_B - \Pi_A])}
     \end{equation}
-    where $\beta$ represents the intensity of selection. This update rule is the standard method for introducing bounded rationality and noise into evolutionary dynamics.
+    where $\beta$ represents the intensity of selection. This update rule is the standard method for introducing bounded rationality and decision noise into evolutionary dynamics \cite{Traulsen2009}.
 \end{enumerate}
 
 \subsection{Simulation Results}
@@ -1108,13 +1108,13 @@ We simulate a population of $N=1000$ agents. The time evolution follows the stan
 We performed simulations using the parameter sets defined in Table \ref{tab:calibration}, employing a high selection intensity ($\beta=1.0$) to reduce noise. As shown in Figure \ref{fig:abm_results}, the microscopic agent-based simulations provide strong corroboration for both the strategy elimination and the macroscopic predictions derived in Section 3.
 
 \textbf{Validation of Dominance Analysis:} 
-In both scenarios, the "Only Bad" (OB) and "Never Submit" (NS) strategies are rapidly driven to extinction within the first few hundred time steps. This dynamic directly verifies the Iterated Elimination of Strictly Dominated Strategies (IESDS) conducted in Section 2.6, demonstrating that the system autonomously reduces to a binary contest between OG and AS.
+In both scenarios, the "Only Bad" (OB) and "Never Submit" (NS) strategies are rapidly driven to extinction within the first few hundred time steps. This dynamic directly verifies the Iterated Elimination of Strictly Dominated Strategies (IESDS) conducted in Section 2.6. It demonstrates that the system autonomously reduces to a binary contest between OG and AS, aligning with evolutionary game theory findings that strictly dominated strategies fail to survive under monotonic selection dynamics \cite{Samuelson1997}.
 
 \textbf{Scenario A (Review-Dominated):} 
-In the review-dominated regime, the dynamics exhibit sharp bistability (Figure \ref{fig:abm_bistability}). Because the initial proportion of honest OG authors ($25\%$) falls well below the theoretical unstable tipping point ($x^* \approx 0.82$), the system is unable to self-correct. Once the inferior OB and NS strategies vanish, the AS strategy outcompetes the remaining honest authors, driving the system into the absorbing state of full corruption ($x=0$). This confirms the severe path-dependence and "Hysteresis" trap inherent in finite populations.
+In the review-dominated regime, the dynamics exhibit sharp bistability (Figure \ref{fig:abm_bistability}). Because the initial proportion of honest OG authors ($25\%$) falls well below the theoretical unstable tipping point ($x^* \approx 0.82$), the system is unable to self-correct. Once the inferior OB and NS strategies vanish, the AS strategy outcompetes the remaining honest authors, driving the system into the absorbing state of full corruption ($x=0$). This confirms the severe path-dependence and "Hysteresis" trap inherent in complex systems with alternative stable states \cite{Scheffer2001, Schelling1978}.
 
 \textbf{Scenario B (Rationing-Dominated):} 
-In the rationing-dominated regime, the population converges to a stable interior equilibrium (Figure \ref{fig:abm_stable}). Despite the initial chaotic interaction of all four strategies, the population rapidly settles to a long-run average of $x^* \approx 0.49$ for OG and AS, while OB and NS remain extinct. This result aligns precisely with the analytical fixed point ($x^* \approx 0.49$) identified in the phase portrait analysis. The close correspondence confirms that the \textbf{"Defense by Congestion"} mechanism is a robust emergent property, immune to initial strategy turbulence.
+In the rationing-dominated regime, the population converges to a stable interior equilibrium (Figure \ref{fig:abm_stable}). Despite the initial chaotic interaction of all four strategies, the population rapidly settles to a long-run average of $x^* \approx 0.49$ for OG and AS, while OB and NS remain extinct. This result aligns precisely with the analytical fixed point ($x^* \approx 0.49$) identified in the phase portrait analysis. The close correspondence confirms that the \textbf{"Defense by Congestion"} mechanism is a robust emergent property, immune to initial strategy turbulence and finite-size stochasticity.
 
 \begin{figure}[H]
     \centering
@@ -1134,6 +1134,62 @@ In the rationing-dominated regime, the population converges to a stable interior
     \caption{\textbf{Agent-Based Model Trajectories with 4 Strategies ($\beta=1.0$).} The plots show the time evolution of the strategy proportions. \textbf{(a)} Strong Bistability: Starting from an equal uniform mix, the system rapidly eliminates OB and NS. Because the initial OG fraction ($0.25$) is below the critical tipping point, the system collapses to full corruption ($x=0$). \textbf{(b)} Stable Coexistence: OB and NS are quickly eliminated, and the remaining OG and AS populations converge to a mixed equilibrium ($x^* \approx 0.49$). The precise agreement with analytical predictions confirms both the theoretical dominance analysis and the structural congestion stabilization.}
     \label{fig:abm_results}
 \end{figure}
+
+\subsection{Co-operation ABM}
+
+To rigorously validate the robustness of our theoretical findings and explore the microscopic foundations of the ``Defense by Congestion'' mechanism, we develop a specialized Co-operation Agent-Based Model (ABM) featuring local batch-matching. While the standard replicator dynamics rely on a mean-field approximation assuming an infinite population and a single monolithic market, real-world academic publishing is inherently fragmented. Authors typically compete within specific sub-disciplines, specialized journals, or distinct temporal submission windows. The primary motivation for designing this ABM is to investigate whether the macroscopic stability predicted by the ODEs holds when subjected to the localized uncertainty, heterogeneous payoffs, and stochastic fluctuations characteristic of finite populations.
+
+The core innovation of this extended ABM is the \textit{batch-matching} algorithm. Instead of evaluating all $N$ agents globally, the population is randomly partitioned into local batches (sub-markets) in each time step. The journal's review and storage capacities ($K_{rev}$ and $K_{store}$) are scaled proportionally to match these local batches. This approach significantly improves upon standard global ABMs by introducing critical variance into the localized rationing probability ($\rho$) and enabling stochastic drift. It captures the granular reality that the publication ``lottery'' is not uniform; different sub-fields experience varying degrees of congestion simultaneously. This localized competition provides a much more rigorous stress-test for the theoretical equilibria.
+
+The simulation results validate our threshold competition framework across four key dimensions, as illustrated in Figure \ref{fig:co_abm_composite}:
+
+\textbf{Trajectory Analysis and Robustness:} Figures \ref{fig:co_abm_composite}(a) and \ref{fig:co_abm_composite}(b) illustrate the time evolution of strategies under batch matching. In the rationing-dominated regime (Scenario B), despite chaotic local interactions, both the theoretical ODE and the ABM trajectories converge tightly to the stable internal equilibrium of $x^* \approx 0.49$. This confirms that the stable coexistence induced by congestion is highly robust against local noise. Conversely, in the review-dominated regime (Scenario A), the ABM demonstrates sharp bistability, collapsing rapidly to global honesty ($x=1.0$) or global corruption ($x=0.0$) depending on initial conditions. The ABM closely traces the expected theoretical paths but exhibits micro-oscillations, validating the IESDS reduction while underscoring the severe path-dependence of the bistable regime.
+
+\textbf{Distribution of Local Congestion:} Figure \ref{fig:co_abm_composite}(c) provides the empirical distribution of the realized publication probability ($\rho$) across all local batches during the steady state. The mean-field model assumes a singular, fixed expected $\rho$. However, the batch ABM reveals a distribution clustered around a mean of $\rho = 0.51$. This finding is conceptually crucial: it demonstrates that the system-wide ``Defense by Congestion'' does not require perfectly uniform bottleneck pressure. Macroscopic integrity is maintained through the statistical consistency of localized congestion, aligning with models of decentralized and imperfect scientific evaluation \citep{Thurner2011}.
+
+\textbf{Phase Portrait and Stochastic Drift:} Finally, Figure \ref{fig:co_abm_composite}(d) maps the evolutionary phase portrait, superimposing realized ABM stochastic drift ($\Delta x$) over the theoretical expected velocity curve. This visualization highlights a critical systemic vulnerability. Near the unstable tipping point ($x \approx 0.82$), the localized variance causes the realized $\Delta x$ to scatter widely and frequently cross the zero-axis. This demonstrates that in bistable regimes, localized sequences of ``bad luck'' or noise in review batches can prematurely trigger a catastrophic shift into the corruption basin \citep{Scheffer2001}. It powerfully illustrates the fragility of scientific ecosystems, where micro-level stochasticity can amplify the natural selection of bad science if the macro-level tipping point is approached \citep{Smaldino2016}.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{co_ABM_stable.pdf}
+        \caption{Scenario B (Stable Coexistence) Trajectories}
+        \label{fig:co_abm_stable}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{co_ABM_bistability.pdf}
+        \caption{Scenario A (Bistability) Trajectories}
+        \label{fig:co_abm_bistability}
+    \end{subfigure}
+    \vskip 10pt
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{co_ABM_rho_distribution.pdf}
+        \caption{Distribution of Local Congestion ($\rho$)}
+        \label{fig:co_abm_rho}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{co_ABM_evolution.pdf}
+        \caption{Phase Portrait with Stochastic Drift}
+        \label{fig:co_abm_drift}
+    \end{subfigure}
+    \caption{\textbf{Results of the Co-operation ABM with Local Batch-Matching.} The composite figure demonstrates that the theoretical mean-field predictions hold even under the rigorous localized constraints and stochastic noise introduced by fragmented sub-markets. Notably, local variance (c) creates significant stochastic drift near unstable tipping points (d).}
+    \label{fig:co_abm_composite}
+\end{figure}
+
+
+
+
+
+
+
+
+
 
 \section{Conclusion}
 

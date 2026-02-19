@@ -1,4 +1,4 @@
-\begin{thebibliography}{25}
+\begin{thebibliography}{30}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -15,6 +15,11 @@ George~A Akerlof.
 Ofer~H Azar.
 \newblock The review process in economics: Is it too fast?
 \newblock \emph{Southern Economic Journal}, 72\penalty0 (2):\penalty0 482--491, 2005.
+
+\bibitem[Bonabeau(2002)]{Bonabeau2002}
+Eric Bonabeau.
+\newblock Agent-based modeling: Methods and techniques for simulating human systems.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 99\penalty0 (suppl\_3):\penalty0 7280--7287, 2002.
 
 \bibitem[Bornmann(2011)]{Bornmann2011}
 Lutz Bornmann.
@@ -78,10 +83,20 @@ Michele Muller-Itten.
 \newblock Gatekeeper competition.
 \newblock \emph{European Economic Review}, 148:\penalty0 104230, 2022.
 
+\bibitem[Nowak(2006)]{Nowak2006}
+Martin~A Nowak.
+\newblock \emph{Evolutionary dynamics: exploring the equations of life}.
+\newblock Harvard university press, 2006.
+
 \bibitem[Rosenthal(1973)]{Rosenthal1973}
 Robert~W Rosenthal.
 \newblock A class of games possessing pure-strategy nash equilibria.
 \newblock \emph{International Journal of Game Theory}, 2\penalty0 (1):\penalty0 65--67, 1973.
+
+\bibitem[Samuelson(1997)]{Samuelson1997}
+Larry Samuelson.
+\newblock \emph{Evolutionary games and equilibrium selection}.
+\newblock MIT press, 1997.
 
 \bibitem[Sandholm(2010)]{Sandholm2010}
 William~H Sandholm.
@@ -111,6 +126,11 @@ Paul~E Smaldino and Richard McElreath.
 \newblock \emph{Royal Society Open Science}, 3\penalty0 (9):\penalty0 160384, 2016.
 \newblock \doi{10.1098/rsos.160384}.
 
+\bibitem[Szab{\'o} and T{\H{o}}ke(1998)]{Szabo1998}
+Gy{\"o}rgy Szab{\'o} and Csaba T{\H{o}}ke.
+\newblock Evolutionary prisoner's dilemma game on a square lattice.
+\newblock \emph{Physical Review E}, 58\penalty0 (1):\penalty0 69, 1998.
+
 \bibitem[Thurner and Hanel(2011)]{Thurner2011}
 Stefan Thurner and Rudolf Hanel.
 \newblock Peer-review in a world with rational scientists: Toward a selection of the average.
@@ -126,6 +146,11 @@ Jean Tirole.
 \newblock A theory of collective reputations (with applications to the persistence of corruption and to firm quality).
 \newblock \emph{The Review of Economic Studies}, 63\penalty0 (1):\penalty0 1--22, 1996.
 \newblock \doi{10.2307/2298112}.
+
+\bibitem[Traulsen and Hauert(2009)]{Traulsen2009}
+Arne Traulsen and Christoph Hauert.
+\newblock Stochastic evolutionary game dynamics.
+\newblock \emph{Reviews of nonlinear dynamics and complexity}, 2:\penalty0 25--61, 2009.
 
 \bibitem[Weibull(1995)]{Weibull1995}
 J{\"o}rgen~W Weibull.
