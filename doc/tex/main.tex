@@ -1194,11 +1194,23 @@ Real-world academic publishing is not a monolithic global market, but rather a h
 \paragraph{ABM Configuration and Result Analysis}
 To simulate this environment, we employ an Agent-Based Model (ABM) where both populations update their strategies via a Fermi pairwise comparison process, introducing bounded rationality and decision noise. 
 
-First, we analyze the global co-evolutionary baseline without fragmentation, as illustrated in \textbf{Figure 14}. The ABM realization demonstrates that structurally dominated strategies, such as Only Bad (OB) and Reject All (AR), are rapidly driven to extinction. The remaining strategies enter a dynamic coexistence where the continuous mathematical predictions (ODE) and the finite-population ABM trajectories align closely. 
+First, we analyze the global co-evolutionary baseline without fragmentation, as illustrated in \textbf{Figure \ref{fig:co_ABM_B}}. The ABM realization demonstrates that structurally dominated strategies, such as Only Bad (OB) and Reject All (AR), are rapidly driven to extinction. The remaining strategies enter a dynamic coexistence where the continuous mathematical predictions (ODE) and the finite-population ABM trajectories align closely. 
 
-However, under the extreme fragmentation of the 10:1 batch-matching architecture, illustrated in \textbf{Figure 15}, the system exhibits a profound deviation from the global mean-field predictions. In the rationing-dominated regime (Scenario B), the ABM reveals that the ``Never Submit'' (NS) strategy unexpectedly overtakes the ecosystem. This occurs due to a phenomenon we term ``Feasibility Collapse.'' Because the global publication slots ($K_{store}$) are strictly divided among the 100 journals, each local sub-market operates with an extremely narrow bottleneck. If even a small number of opportunistic (AS) authors flood a specific 10-person room, the local rationing probability ($\rho$) plummets below the economic break-even threshold required to justify the submission cost ($c$). Consequently, the ``Defense by Congestion'' becomes too punitive; even honest authors (OG) suffer negative expected payoffs and are forced to exit the market entirely, leaving NS as the only rational, risk-averse strategy.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{co_ABM_B.pdf}
+    \caption{Global Co-evolutionary Baseline (Scenario B). The system demonstrates stable coexistence without fragmentation, where the finite-population ABM trajectory closely aligns with the continuous ODE predictions.}
+    \label{fig:co_ABM_B}
+\end{figure}
 
+However, under the extreme fragmentation of the 10:1 batch-matching architecture, illustrated in \textbf{Figure \ref{fig:co_ABM_A}}, the system exhibits a profound deviation from the global mean-field predictions. In the rationing-dominated regime (Scenario B), the ABM reveals that the "Never Submit" (NS) strategy unexpectedly overtakes the ecosystem. This occurs due to a phenomenon we term "Feasibility Collapse." Because the global publication slots ($K_{store}$) are strictly divided among the 100 journals, each local sub-market operates with an extremely narrow bottleneck. If even a small number of opportunistic (AS) authors flood a specific 10-person room, the local rationing probability ($\rho$) plummets below the economic break-even threshold required to justify the submission cost ($c$). Consequently, the "Defense by Congestion" becomes too punitive; even honest authors (OG) suffer negative expected payoffs and are forced to exit the market entirely, leaving NS as the only rational, risk-averse strategy.
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{co_ABM_A.pdf}
+    \caption{Co-evolutionary Dynamics under 10:1 Local Batch-Matching (Scenario B). The extreme fragmentation induces severe localized congestion variance, causing the "Never Submit" (NS) strategy to dominate due to Feasibility Collapse.}
+    \label{fig:co_ABM_A}
+\end{figure}
 
 
 
