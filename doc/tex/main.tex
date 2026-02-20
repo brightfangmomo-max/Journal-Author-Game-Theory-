@@ -1141,13 +1141,9 @@ To rigorously validate the robustness of our theoretical findings and explore th
 
 The core innovation of this extended ABM is the \textit{batch-matching} algorithm. Instead of evaluating all $N$ agents globally, the population is randomly partitioned into local batches (sub-markets) in each time step. The journal's review and storage capacities ($K_{rev}$ and $K_{store}$) are scaled proportionally to match these local batches. This approach significantly improves upon standard global ABMs by introducing critical variance into the localized rationing probability ($\rho$) and enabling stochastic drift. It captures the granular reality that the publication ``lottery'' is not uniform; different sub-fields experience varying degrees of congestion simultaneously. This localized competition provides a much more rigorous stress-test for the theoretical equilibria.
 
-The simulation results validate our threshold competition framework across four key dimensions, as illustrated in Figure \ref{fig:co_abm_composite}:
+The simulation results validate our threshold competition framework across two key dimensions, as illustrated in Figure \ref{fig:co_abm_composite}:
 
-\textbf{Trajectory Analysis and Robustness:} Figures \ref{fig:co_abm_composite}(a) and \ref{fig:co_abm_composite}(b) illustrate the time evolution of strategies under batch matching. In the rationing-dominated regime (Scenario B), despite chaotic local interactions, both the theoretical ODE and the ABM trajectories converge tightly to the stable internal equilibrium of $x^* \approx 0.49$. This confirms that the stable coexistence induced by congestion is highly robust against local noise. Conversely, in the review-dominated regime (Scenario A), the ABM demonstrates sharp bistability, collapsing rapidly to global honesty ($x=1.0$) or global corruption ($x=0.0$) depending on initial conditions. The ABM closely traces the expected theoretical paths but exhibits micro-oscillations, validating the IESDS reduction while underscoring the severe path-dependence of the bistable regime.
-
-\textbf{Distribution of Local Congestion:} Figure \ref{fig:co_abm_composite}(c) provides the empirical distribution of the realized publication probability ($\rho$) across all local batches during the steady state. The mean-field model assumes a singular, fixed expected $\rho$. However, the batch ABM reveals a distribution clustered around a mean of $\rho = 0.51$. This finding is conceptually crucial: it demonstrates that the system-wide ``Defense by Congestion'' does not require perfectly uniform bottleneck pressure. Macroscopic integrity is maintained through the statistical consistency of localized congestion, aligning with models of decentralized and imperfect scientific evaluation \citep{Thurner2011}.
-
-\textbf{Phase Portrait and Stochastic Drift:} Finally, Figure \ref{fig:co_abm_composite}(d) maps the evolutionary phase portrait, superimposing realized ABM stochastic drift ($\Delta x$) over the theoretical expected velocity curve. This visualization highlights a critical systemic vulnerability. Near the unstable tipping point ($x \approx 0.82$), the localized variance causes the realized $\Delta x$ to scatter widely and frequently cross the zero-axis. This demonstrates that in bistable regimes, localized sequences of ``bad luck'' or noise in review batches can prematurely trigger a catastrophic shift into the corruption basin \citep{Scheffer2001}. It powerfully illustrates the fragility of scientific ecosystems, where micro-level stochasticity can amplify the natural selection of bad science if the macro-level tipping point is approached \citep{Smaldino2016}.
+\textbf{Trajectory Analysis and Robustness:} Figures~\ref{fig:co_abm_composite}(a) and~\ref{fig:co_abm_composite}(b) illustrate the time evolution of strategies under batch matching. In the rationing-dominated regime (Scenario B), despite chaotic local interactions, both the theoretical ODE and the ABM trajectories converge tightly to the stable internal equilibrium of $x^* \approx 0.49$. This confirms that the stable coexistence induced by congestion is highly robust against local noise. Conversely, in the review-dominated regime (Scenario A), the ABM demonstrates sharp bistability, collapsing rapidly to global honesty ($x=1.0$) or global corruption ($x=0.0$) depending on initial conditions. The ABM closely traces the expected theoretical paths but exhibits micro-oscillations, validating the IESDS reduction while underscoring the severe path-dependence of the bistable regime.
 
 \begin{figure}[H]
     \centering
@@ -1164,21 +1160,7 @@ The simulation results validate our threshold competition framework across four 
         \caption{Scenario A (Bistability) Trajectories}
         \label{fig:co_abm_bistability}
     \end{subfigure}
-    \vskip 10pt
-    \begin{subfigure}[b]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{co_ABM_rho_distribution.pdf}
-        \caption{Distribution of Local Congestion ($\rho$)}
-        \label{fig:co_abm_rho}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{co_ABM_evolution.pdf}
-        \caption{Phase Portrait with Stochastic Drift}
-        \label{fig:co_abm_drift}
-    \end{subfigure}
-    \caption{\textbf{Results of the Co-operation ABM with Local Batch-Matching.} The composite figure demonstrates that the theoretical mean-field predictions hold even under the rigorous localized constraints and stochastic noise introduced by fragmented sub-markets. Notably, local variance (c) creates significant stochastic drift near unstable tipping points (d).}
+    \caption{\textbf{Results of the Co-operation ABM with Local Batch-Matching.} The composite figure demonstrates that the theoretical mean-field predictions hold even under the rigorous localized constraints and stochastic noise introduced by fragmented sub-markets.}
     \label{fig:co_abm_composite}
 \end{figure}
 
@@ -1196,7 +1178,7 @@ To simulate this environment, we employ an Agent-Based Model (ABM) where both po
 
 First, we analyze the global co-evolutionary baseline without fragmentation, as illustrated in \textbf{Figure \ref{fig:co_ABM_B}}. The ABM realization demonstrates that structurally dominated strategies, such as Only Bad (OB) and Reject All (AR), are rapidly driven to extinction. The remaining strategies enter a dynamic coexistence where the continuous mathematical predictions (ODE) and the finite-population ABM trajectories align closely. 
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{co_ABM_B.pdf}
     \caption{Global Co-evolutionary Baseline (Scenario B). The system demonstrates stable coexistence without fragmentation, where the finite-population ABM trajectory closely aligns with the continuous ODE predictions.}
@@ -1205,7 +1187,7 @@ First, we analyze the global co-evolutionary baseline without fragmentation, as 
 
 However, under the extreme fragmentation of the 10:1 batch-matching architecture, illustrated in \textbf{Figure \ref{fig:co_ABM_A}}, the system exhibits a profound deviation from the global mean-field predictions. In the rationing-dominated regime (Scenario B), the ABM reveals that the "Never Submit" (NS) strategy unexpectedly overtakes the ecosystem. This occurs due to a phenomenon we term "Feasibility Collapse." Because the global publication slots ($K_{store}$) are strictly divided among the 100 journals, each local sub-market operates with an extremely narrow bottleneck. If even a small number of opportunistic (AS) authors flood a specific 10-person room, the local rationing probability ($\rho$) plummets below the economic break-even threshold required to justify the submission cost ($c$). Consequently, the "Defense by Congestion" becomes too punitive; even honest authors (OG) suffer negative expected payoffs and are forced to exit the market entirely, leaving NS as the only rational, risk-averse strategy.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{co_ABM_A.pdf}
     \caption{Co-evolutionary Dynamics under 10:1 Local Batch-Matching (Scenario B). The extreme fragmentation induces severe localized congestion variance, causing the "Never Submit" (NS) strategy to dominate due to Feasibility Collapse.}
