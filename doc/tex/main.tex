@@ -274,6 +274,145 @@ Effective policy must raise $K_{rev}$, reduce $\lambda$, and restore friction to
 \label{fig:mechanism}
 \end{figure}
 
+\section{Stylized Facts: AI as an Asymmetric Shock}
+\label{sec:stylized_facts}
+
+\paragraph{AI dramatically lowers the cost of producing a manuscript.}
+Large language models have cut the time required to draft, revise, and resubmit academic text by a documented margin.
+In a randomised experiment with 453 college-educated professionals, \citet{NoyZhang2023} found that access to ChatGPT reduced the time to complete an incentivised writing task by approximately 40\% while simultaneously raising assessed output quality by 18 percentage points, with the largest gains accruing to weaker writers.
+\citet{StokelWalker2023} report that researchers can revise a full manuscript in under five minutes at an API cost below \$0.50.
+These micro-level reductions compound at the submission level.
+Because iterative resubmission across journals was once a significant labour cost, AI converts a high-friction deterrent into a near-zero marginal activity, giving every author---regardless of the underlying quality of their work---a cost-effective reason to submit or resubmit.
+In the model, this channel corresponds to a downward shift in the submission cost parameter $c(a)$.
+
+\paragraph{The aggregate evidence confirms a sharp rise in submission pressure.}
+Macro-level data are consistent with the micro-level cost story.
+Monthly submissions to arXiv reached a record 24{,}226 in October 2024, roughly 50\% above the late-2022 baseline; the first month to cross 20{,}000 submissions was May 2023, shortly after the public release of ChatGPT \citep{arXiv2024}.
+More than one-fifth of computer-science preprints sampled in September 2024 showed measurable evidence of large-language-model modification \citep{Liang2025}, and a vocabulary-based analysis of 15 million biomedical abstracts found that at least 13.5\% of all 2024 \textit{PubMed} papers contain AI-assisted text, with rates exceeding 40\% in some sub-disciplines \citep{Kobak2025}.
+Alongside this volume growth, annual retraction counts exceeded 10{,}000 for the first time in 2023, with paper-mill activity implicated in mass retraction events at major publishers.
+Together, these patterns indicate that submission volume $V$ has shifted materially upward as AI adoption has spread, independently of any change in the fraction of authors who genuinely produce high-quality work.
+In the model, this corresponds to an upward shift in $V(x, a)$ with elasticity $\gamma$ with respect to $a$.
+
+\paragraph{Verification cannot scale symmetrically with text production.}
+The tasks that constitute rigorous peer review---reading carefully for logical consistency, checking data against claimed analyses, running or inspecting code, and evaluating genuine novelty---remain human-intensive in ways that text generation is not.
+Confidentiality requirements for submitted manuscripts prevent reviewers from uploading papers to third-party AI services, and many journals explicitly forbid AI use in the review process \citep{Naddaf2025}.
+Even where AI-assisted reviewing is nominally permitted, the marginal reviewer who can detect a subtle methodological flaw is a scarce specialist whose attention is not fungible with a language model's output.
+Reviewer acceptance rates have declined continuously for two decades \citep{Meyerson2025}, and the existing burden is already extreme: reviewers contribute more than 100 million hours annually to the peer review system worldwide, with the load concentrated among a small fraction of active researchers \citep{Kovanis2016}.
+A system under strain before the AI era is therefore unlikely to absorb a near-doubling of submission volume through a commensurate increase in review capacity.
+In the model, this channel is captured by $K_{rev}(a) = K_{rev}(0) \cdot (1 + \delta a)$, where the elasticity $\delta$ is strictly smaller than the production elasticity $\gamma$, reflecting the structural and policy constraints described above.
+
+\paragraph{AI polishes manuscripts without improving their reliability, raising the false-positive rate.}
+A third channel operates through the quality of the screening signal rather than through volume.
+AI writing tools produce fluent, well-formatted, and stylistically consistent text \citep{StokelWalker2023}.
+This surface polish reduces the ability of reviewers to distinguish a low-quality submission from a genuine contribution on textual features alone, raising the probability that a flawed manuscript passes the review filter.
+The review process is further compromised when reviewers themselves turn to AI\@: between 6.5\% and 16.9\% of AI-conference peer reviews now contain substantial AI-generated text \citep{Liang2024ICML}, and an experimental audit found that AI-assisted reviews award systematically higher scores, leading to elevated acceptance rates \citep{Latona2024}.
+Automated detection offers limited recourse---leading AI detectors exhibit false-negative rates above 70\%, and adversarial paraphrasing can reduce recall to near zero \citep{Liang2023detectors}.
+In the model, this channel corresponds to an upward shift in the false-positive rate $\lambda(a)$: as AI adoption rises, the probability that a low-quality submission passes review increases even holding the underlying composition of the author population constant.
+
+\paragraph{The asymmetry hypothesis.}
+The four channels described above---rising submission volume, falling drafting cost, lagging review capacity, and rising false-positive risk---reduce to a single structural claim:
+\begin{quote}
+  \textit{AI raises the elasticity of manuscript production above the elasticity of manuscript verification.}
+\end{quote}
+We formalise this as the \textbf{AI asymmetry assumption}: with $a \in [0,1]$ denoting AI adoption intensity,
+\begin{equation}
+    \label{eq:asymmetry}
+    \gamma > \delta \geq 0,
+\end{equation}
+where $\gamma$ is the elasticity of submission volume with respect to $a$ and $\delta$ is the elasticity of review capacity with respect to $a$.
+This is not an axiom but a testable empirical statement about relative scaling rates.
+Table~\ref{tab:ai_channels} translates each channel into a specific model parameter and states the direction of the shift.
+Section~\ref{sec:analysis} examines how the model's qualitative results depend on the magnitude of the gap $\gamma - \delta$ and on the slope of $\lambda(a)$.
+
+\begin{table}[H]
+\centering
+\caption{\textbf{AI adoption channels and their model counterparts.}
+Each row maps an empirical mechanism to the corresponding model parameter,
+the direction of the shift, and the evidence base.}
+\label{tab:ai_channels}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabularx}{\textwidth}{p{2.8cm} p{4.0cm} c c p{3.6cm}}
+\toprule
+\textbf{Empirical channel} & \textbf{Mechanism} & \textbf{Parameter} & \textbf{Shift} & \textbf{Key evidence} \\
+\midrule
+Lower drafting cost
+  & AI reduces time and effort per manuscript; resubmission friction falls
+  & $c(a)$
+  & $\downarrow$
+  & \citet{NoyZhang2023}; \citet{StokelWalker2023} \\
+Higher submission volume
+  & More authors submit more frequently; low-quality papers enter the pool
+  & $V$ (elasticity $\gamma$)
+  & $\uparrow$
+  & \citet{arXiv2024}; \citet{Liang2025}; \citet{Kobak2025} \\
+Lagging review capacity
+  & Deep verification remains human-intensive; policy restricts AI in review; reviewer shortage pre-dates AI
+  & $K_{rev}$ (elasticity $\delta < \gamma$)
+  & $\uparrow$ slowly
+  & \citet{Meyerson2025}; \citet{Kovanis2016}; \citet{Naddaf2025} \\
+Rising false-positive rate
+  & Polished AI text harder to distinguish; AI-assisted reviews inflate acceptance scores; detectors unreliable
+  & $\lambda(a)$
+  & $\uparrow$
+  & \citet{Liang2024ICML}; \citet{Latona2024}; \citet{Liang2023detectors} \\
+Possible quality uplift
+  & AI may also help authors improve genuine contributions (partial offset)
+  & $\alpha$
+  & $\uparrow$ (offset)
+  & \citet{NoyZhang2023} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Related Literature}
+\label{sec:literature}
+
+Peer review is a shared resource.
+Each submission consumes a fixed amount of reviewer time and attention.
+When submission volume grows faster than the pool of willing reviewers, that resource degrades.
+\citet{gross2019contest} show that scientific contests become inefficient at high participation rates: total effort rises, but expected quality per participant falls.
+\citet{Cotton2013} reaches a parallel conclusion for journals: a small entry cost can deter low-quality submissions and relieve pressure on reviewers.
+\citet{Kovanis2016} estimate that the global peer review system already consumed over 100 million hours of researcher time each year in the mid-2010s, and \citet{Aczel2021} value the US contribution alone at more than 1.5 billion USD in 2020.
+\citet{Bianchi2018} model these pressures and find that screening quality declines even when reviewers act in good faith, simply because competing demands leave too little time per paper.
+The reviewing system was already near its limits before generative artificial intelligence entered the picture.
+
+A related body of work models authors as strategic agents.
+\citet{Thurner2011} show that when the review filter is imprecise, submitting everything regardless of quality can become individually rational, pushing the long-run outcome toward low average quality.
+\citet{Zollman2024} extend this to a multi-journal setting and find that prestige-maximising incentives can reward strategic over honest behaviour.
+\citet{Tiokhin2021} study honest signalling and show that the good outcome---where only strong work is submitted---is fragile: it collapses when the cost of mimicking quality falls even slightly.
+\citet{Smaldino2016} document this logic empirically, arguing that ``publish or perish'' incentives act as a selection force that spreads high-volume, low-quality strategies through academic communities.
+At the aggregate level, \citet{Ioannidis2005} shows that most published findings fail to replicate, not because of fraud, but because structural incentives reward output over reproducibility.
+\citet{casadevall2014reforming} and \citet{Stephan2012} trace this to career and grant structures that treat paper counts as a proxy for scientific value.
+Paper mills---commercial services producing fabricated manuscripts to order---represent the extreme end of this logic: annual retraction counts have reached record highs and single incidents have implicated thousands of papers at major publishers.
+Our model formalises the mechanism underlying these trends.
+When the review filter is weak and slots are available, submitting low-quality work yields a positive expected payoff, and selection pressure then favours volume over quality.
+
+Recent empirical work documents how generative artificial intelligence reshapes both sides of the system.
+On the production side, \citet{NoyZhang2023} find that access to a large language model cuts professional writing time by 40\% and raises rated output quality by 18 percentage points.
+\citet{Liang2025} detect language-model modification in more than one-fifth of computer-science preprints by late 2024, and \citet{Kobak2025} find AI-assisted text in at least 13.5\% of biomedical abstracts from the same period.
+On the evaluation side, the picture is more troubling.
+\citet{Checco2021} conclude that deep verification---checking data, code, and logical consistency---remains beyond current automated systems.
+\citet{Liang2024ICML} find that between 6.5\% and 16.9\% of reviews at major conferences already contain AI-generated text, and \citet{Latona2024} show experimentally that AI-assisted reviews award higher scores, raising acceptance rates.
+\citet{Naddaf2025} reports that more than half of surveyed researchers now use AI tools for reviewing, often against journal policy.
+These findings supply the empirical foundation for our asymmetry assumption: artificial intelligence raises submission productivity faster than it raises verification capacity.
+
+The economics of gatekeeping and institutional design has also received attention.
+\citet{Ellison2002} shows that the equilibrium publication standard depends on how strongly readers value quality signals.
+\citet{MullerItten2022} finds that journals maintain strict standards to protect their certification value: accepting too freely devalues their own signal.
+\citet{casadevall2014reforming} argue that effective reform must target the false-positive rate directly---through data deposition, structured reporting, and replication requirements---rather than adjusting slot counts alone.
+\citet{Ginsparg2011} shows that dissemination and certification can be separated: preprint servers make manuscripts available immediately while editorial endorsement follows independently.
+\citet{Cotton2013} provides the sharpest economic case for submission fees: a small cost of entry restores friction, filters marginal submissions, and reduces reviewer overload.
+
+\subsection*{The gap this paper fills}
+
+These literatures have not been unified.
+Models of strategic submission do not treat artificial intelligence as a structural shock that shifts multiple inputs at once.
+The empirical AI-in-science literature documents faster production, slower review growth, and higher false-positive risk, but does not connect these to a model with clear predictions about the long-run state of the system.
+Neither strand addresses the possibility that submission pressure can grow gradually until it crosses a threshold, after which the system shifts suddenly to a low-quality state and resists recovery.
+The institutional design literature does not ask how its proposals must change when drafting cost approaches zero and the false-positive rate rises continuously with adoption.
+This paper closes these gaps.
+It connects all four channels---$c(a)$ falling, $V$ rising, $K_{rev}$ lagging, and $\lambda(a)$ rising---to the long-run state of the publishing system, characterises conditions under which quality collapses suddenly and is hard to restore, and derives which institutional levers can prevent or reverse that shift.
+
 \section{Model}
 \label{sec:model}
 \subsection{Setting}
@@ -566,7 +705,7 @@ Crucially, increases in low-quality or opportunistic submissions raise the expec
 
 In this subsection, we derive the expected payoffs for both authors and the journal. The introduction of the capacity constraint $K$ fundamentally couples the payoffs: an individual's utility depends not only on their own strategy but also on the aggregate congestion generated by the population. This structure formally aligns with the class of \emph{congestion games}, where individual payoffs are negatively correlated with the total utilization of a shared resource \citep{Rosenthal1973}.
 
-\subsubsection{Notation and general framework}
+\paragraph{Notation and general framework}
 
 Table~\ref{tab:variables_updated} summarizes the key parameters and variables. We employ a \emph{mean-field approximation} where players base their decisions on the \textbf{expected} state of the system. This approach is standard in evolutionary game theory for modeling interactions in large finite populations, allowing deterministic analysis of stochastic processes \citep{Sandholm2010, Weibull1995}.
 
@@ -618,7 +757,7 @@ It is crucial to distinguish between papers that pass peer review ($M$) and thos
     Y_G = \bar{\rho} M_G, \quad Y_B = \bar{\rho} M_B.
 \end{equation}
 
-\subsubsection{General payoff functions}
+\paragraph{General payoff functions}
 
 \paragraph{Author's utility ($U_A$).}
 Let $r$ be the reward for a published paper and $c$ be the cost of submission. The expected payoff for an author playing $s_A$ against a journal $s_J$ is the expected reward from publication minus the reliable cost of submission:
@@ -639,7 +778,7 @@ Substituting $Y = \bar{\rho} M$, we obtain the working form of the journal's pay
 \end{equation}
 \textit{Remark:} Eq.~(\ref{eq:journal_payoff_general}) relies on the approximation $\mathbb{E}[\rho M] \approx \mathbb{E}[\rho]\mathbb{E}[M]$. As $N$ grows large, the relative fluctuations in $M$ diminish, making this mean-field limit exact \citep{Sandholm2010}.
 
-\subsubsection{Derivation of strategy-specific payoffs}
+\paragraph{Derivation of strategy-specific payoffs}
 
 We now explicitly list the payoff functions for the 8 primary scenarios (4 Author strategies and 4 Journal strategies).
 
@@ -683,7 +822,7 @@ The journal publishes nothing ($Y=0$). Review costs are still incurred for proce
     U_J(\text{AR}) = - C_J(V_G + V_B) \quad (\text{normalized to } 0 \text{ in dominance analysis})
 \end{equation}
 
-\subsubsection{Summary of transition probabilities}
+\paragraph{Summary of transition probabilities}
 For completeness, Table~\ref{tab:prob_matrix} summarizes the effective probability $\mathcal{P}(s_A, s_J)$ of entering the peer-accepted pool for any strategy pair. These values are the key inputs for the payoff equations.
 
 \begin{table}[h]
@@ -710,7 +849,7 @@ Before analyzing the evolutionary dynamics, we simplify the strategy space by it
 We conduct this analysis under the standard \textbf{mean-field approximation}, holding the aggregate congestion factor $\bar{\rho}$ fixed.
 The elimination proceeds in two stages: first, we identify strategies that are dominated purely by the structural logic of the game (independent of specific cost-benefit inequalities); second, we introduce parameter constraints to eliminate strategies based on economic trade-offs.
 
-\subsubsection{Stage 1: Structural elimination (Unconditional dominance)}
+\paragraph{Stage 1: Structural elimination (Unconditional dominance)}
 
 We first establish dominance relations that hold under weak axiomatic assumptions regarding the nature of peer review and scientific value, consistent with signaling models in scientific communication \citep{Tiokhin2021}.
 
@@ -743,7 +882,7 @@ The payoff difference is the marginal utility of submitting a good paper:
 If this axiom holds, then $\Delta U_A > 0$ for any non-zero congestion $\bar{\rho}$.
 Thus, \textbf{Author OB is strictly dominated by AS} due to monotonicity: a rational author will never withhold a high-quality paper while simultaneously submitting a low-quality one.
 
-\subsubsection{Parameter constraints for a non-trivial game}
+\paragraph{Parameter constraints for a non-trivial game}
 
 Having eliminated the structurally irrational strategies, we now focus on the remaining set. To ensure the game yields interesting evolutionary dynamics (avoiding trivial collapse or utopian perfection), we define the "viable region" of the parameter space using the \textbf{abundance benchmark} ($\bar{\rho}=1$).
 
@@ -772,7 +911,7 @@ Having eliminated the structurally irrational strategies, we now focus on the re
     It states that the aggregate penalty avoided by rejecting bad papers outweighs the benefit lost from accidentally rejecting good ones \citep{MullerItten2022}.
 \end{enumerate}
 
-\subsubsection{Stage 2: Conditional elimination (Economic dominance)}
+\paragraph{Stage 2: Conditional elimination (Economic dominance)}
 
 We now eliminate strategies based on the specific economic trade-offs defined above.
 
@@ -800,7 +939,7 @@ Comparing \textbf{Only Good (OG)} with \textbf{Never Submit (NS)} ($U_A=0$):
 Under the \textbf{Viability Constraint} (\ref{eq:constraint_viability}), this difference is positive as long as the congestion does not exceed the critical threshold $\bar{\rho} > \frac{c}{r(1-\epsilon)}$.
 In the viable regime, \textbf{NS is strictly dominated by OG} (and by AS). This condition reflects the rational participation constraint found in scientific contests, where authors only enter if the expected payoff exceeds the effort cost \citep{gross2019contest}.
 
-\subsubsection{The reduced evolutionary game}
+\paragraph{The reduced evolutionary game}
 
 Following the two-stage elimination process, the complex multi-strategy interaction reduces to a concise $2 \times 1$ asymmetric game.
 
@@ -885,22 +1024,16 @@ The evolutionary dynamics of the system are thus entirely determined by the time
 \section{Replicator Dynamics and Bifurcation Analysis}
 \label{sec:dynamics}
 
-\subsection{Model reduction and population state}
-
-Following the dominance analysis, the strategy space reduces to a dynamic contest between two surviving Author strategies, with the Journal playing a fixed filtering role.
-We define the \textbf{population state} $x(t) \in [0, 1]$ as the proportion of authors playing \textbf{Only Good (OG)}, while $1-x(t)$ play \textbf{Always Submit (AS)}. The evolutionary trajectory of this state is governed by the payoff differential between the strategies \citep{Hofbauer1998}.
-
-We assume the system operates in the \textbf{Conditional Profitability Region}:
-\begin{equation}
-    \lambda r < c < r
-\end{equation}
-This condition implies that in the un-congested limit ($\eta \approx 1, \bar{\rho} \approx 1$), cheating is unprofitable ($\lambda r - c < 0$). Cheating becomes viable only if the screening mechanism collapses significantly due to congestion. This mirrors the "Market for Lemons" dynamic, where opportunistic behavior proliferates only when the buyer's ability to distinguish quality degrades \citep{Akerlof1970, Thurner2011}.
-\subsection{Endogenous congestion functions}
+\subsection{Population state and congestion functions}
 \label{subsec:endogenous_congestion}
 
-To capture the dual impact of congestion, we model two distinct bottlenecks. While numerical simulations use a smoothed approximation (Soft Minimum) to capture pre-congestion friction, we present the analytical forms using standard cutoffs for clarity.
+Following the dominance analysis, the strategy space reduces to a contest between two author strategies, with the journal playing a fixed filtering role.
+We define the \textbf{population state} $x(t) \in [0, 1]$ as the fraction of authors playing \textbf{Only Good (OG)}, while $1-x(t)$ play \textbf{Always Submit (AS)}.
+We assume the system operates in the region $\lambda r < c < r$: in the absence of congestion, submitting low-quality work is unprofitable, but it becomes viable once the screening mechanism degrades sufficiently---a mechanism analogous to the market for lemons \citep{Akerlof1970, Thurner2011}.
 
-\subsubsection{Stage 1: The screening intensity function $\eta(x)$}
+To capture the dual impact of congestion, we model two distinct bottlenecks. Numerical simulations use a smoothed approximation to capture pre-congestion friction; the analytical forms below use standard cutoffs for clarity.
+
+\paragraph{Stage 1: The screening intensity function $\eta(x)$}
 The total submission volume is $V(x) = N [ 1 - (1 - \alpha)x ]$.
 The screening intensity $\eta(x)$ represents the probability that a paper undergoes rigorous peer review. It degrades when volume exceeds the review capacity $K_{rev}$, a phenomenon consistent with models of "reviewer fatigue" and resource scarcity \citep{Azar2005, Kovanis2016}:
 \begin{equation}
@@ -916,7 +1049,7 @@ For a good paper, the pass probability $\pi_1(x)$ also approaches 1 as scrutiny 
     \pi_1(x) = \eta(x) (1-\epsilon) + (1 - \eta(x)) \cdot 1 = 1 - \eta(x)\epsilon
 \end{equation}
 
-\subsubsection{Stage 2: The rationing probability function $\bar{\rho}(x)$}
+\paragraph{Stage 2: The rationing probability function $\bar{\rho}(x)$}
 Let $K$ be the publication slot capacity. The expected volume of papers entering the ``perceived good'' pool $M(x)$ is:
 \begin{align}
     M(x) &= V_G(x)\pi_1(x) + V_B(x)\pi_0(x) \nonumber \\
@@ -965,7 +1098,7 @@ When the review collapse effect dominates at low honesty, $\Pi_{bad}(x)$ becomes
     \label{fig:replicator_dynamics}
 \end{figure}
 
-\subsubsection{Analytical Condition for Instability of the Internal Equilibrium}
+\paragraph{Analytical Condition for Instability of the Internal Equilibrium}
 
 To rigorously characterize the stability of an interior equilibrium $x^* \in (0,1)$, we analyze the local derivative of the velocity field. Following standard evolutionary stability analysis \citep{Hofbauer1998}, the equilibrium is unstable (a repeller) if and only if the net utility of cheating is locally decreasing in $x$:
 \begin{equation}
@@ -985,7 +1118,9 @@ Therefore, the tipping point is unstable if and only if the Review-Dominated Con
 This condition confirms that bistability arises when the recovery of peer review quality (as $x$ increases) outweighs the relaxation of publication slots.
 
 
-\subsection{The regime of stable coexistence: Rationing-dominated dynamics}
+\subsection{Equilibrium regimes}
+
+\paragraph{Stable coexistence: rationing-dominated dynamics}
 
 While the default scenario exhibits bistability, a fundamentally different topological regime emerges when the storage constraint ($K_{store}$) is significantly tighter than the review constraint ($K_{rev}$).
 Figure \ref{fig:stable_coexistence} illustrates this scenario, where the evolutionary velocity $\dot{x}$ transitions from positive to negative, creating a Stable Internal Equilibrium ($x^* \approx 0.44$).
@@ -1002,7 +1137,7 @@ Figure \ref{fig:stable_coexistence} illustrates this scenario, where the evoluti
     \label{fig:stable_coexistence}
 \end{figure}
 
-\subsubsection{Existence and Stability Conditions}
+\paragraph{Existence and Stability Conditions}
 
 For a stable coexistence equilibrium to exist, two conditions must be met:
 \begin{enumerate}
@@ -1010,17 +1145,17 @@ For a stable coexistence equilibrium to exist, two conditions must be met:
     \item \textbf{Stability Condition:} The slope of the velocity field must be negative, i.e., $\frac{d \Pi_{bad}}{d x} \big|_{x^*} > 0$. This corresponds to the Rationing-Dominated Condition*, where the "punishment" from overcrowding (tightening $\bar{\rho}$) outweighs the "opportunity" from collapsed screening.
 \end{enumerate}
 
-\subsubsection{Real-world implication: The "Defense by Congestion" paradox}
+\paragraph{Real-world implication: The ``Defense by Congestion'' paradox}
 
 The emergence of a stable internal equilibrium reveals a paradoxical phenomenon: \textbf{extreme congestion acts as an unintentional defense mechanism}. 
 In journals with strict page limits ($K_{store} \ll N$), even if peer review fails ($\pi_0 \to 1$), the sheer volume of submissions drives the acceptance rate $\bar{\rho}$ so low that spamming becomes statistically unprofitable. 
 This explains why top-tier journals do not degenerate into full corruption even under heavy load—the "lottery" is simply too hard to win. This dynamic aligns with contest models where excessive competition discourages entry by marginal participants \citep{gross2019contest}.
 However, it also implies vulnerability: if capacity is expanded (increasing $K_{store}$), the system loses this passive defense, potentially shifting the topology to bistability or collapse. This highlights the strategic value of artificial scarcity in maintaining the "gatekeeper" function of academic journals \citep{MullerItten2022}.
-\subsection{Boundary Regimes: Global Honesty and Global Corruption}
+\paragraph{Boundary regimes: global honesty and global corruption}
 
-Beyond the complex interior dynamics, the system may exhibit monotonic behaviors where the incentive to cheat is uniformly positive or negative.
+Beyond the interior dynamics, the system may exhibit monotonic behaviour where the incentive to submit low-quality work is uniformly positive or negative.
 
-\subsubsection{Global Honesty ($x^* = 1$): Defense by Rigor}
+\paragraph{Global Honesty ($x^* = 1$): Defense by Rigor}
 
 When $\Pi_{bad}(x) < 0$ for all $x \in [0,1]$, the evolutionary velocity $\dot{x}$ remains positive throughout the domain, driving the system unconditionally toward $x^* = 1$ (Figure \ref{fig:global_honesty}).
 A sufficient condition for this regime is that the payoff is negative even at the most favorable boundary ($x=1$):
@@ -1038,7 +1173,7 @@ This implies that suppressing the false-positive rate $\lambda$ below the cost-r
     \label{fig:global_honesty}
 \end{figure}
 
-\subsubsection{Global Corruption ($x^* = 0$): Systemic Failure}
+\paragraph{Global Corruption ($x^* = 0$): Systemic Failure}
 
 Conversely, when $\Pi_{bad}(x) > 0$ for all $x \in [0,1]$, the system collapses unconditionally to $x^* = 0$ (Figure \ref{fig:global_corruption}).
 This occurs when the payoff remains positive even under maximum congestion ($x=0$):
@@ -1149,7 +1284,7 @@ To ensure comparative consistency, we establish two representative parameter set
     \footnotesize{\\ \textit{Note: Set A is used as the default for sensitivity sweeps. Set B is used to illustrate the defense-by-congestion mechanism.}}
 \end{table}
 
-\subsubsection{Justification for Dual Parameter Calibration}
+\paragraph{Justification for Dual Parameter Calibration}
 
 The necessity of defining two distinct parameter sets stems from the complex, non-monotonic nature of the dual-bottleneck mechanism. A single baseline cannot capture the full range of the system's dynamical behaviors. We distinguish between two fundamental ecosystem archetypes:
 
@@ -1203,7 +1338,7 @@ To visualize the interaction between these forces, we perform a two-dimensional 
 
 The topology of Figure \ref{fig:regime_map} highlights two critical dynamical phenomena:
 
-\subsubsection{The Paradox of Slot Expansion}
+\paragraph{The Paradox of Slot Expansion}
 Moving vertically from the bottom of the diagram corresponds to increasing the journal's publication volume ($K_{store}$).
 The diagram reveals a non-monotonic response:
 \begin{enumerate}
@@ -1214,7 +1349,7 @@ This latter transition is the \textbf{Paradox of Slot Expansion}. It occurs beca
 By increasing $K_{store}$, the journal inadvertently dismantles this defense. As $\bar{\rho}$ rises, the "lottery" becomes winnable again. If $K_{rev}$ is not increased simultaneously to catch the resulting flood of bad papers, the incentive to cheat reactivates, and the system tips into full corruption. 
 This finding aligns with strategic gatekeeping models, suggesting that while expanding capacity improves access, doing so without scaling review rigour destroys the signal value of the journal \citep{MullerItten2022}.
 
-\subsubsection{The Necessity of Review Resources}
+\paragraph{The Necessity of Review Resources}
 Moving horizontally to the right corresponds to investing in Review Capacity ($K_{rev}$).
 Provided the system is in a feasible region (not Gray), increasing $K_{rev}$ is unconditionally beneficial, expanding the \textbf{Global Honesty (Green)} zone.
 Crucially, the boundary between corruption and honesty slopes upward: as $K_{store}$ increases (more slots), the journal requires \textit{disproportionately} more review capacity to maintain honesty.
@@ -1250,13 +1385,13 @@ Figure \ref{fig:hysteresis} illustrates the resulting trajectories using Baselin
 
 The analysis yields three critical insights:
 
-\subsubsection{Structural Resilience (Forward Path)}
+\paragraph{Structural Resilience (Forward Path)}
 A journal with a strong reputation demonstrates remarkable resilience. 
 As seen in the Blue trajectory, the system maintains $x_{st} \approx 1$ and perfect quality ($Q=1.0$) even when $N$ far exceeds the nominal capacity. 
 This persists because honest authors self-regulate, keeping the effective load $V(1) = N\alpha$ manageable.
 The \textbf{Collapse Point} $N_{\uparrow} \approx 1800$ is mathematically defined as the threshold where the honest equilibrium loses stability: $N_{\uparrow} = \inf \{N : \Pi_{bad}(1; N) \ge 0\}$.
 
-\subsubsection{The Stickiness of Corruption (Backward Path)}
+\paragraph{The Stickiness of Corruption (Backward Path)}
 Once the system settles into the corrupt equilibrium, the sheer volume of spam saturates the review capacity.
 Even if $N$ is reduced, the system remains trapped in the low-quality state as long as $\Pi_{bad}(0; N) > 0$.
 The \textbf{Recovery Point} $N_{\downarrow} \approx 350$ corresponds to the threshold where the corrupt equilibrium finally becomes unstable.
@@ -1268,7 +1403,7 @@ Crucially, we define the Average Publication Quality $Q(x)$ as the proportion of
 \end{equation}
 Since slot rationing ($\bar{\rho}$) applies uniformly to $M(x)$, it does not alter the ratio of good-to-bad papers. Consequently, quality remains low throughout the backward path until the critical transition occurs.
 
-\subsubsection{Policy Implication: Basin Hopping}
+\paragraph{Policy Implication: Basin Hopping}
 The disparity between $N_{\uparrow}$ and $N_{\downarrow}$ implies that incremental reforms are structurally insufficient for a corrupted journal.
 Within the bistable interval, marginal reductions in submissions do not change the long-run attractor.
 Escaping the low-quality basin requires interventions strong enough to move the system across the recovery threshold ($N < N_{\downarrow}$). 
@@ -1280,7 +1415,7 @@ While capacity parameters define the structural limits, strategic parameters ($r
 To provide a comprehensive policy guide, we perform a comparative sensitivity analysis across all five dimensions. 
 The following analysis decomposes these levers into three functional groups: Screening, Economic Incentives, and Productivity.
 
-\subsubsection{Screening Parameters: The "Kill Switch" vs. The "Silent Factor"}
+\paragraph{Screening Parameters: The ``Kill Switch'' vs.\ The ``Silent Factor''}
 
 First, we analyze the technical parameters controlling the peer review filter (Figure \ref{fig:strategic_part1}).
 
@@ -1298,7 +1433,7 @@ In stark contrast, Panel (b) shows that \textbf{Friction ($\epsilon$)} acts as a
     \label{fig:strategic_part1}
 \end{figure}
 
-\subsubsection{Economic Levers: The Filter and The Accelerant}
+\paragraph{Economic Levers: The Filter and The Accelerant}
 
 Next, we examine the financial and reputational incentives (Figure \ref{fig:strategic_part2}).
 
@@ -1315,7 +1450,7 @@ Conversely, Panel (d) identifies \textbf{Submission Cost ($c$)} as a powerful fi
     \label{fig:strategic_part2}
 \end{figure}
 
-\subsubsection{The Productivity Paradox}
+\paragraph{The Productivity Paradox}
 
 Finally, we analyze the impact of aggregate author productivity (Figure \ref{fig:strategic_part3}).
 
@@ -1335,11 +1470,11 @@ This is the \textbf{Productivity Paradox}: as legitimate authors produce more pa
 \section{Agent-Based Modeling}
 \label{sec:abm}
 
-\subsection{Motivation and Micro-foundations}
-The analytical results presented in previous sections rely on the replicator dynamics, which assume an infinite population ($N \to \infty$) and a deterministic evolution of strategies \cite{Hofbauer1998}. However, real-world academic communities consist of a finite number of researchers subject to stochastic fluctuations and finite-size effects \cite{Nowak2006}. 
-To validate the robustness of our topological classification and the mathematical dominance analysis, we implement a microscopic \textbf{Agent-Based Model (ABM)}. This approach, widely used in the study of complex adaptive systems \cite{Bonabeau2002}, serves three critical purposes: first, it tests whether the strictly dominated strategies naturally die out in a dynamic environment; second, it verifies if the predicted equilibria emerge from local interactions under stochastic noise; third, it confirms that the "Defense by Congestion" mechanism is not an artifact of the mean-field approximation.
-
 \subsection{Simulation Design}
+
+The analytical results rely on a mean-field approximation that assumes a large population and deterministic strategy evolution \citep{Hofbauer1998}.
+Real academic communities are finite and subject to stochastic fluctuations \citep{Nowak2006}.
+We therefore implement an Agent-Based Model (ABM) to validate three claims: that dominated strategies die out naturally, that the predicted long-run outcomes emerge from local interactions under noise, and that the defence-by-congestion mechanism is not an artefact of the mean-field limit \citep{Bonabeau2002}.
 We simulate a population of $N=1000$ agents. The time evolution follows the standard protocols of stochastic evolutionary game theory in finite populations \cite{Traulsen2009}. To rigorously test the system's evolutionary trajectory without assuming a pre-reduced state, the population is initialized with a uniform distribution across all four strategies (25\% for each strategy). The process proceeds as follows:
 
 \begin{enumerate}
@@ -1414,7 +1549,7 @@ The simulation results validate our threshold competition framework across two k
 \end{figure}
 
 
-\subsubsection{The Journal as an Independent Evolutionary Agent}
+\paragraph{The Journal as an Independent Evolutionary Agent}
 
 \paragraph{From Fixed Environment to Co-Evolutionary Agent}
 In previous sections, including the local batch-matching analysis in Section 5.4, the journal was mathematically treated as a fixed institutional player locked into the "Only Good" (OG) strategy. It acted purely as a static environmental constraint enforcing a peer review filter and a capacity limit. By elevating the journal to an independent, adaptive agent, we transition the framework from a simple population game into an asymmetric co-evolutionary game. Journals now possess their own complete strategy space, consisting of Only Good (OG), Always Accept (AA), Only Bad (OB), and Reject All (AR). They update their behavior based on their own distinct utility function, which must balance the reputation benefits of publishing good papers, the penalties of publishing bad papers, and the administrative costs of peer review. This structural update captures the "Red Queen" dynamic inherent in academic publishing: if the author population becomes overwhelmingly honest, journals are financially incentivized to drop their costly screening processes and adopt the "Always Accept" (AA) strategy. However, this relaxation immediately triggers an opportunistic invasion of "Always Submit" (AS) authors, which in turn forces the journals to revert to strict filtering. 
