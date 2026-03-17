@@ -17,17 +17,265 @@
 \usetikzlibrary{shapes.geometric, arrows, positioning, calc, patterns}
 
 \geometry{a4paper, margin=1in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.8em}
 
 \title{Big science and peer review, a game theoretical model}
 \date{\today}
+
+\makeatletter
+\renewenvironment{abstract}{%
+  \small
+  \begin{center}%
+    {\bfseries\abstractname\vspace{-.5em}\vspace{\z@}}%
+  \end{center}%
+  \setlength{\parindent}{0pt}%
+  \setlength{\parskip}{0.8em}%
+  \noindent\ignorespaces
+}{%
+  \par%
+}
+\makeatother
 
 \begin{document}
 
 \maketitle
 
+\begin{abstract}
+Generative AI is transforming the economics of academic publishing.
+By September 2024, more than one-fifth of computer-science preprints showed evidence of large-language-model modification \citep{Liang2025}, while monthly submissions to arXiv reached a record 24{,}226, roughly 50\% higher than in late 2022 \citep{arXiv2024}.
+Verification has not kept pace: reviewer acceptance rates have declined steadily over two decades \citep{Meyerson2025}, and between 6.5\% and 16.9\% of conference peer reviews are now themselves AI-modified \citep{Liang2024ICML}.
+This asymmetry (AI scales paper production faster than it scales screening) is the subject of this paper.
+We build a game-theoretic model of academic publishing in which AI adoption raises submission volume and lowers drafting cost faster than it raises review capacity, while also increasing the rate at which low-quality manuscripts pass screening.
+Three results follow.
+First, extreme slot scarcity can stabilize honest submission norms even under degraded screening, because the publication lottery becomes too hard to win.
+Second, gradual AI adoption can trigger a discrete tipping point into a low-quality long-run outcome; once tipped, the system is self-sustaining, so recovery requires a large coordinated intervention, not incremental reform.
+Third, expanding publication capacity without scaling verification accelerates the tipping.
+These results point to a concrete policy agenda of verification-centric institutions (structured audits, submission quotas, and decoupled certification) rather than simply more publication slots.
+\end{abstract}
+
 \section{Introduction}
 
+Artificial intelligence has made it substantially cheaper and faster to produce a manuscript than to review one.
+By September 2024, more than one-fifth of computer-science preprints on arXiv showed measurable evidence of large-language-model modification \citep{Liang2025}, and at least 13.5\% of all biomedical abstracts published that year contained AI-assisted text \citep{Kobak2025}.
+Monthly submissions to arXiv reached a record 24{,}226 in October 2024, roughly 50\% higher than in late 2022 \citep{arXiv2024}.
+Verification has not kept pace.
+Reviewer acceptance rates have declined steadily over two decades \citep{Meyerson2025}, and between 6.5\% and 16.9\% of conference peer reviews now contain substantial AI-generated text \citep{Liang2024ICML}.
+More than half of active researchers surveyed in 2025 reported using AI tools to write reviews, often against explicit journal policy \citep{Naddaf2025}.
+The central question this paper asks is not whether individual researchers behave ethically, but what happens to a publishing \emph{system} when the cost of producing a paper falls faster than the capacity to evaluate it.
+
+The conventional response to AI in science focuses on disclosure requirements, detection tools, and editorial guidelines.
+These measures address individual conduct.
+They leave untouched the structural problem: even if every author is honest, reviewers can scrutinize only a finite number of manuscripts carefully per cycle.
+When submission volume rises faster than review capacity, screening degrades.
+A reviewer who faces twice as many papers in the same time cannot give each submission the same attention.
+The result is not misconduct; it is congestion.
+Congested screening lowers the effective quality threshold, and a lower threshold raises the expected payoff from submitting weak or low-quality work.
+This feedback between volume and screening quality is the mechanism at the core of this paper.
+
+Academic publishing contains two distinct bottlenecks, and AI affects them asymmetrically.
+The first is verification capacity: the number of papers that reviewers can evaluate carefully in a given period, denoted $K_{rev}$.
+The second is allocation capacity: the number of papers the journal can publish per period, denoted $K$.
+AI raises submission volume $V$ by reducing the marginal cost of drafting and resubmitting papers.
+It lowers the effort cost $c$ of each submission.
+It also increases the false-positive rate $\lambda$, the probability that a low-quality manuscript passes peer review, because AI-assisted writing produces polished text that is harder to distinguish from genuine contributions on surface features alone.
+Review capacity, by contrast, does not scale symmetrically with AI.
+Deep expertise, data and code verification, and replication checking remain human-intensive tasks.
+Journal policies in many fields explicitly restrict AI use in reviews \citep{Naddaf2025}.
+This asymmetry is the starting point of the model: production scales faster with AI adoption than verification does.
+
+We formalize this asymmetry in a game-theoretic model of academic publishing.
+Building on strategic models of scientific communication \citep{Zollman2024, Thurner2011}, we consider a population of authors who choose between two strategies: submitting only genuine work (the cooperative strategy) or submitting everything including low-quality manuscripts (the defecting strategy).
+A journal applies peer review, subject to both a review capacity $K_{rev}$ and a publication slot constraint $K$.
+We introduce an AI adoption intensity parameter $a \in [0,1]$.
+Higher $a$ raises submission volume $V$ with elasticity $\gamma$, raises review capacity $K_{rev}$ with elasticity $\delta < \gamma$, lowers submission cost $c$, and raises the false-positive rate $\lambda$.
+The production elasticity exceeds the verification elasticity by assumption, formalizing the asymmetry observed empirically.
+The net effect of $a$ on the profitability of submitting a low-quality paper, $\Pi_{bad}(x, a) = r \cdot \bar{\rho}(x,a) \cdot \pi_0(x,a) - c(a)$, is positive: AI makes spamming more attractive.
+
+Three results follow from the analysis.
+First, extreme publication scarcity stabilizes honest submission norms even when screening is imperfect.
+When the publication lottery is rare enough to win, the expected payoff from submitting a low-quality paper falls below the submission cost, and defection is unprofitable.
+Scarcity, paradoxically, acts as a deterrent.
+Second, as $a$ rises, the system can cross a tipping threshold: the long-run outcome shifts abruptly from a high-quality equilibrium to a low-quality one.
+This tipping occurs because AI simultaneously lowers the break-even point for spam and erodes the screening mechanism that would otherwise deter it.
+Third, the system exhibits persistent path dependence.
+The value of $a$ at which quality collapses is strictly lower than the value at which quality recovers.
+Once the system has tipped into the low-quality long-run outcome, incremental reforms cannot restore it.
+A large coordinated intervention is needed to cross the recovery threshold.
+
+These results carry a counterintuitive implication for policy.
+Expanding publication capacity (raising $K$) without raising review capacity makes the situation worse, not better.
+More slots increase the expected reward from submitting marginal work, accelerating the drift toward the defecting strategy.
+Effective intervention must instead target the two primary levers: raising genuine review capacity $K_{rev}$ and reducing the false-positive rate $\lambda$.
+Practical instruments that move these levers include structured code and data audit requirements, submission quotas or tokens, cascading triage systems, and layered certification schemes that decouple preprint dissemination from editorial endorsement.
+These are not incremental reforms; they constitute a different institutional design, one oriented toward verification rather than volume.
+
+The paper is organized as follows.
+Section~\ref{sec:model} presents the game-theoretic model, including the setting, players and strategies, review noise, capacity constraints, and payoff analysis.
+Section~\ref{sec:dynamics} derives the replicator dynamics and conducts the bifurcation and stability analysis, characterizing the equilibrium regimes.
+Section~\ref{sec:analysis} examines parameter sensitivity and regime transitions, including the phase diagram analysis, hysteresis effects, and strategic levers available to policymakers.
+Section~\ref{sec:conclusion} concludes.
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=stealth,
+    font=\small,
+    % ── Node styles ──────────────────────────────────────────────────────
+    ai/.style={
+        rectangle, rounded corners=5pt,
+        draw=violet!70, fill=violet!12,
+        minimum width=3.0cm, minimum height=1.1cm,
+        align=center, text=violet!80!black
+    },
+    channel/.style={
+        rectangle, rounded corners=5pt,
+        draw=orange!70!red!60, fill=orange!8,
+        minimum width=3.6cm, minimum height=1.0cm,
+        align=center
+    },
+    lag/.style={
+        rectangle, rounded corners=5pt,
+        draw=gray!60, fill=gray!10,
+        minimum width=3.6cm, minimum height=1.0cm,
+        align=center, text=gray!70!black
+    },
+    pibad/.style={
+        rectangle, rounded corners=5pt,
+        draw=orange!80!black, fill=yellow!15,
+        minimum width=3.8cm, minimum height=1.4cm,
+        align=center
+    },
+    outcome/.style={
+        rectangle, rounded corners=5pt,
+        draw=red!70, fill=red!8,
+        minimum width=2.8cm, minimum height=1.0cm,
+        align=center
+    },
+    policy/.style={
+        rectangle, rounded corners=5pt,
+        draw=teal!70, fill=teal!8,
+        minimum width=12.0cm, minimum height=1.2cm,
+        align=center, text=teal!80!black
+    },
+    % ── Arrow styles ─────────────────────────────────────────────────────
+    strong/.style={thick, ->, black!70},
+    weak/.style={thick, ->, dashed, gray!60},
+    plcy/.style={thick, ->, dashed, teal!70}
+]
+
+% ── Column 1: AI adoption ────────────────────────────────────────────────
+\node (ai) [ai] at (0,0)
+    {\textbf{AI adoption}\\[3pt]{\scriptsize $a \in [0,1]$}};
+
+% ── Column 2: Channels ───────────────────────────────────────────────────
+\node (vup)   [channel] at (5.5, 2.4)
+    {Submission volume $V \uparrow$\\[2pt]{\scriptsize (elasticity $\gamma$)}};
+
+\node (cdown) [channel] at (5.5, 0.8)
+    {Submission cost $c \downarrow$\\[2pt]{\scriptsize (AI lowers drafting effort)}};
+
+\node (lup)   [channel] at (5.5,-0.8)
+    {False-positive rate $\lambda \uparrow$\\[2pt]{\scriptsize (polished-but-wrong text)}};
+
+\node (krev)  [lag]     at (5.5,-2.4)
+    {Review capacity $K_{rev} \uparrow$\\[2pt]{\scriptsize (elasticity $\delta < \gamma$)}};
+
+% ── Column 3: Spam Payoff ────────────────────────────────────────────────
+\node (pibad) [pibad] at (11.5, 0)
+    {\textbf{Spam payoff} $\Pi_{bad}(x,a) \uparrow$\\[3pt]
+     {\scriptsize $\Pi_{bad} = r\bar{\rho}\,\pi_0 - c > 0$}\\[1pt]
+     {\scriptsize cheating becomes viable}};
+
+% ── Column 4: Outcomes ───────────────────────────────────────────────────
+\node (tip)  [outcome] at (16.5, 1.3)
+    {\textbf{Tipping point}\\[2pt]{\scriptsize honesty collapses}};
+
+\node (hyst) [outcome] at (16.5,-1.3)
+    {\textbf{Hysteresis}\\[2pt]{\scriptsize recovery is harder}};
+
+% ── Policy box ───────────────────────────────────────────────────────────
+\node (policy) [policy] at (8.5,-4.8)
+    {\textbf{Policy response:}\quad
+     raise $K_{rev}$ (verification resources)\quad$\cdot$\quad
+     lower $\lambda$ (audits, structured checks)\quad$\cdot$\quad
+     restore friction to $c$ (submission tokens)};
+
+% =========================================================================
+% ── ARROW ROUTING (Orthogonal Bus Design) ────────────────────────────────
+% =========================================================================
+% Define the X-coordinates for our vertical split/merge lines
+\def\busA{2.6}  % Between AI and Channels
+\def\busB{8.5}  % Between Channels and Spam Payoff
+\def\busC{14.4} % Between Spam Payoff and Outcomes
+
+% ── Fork 1: AI splitting into Channels ───────────────────────────────────
+% 1. Horizontal trunk from AI to Bus A
+\draw[weak, -] (ai.east) -- (\busA, 0);
+
+% 2. Vertical distribution bus (Solid for top 3, dashed for bottom lag node)
+\draw[strong, -] (\busA, 2.4) -- (\busA, -0.8);
+\draw[weak, -]   (\busA, -0.8) -- (\busA, -2.4);
+
+% 3. Horizontal prongs entering the left side of the channels
+\draw[strong] (\busA, 2.4) -- (vup.west);
+\draw[strong] (\busA, 0.8) -- (cdown.west);
+\draw[strong] (\busA, -0.8) -- (lup.west);
+\draw[weak]   (\busA, -2.4) -- (krev.west);
+
+
+% ── Fork 2: Channels feeding into Spam Payoff ────────────────────────────
+% V_up (top) and K_rev (bottom) bypass the main merge and enter top/bottom
+\draw[strong] (vup.east) -| (pibad.north);
+\draw[weak]   (krev.east) -| node[pos=0.75, right, font=\scriptsize, text=gray] {partial offset} ([xshift=-10pt]pibad.south);
+
+% c_down and lambda_up merge together at Bus B into a single trunk
+\draw[strong, -] (cdown.east) -| (\busB, 0); % Right to Bus B, Down to Y=0
+\draw[strong, -] (lup.east)   -| (\busB, 0); % Right to Bus B, Up to Y=0
+% Merged trunk enters Spam Payoff
+\draw[strong] (\busB, 0) -- (pibad.west);
+
+
+% ── Fork 3: Spam Payoff splitting into Outcomes ──────────────────────────
+% Main trunk out of Spam Payoff to Bus C
+\draw[strong, line width=1.2pt, -] (pibad.east) -- (\busC, 0);
+
+% Split to Tipping Point (Up then Right) and Hysteresis (Down then Right)
+\draw[strong, line width=1.2pt] (\busC, 0) |- (tip.west);
+\draw[strong, line width=1.2pt] (\busC, 0) |- (hyst.west);
+
+
+% ── Policy Arrow ─────────────────────────────────────────────────────────
+% Routed carefully to the south anchor, offset slightly so it doesn't overlap K_rev
+\draw[plcy] (policy.north) -| ([xshift=10pt]pibad.south);
+
+
+% ── Legend ───────────────────────────────────────────────────────────────
+\node (legend) [font=\scriptsize, text=black!65] at (8.5, -6.2)
+    {\raisebox{1pt}{\rule{0.6cm}{0.8pt}}$\!\!\rightarrow$\;Strong AI channel
+     \quad
+     \raisebox{1pt}{\makebox[0.6cm]{\dotfill}}$\!\!\rightarrow$\;Lagging\,/\,partial offset\;($\delta<\gamma$)
+     \quad
+     \textcolor{teal!70!black}{\raisebox{1pt}{\makebox[0.6cm]{\dotfill}}$\!\!\rightarrow$}\;\textcolor{teal!70!black}{Policy lever}};
+
+\end{tikzpicture}%
+}
+\caption{\textbf{Mechanism diagram: AI as an asymmetric shock to the publication system.}
+AI adoption ($a$) raises submission volume ($V$, elasticity $\gamma$) and lowers
+drafting cost ($c$), while polished AI text increases the false-positive rate ($\lambda$).
+Review capacity ($K_{rev}$) rises more slowly (elasticity $\delta < \gamma$), so the
+partial offset from AI-assisted reviewing is insufficient to prevent congestion.
+Together, these shifts raise the profitability of submitting low-quality work
+($\Pi_{bad} = r\bar{\rho}\,\pi_0 - c$), pushing the system toward a tipping point
+and widening the gap between the collapse and recovery thresholds (hysteresis).
+Effective policy must raise $K_{rev}$, reduce $\lambda$, and restore friction to $c$
+(dashed teal arrow).}
+\label{fig:mechanism}
+\end{figure}
+
 \section{Model}
+\label{sec:model}
 \subsection{Setting}
 
 We consider a publication game involving a finite population of $N$ authors and a single academic journal. 
@@ -851,6 +1099,7 @@ By continuity, \textbf{at least one} stable interior equilibrium \(x^*\) exists 
 
 This classification reveals a dual-control mechanism: \textbf{Review Quality ($\lambda$)} secures the honest boundary ($x=1$), while \textbf{Storage Capacity ($K_{store}$)} secures the corrupt boundary ($x=0$).
 \section{Parameter Sensitivity and Regime Transitions}
+\label{sec:analysis}
 
 
 \subsection{Methodology and Baseline Calibration}
@@ -1197,6 +1446,7 @@ However, under the extreme fragmentation of the 10:1 batch-matching architecture
 
 
 \section{Conclusion}
+\label{sec:conclusion}
 
 
 \clearpage
