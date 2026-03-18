@@ -252,6 +252,17 @@ Section~\ref{sec:conclusion} concludes.
      \quad
      \textcolor{teal!70!black}{\raisebox{1pt}{\makebox[0.6cm]{\dotfill}}$\!\!\rightarrow$}\;\textcolor{teal!70!black}{Policy lever}};
 
+%% Outcome box
+\node [
+    rectangle, rounded corners=5pt,
+    draw=red!60!black, fill=red!6,
+    minimum width=3.4cm, minimum height=1.6cm,
+    align=center, font=\small, text=red!70!black
+] (outcome) at (21.5, 0)
+    {$\Pi_{bad}(x,a)\;\uparrow$\\[4pt]
+     {\scriptsize $\Rightarrow$ tipping /\\hysteresis risk}};
+\draw[thick, ->, red!60!black] (19.8, 0) -- (outcome.west);
+
 \end{tikzpicture}%
 }
 \caption{\textbf{Mechanism diagram: AI as an asymmetric shock to the publication system.}
@@ -535,16 +546,15 @@ As established in Section~\ref{sec:stylized_facts} and illustrated in Figure~\re
 
 \paragraph{Channel 1---Production: more submissions at every composition.}
 The most direct effect of AI is to lower the marginal cost of drafting and resubmitting a manuscript, which raises total submission volume at any given composition of the author population.
-In a randomised experiment, \citet{NoyZhang2023} found that access to a large language model cut professional writing time by 40\%; \citet{StokelWalker2023} report that researchers can revise a full manuscript in under five minutes at minimal cost.
-These gains compound at the system level: iterative resubmission across journals---once a significant labour cost---becomes a near-zero marginal activity.
+Randomised experiments find that LLM access cuts professional writing time by roughly 40\% and reduces resubmission effort to near zero \citep{NoyZhang2023, StokelWalker2023}.
 We formalise this as a multiplicative shift in total submission volume:
 \begin{equation}
     V(x, a) \;=\; N\bigl[1-(1-\alpha)x\bigr]\cdot(1 + \gamma a),
     \label{eq:V_a}
 \end{equation}
 where $\gamma > 0$ is the \textbf{production elasticity}.
-Macro-level data support this specification: monthly arXiv submissions rose roughly 50\% in the two years following the public release of ChatGPT \citep{arXiv2024}, and more than one-fifth of computer-science preprints showed measurable LLM modification by late 2024 \citep{Liang2025}.
-Crucially, $V$ rises with $a$ regardless of $x$: even in a fully honest author population, AI generates more submissions because each author drafts and resubmits more often.
+System-level data confirm this: monthly arXiv submissions rose roughly 50\% in two years, with over one-fifth of preprints showing measurable LLM modification \citep{arXiv2024, Liang2025}.
+Crucially, $V$ rises with $a$ regardless of $x$: even a fully honest author population generates more submissions because each author drafts and resubmits more often.
 
 \paragraph{Channel 2---Friction: lower cost of submitting bad papers.}
 Beyond raising volume, AI directly lowers the cost of each submission attempt.
@@ -560,17 +570,16 @@ For OG authors, who submit only when they have good work, cost reductions matter
 For AS authors, who submit everything, the lower $c$ directly amplifies the incentive to flood the system.
 
 \paragraph{Channel 3---Vulnerability: weaker screening signal.}
-AI writing tools produce fluent, well-formatted text that is harder to distinguish from genuine contributions on surface features alone \citep{StokelWalker2023}.
-This raises the probability that a carefully reviewed bad paper still passes the filter.
-The screening signal also degrades on the review side: \citet{Liang2024ICML} document that between 6.5\% and 16.9\% of reviews at major AI conferences already contain AI-generated text, and \citet{Latona2024} show experimentally that AI-assisted reviews award systematically higher scores, raising effective acceptance rates.
-Automated detection offers limited recourse: leading AI detectors exhibit false-negative rates above 70\%, and adversarial paraphrasing can reduce recall to near zero \citep{Liang2023detectors}.
+AI-generated text is harder to distinguish on surface features \citep{StokelWalker2023}, AI-assisted reviews award systematically higher scores \citep{Latona2024, Liang2024ICML}, and automated detection remains unreliable---false-negative rates exceed 70\% \citep{Liang2023detectors}.
+Each mechanism raises the probability that a bad paper passes review.
 We write:
 \begin{equation}
     \lambda(a) \;=\; \lambda_0 + \mu\, a, \qquad \mu \geq 0,
     \label{eq:lambda_a}
 \end{equation}
-where $\lambda_0$ is the baseline false-positive rate and $\mu$ is the sensitivity of screening quality to AI adoption.
-Rising $\lambda$ enters $\pi_0 = 1 - \eta(1-\lambda)$ directly: even when a paper receives full scrutiny, it is more likely to pass.
+where $\lambda_0$ is the baseline false-positive rate and $\mu \geq 0$ is the sensitivity of screening quality to AI adoption.
+$\lambda(a)$ is a reduced-form parameter: it captures the net effect of AI adoption on the false-positive rate without modelling each mechanism separately.
+Rising $\lambda$ enters $\pi_0 = 1 - \eta(1-\lambda)$ directly: even a carefully reviewed paper is more likely to pass.
 
 \paragraph{Channel 4---Review assistance: capacity grows, but more slowly.}
 AI can also assist reviewers---summarising papers, flagging inconsistencies, checking statistical reporting---so review capacity is not fixed.
@@ -580,10 +589,8 @@ We write:
     \label{eq:Krev_a}
 \end{equation}
 where $\delta \geq 0$ is the \textbf{verification elasticity}.
-However, deep verification---checking data against claimed analyses, inspecting code, evaluating genuine novelty---remains human-intensive in ways that text generation is not \citep{Checco2021}.
-Confidentiality requirements prevent reviewers from uploading manuscripts to third-party services, and many journals explicitly prohibit AI use in reviews \citep{Naddaf2025}.
-The reviewer pool was already under severe strain before the AI era, with acceptance rates declining continuously for two decades \citep{Meyerson2025}.
-These structural and policy constraints enforce the AI asymmetry assumption from Section~\ref{sec:stylized_facts}---namely that $\gamma > \delta \geq 0$ (Equation~\ref{eq:asymmetry}): production scales faster with AI than verification does.
+However, deep verification remains human-intensive: confidentiality rules restrict AI use in reviews \citep{Naddaf2025, Checco2021}, and reviewer capacity was already strained before the AI era \citep{Meyerson2025}.
+These constraints enforce the asymmetry $\gamma > \delta \geq 0$ (Equation~\ref{eq:asymmetry}).
 
 Figure~\ref{fig:ai_channels} summarises the four channels and their functional forms.
 
@@ -643,23 +650,23 @@ Figure~\ref{fig:ai_channels} summarises the four channels and their functional f
 \draw[sarrow] (\busX, 3.2)  -- node[above, font=\scriptsize]{elasticity $\gamma$}  (V.west);
 \draw[sarrow] (\busX, 1.0)  -- node[above, font=\scriptsize]{slope $\phi$}         (c.west);
 \draw[sarrow] (\busX, -1.2) -- node[below, font=\scriptsize]{slope $\mu$}          (lam.west);
-\draw[warrow] (\busX, -3.4) -- node[below, font=\scriptsize, text=gray]{elasticity $\delta < \gamma$} (krev.west);
+\draw[warrow] (\busX, -3.4) -- node[below, font=\scriptsize, text=gray, pos=0.25]{elasticity $\delta < \gamma$} (krev.west);
 
 %% Asymmetry brace annotation
 \draw[thick, decorate, decoration={brace, amplitude=7pt}]
-    (13.6,  3.7) -- (13.6, -0.7)
+    (14.4,  3.7) -- (14.4, -0.7)
     node[midway, right=10pt, font=\scriptsize, align=left]
     {Three channels raise\\spam profitability $\Pi_{bad}$};
 \draw[thick, decorate, decoration={brace, amplitude=7pt}]
-    (13.6, -0.7) -- (13.6, -3.9)
+    (14.4, -0.7) -- (14.4, -3.9)
     node[midway, right=10pt, font=\scriptsize, text=gray!70, align=left]
     {Partial offset\\$(\delta < \gamma)$};
 
 %% Legend
-\node [font=\scriptsize, text=black!60, align=center] at (6.5, -5.2)
-    {\raisebox{1pt}{\rule{0.5cm}{0.8pt}}$\!\rightarrow$\;Destabilising channel
-     \qquad
-     \raisebox{1pt}{\makebox[0.5cm]{\dotfill}}$\!\rightarrow$\;Lagging / partial offset};
+\node [font=\normalsize, text=black!60, align=center] at (6.5, -5.2)
+    {\raisebox{1pt}{\rule{0.7cm}{0.8pt}}$\!\rightarrow$\;Destabilising channel
+     \qquad\qquad
+     \raisebox{1pt}{\makebox[0.7cm]{\dotfill}}$\!\rightarrow$\;Lagging / partial offset};
 
 \end{tikzpicture}%
 }
@@ -687,15 +694,15 @@ To isolate the mechanism most cleanly, consider the honest boundary $x = 1$, whe
     \Pi_{bad}(1, a) \;\approx\; r\cdot\pi_0(1,a) \;-\; c(a).
     \label{eq:pibad_boundary}
 \end{equation}
-Since $V(1,a)$ grows with elasticity $\gamma$ while $K_{rev}(a)$ grows with elasticity $\delta < \gamma$, the screening intensity $\eta(1,a)$ falls as $a$ rises.
-At the same time, $\lambda(a)$ rises with slope $\mu$ and $c(a)$ falls with slope $\phi$.
-Both movements raise $\pi_0(1,a) = 1 - \eta(1,a)(1-\lambda(a))$ while the cost falls, so:
+Under the asymmetry $\gamma > \delta$, the screening intensity $\eta(1,a)$ falls as $a$ rises.
+Combined with rising $\lambda(a)$ and falling $c(a)$, this increases $\pi_0(1,a) = 1 - \eta(1,a)(1-\lambda(a))$ while reducing submission cost.
+Provided $\gamma > \delta$, $\mu \geq 0$, and $\phi > 0$:
 \begin{equation}
-    \frac{\partial \Pi_{bad}(1,a)}{\partial a} \;=\; r\underbrace{\frac{\partial \pi_0}{\partial a}}_{>0} \;\underbrace{- c'(a)}_{=\,c_0\phi\,>\,0} \;>\; 0.
+    \frac{\partial \Pi_{bad}(1,a)}{\partial a} \;=\; r\underbrace{\frac{\partial \pi_0}{\partial a}}_{>0\;(\gamma>\delta)} \;\underbrace{- c'(a)}_{=\,c_0\phi\,>\,0} \;>\; 0.
     \label{eq:pibad_slope}
 \end{equation}
-The condition for Global Honesty---$\Pi_{bad}(1,a) < 0$---becomes progressively harder to satisfy as $a$ rises.
-As $a$ crosses the threshold where $\Pi_{bad}(1,a) = 0$, the system exits the GH regime and enters bistability or Global Corruption.
+The condition for Global Honesty---$\Pi_{bad}(1,a) < 0$---becomes harder to satisfy as $a$ rises.
+When $\Pi_{bad}(1,a)$ crosses zero, the system exits the GH regime and enters bistability or Global Corruption.
 
 \paragraph{Creation versus verification: why AI is structurally asymmetric.}
 The four-channel decomposition shows that AI exerts pressure from both the supply and quality dimensions simultaneously.
