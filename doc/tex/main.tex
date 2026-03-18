@@ -14,7 +14,7 @@
 \usepackage[round]{natbib}
 
 \author{Yuhui Fang} 
-\usetikzlibrary{shapes.geometric, arrows, positioning, calc, patterns}
+\usetikzlibrary{shapes.geometric, arrows, positioning, calc, patterns, decorations.pathreplacing}
 
 \geometry{a4paper, margin=1in}
 \setlength{\parindent}{0pt}
@@ -102,7 +102,12 @@ Effective intervention must instead target the two primary levers: raising genui
 Practical instruments that move these levers include structured code and data audit requirements, submission quotas or tokens, cascading triage systems, and layered certification schemes that decouple preprint dissemination from editorial endorsement.
 These are not incremental reforms; they constitute a different institutional design, one oriented toward verification rather than volume.
 
-We proceed as follows: Section~\ref{sec:model} presents the game-theoretic model; Section~\ref{sec:dynamics} derives the replicator dynamics and characterizes the equilibrium regimes; Section~\ref{sec:analysis} examines parameter sensitivity, hysteresis, and strategic levers; and Section~\ref{sec:conclusion} concludes.
+We proceed as follows.
+Section~\ref{sec:model} presents the baseline model.
+Section~\ref{sec:ai_extension} introduces the AI adoption parameter and derives the extended spam payoff.
+Section~\ref{sec:analysis} examines parameter sensitivity, hysteresis, and strategic levers.
+Section~\ref{sec:abm} reports agent-based simulation results.
+Section~\ref{sec:conclusion} concludes.
 
 \begin{figure}[H]
 \centering
@@ -517,6 +522,247 @@ Seen in top-tier journals where the publication lottery is very hard to win. \\
     Which outcome prevails depends entirely on the starting position relative to $x^*$.}
     \label{fig:replicator_dynamics}
 \end{figure}
+
+\section{The AI Extension}
+\label{sec:ai_extension}
+
+\paragraph{AI adoption as a parameter shift.}
+Generative AI affects the publication system through multiple channels simultaneously.
+We capture this with a single scalar $a \in [0,1]$, where $a = 0$ denotes the pre-AI baseline and $a = 1$ denotes full adoption across the author population.
+The parameter can be interpreted as the field-level intensity of AI use---a composite of the fraction of authors employing AI tools and the depth of their integration into the writing and submission workflow.
+We treat $a$ as a comparative-statics parameter: we hold $a$ fixed and trace how the equilibrium structure from Section~\ref{sec:model} changes as $a$ deepens.
+As established in Section~\ref{sec:stylized_facts} and illustrated in Figure~\ref{fig:mechanism}, AI acts through four distinct channels, and the channels are not symmetric.
+
+\paragraph{Channel 1---Production: more submissions at every composition.}
+The most direct effect of AI is to lower the marginal cost of drafting and resubmitting a manuscript, which raises total submission volume at any given composition of the author population.
+In a randomised experiment, \citet{NoyZhang2023} found that access to a large language model cut professional writing time by 40\%; \citet{StokelWalker2023} report that researchers can revise a full manuscript in under five minutes at minimal cost.
+These gains compound at the system level: iterative resubmission across journals---once a significant labour cost---becomes a near-zero marginal activity.
+We formalise this as a multiplicative shift in total submission volume:
+\begin{equation}
+    V(x, a) \;=\; N\bigl[1-(1-\alpha)x\bigr]\cdot(1 + \gamma a),
+    \label{eq:V_a}
+\end{equation}
+where $\gamma > 0$ is the \textbf{production elasticity}.
+Macro-level data support this specification: monthly arXiv submissions rose roughly 50\% in the two years following the public release of ChatGPT \citep{arXiv2024}, and more than one-fifth of computer-science preprints showed measurable LLM modification by late 2024 \citep{Liang2025}.
+Crucially, $V$ rises with $a$ regardless of $x$: even in a fully honest author population, AI generates more submissions because each author drafts and resubmits more often.
+
+\paragraph{Channel 2---Friction: lower cost of submitting bad papers.}
+Beyond raising volume, AI directly lowers the cost of each submission attempt.
+We write:
+\begin{equation}
+    c(a) \;=\; c_0(1 - \phi\, a), \qquad \phi \in (0,1),
+    \label{eq:c_a}
+\end{equation}
+where $c_0$ is the baseline cost and $\phi$ governs the rate at which AI erodes submission friction.
+The cost reduction enters $\Pi_{bad}$ directly: a lower $c$ raises the net payoff from submitting a bad paper even if acceptance probabilities are unchanged.
+The effect is also asymmetric across strategies.
+For OG authors, who submit only when they have good work, cost reductions matter relatively less---they submit infrequently by choice.
+For AS authors, who submit everything, the lower $c$ directly amplifies the incentive to flood the system.
+
+\paragraph{Channel 3---Vulnerability: weaker screening signal.}
+AI writing tools produce fluent, well-formatted text that is harder to distinguish from genuine contributions on surface features alone \citep{StokelWalker2023}.
+This raises the probability that a carefully reviewed bad paper still passes the filter.
+The screening signal also degrades on the review side: \citet{Liang2024ICML} document that between 6.5\% and 16.9\% of reviews at major AI conferences already contain AI-generated text, and \citet{Latona2024} show experimentally that AI-assisted reviews award systematically higher scores, raising effective acceptance rates.
+Automated detection offers limited recourse: leading AI detectors exhibit false-negative rates above 70\%, and adversarial paraphrasing can reduce recall to near zero \citep{Liang2023detectors}.
+We write:
+\begin{equation}
+    \lambda(a) \;=\; \lambda_0 + \mu\, a, \qquad \mu \geq 0,
+    \label{eq:lambda_a}
+\end{equation}
+where $\lambda_0$ is the baseline false-positive rate and $\mu$ is the sensitivity of screening quality to AI adoption.
+Rising $\lambda$ enters $\pi_0 = 1 - \eta(1-\lambda)$ directly: even when a paper receives full scrutiny, it is more likely to pass.
+
+\paragraph{Channel 4---Review assistance: capacity grows, but more slowly.}
+AI can also assist reviewers---summarising papers, flagging inconsistencies, checking statistical reporting---so review capacity is not fixed.
+We write:
+\begin{equation}
+    K_{rev}(a) \;=\; K_{rev}(0)\cdot(1 + \delta\, a),
+    \label{eq:Krev_a}
+\end{equation}
+where $\delta \geq 0$ is the \textbf{verification elasticity}.
+However, deep verification---checking data against claimed analyses, inspecting code, evaluating genuine novelty---remains human-intensive in ways that text generation is not \citep{Checco2021}.
+Confidentiality requirements prevent reviewers from uploading manuscripts to third-party services, and many journals explicitly prohibit AI use in reviews \citep{Naddaf2025}.
+The reviewer pool was already under severe strain before the AI era, with acceptance rates declining continuously for two decades \citep{Meyerson2025}.
+These structural and policy constraints enforce the AI asymmetry assumption from Section~\ref{sec:stylized_facts}---namely that $\gamma > \delta \geq 0$ (Equation~\ref{eq:asymmetry}): production scales faster with AI than verification does.
+
+Figure~\ref{fig:ai_channels} summarises the four channels and their functional forms.
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=stealth,
+    font=\small,
+    aibox/.style={
+        rectangle, rounded corners=5pt,
+        draw=violet!70, fill=violet!12,
+        minimum width=2.8cm, minimum height=1.6cm,
+        align=center, text=violet!80!black
+    },
+    destab/.style={
+        rectangle, rounded corners=4pt,
+        draw=orange!60!black, fill=orange!6,
+        minimum width=8.2cm, minimum height=1.05cm,
+        align=left, inner sep=7pt
+    },
+    lagging/.style={
+        rectangle, rounded corners=4pt,
+        draw=gray!55, fill=gray!7,
+        minimum width=8.2cm, minimum height=1.05cm,
+        align=left, inner sep=7pt, text=gray!65!black
+    },
+    sarrow/.style={thick, ->, black!70},
+    warrow/.style={thick, ->, dashed, gray!55}
+]
+
+%% AI node
+\node (ai) [aibox] at (0,0) {\textbf{AI adoption}\\[3pt]{\small $a \in [0,1]$}};
+
+%% Channel nodes (right column)
+\node (V)    [destab]  at (8.8,  3.2)
+    {\textbf{Submission volume}\quad
+     $V(x,a) = N[1-(1-\alpha)x]\cdot(1+\gamma a)$\hspace{0.5em}{\color{red!70!black}$\uparrow$}};
+\node (c)    [destab]  at (8.8,  1.0)
+    {\textbf{Submission cost}\quad
+     $c(a) = c_0(1 - \phi\, a)$\hspace{0.5em}{\color{red!70!black}$\downarrow$}};
+\node (lam)  [destab]  at (8.8, -1.2)
+    {\textbf{False-positive rate}\quad
+     $\lambda(a) = \lambda_0 + \mu\, a$\hspace{0.5em}{\color{red!70!black}$\uparrow$}};
+\node (krev) [lagging] at (8.8, -3.4)
+    {\textbf{Review capacity}\quad
+     $K_{\mathit{rev}}(a) = K_{\mathit{rev}}(0)\cdot(1+\delta\, a)$,\quad $\delta < \gamma$
+     \hspace{0.5em}{\color{teal!70!black}$\uparrow$ slowly}};
+
+%% Vertical bus line
+\def\busX{2.6}
+\draw[sarrow, -] (ai.east) -- (\busX, 0);
+\draw[sarrow, -] (\busX,  3.2) -- (\busX, -1.2);
+\draw[warrow, -] (\busX, -1.2) -- (\busX, -3.4);
+
+%% Horizontal prongs to channels
+\draw[sarrow] (\busX, 3.2)  -- node[above, font=\scriptsize]{elasticity $\gamma$}  (V.west);
+\draw[sarrow] (\busX, 1.0)  -- node[above, font=\scriptsize]{slope $\phi$}         (c.west);
+\draw[sarrow] (\busX, -1.2) -- node[below, font=\scriptsize]{slope $\mu$}          (lam.west);
+\draw[warrow] (\busX, -3.4) -- node[below, font=\scriptsize, text=gray]{elasticity $\delta < \gamma$} (krev.west);
+
+%% Asymmetry brace annotation
+\draw[thick, decorate, decoration={brace, amplitude=7pt}]
+    (13.6,  3.7) -- (13.6, -0.7)
+    node[midway, right=10pt, font=\scriptsize, align=left]
+    {Three channels raise\\spam profitability $\Pi_{bad}$};
+\draw[thick, decorate, decoration={brace, amplitude=7pt}]
+    (13.6, -0.7) -- (13.6, -3.9)
+    node[midway, right=10pt, font=\scriptsize, text=gray!70, align=left]
+    {Partial offset\\$(\delta < \gamma)$};
+
+%% Legend
+\node [font=\scriptsize, text=black!60, align=center] at (6.5, -5.2)
+    {\raisebox{1pt}{\rule{0.5cm}{0.8pt}}$\!\rightarrow$\;Destabilising channel
+     \qquad
+     \raisebox{1pt}{\makebox[0.5cm]{\dotfill}}$\!\rightarrow$\;Lagging / partial offset};
+
+\end{tikzpicture}%
+}
+
+\caption{\textbf{AI adoption shifts four model parameters (Figure~3).}
+Solid arrows indicate channels that directly raise spam profitability $\Pi_{bad}$:
+rising submission volume ($V$, elasticity $\gamma$), falling submission cost ($c$, slope $\phi$),
+and rising false-positive rate ($\lambda$, slope $\mu$).
+The dashed arrow indicates the only offsetting channel---review capacity ($K_{rev}$, elasticity $\delta$)---which
+grows more slowly than submission volume under the asymmetry assumption $\gamma > \delta$.
+All four channel equations are formal specifications of the informal channels
+described in Section~\ref{sec:stylized_facts}.}
+\label{fig:ai_channels}
+\end{figure}
+
+\paragraph{The combined effect: spam becomes more profitable.}
+Substituting the four channels into the baseline model yields the AI-extended spam payoff:
+\begin{equation}
+    \Pi_{bad}(x, a) \;=\; r\cdot\bar{\rho}(x,a)\cdot\pi_0(x,a) \;-\; c(a),
+    \label{eq:pibad_a}
+\end{equation}
+where $\eta(x,a) = \min\!\left(1, K_{rev}(a)/V(x,a)\right)$, $\;\pi_0(x,a) = 1 - \eta(x,a)(1-\lambda(a))$, and $\bar{\rho}(x,a) = \min\!\left(1, K/M(x,a)\right)$.
+To isolate the mechanism most cleanly, consider the honest boundary $x = 1$, where only good papers are submitted and slot rationing is typically absent ($\bar{\rho}(1,a) \approx 1$ when publication slots exceed honest-author output):
+\begin{equation}
+    \Pi_{bad}(1, a) \;\approx\; r\cdot\pi_0(1,a) \;-\; c(a).
+    \label{eq:pibad_boundary}
+\end{equation}
+Since $V(1,a)$ grows with elasticity $\gamma$ while $K_{rev}(a)$ grows with elasticity $\delta < \gamma$, the screening intensity $\eta(1,a)$ falls as $a$ rises.
+At the same time, $\lambda(a)$ rises with slope $\mu$ and $c(a)$ falls with slope $\phi$.
+Both movements raise $\pi_0(1,a) = 1 - \eta(1,a)(1-\lambda(a))$ while the cost falls, so:
+\begin{equation}
+    \frac{\partial \Pi_{bad}(1,a)}{\partial a} \;=\; r\underbrace{\frac{\partial \pi_0}{\partial a}}_{>0} \;\underbrace{- c'(a)}_{=\,c_0\phi\,>\,0} \;>\; 0.
+    \label{eq:pibad_slope}
+\end{equation}
+The condition for Global Honesty---$\Pi_{bad}(1,a) < 0$---becomes progressively harder to satisfy as $a$ rises.
+As $a$ crosses the threshold where $\Pi_{bad}(1,a) = 0$, the system exits the GH regime and enters bistability or Global Corruption.
+
+\paragraph{Creation versus verification: why AI is structurally asymmetric.}
+The four-channel decomposition shows that AI exerts pressure from both the supply and quality dimensions simultaneously.
+Channels 1 and 2 affect the supply side: they make it cheaper and faster to produce manuscripts.
+Channel 3 affects the screening side: it makes it harder to distinguish good submissions from bad ones at the review stage.
+Channel 4 is the only force working against the other three, but it is structurally constrained to grow more slowly.
+Writing is largely a syntactic task that language models perform well; evaluation is a semantic and domain-specific task requiring human expertise, data access, and contextual judgment \citep{Checco2021}.
+Institutions designed for the pre-AI era assumed rough parity between production and verification rates.
+That assumption no longer holds, and the asymmetry is not a temporary calibration issue---it reflects a fundamental difference in what AI can automate.
+
+\paragraph{Special cases: when stability can be preserved.}
+Not every AI adoption trajectory leads to quality collapse.
+Equation~\eqref{eq:pibad_boundary} shows that the Global Honesty condition can persist even at high $a$ if two circumstances hold jointly.
+First, if $\delta \approx \gamma$---review capacity scales nearly as fast as submission volume---then $\eta(1,a)$ does not fall and the congestion channel is neutralised.
+This could arise if structured AI-assisted verification pipelines (automated code checks, data-consistency audits) allow reviewers to handle more submissions without sacrificing depth.
+Second, if $\mu \approx 0$---AI tools do not degrade screening reliability, perhaps because structured reporting requirements close the gap that polished AI writing opens---then $\lambda(a)$ does not rise.
+If both conditions hold simultaneously, the cost reduction alone is typically insufficient to cross the tipping threshold, because $c(a)$ falls gradually while the honesty condition $c(a) > r\lambda(a)$ can remain satisfied.
+Table~\ref{tab:scenario_matrix} maps the four combinations of these two conditions onto qualitative predictions about regime direction.
+The critical implication is that the institutional response determines which cell the system occupies: $a$ is largely exogenous, but $\delta$ and $\mu$ are policy choices.
+
+\begin{table}[hbt!]
+\centering
+\caption{\textbf{Scenario matrix: qualitative regime outcomes as AI adoption $a$ rises.}
+Two policy-sensitive parameters determine the trajectory.
+$\delta/\gamma$: how fast review capacity keeps pace with submission volume (a measure of investment in verification infrastructure).
+$\mu$: how fast AI adoption raises the false-positive rate (a measure of screening vulnerability).
+Each cell describes the dominant direction of regime change as $a$ increases from zero.}
+\label{tab:scenario_matrix}
+\renewcommand{\arraystretch}{1.6}
+\small
+\begin{tabularx}{\textwidth}{p{3.0cm} X X}
+\toprule
+ & \textbf{$\delta \approx \gamma$: review keeps pace} & \textbf{$\delta \ll \gamma$: review lags severely} \\
+\midrule
+\textbf{$\mu > 0$:} screening degrades
+  & \textit{Partial stability.}
+    Review congestion is controlled, but rising $\lambda$ still weakens the screening signal.
+    GH region shrinks; bistability expands.
+    Verification investment is necessary but not sufficient.
+  & \textit{Highest risk.}
+    Both the congestion and false-positive channels are active.
+    $\Pi_{bad}(1,a)$ rises rapidly.
+    The system moves toward Global Corruption.
+    Risk of irreversible tipping is high. \\
+\midrule
+\textbf{$\mu \approx 0$:} screening holds
+  & \textit{Stable.}
+    AI raises both production and verification at comparable rates; screening quality is maintained.
+    GH region is preserved.
+    Consistent with AI-augmented structured review under strong institutional controls.
+  & \textit{Conditionally stable.}
+    Slot rationing may still provide defence by congestion if $K$ is tight.
+    Fragile: any expansion of publication slots or rise in $r$ can tip the system toward bistability.
+    Requires active management of $K$. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Testable predictions.}
+The AI extension generates four empirically distinguishable predictions.
+First, quality degradation should be \emph{nonlinear} in AI adoption: the system holds near the honest long-run outcome while $a$ remains below the tipping threshold, then shifts abruptly rather than gradually.
+Smooth, continuous quality decline would be inconsistent with the bistable structure.
+Second, fields with higher AI adoption should show review-congestion signatures---longer turnaround times, rising desk-rejection rates, declining reviewer acceptance rates---as proxies for falling $\eta$ \citep{Meyerson2025}.
+Third, acceptance rates should rise in fields with widespread AI-assisted reviewing, independently of any improvement in underlying research quality, as a signature of rising $\lambda$ \citep{Latona2024}.
+Fourth, expanding publication slots should have \emph{asymmetric} effects: before tipping, more slots increase access; after tipping, more slots accelerate quality collapse by raising the spam payoff $\Pi_{bad}$.
+We examine the regime consequences of each lever in Section~\ref{sec:analysis}.
+
 \section{Parameter Sensitivity and Regime Transitions}
 \label{sec:analysis}
 
