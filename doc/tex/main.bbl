@@ -1,4 +1,4 @@
-\begin{thebibliography}{45}
+\begin{thebibliography}{42}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -39,11 +39,6 @@ Federico Bianchi, Francisco Grimaldo, Giangiacomo Bravo, and Flaminio Squazzoni.
 Eric Bonabeau.
 \newblock Agent-based modeling: Methods and techniques for simulating human systems.
 \newblock \emph{Proceedings of the National Academy of Sciences}, 99\penalty0 (suppl\_3):\penalty0 7280--7287, 2002.
-
-\bibitem[Bornmann(2011)]{Bornmann2011}
-Lutz Bornmann.
-\newblock Scientific peer review.
-\newblock \emph{Annual Review of Information Science and Technology}, 45\penalty0 (1):\penalty0 197--245, 2011.
 
 \bibitem[Bornmann et~al.(2010)Bornmann, Mutz, and Daniel]{Bornmann2010}
 Lutz Bornmann, R{\"u}diger Mutz, and Hans-Dieter Daniel.
@@ -165,20 +160,10 @@ Shakked Noy and Whitney Zhang.
 \newblock \emph{Science}, 381\penalty0 (6654):\penalty0 187--192, 2023.
 \newblock \doi{10.1126/science.adh2586}.
 
-\bibitem[Rosenthal(1973)]{Rosenthal1973}
-Robert~W Rosenthal.
-\newblock A class of games possessing pure-strategy nash equilibria.
-\newblock \emph{International Journal of Game Theory}, 2\penalty0 (1):\penalty0 65--67, 1973.
-
 \bibitem[Samuelson(1997)]{Samuelson1997}
 Larry Samuelson.
 \newblock \emph{Evolutionary games and equilibrium selection}.
 \newblock MIT press, 1997.
-
-\bibitem[Sandholm(2010)]{Sandholm2010}
-William~H Sandholm.
-\newblock \emph{Population games and evolutionary dynamics}.
-\newblock MIT press, Cambridge, MA, 2010.
 
 \bibitem[Scheffer et~al.(2001)Scheffer, Carpenter, Foley, Folke, and Walker]{Scheffer2001}
 Marten Scheffer, Steve Carpenter, Jonathan~A Foley, Carl Folke, and Brian Walker.

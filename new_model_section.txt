@@ -1,0 +1,73 @@
+\section{Model}
+\label{sec:model}
+
+We consider a population of $N$ authors submitting to a single journal over repeated periods.
+Each author generates a manuscript with binary quality $q \in \{0,1\}$: good ($q=1$) with probability $\alpha$, and bad ($q=0$) with probability $1-\alpha$.
+Iterated elimination of dominated strategies reduces the strategy space to two options \citep{Fudenberg1991}.
+Under \textbf{selective submission} (OG), an author submits only when $q=1$.
+Under \textbf{universal submission} (AS), an author submits regardless of quality, exploiting the positive false-positive rate to profit from bad papers.
+We write $x \in [0,1]$ for the share of authors playing OG; the remaining $1-x$ play AS.
+The journal applies a fixed review policy with noise parameters $(\epsilon,\lambda)$ and enforces two capacity limits described below.
+
+The system has two sequential bottlenecks, each creating a distinct strategic force.
+The first is \textbf{review capacity} $K_{rev}$.
+Total submission volume is $V(x) = N[1-(1-\alpha)x]$, which rises as the AS share grows.
+When $V$ exceeds $K_{rev}$, only a fraction of papers receive careful scrutiny; the rest pass automatically---a ``rubber-stamping'' effect documented in overloaded review systems \citep{Azar2005, Kovanis2016}.
+The \textbf{screening intensity} is
+\begin{equation}
+    \eta(x) = \min\!\left(1,\; \frac{K_{rev}}{V(x)}\right).
+\end{equation}
+The second bottleneck is \textbf{publication capacity} $K$.
+Papers that survive review enter a peer-accepted pool $M(x)$; at most $K$ can be published per period.
+The probability that a peer-accepted paper is ultimately published---the \textbf{rationing probability}---is
+\begin{equation}
+    \bar{\rho}(x) = \min\!\left(1,\; \frac{K}{M(x)}\right).
+\end{equation}
+
+Peer review is an imperfect classifier \citep{Bornmann2010, Cicchetti1991}.
+A good paper is falsely rejected with probability $\epsilon$ (false negative); a bad paper wrongly passes with probability $\lambda$ (false positive).
+Both error rates apply only during rigorous review.
+When $\eta < 1$, unscreened papers pass automatically, so the effective pass rate for a bad paper rises above $\lambda$:
+\begin{equation}
+    \pi_0(x) = 1 - \eta(x)(1-\lambda).
+\end{equation}
+For a good paper the pass rate is $\pi_1(x) = 1 - \eta(x)\epsilon$, which likewise rises under congestion.
+As $\eta \to 0$, both rates converge to 1: the journal loses all discriminatory power.
+
+Because OG and AS authors submit their good papers on identical terms, the strategic difference reduces to the marginal value of submitting a bad paper.
+The net payoff from doing so is
+\begin{equation}
+    \Pi_{bad}(x) = r \cdot \bar{\rho}(x) \cdot \pi_0(x) - c,
+    \label{eq:pibad}
+\end{equation}
+where $r$ is the publication reward and $c$ the submission cost.
+When $\Pi_{bad}(x) > 0$, universal submission earns more and its share grows; when $\Pi_{bad}(x) < 0$, it shrinks.
+We work in the region $\lambda r < c < r(1-\epsilon)$: without congestion, submitting a bad paper loses money, but the incentive reactivates once review degrades---the same adverse-selection logic as in Akerlof's market for lemons \citep{Akerlof1970}.
+
+Strategy shares evolve according to the replicator equation \citep{Weibull1995, Hofbauer1998}:
+\begin{equation}
+    \dot{x} = -x(1-x)(1-\alpha)\,\Pi_{bad}(x).
+    \label{eq:replicator}
+\end{equation}
+Rest points occur at $x=0$, $x=1$, and any interior root of $\Pi_{bad}(x^*)=0$.
+The long-run outcome depends on the signs of $\Pi_{bad}$ at the two boundaries, yielding four qualitatively distinct regimes summarised in Table~\ref{tab:regime_classification}.
+
+Two opposing forces govern the dynamics.
+A rise in AS adoption floods the review queue, lowering $\eta$ and raising $\pi_0$: submitting bad papers becomes more attractive.
+At the same time it floods the publication queue, lowering $\bar{\rho}$: submitting bad papers becomes less attractive.
+When the first force dominates, the system tips toward full corruption.
+When the second force dominates, tight slot scarcity deters spam even after review has collapsed---a mechanism we call \emph{defence by congestion}.
+Figure~\ref{fig:replicator_dynamics} illustrates the bistable case: $\Pi_{bad}$ is positive near $x=0$ (corruption is self-reinforcing) and negative near $x=1$ (honesty is self-reinforcing), with an unstable tipping threshold separating the two regions.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{polynomial_graph_1.pdf}
+    \caption{\textbf{Baseline phase portrait (bistability).}
+    The curve plots $\Pi_{bad}(x)$, the net payoff from submitting a bad paper, against the honest-author share $x$.
+    Parameters: $N=1000$, $K_{rev}=300$, $K=400$, $r=100$, $c=25$, $\lambda=0.1$.
+    Red shading: $\Pi_{bad}>0$, so AS spreads and $x$ falls.
+    Green shading: $\Pi_{bad}<0$, so AS shrinks and $x$ rises.
+    Two long-run outcomes coexist---full honesty ($x=1$) and full corruption ($x=0$)---separated by an unstable tipping threshold at $x^*\approx 0.82$ (orange marker).
+    Which outcome prevails depends entirely on the starting position relative to $x^*$.}
+    \label{fig:replicator_dynamics}
+\end{figure}

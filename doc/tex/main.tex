@@ -396,870 +396,127 @@ Neither strand addresses the possibility that submission pressure can grow gradu
 The institutional design literature does not ask how its proposals must change when drafting cost approaches zero and the false-positive rate rises continuously with adoption.
 We close these gaps by connecting all four channels---$c(a)$ falling, $V$ rising, $K_{rev}$ lagging, and $\lambda(a)$ rising---to the long-run state of the publishing system, characterising conditions under which quality collapses suddenly and is hard to restore, and deriving which institutional levers can prevent or reverse that shift.
 
-\section{Model}
+\section{Baseline Model}
 \label{sec:model}
-\subsection{Setting}
 
-We consider a publication game involving a finite population of $N$ authors and a single academic journal. 
-Our framework aligns with established game-theoretic models of scientific publishing \cite{Thurner2011}, while specifically building on the incentive structures analyzed by Zollman et al. \cite{Zollman2024}.
-Unlike previous static models, we extend the analysis to account for science volume.
-The fundamental unit of the game is a research paper, which possesses a binary intrinsic quality $q \in \{0, 1\}$. 
-A paper is defined as ``good'' ($q=1$) or ``bad'' ($q=0$). 
-In each period, authors make submission decisions, and the journal enforces quality control standards subject to a physical capacity constraint.
+\paragraph{Players and strategies.}
+We consider a population of $N$ authors submitting to a single journal over repeated periods.
+Each manuscript has binary quality: good ($q=1$) with probability $\alpha$, and bad ($q=0$) with probability $1-\alpha$.
+Standard dominance arguments reduce the strategy space to two options \citep{Fudenberg1991}.
+Under \textbf{selective submission} (OG), an author submits only when $q=1$.
+Under \textbf{universal submission} (AS), an author submits regardless of quality, hoping that imperfect screening allows bad papers through.
+We write $x \in [0,1]$ for the share of authors playing OG; the remaining $1-x$ play AS.
 
-The publication process unfolds in a strictly sequential timeline, as illustrated in Figure~\ref{fig:process_flow}:
-
-\begin{enumerate}
-    \item \textbf{Submission (Generation of $V$):} 
-    Based on their strategies, authors decide whether to submit their work. 
-    The aggregate collection of all submitted manuscripts forms the \textit{Submission Pool}, denoted by $V \le N$.
-    
-    \item \textbf{Peer Review (Generation of $M$):} 
-    The journal applies a peer review process to filter the submission pool. 
-    Acknowledging the inherent unreliability of assessment documented in empirical studies \cite{Bornmann2011}, we model reviewers as imperfect classifiers.
-    They are subject to Type I errors (False Positives, rate $\lambda$) and Type II errors (False Negatives, rate $\epsilon$). 
-    Papers that successfully pass this screening form the set of \textit{Peer-accepted papers}, denoted by $M$. 
-    It is important to note that membership in $M$ signifies that a paper is ``scientifically acceptable,'' but not necessarily ``published.''
-    
-    \item \textbf{Capacity Check and Storage ($K$):} 
-    The journal has a fixed resource limit or \textit{Journal Storage}, denoted by $K$. 
-    This constraint reflects the physical limits on publication slots or the administrative burden of processing manuscripts \cite{Kovanis2016}.
-    
-    \item \textbf{Final Acceptance ($\rho$):} 
-    The final publication decision depends on the relationship between the volume of peer-accepted papers ($M$) and the journal storage ($K$). 
-    We define $\rho$ as the \textit{probability of being accepted conditional on being peer-accepted}. 
-    This variable captures the congestion effect:
-    \begin{equation}
-        \rho = \begin{cases} 
-            1 & \text{if } M \le K \quad \text{(No Congestion)} \\
-            K/M & \text{if } M > K \quad \text{(Rationing triggered)} 
-        \end{cases}
-    \end{equation}
-\end{enumerate}
-
-In this framework, a paper is published if and only if it passes two hurdles: the quality hurdle (peer review) and the congestion hurdle (storage constraint).
-
-\begin{figure}[H] % Force placement to avoid float specifier issues
-    \centering
-    \resizebox{\textwidth}{!}{
-        \begin{tikzpicture}[node distance=2.0cm, auto, >=stealth]
-
-        % --- Styles ---
-        \tikzstyle{process} = [rectangle, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=orange!10, rounded corners]
-        \tikzstyle{decision} = [diamond, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=yellow!10, inner sep=0pt]
-        \tikzstyle{pool} = [rectangle, minimum width=2.2cm, minimum height=3.5cm, draw=black, fill=gray!5]
-        \tikzstyle{arrow} = [thick, ->]
-        \tikzstyle{line} = [thick, -]
-
-        % --- Nodes ---
-
-        % 1. Authors
-        \node (authors) [process, align=center] {\textbf{Population $N$}\\ Authors \\ \scriptsize ($S_A$: OG / AS)};
-        
-        % 2. Submission Pool V
-        \node (submit_pool) [pool, right=1.2cm of authors, label=above:\textbf{Submission Pool ($V$)}] {};
-        \fill[pattern=north east lines, pattern color=blue] ($(submit_pool.south west) + (0.2,0.2)$) rectangle ($(submit_pool.south east) + (-0.2, 2.0)$);
-        \node at ($(submit_pool.south) + (0, 1.0)$) [align=center, font=\scriptsize] {Submitted\\Papers};
-
-        % 3. Peer Review Process
-        \node (review) [process, right=1.2cm of submit_pool, align=center] {\textbf{Peer Review} \\ $\epsilon$ (False Neg) \\ $\lambda$ (False Pos)};
-        
-        % 4. Peer-accepted Papers M
-        \node (accepted_pool) [pool, right=1.2cm of review, label=above:\textbf{Peer-accepted ($M$)}] {};
-        \fill[pattern=north east lines, pattern color=green!50!black] ($(accepted_pool.south west) + (0.2,0.2)$) rectangle ($(accepted_pool.south east) + (-0.2, 2.5)$);
-        \node at ($(accepted_pool.south) + (0, 1.5)$) [align=center, font=\scriptsize] {Passed\\Review};
-
-        % 5. Decision: Capacity Constraint
-        \node (decision) [decision, right=2.5cm of accepted_pool, align=center, font=\small] {$M > K$?};
-
-        % 6. Outcome Branches
-        % Branch A: Congestion (Top)
-        \node (congestion) [process, right=3.0cm of decision, yshift=1.5cm, fill=red!10, align=center] {\textbf{Storage Full} \\ Accept $K$ papers \\ Reject $M-K$};
-        
-        % Branch B: No Congestion (Bottom)
-        \node (no_congestion) [process, right=3.0cm of decision, yshift=-1.5cm, fill=green!10, align=center] {\textbf{Storage Open} \\ Accept all $M$ papers};
-
-        % --- Arrows and Connections ---
-        \draw[arrow] (authors) -- node[above, font=\scriptsize] {Submit} (submit_pool);
-        \draw[arrow] (submit_pool) -- (review);
-        \draw[arrow] (review) -- node[above, font=\scriptsize] {Filter} (accepted_pool);
-        
-        % Check Capacity Arrow
-        \draw[arrow] (accepted_pool) -- node[above, font=\scriptsize] {Check Capacity} (decision);
-
-        % Decision Arrows
-        % FIX: Increased yshift to +/- 0.4cm to push text further away from lines
-        \draw[arrow] (decision.north) |- node[near start, above, yshift=0.4cm, font=\scriptsize] {Yes (Scarcity)} (congestion.west);
-        \draw[arrow] (decision.south) |- node[near start, below, yshift=-0.4cm, font=\scriptsize] {No (Abundance)} (no_congestion.west);
-
-        % --- Annotations for Rho ---
-        \node [right=0.2cm of congestion, text=red, align=left, font=\small] {$\rho = K/M$};
-        \node [right=0.2cm of no_congestion, text=green!50!black, align=left, font=\small] {$\rho = 1$};
-
-
-        \node [below=1.5cm of decision, text width=5cm, align=center, font=\scriptsize, color=gray] {Journal Storage Limit ($K$) \\ determines the regime};
-
-        \end{tikzpicture}
-    }
-    \caption{\textbf{Schematic representation of the Threshold Competition Model.} 
-    The process unfolds in stages: (1) Authors from population $N$ submit papers into pool $V$; 
-    (2) Peer review filters submissions into a set of peer-accepted papers $M$; 
-    (3) The volume $M$ is compared against the journal storage capacity $K$. 
-    If $M > K$, a rationing mechanism is triggered, reducing the conditional acceptance probability $\rho$ below 1.}
-    \label{fig:process_flow}
-\end{figure}
-
-
-
-
-\subsection{Players, strategies, and quality generation}\label{subsec:players_strategies}
-
-The publication game involves a single journal ($J$) and a finite population of authors $\mathcal{A}=\{1,2,\dots,N\}$.  
-We treat $N$ as a finite exogenous parameter. 
-This finite-population approach allows us to capture the congestion dynamics and ``tragedy of the commons'' effects inherent in resource-constrained peer review systems, as analyzed in the economic literature on academic publishing \citep{Cotton2013, Azar2005}.
-Throughout, we use $V$ and $M$ to denote the realised \emph{counts} of submitted and peer-accepted papers, respectively.
-
-\paragraph{Quality generation.}
-In each round, each author generates a manuscript with binary intrinsic quality $q\in\{0,1\}$, where $q=1$ denotes a ``good'' paper and $q=0$ a ``bad'' paper. 
-Quality is generated i.i.d.\ across authors with
+\paragraph{Two bottlenecks.}
+The publication process has two distinct chokepoints; each creates a different strategic force.
+The first is \textbf{review capacity} $K_{rev}$: the number of papers that can receive careful scrutiny per period.
+Submission volume is $V(x) = N[1-(1-\alpha)x]$, which rises as the AS share grows.
+When $V$ exceeds $K_{rev}$, only a fraction of submissions are carefully reviewed; the rest pass without scrutiny---a rubber-stamping effect documented in overloaded systems \citep{Azar2005, Kovanis2016}.
+The \textbf{screening intensity} is:
 \begin{equation}
-    \Pr(q=1)=\alpha,\qquad \Pr(q=0)=1-\alpha,
+    \eta(x) = \min\!\left(1,\; \frac{K_{rev}}{V(x)}\right).
+    \label{eq:eta}
 \end{equation}
-where $\alpha\in(0,1)$ is an exogenous productivity parameter reflecting the baseline scientific capability of the community \citep{Ellison2002}.
-
-\paragraph{Author strategies ($S_A$).}
-Each author chooses a submission rule $s_A\in S_A$ that conditions on realised quality. 
-Consistent with signaling models in scientific communication \citep{Tiokhin2021}, we consider four pure strategies:
-\begin{itemize}
-    \item \textbf{Only Good (OG):} submit iff $q=1$;
-    \item \textbf{Always Submit (AS):} submit regardless of $q$ (strategic spamming);
-    \item \textbf{Only Bad (OB):} submit iff $q=0$ (included for completeness);
-    \item \textbf{Never Submit (NS):} never submit.
-\end{itemize}
-Equivalently, $s_A$ can be represented by $(p_g,p_b)$, the submission probabilities for good and bad papers:
+The second bottleneck is \textbf{publication capacity} $K$: the number of slots the journal can fill per period.
+Papers that pass review form a peer-accepted pool $M(x)$; at most $K$ are published.
+The probability that a peer-accepted paper is ultimately published---the \textbf{rationing probability}---is:
 \begin{equation}
-(p_g,p_b)=
-\begin{cases}
-(1,0) & \text{if } s_A=\text{OG}\\
-(1,1) & \text{if } s_A=\text{AS}\\
-(0,1) & \text{if } s_A=\text{OB}\\
-(0,0) & \text{if } s_A=\text{NS}.
-\end{cases}
+    \bar{\rho}(x) = \min\!\left(1,\; \frac{K}{M(x)}\right).
+    \label{eq:rho}
 \end{equation}
 
-\paragraph{Journal strategies ($S_J$).}
-The journal commits to an editorial policy $s_J\in S_J$ that maps the perceived quality signal $\hat q\in\{0,1\}$ into an accept/reject decision:
-\begin{itemize}
-    \item \textbf{Only Good (OG):} accept iff $\hat q=1$;
-    \item \textbf{Always Accept (AA):} accept all submissions (ignores $\hat q$);
-    \item \textbf{Only Bad (OB):} accept iff $\hat q=0$;
-    \item \textbf{Reject All (AR):} reject all submissions (ignores $\hat q$).
-\end{itemize}
-
-\paragraph{Exogenous parameters and endogenous variables.}
-To clarify the mechanics of congestion, we distinguish between fixed environmental constraints and emergent outcomes:
-\begin{itemize}
-    \item \textbf{Exogenous parameters:} Population size ($N$), productivity ($\alpha$), journal size ($K$), review noise parameters ($\epsilon,\lambda$), and payoff primitives, discussed below: $c$, cost of submission for authors; $r$, the reward for an author derived from successful publication; $B$, the benefit to the journal derived from publishing good papers; and $D$, the the penalty for journals from publishing bad papers.
-    \item \textbf{Endogenous variables:} Submission volume ($V$), peer-accepted volume ($M$), the rationing factor ($\rho = \max \left\{ \frac{K}{M}, 1 \right\} $), and the population state $x$ (strategy shares) governing the equilibrium distribution.
-\end{itemize}\label{subsec:environment}
-
-\subsection{Review noise and acceptance probabilities}
-\label{subsec:review_noise}
-
-Peer review acts as a stochastic filter between the submission volume $V$ and the peer-accepted volume $M$. 
-Throughout, \emph{pass} refers to passing the review filter and entering the peer-accepted pool $M$ (not final publication, which is also affected by the journal size.
-
-\paragraph{Noise parameters ($\epsilon,\lambda$).}
-Consistent with empirical meta-analyses on review reliability \citep{Bornmann2010, Cicchetti1991}, we assume reviewers are imperfect classifiers. 
-Let $\hat q\in\{0,1\}$ denote the perceived quality signal for a paper with true quality $q\in\{0,1\}$.
-We define:
+\paragraph{Screening errors and the spam payoff.}
+Peer review is an imperfect filter \citep{Bornmann2010, Cicchetti1991}.
+A good paper is falsely rejected with probability $\epsilon$; a bad paper wrongly passes with probability $\lambda$.
+Both error rates apply only to papers that are actually reviewed.
+When $\eta < 1$, unscreened papers pass automatically, raising the effective pass rates:
 \begin{equation}
-    \epsilon=\Pr(\hat q=0\mid q=1),\qquad
-    \lambda=\Pr(\hat q=1\mid q=0),
+    \pi_0(x) = 1 - \eta(x)(1-\lambda), \qquad \pi_1(x) = 1 - \eta(x)\,\epsilon.
+    \label{eq:pass_rates}
 \end{equation}
-where $\epsilon$ is the false negative rate (acting as a tax on honesty) and $\lambda$ the false positive rate (acting as an incentive for opportunism), a structure supported by empirical studies on scientific gatekeeping \citep{Siler2015}.
-
-\paragraph{Conditional acceptance probabilities.}
-Given a journal policy $s_J$, define the probability of acceptance conditional on true quality as:
+As $\eta \to 0$, both rates converge to 1: the journal loses all discriminatory power.
+The peer-accepted pool is $M(x) = N\alpha\,\pi_1(x) + N(1-\alpha)(1-x)\,\pi_0(x)$.
+Because OG and AS authors submit good papers on identical terms, the strategic difference reduces to the net value of submitting a bad paper:
 \begin{equation}
-    \pi_q(s_J) \equiv \Pr(\text{pass}\mid q, s_J),\qquad q\in\{0,1\}.
+    \Pi_{bad}(x) = r \cdot \bar{\rho}(x) \cdot \pi_0(x) - c,
+    \label{eq:pibad}
 \end{equation}
-Under the journal strategies defined in Section~\ref{subsec:players_strategies}, and aligned with theoretical models of gatekeeper selection \citep{MullerItten2022}, the acceptance vector $(\pi_1, \pi_0)$ is given by:
+where $r$ is the publication reward and $c$ the submission cost.
+We work in the region $\lambda r < c < r(1-\epsilon)$: without congestion, submitting a bad paper is unprofitable, but the incentive reactivates once screening degrades---the same adverse-selection logic as in Akerlof's market for lemons \citep{Akerlof1970}.
+
+\paragraph{Dynamics.}
+Strategy shares evolve according to the replicator equation \citep{Weibull1995, Hofbauer1998}:
 \begin{equation}
-    (\pi_1(s_J),\pi_0(s_J))=
-    \begin{cases}
-    (1-\epsilon,\ \lambda) & \text{if } s_J=\text{OG}\\
-    (1,\ 1) & \text{if } s_J=\text{AA}\\
-    (\epsilon,\ 1-\lambda) & \text{if } s_J=\text{OB}\\
-    (0,\ 0) & \text{if } s_J=\text{AR}.
-    \end{cases}
+    \dot{x} = -x(1-x)(1-\alpha)\,\Pi_{bad}(x).
+    \label{eq:replicator}
 \end{equation}
-
-\paragraph{Per-author pass-review probability ($\mathcal{P}$).}
-Let $(p_g(s_A),p_b(s_A))$ denote the submission probabilities conditional on realised quality. 
-We define $\mathcal{P}(s_A,s_J)$ as the \emph{ex-ante} probability that an author playing $s_A$ contributes a paper to the peer-accepted pool $M$ under journal policy $s_J$:
-\begin{equation}
-    \mathcal{P}(s_A,s_J)=\alpha\,p_g(s_A)\,\pi_1(s_J) + (1-\alpha)\,p_b(s_A)\,\pi_0(s_J).
-\end{equation}
-
-Below we enumerate the effective acceptance probabilities for all author strategies under each journal regime.
-
-\textbf{Case 1: Standard Review (Journal plays Only Good).}
-This is the baseline scenario where $\pi_1=1-\epsilon$ and $\pi_0=\lambda$.
-\begin{subequations}
-\begin{align}
-    \mathcal{P}(\text{OG},\text{OG}) &= \alpha(1-\epsilon),\\
-    \mathcal{P}(\text{AS},\text{OG}) &= \alpha(1-\epsilon) + (1-\alpha)\lambda,\\
-    \mathcal{P}(\text{OB},\text{OG}) &= (1-\alpha)\lambda,\\
-    \mathcal{P}(\text{NS},\text{OG}) &= 0.
-\end{align}
-\end{subequations}
-
-\textbf{Case 2: Permissive (Journal plays Always Accept).}
-The screening is ignored ($\pi_1=1, \pi_0=1$), making acceptance depend solely on submission.
-\begin{subequations}
-\begin{align}
-    \mathcal{P}(\text{OG},\text{AA}) &= \alpha,\\
-    \mathcal{P}(\text{AS},\text{AA}) &= \alpha + (1-\alpha) = 1,\\
-    \mathcal{P}(\text{OB},\text{AA}) &= 1-\alpha,\\
-    \mathcal{P}(\text{NS},\text{AA}) &= 0.
-\end{align}
-\end{subequations}
-
-\textbf{Case 3: Inverse Selection (Journal plays Only Bad).}
-The journal accepts papers perceived as bad ($\hat{q}=0$).
-Good papers pass only via false negatives ($\pi_1=\epsilon$), and bad papers pass via true negatives ($\pi_0=1-\lambda$).
-\begin{subequations}
-\begin{align}
-    \mathcal{P}(\text{OG},\text{OB}) &= \alpha\epsilon,\\
-    \mathcal{P}(\text{AS},\text{OB}) &= \alpha\epsilon + (1-\alpha)(1-\lambda),\\
-    \mathcal{P}(\text{OB},\text{OB}) &= (1-\alpha)(1-\lambda),\\
-    \mathcal{P}(\text{NS},\text{OB}) &= 0.
-\end{align}
-\end{subequations}
-
-\textbf{Case 4: Closed (Journal plays Reject All).}
-No papers enter the peer-accepted pool ($\pi_1=0, \pi_0=0$).
-\begin{equation}
-    \mathcal{P}(s_A, \text{AR}) = 0 \quad \forall s_A \in S_A.
-\end{equation}
-
-\paragraph{Aggregate peer-accepted volume ($E[M]$).}
-To determine the system-wide congestion, we aggregate these individual passing probabilities across the entire population, a method consistent with burden estimation in peer review \citep{Kovanis2016}.
-Let $\mathbf{x} = \{x_{s_A} \mid s_A \in S_A\}$ denote the \textbf{population state}, where $x_{s_A} \in [0, 1]$ represents the proportion of authors adopting strategy $s_A$, satisfying $\sum_{s_A \in S_A} x_{s_A} = 1$.
-
-The expected total volume of peer-accepted papers, $E[M]$, is the sum of contributions from all strategy groups:
-\begin{equation}
-    E[M] = \sum_{i=1}^{N} \mathcal{P}(s_{A,i}, s_J) = N \sum_{s_A \in S_A} x_{s_A} \, \mathcal{P}(s_A, s_J).
-\end{equation}
-This aggregate volume $E[M]$ is the critical endogenous variable that interacts with the journal capacity $K$ to determine the rationing probability $\rho$ defined in Eq.~(1).
-
-\subsection{Capacity constraint and rationing probability ($\rho$)}
-\label{subsec:rationing}
-
-A key feature of the model is the separation between \emph{scientific merit} (passing peer review and entering the set of peer-accepted papers) and \emph{publication slots} (capacity-constrained publication).
-This distinction captures the reality that top-tier journals often reject scientifically sound papers solely due to space limitations \citep{Ellison2002, casadevall2014reforming}.
-
-\paragraph{Journal capacity ($K$).}
-Let $K\in\mathbb{N}^+$ denote the journal's exogenous publication capacity: at most $K$ papers can be published per cycle due to limited pages and editorial resources \citep{Kovanis2016, Azar2005}.
-
-\paragraph{Uniform rationing and the rationing probability ($\rho$).}
-Let $M$ be the realised number of peer-accepted papers in a given round. 
-If $M \le K$, all peer-accepted papers are published. 
-If $M > K$, the journal applies \emph{uniform rationing}: it selects exactly $K$ papers uniformly at random from the $M$ peer-accepted papers. 
-Hence, the conditional publication probability for a peer-accepted paper is determined by the realised congestion:
-\begin{equation}
-    \rho(M)\equiv \Pr(\text{published}\mid \text{pass})=
-    \min\!\left(1,\frac{K}{M}\right)=
-    \begin{cases}
-    1 & \text{if } M \le K,\\
-    \frac{K}{M} & \text{if } M > K.
-    \end{cases}
-    \label{eq:rho_definition}
-\end{equation}
-
-\paragraph{Ex-post vs.\ ex-ante congestion.}
-Across rounds, the peer-accepted count $M$ is stochastic because it aggregates individual submission and review outcomes. 
-Authors therefore form expectations over congestion given the population state $\mathbf{x}$ and journal policy $s_J$, implying an expected rationing factor:
-\begin{equation}
-    \mathbb{E}[\rho]=\mathbb{E}\!\left[\min\!\left(1,\frac{K}{M}\right)\right].
-\end{equation}
-Crucially, increases in low-quality or opportunistic submissions raise the expected volume $\mathbb{E}[M]$ and mechanically reduce $\mathbb{E}[\rho]$, generating a negative congestion externality on all authors.
-This mirrors the inefficiencies found in scientific funding competitions, where excessive participation degrades the system's overall value \citep{Cotton2013, gross2019contest}.
-
-\subsection{Payoff analysis}
-\label{subsec:payoffs}
-
-In this subsection, we derive the expected payoffs for both authors and the journal.
-The introduction of the capacity constraint $K$ fundamentally couples the payoffs: an individual's utility depends not only on their own strategy but also on the aggregate congestion generated by the population.
-This structure formally aligns with the class of \emph{congestion games}, where individual payoffs are negatively correlated with the total utilization of a shared resource \citep{Rosenthal1973}.
-
-\paragraph{Notation and general framework}
-
-Table~\ref{tab:variables_updated} summarizes the key parameters and variables.
-We employ a \emph{mean-field approximation} where players base their decisions on the \textbf{expected} state of the system.
-This approach is standard in evolutionary game theory for modeling interactions in large finite populations, allowing deterministic analysis of stochastic processes \citep{Sandholm2010, Weibull1995}.
-
-\begin{table}[h]
-\centering
-\caption{Summary of key parameters and variables used in the payoff analysis.}
-\label{tab:variables_updated}
-\renewcommand{\arraystretch}{1.3} 
-\begin{tabular}{c p{10cm}} 
-\toprule
-\textbf{Symbol} & \textbf{Description} \\ 
-\midrule
-\multicolumn{2}{l}{\textit{\textbf{Exogenous Parameters (Fixed)}}} \\ 
-$N$ & Total number of authors \\
-$K$ & Journal capacity (maximum publication slots per cycle) \\
-$\alpha$ & Probability that an author produces a good paper \\
-$\epsilon$ & False negative rate (Prob. of rejecting a good paper) \\
-$\lambda$ & False positive rate (Prob. of accepting a bad paper) \\
-$r$ & Reward for a published paper (Author) \\
-$c$ & Cost of submission (Author) \\
-$B$ & Benefit for publishing a good paper (Journal) \\
-$D$ & Penalty for publishing a bad paper (Journal) \\
-$C_J$ & Unit cost of peer review (per submission) \\
-\midrule
-\multicolumn{2}{l}{\textit{\textbf{Endogenous Variables (Dependent on Strategy)}}} \\
-$V$ & Total number of submissions (Submission Pool) \\
-$M$ & Number of papers passing peer review (Perception Pool) \\
-$Y$ & Number of papers finally published ($Y \le K$) \\
-$\bar{\rho}$ & Expected rationing probability ($\mathbb{E}[\min(1, K/M)]$) \\
-$x$ & Proportion of authors adopting a specific strategy (Population State) \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\paragraph{Submission and publication probabilities.}
-For an author playing strategy $s_A \in S_A$, we define the unconditional probability of submitting a paper as $P_{\text{sub}}(s_A)$.
-Based on the submission vectors $(p_g, p_b)$ defined in Section~\ref{subsec:players_strategies}, this is:
-\begin{equation}
-    P_{\text{sub}}(s_A) = \alpha p_g(s_A) + (1-\alpha) p_b(s_A).
-\end{equation}
-Recall from Section~\ref{subsec:review_noise} that $\mathcal{P}(s_A, s_J)$ denotes the probability of \emph{entering the peer-accepted pool} $M$.
-However, entering $M$ does not guarantee publication.
-Let $\bar{\rho}$ denote the \textbf{expected rationing probability}:
-\begin{equation}
-    \bar{\rho} \equiv \mathbb{E}[\rho] = \mathbb{E}\left[ \min\left(1, \frac{K}{M} \right) \right].
-\end{equation}
-The joint probability of a paper being finally published is the product of passing review and passing the capacity check: $\bar{\rho} \cdot \mathcal{P}(s_A, s_J)$.
-
-\paragraph{Volumes: Submitted ($V$), Passed ($M$), and Published ($Y$).}
-It is crucial to distinguish between papers that pass peer review ($M$) and those that are finally published ($Y$).
-Let $V_G$ and $V_B$ be the expected volumes of good and bad submissions generated by the population.
-Let $M_G$ and $M_B$ be the expected volumes of papers entering the peer-accepted pool.
-We define $Y_G$ and $Y_B$ as the expected volumes of \textbf{finally published} papers:
-\begin{equation}
-    Y_G = \bar{\rho} M_G, \quad Y_B = \bar{\rho} M_B.
-\end{equation}
-
-\paragraph{General payoff functions}
-
-\paragraph{Author's utility ($U_A$).}
-Let $r$ be the reward for a published paper and $c$ be the cost of submission.
-The expected payoff for an author playing $s_A$ against a journal $s_J$ is the expected reward from publication minus the reliable cost of submission:
-\begin{equation}
-    U_A(s_A, s_J) = r \cdot \underbrace{\bar{\rho} \cdot \mathcal{P}(s_A, s_J)}_{\text{Prob(Published)}} - c \cdot \underbrace{P_{\text{sub}}(s_A)}_{\text{Prob(Submitted)}}
-    \label{eq:author_payoff_general}
-\end{equation}
-
-\paragraph{Journal's utility ($U_J$).}
-Let $B$ be the benefit of publishing a good paper, $D$ be the penalty for a bad paper, and $C_J$ be the unit cost of reviewing a submission.
-The journal's utility depends on the \emph{published} volumes ($Y_G, Y_B$) and the \emph{submitted} volume ($V = V_G + V_B$).
-This formulation captures the trade-off between quality assurance and processing costs \citep{MullerItten2022}:
-\begin{equation}
-    U_J(s_J) = B \cdot Y_G - D \cdot Y_B - C_J \cdot V
-\end{equation}
-Substituting $Y = \bar{\rho} M$, we obtain the working form of the journal's payoff:
-\begin{equation}
-    U_J(s_J) = \bar{\rho} \left[ B \cdot M_G(s_J) - D \cdot M_B(s_J) \right] - C_J \cdot V
-    \label{eq:journal_payoff_general}
-\end{equation}
-\textit{Remark:} Eq.~(\ref{eq:journal_payoff_general}) relies on the approximation $\mathbb{E}[\rho M] \approx \mathbb{E}[\rho]\mathbb{E}[M]$.
-As $N$ grows large, the relative fluctuations in $M$ diminish, making this mean-field limit exact \citep{Sandholm2010}.
-
-\paragraph{Derivation of strategy-specific payoffs}
-
-We now explicitly list the payoff functions for the 8 primary scenarios (4 Author strategies and 4 Journal strategies).
-
-\paragraph{Author payoffs (under Journal Strategy $s_J = \text{OG}$).}
-In the standard academic context, the journal plays \textbf{Only Good (OG)}.
-The review filter applies $(\pi_1, \pi_0) = (1-\epsilon, \lambda)$.
-Substituting the specific $\mathcal{P}$ and $P_{\text{sub}}$ values into Eq.~(\ref{eq:author_payoff_general}), we derive:
-\begin{align}
-    \label{eq:payoff_author_OG}
-    U_A(\text{OG}, \text{OG}) &= \alpha \left[ r \bar{\rho} (1-\epsilon) - c \right] \\
-    \label{eq:payoff_author_AS}
-    U_A(\text{AS}, \text{OG}) &= r \bar{\rho} \left[ \alpha(1-\epsilon) + (1-\alpha)\lambda \right] - c \\
-    \label{eq:payoff_author_OB}
-    U_A(\text{OB}, \text{OG}) &= (1-\alpha) \left[ r \bar{\rho} \lambda - c \right] \\
-    \label{eq:payoff_author_NS}
-    U_A(\text{NS}, \text{OG}) &= 0
-\end{align}
-
-\paragraph{Journal payoffs (under Population State $\mathbf{x}$).}
-The journal chooses a strategy $s_J$ to maximize utility given the incoming flow of submissions.
-Let $V_G(\mathbf{x})$ and $V_B(\mathbf{x})$ be the volumes of good and bad submissions determined by the population state.
-
-\textbf{1. Only Good (OG):}
-The journal filters papers.
-The passed volumes are $M_G = V_G(1-\epsilon)$ and $M_B = V_B\lambda$.
-\begin{equation}
-    U_J(\text{OG}) = \bar{\rho} \left[ B V_G(1-\epsilon) - D V_B\lambda \right] - C_J(V_G + V_B)
-\end{equation}
-
-\textbf{2. Always Accept (AA):}
-The journal accepts everything ($M_G = V_G, M_B = V_B$).
-Congestion is maximized here, so $\bar{\rho}$ will be minimal.
-\begin{equation}
-    U_J(\text{AA}) = \bar{\rho} \left[ B V_G - D V_B \right] - C_J(V_G + V_B)
-\end{equation}
-
-\textbf{3. Only Bad (OB):}
-The journal applies inverse selection ($M_G = V_G \epsilon, M_B = V_B(1-\lambda)$).
-\begin{equation}
-    U_J(\text{OB}) = \bar{\rho} \left[ B V_G \epsilon - D V_B(1-\lambda) \right] - C_J(V_G + V_B)
-\end{equation}
-
-\textbf{4. Reject All (AR):}
-The journal publishes nothing ($Y=0$).
-Review costs are still incurred for processed submissions.
-\begin{equation}
-    U_J(\text{AR}) = - C_J(V_G + V_B) \quad (\text{normalized to } 0 \text{ in dominance analysis})
-\end{equation}
-
-\paragraph{Summary of transition probabilities}
-For completeness, Table~\ref{tab:prob_matrix} summarizes the effective probability $\mathcal{P}(s_A, s_J)$ of entering the peer-accepted pool for any strategy pair.
-These values are the key inputs for the payoff equations.
-
-\begin{table}[h]
-\centering
-\caption{Matrix of Effective Passing Probabilities $\mathcal{P}(s_A, s_J)$. This represents the probability that an author's paper enters the peer-accepted pool $M$ (before rationing).}
-\label{tab:prob_matrix}
-\renewcommand{\arraystretch}{1.3}
-\begin{tabular}{l|cccc}
-\toprule
-\textbf{Author} $\setminus$ \textbf{Journal} & \textbf{Only Good (OG)} & \textbf{Always Accept (AA)} & \textbf{Only Bad (OB)} & \textbf{Reject All (AR)} \\ 
-\midrule
-\textbf{OG} ($\alpha$ good) & $\alpha(1-\epsilon)$ & $\alpha$ & $\alpha\epsilon$ & 0 \\
-\textbf{AS} (All) & $\alpha(1-\epsilon) + (1-\alpha)\lambda$ & $1$ & $\alpha\epsilon + (1-\alpha)(1-\lambda)$ & 0 \\
-\textbf{OB} ($1-\alpha$ bad) & $(1-\alpha)\lambda$ & $1-\alpha$ & $(1-\alpha)(1-\lambda)$ & 0 \\
-\textbf{NS} (None) & 0 & 0 & 0 & 0 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{Dominance analysis and reduced game}
-\label{subsec:dominance}
-
-Before analyzing the evolutionary dynamics, we simplify the strategy space by iteratively eliminating strictly dominated strategies.
-This procedure, known as \emph{iterated elimination of strictly dominated strategies} (IESDS), allows us to focus on the rationalizable core of the game \citep{Fudenberg1991}.
-We conduct this analysis under the standard \textbf{mean-field approximation}, holding the aggregate congestion factor $\bar{\rho}$ fixed.
-The elimination proceeds in two stages: first, we identify strategies that are dominated purely by the structural logic of the game (independent of specific cost-benefit inequalities); second, we introduce parameter constraints to eliminate strategies based on economic trade-offs.
-
-\paragraph{Stage 1: Structural elimination (Unconditional dominance)}
-
-We first establish dominance relations that hold under weak axiomatic assumptions regarding the nature of peer review and scientific value, consistent with signaling models in scientific communication \citep{Tiokhin2021}.
-
-\paragraph{Elimination of Journal "Only Bad" (OB).}
-The strategy \textbf{Only Bad (OB)} represents an inverse selection policy.
-We compare it to \textbf{Only Good (OG)}.
-Using the payoff functions derived in Section~\ref{subsec:payoffs}, the difference in expected utility is:
-\begin{align}
-    \Delta U_J &= U_J(\text{OG}) - U_J(\text{OB}) \nonumber \\
-    &= \bar{\rho} \left[ B V_G (1-\epsilon) - D V_B \lambda \right] - \bar{\rho} \left[ B V_G \epsilon - D V_B (1-\lambda) \right] \nonumber \\
-    &= \bar{\rho} \left[ B V_G (1 - 2\epsilon) + D V_B (1 - 2\lambda) \right]
-\end{align}
-\textbf{Condition:} We assume peer review is \textbf{informative}, defined as performing better than random guessing:
-\begin{equation}
-    \epsilon < 0.5 \quad \text{and} \quad \lambda < 0.5.
-\end{equation}
-Under this definition, both $(1-2\epsilon)$ and $(1-2\lambda)$ are strictly positive. 
-Since $B, D, V_G, \bar{\rho} > 0$, it follows that $\Delta U_J > 0$.
-Thus, \textbf{Journal OB is strictly dominated by OG} solely by virtue of the definition of peer review quality, regardless of the magnitude of rewards or penalties.
-
-\paragraph{Elimination of Author "Only Bad" (OB).}
-Consider the choice between \textbf{Always Submit (AS)} and \textbf{Only Bad (OB)}.
-AS submits both paper types ($q \in \{0,1\}$), while OB submits only bad papers ($q=0$).
-The payoff difference is the marginal utility of submitting a good paper:
-\begin{align}
-    \Delta U_A &= U_A(\text{AS}, \text{OG}) - U_A(\text{OB}, \text{OG}) \nonumber \\
-    &= \left[ U_A(q=1) + U_A(q=0) \right] - U_A(q=0) \nonumber \\
-    &= U_A(q=1) = \alpha \left[ r \bar{\rho} (1-\epsilon) - c \right]
-\end{align}
-\textbf{Condition:} We assume the \textbf{Axiom of Value}: in a functional scientific system, a correctly identified high-quality paper yields a positive net return (i.e., $r(1-\epsilon) > c$). 
-If this axiom holds, then $\Delta U_A > 0$ for any non-zero congestion $\bar{\rho}$.
-Thus, \textbf{Author OB is strictly dominated by AS} due to monotonicity: a rational author will never withhold a high-quality paper while simultaneously submitting a low-quality one.
-
-\paragraph{Parameter constraints for a non-trivial game}
-
-Having eliminated the structurally irrational strategies, we now focus on the remaining set.
-To ensure the game yields interesting evolutionary dynamics (avoiding trivial collapse or utopian perfection), we define the "viable region" of the parameter space using the \textbf{abundance benchmark} ($\bar{\rho}=1$).
-
-\begin{enumerate}
-    \item \textbf{Viability Constraint (Honesty is profitable):}
-    \begin{equation}
-        r(1-\epsilon) > c
-        \label{eq:constraint_viability}
-    \end{equation}
-    This formally restates the Axiom of Value.
-    It ensures that without congestion, the honest strategy (OG) dominates silence (NS), a necessary condition for any scientific activity \citep{gross2019contest}.
-
-    \item \textbf{Profitability Constraint (Spamming is profitable):}
-    \begin{equation}
-        \lambda r > c
-        \label{eq:constraint_profitability}
-    \end{equation}
-    This constraint drives the congestion dilemma.
-    It implies that in a frictionless system ($\bar{\rho}=1$), the expected reward of a bad paper exceeds the submission cost.
-    If $c > \lambda r$, bad papers are never submitted, and the game trivially converges to perfect honesty.
-
-    \item \textbf{Reputation Constraint (Screening is preferred):}
-    \begin{equation}
-        D V_B (1-\lambda) > B V_G \epsilon
-        \label{eq:constraint_reputation}
-    \end{equation}
-    This condition ensures the journal prefers screening (OG) over blind acceptance (AA). 
-    It states that the aggregate penalty avoided by rejecting bad papers outweighs the benefit lost from accidentally rejecting good ones \citep{MullerItten2022}.
-\end{enumerate}
-
-\paragraph{Stage 2: Conditional elimination (Economic dominance)}
-
-We now eliminate strategies based on the specific economic trade-offs defined above.
-
-\paragraph{Dominance of Journal "Always Accept" (AA).}
-We compare \textbf{Only Good (OG)} with \textbf{Always Accept (AA)}. 
-Assuming the processing cost $C_J$ applies to all submissions (Processing Cost Model), the difference depends on the net value of papers rejected by OG but accepted by AA:
-\begin{align}
-    U_J(\text{OG}) - U_J(\text{AA}) &= \bar{\rho} \left[ (B M_G^{\text{OG}} - D M_B^{\text{OG}}) - (B M_G^{\text{AA}} - D M_B^{\text{AA}}) \right] \nonumber \\
-    &= \bar{\rho} \left[ D (V_B - M_B^{\text{OG}}) - B (V_G - M_G^{\text{OG}}) \right] \nonumber \\
-    &= \bar{\rho} \left[ D V_B (1-\lambda) - B V_G \epsilon \right]
-\end{align}
-Under the \textbf{Reputation Constraint} (\ref{eq:constraint_reputation}), the penalty avoided (first term) exceeds the benefit lost (second term).
-Thus, \textbf{AA is strictly dominated by OG}.
-This result aligns with gatekeeper theory, suggesting that competitive journals maintain strict standards to maximize their distinctiveness and reputation \citep{MullerItten2022}.
-
-\paragraph{Dominance of Journal "Reject All" (AR).}
-Strategy AR yields a normalized payoff of $0$ (or $-C_J V$). 
-Since OG generates positive utility from good papers ($B > 0$) and filters bad ones, OG dominates AR provided the net value of the peer-accepted pool is positive: $B M_G > D M_B$. 
-We assume the journal operates in a parameter region where valid science is net positive.
-
-\paragraph{Dominance of Author "Never Submit" (NS).}
-Comparing \textbf{Only Good (OG)} with \textbf{Never Submit (NS)} ($U_A=0$):
-\begin{equation}
-    U_A(\text{OG}, \text{OG}) - U_A(\text{NS}, \text{OG}) = \alpha \left[ r \bar{\rho} (1-\epsilon) - c \right]
-\end{equation}
-Under the \textbf{Viability Constraint} (\ref{eq:constraint_viability}), this difference is positive as long as the congestion does not exceed the critical threshold $\bar{\rho} > \frac{c}{r(1-\epsilon)}$.
-In the viable regime, \textbf{NS is strictly dominated by OG} (and by AS).
-This condition reflects the rational participation constraint found in scientific contests, where authors only enter if the expected payoff exceeds the effort cost \citep{gross2019contest}.
-
-\paragraph{The reduced evolutionary game}
-
-Following the two-stage elimination process, the complex multi-strategy interaction reduces to a concise $2 \times 1$ asymmetric game.
-
-\begin{enumerate}
-    \item \textbf{The Journal} is a fixed institutional player locked into the \textbf{Only Good (OG)} strategy. It acts as the environment, applying a filter $(\epsilon, \lambda)$ and a capacity constraint $K$.
-    \item \textbf{The Author Population} evolves between two surviving pure strategies:
-    \begin{itemize}
-        \item \textbf{Only Good (OG) [Cooperators]:} Authors who submit only high-quality work ($q=1$).
-        \item \textbf{Always Submit (AS) [Defectors]:} Authors who submit everything ($q \in \{0,1\}$), effectively spamming the journal with bad papers to exploit $\lambda$.
-    \end{itemize}
-\end{enumerate}
-
-We define the \textbf{population state} $x(t) \in [0,1]$ as the fraction of authors adopting the \textbf{Only Good} strategy.
-The evolutionary dynamics of the system are thus entirely determined by the time evolution of $x$.
-This reduction captures the essential dynamic of scientific evolution: the selection pressure between high-effort integrity and low-effort quantity \citep{Smaldino2016}.
-
-\begin{figure}[H]
-    \centering
-
-    \resizebox{0.9\textwidth}{!}{
-        \begin{tikzpicture}[node distance=2.5cm, auto, >=stealth]
-
-
-        \tikzset{
-            player/.style={rectangle, minimum width=2.5cm, minimum height=1cm, align=center, draw=black, fill=blue!10, rounded corners},
-            strategy/.style={rectangle, minimum width=3cm, minimum height=1.2cm, align=center, draw=black, fill=white},
-            mechanism/.style={rectangle, minimum width=4cm, minimum height=3cm, align=center, draw=black, fill=gray!5, dashed}, % 稍微增加高度
-            payoff/.style={ellipse, minimum width=2.5cm, minimum height=1cm, align=center, draw=black, fill=green!10},
-            arrow/.style={thick, ->},
-            line/.style={thick, -}
-        }
-
-
-        \node (pop) [player, fill=orange!10] {\textbf{Author Population} \\ State $x \in [0,1]$};
-
-
-        \node (og) [strategy, below left=1.5cm and 0.5cm of pop] {\textbf{Only Good (OG)} \\ Submit if $q=1$ \\ (Cooperators)};
-        \node (as) [strategy, below right=1.5cm and 0.5cm of pop] {\textbf{Always Submit (AS)} \\ Submit all $q \in \{0,1\}$ \\ (Defectors)};
-
-
-        \node (journal) [mechanism, below=3.5cm of pop, inner sep=0.5cm] {};
-        \node [above=0.1cm, font=\small] at (journal.north) {\textbf{Journal Mechanism (Fixed OG)}};
-        
-  
-        \node (filter) [rectangle, draw, fill=white, below=0.3cm of journal.north, align=center, font=\footnotesize] {Peer Review Filter \\ $(\epsilon, \lambda)$};
-        \node (capacity) [rectangle, draw, fill=red!5, below=0.3cm of filter, align=center, font=\footnotesize] {Capacity Constraint \\ $\bar{\rho} = \min(1, K/M)$};
-
-
-        \node (payoff_og) [payoff, left=2.0cm of journal] {Payoff $U_A(\text{OG})$};
-        \node (payoff_as) [payoff, right=2.0cm of journal] {Payoff $U_A(\text{AS})$};
-
-
-        \draw[line] (pop) -- (0, -1.2);
-        \draw[arrow] (0, -1.2) -| (og);
-        \draw[arrow] (0, -1.2) -| (as);
-
-
-        \draw[arrow] (og) -- node[left, font=\scriptsize, align=right, pos=0.3] {Good\\Papers} (journal.west |- filter.west);
-        \draw[arrow] (as) -- node[right, font=\scriptsize, align=left, pos=0.3] {Good + Bad\\Papers} (journal.east |- filter.east);
-
-
-        \draw[arrow] (filter) -- (capacity);
-
-
-        \draw[arrow, dashed, red] (capacity.west) -- ++(-0.8,0) |- node[above, font=\scriptsize, text=red, pos=0.7] {Congestion $\bar{\rho}$} (payoff_og.east);
-        \draw[arrow, dashed, red] (capacity.east) -- ++(0.8,0) |- node[above, font=\scriptsize, text=red, pos=0.7] {Congestion $\bar{\rho}$} (payoff_as.west);
-
-
-        \draw[arrow, bend left=45] (payoff_og.north) to node[left, font=\scriptsize] {Fitness} (pop.west);
-        \draw[arrow, bend right=45] (payoff_as.north) to node[right, font=\scriptsize] {Fitness} (pop.east);
-
-        \end{tikzpicture}
-    }
-    \caption{\textbf{Structure of the Reduced Evolutionary Game.} 
-    The author population evolves between two strategies: Only Good (OG) and Always Submit (AS). 
-    The Journal acts as a fixed mechanism consisting of a peer review filter and a capacity constraint.
-    Submissions from AS authors increase the total volume $M$, triggering the capacity constraint.
-    The resulting \textbf{Congestion Externality} ($\bar{\rho}$) reduces the publication probability for all papers, feeding back into the payoffs and driving the evolutionary dynamics.}
-    \label{fig:reduced_game}
-\end{figure}
-
-
-\section{Replicator Dynamics and Bifurcation Analysis}
-\label{sec:dynamics}
-
-\subsection{Population state and congestion functions}
-\label{subsec:endogenous_congestion}
-
-Following the dominance analysis, the strategy space reduces to a contest between two author strategies, with the journal playing a fixed filtering role.
-We define the \textbf{population state} $x(t) \in [0, 1]$ as the fraction of authors playing \textbf{Only Good (OG)}, while $1-x(t)$ play \textbf{Always Submit (AS)}.
-We assume the system operates in the region $\lambda r < c < r$: in the absence of congestion, submitting low-quality work is unprofitable, but it becomes viable once the screening mechanism degrades sufficiently---a mechanism analogous to the market for lemons \citep{Akerlof1970, Thurner2011}.
-
-To capture the dual impact of congestion, we model two distinct bottlenecks.
-Numerical simulations use a smoothed approximation to capture pre-congestion friction; the analytical forms below use standard cutoffs for clarity.
-
-\paragraph{Stage 1: The screening intensity function $\eta(x)$}
-The total submission volume is $V(x) = N [ 1 - (1 - \alpha)x ]$.
-The screening intensity $\eta(x)$ represents the probability that a paper undergoes rigorous peer review.
-It degrades when volume exceeds the review capacity $K_{rev}$, a phenomenon consistent with models of "reviewer fatigue" and resource scarcity \citep{Azar2005, Kovanis2016}:
-\begin{equation}
-    \eta(x) = \min\left(1, \frac{K_{rev}}{V(x)}\right)
-\end{equation}
-We assume ``rubber-stamping'' implies unconditional acceptance of unscreened papers.
-This reflects the transition from rational selection to random selection observed in overloaded systems \citep{Thurner2011}.
-Thus, the pass probability for a bad paper, $\pi_0(x)$, increases as screening fails:
-\begin{equation}
-    \pi_0(x) = \eta(x) \lambda + (1 - \eta(x)) \cdot 1 = 1 - \eta(x)(1-\lambda)
-\end{equation}
-For a good paper, the pass probability $\pi_1(x)$ also approaches 1 as scrutiny relaxes (assuming false negatives $\epsilon$ only occur during rigorous review):
-\begin{equation}
-    \pi_1(x) = \eta(x) (1-\epsilon) + (1 - \eta(x)) \cdot 1 = 1 - \eta(x)\epsilon
-\end{equation}
-
-\paragraph{Stage 2: The rationing probability function $\bar{\rho}(x)$}
-Let $K$ be the publication slot capacity.
-The expected volume of papers entering the ``perceived good'' pool $M(x)$ is:
-\begin{align}
-    M(x) &= V_G(x)\pi_1(x) + V_B(x)\pi_0(x) \nonumber \\
-    &= N\alpha \cdot \pi_1(x) + N(1-\alpha)(1-x) \cdot \pi_0(x)
-\end{align}
-Using a mean-field approximation, the expected rationing probability is:
-\begin{equation}
-    \bar{\rho}(x) \approx \min\left(1, \frac{K}{M(x)}\right)
-\end{equation}
-This formulation captures the ``lottery nature'' of high-impact publishing: when the number of scientifically sound papers ($M$) exceeds the journal's physical space ($K$), acceptance becomes a game of chance rather than pure merit \citep{casadevall2014reforming}.
-
-\subsection{Derivation of the replicator equation}
-
-Since both OG and AS strategies submit good papers whenever they occur (with identical acceptance probabilities), the expected payoff component from good papers cancels out in the differential.
-The dynamics are driven entirely by the net utility of the additional "bad" papers submitted by AS authors, denoted as $\Pi_{bad}(x)$.
-The replicator equation is:
-\begin{equation}
-    \dot{x} = -x(1-x)(1-\alpha)\Pi_{bad}(x)
-\end{equation}
-
-A bad paper yields reward $r$ only if it passes both bottlenecks.
-The expected net utility is:
-\begin{equation}
-    \Pi_{bad}(x) = r \cdot \bar{\rho}(x) \cdot \pi_0(x) - c
-\end{equation}
-
-\subsection{Bifurcation and stability analysis}
-
-The system exhibits \textbf{Bistability} because the two congestion effects work in opposition, creating a dynamic tension characteristic of tipping-point models \citep{Schelling1978}:
-\begin{itemize}
-    \item \textbf{Review Collapse ($\pi_0 \uparrow$):} Increases the incentive to cheat (pro-corruption).
-    \item \textbf{Storage Rationing ($\bar{\rho} \downarrow$):} Decreases the incentive to cheat (pro-honesty).
-\end{itemize}
-When the review collapse effect dominates at low honesty, $\Pi_{bad}(x)$ becomes positive, creating a \emph{corruption trap} where opportunistic strategies proliferate \citep{Smaldino2016}.
-Conversely, when strict screening dominates at high honesty, $\Pi_{bad}(x)$ becomes negative, creating a basin of honesty.
-
-\begin{figure}[hbt!]
-    \centering
-    \includegraphics[width=0.9\textwidth]{polynomial_graph_1.pdf}
-    \caption{\textbf{Phase Portrait of the Dual-Bottleneck Dynamics (Bistability).} 
-    Parameters: $N=1000, K_{rev}=300, K_{store}=400, r=100, c=25, \lambda=0.1$.
-    The curve shows the evolutionary velocity $\dot{x}$.
-    The system exhibits three equilibria:
-    (1) \textbf{Trap of Corruption ($x=0$)}: Stable ($\Pi_{bad}(0) > 0$).
-    (2) \textbf{Basin of Honesty ($x=1$)}: Stable ($\Pi_{bad}(1) < 0$).
-    (3) \textbf{Tipping Point ($x^* \approx 0.82$)}: An unstable internal repeller.
-    The orange marker indicates the critical threshold separating the two basins of attraction.}
-    \label{fig:replicator_dynamics}
-\end{figure}
-
-\paragraph{Analytical Condition for Instability of the Internal Equilibrium}
-
-To rigorously characterize the stability of an interior equilibrium $x^* \in (0,1)$, we analyze the local derivative of the velocity field.
-Following standard evolutionary stability analysis \citep{Hofbauer1998}, the equilibrium is unstable (a repeller) if and only if the net utility of cheating is locally decreasing in $x$:
-\begin{equation}
-    \frac{d \Pi_{bad}}{d x} \bigg|_{x^*} < 0
-\end{equation}
-Recall that $\Pi_{bad}(x) = r \cdot \bar{\rho}(M(x)) \cdot \pi_0(x) - c$.
-Using the chain rule, we decompose the total derivative into two competing forces:
-\begin{equation}
-    \frac{d \Pi_{bad}}{d x} = r \left( \underbrace{\bar{\rho}(M) \frac{d \pi_0}{d x}}_{\text{Review Effect}} + \underbrace{\pi_0(x) \frac{d \bar{\rho}}{d M} \frac{d M}{d x}}_{\text{Rationing Effect}} \right)
-\end{equation}
-Note that $\frac{d \pi_0}{d x} < 0$ (since higher honesty reduces volume $V$, improving review quality $\eta$, thus lowering $\pi_0$).
-Conversely, the rationing term is typically positive (higher honesty reduces false positives in $M$, relaxing rationing, thus increasing $\bar{\rho}$).
-Therefore, the tipping point is unstable if and only if the Review-Dominated Condition holds locally:
-\begin{equation}
-    \label{eq:instability_condition}
-    \underbrace{\left| \bar{\rho}(M) \frac{d \pi_0}{d x} \right|}_{\text{Loss from stricter review}} > \underbrace{\pi_0(x) \frac{d \bar{\rho}}{d M} \frac{d M}{d x}}_{\text{Gain from relaxed rationing}}
-\end{equation}
-This condition confirms that bistability arises when the recovery of peer review quality (as $x$ increases) outweighs the relaxation of publication slots.
-
-
-\subsection{Equilibrium regimes}
-
-\paragraph{Stable coexistence: rationing-dominated dynamics}
-
-While the default scenario exhibits bistability, a fundamentally different topological regime emerges when the storage constraint ($K_{store}$) is significantly tighter than the review constraint ($K_{rev}$).
-Figure \ref{fig:stable_coexistence} illustrates this scenario, where the evolutionary velocity $\dot{x}$ transitions from positive to negative, creating a Stable Internal Equilibrium ($x^* \approx 0.44$).
-
-\begin{figure}[hbt!]
-    \centering
-    \includegraphics[width=0.9\textwidth]{polynomial_graph_2.pdf}
-    \caption{\textbf{Phase Portrait of Stable Coexistence (Rationing-Dominated).} 
-    Parameters: $N=1000, K_{rev}=1000, K_{store}=180, r=150, c=30, \lambda=0.4$.
-    The system exhibits a stable attractor at $x^* \approx 0.49$.
-    \textbf{Left Zone (Self-Correction):} At low honesty ($x < x^*$), severe storage rationing reduces the payoff below zero ($\Pi_{bad} < 0$), forcing the population to become more honest.
-    \textbf{Right Zone (Temptation):} At high honesty ($x > x^*$), the relaxed rationing makes cheating profitable again ($\Pi_{bad} > 0$), forcing the population towards corruption.
-    The system settles into a permanent mix of honest and opportunistic authors (Blue Point).}
-    \label{fig:stable_coexistence}
-\end{figure}
-
-\paragraph{Existence and Stability Conditions}
-
-For a stable coexistence equilibrium to exist, two conditions must be met:
-\begin{enumerate}
-    \item \textbf{Boundary Conditions:} The system must be repelled from both extremes. This requires $\Pi_{bad}(1) > 0$ (Temptation at Honesty) and $\Pi_{bad}(0) < 0$ (Unprofitability at Corruption). By the Intermediate Value Theorem, there must exist at least one root $x^* \in (0,1)$ where $\Pi_{bad}(x^*) = 0$.
-    \item \textbf{Stability Condition:} The slope of the velocity field must be negative, i.e., $\frac{d \Pi_{bad}}{d x} \big|_{x^*} > 0$. This corresponds to the Rationing-Dominated Condition*, where the "punishment" from overcrowding (tightening $\bar{\rho}$) outweighs the "opportunity" from collapsed screening.
-\end{enumerate}
-
-\paragraph{Real-world implication: The ``Defense by Congestion'' paradox}
-
-The emergence of a stable internal equilibrium reveals a paradoxical phenomenon: \textbf{extreme congestion acts as an unintentional defense mechanism}. 
-In journals with strict page limits ($K_{store} \ll N$), even if peer review fails ($\pi_0 \to 1$), the sheer volume of submissions drives the acceptance rate $\bar{\rho}$ so low that spamming becomes statistically unprofitable. 
-This explains why top-tier journals do not degenerate into full corruption even under heavy load—the "lottery" is simply too hard to win.
-This dynamic aligns with contest models where excessive competition discourages entry by marginal participants \citep{gross2019contest}.
-However, it also implies vulnerability: if capacity is expanded (increasing $K_{store}$), the system loses this passive defense, potentially shifting the topology to bistability or collapse.
-This highlights the strategic value of artificial scarcity in maintaining the "gatekeeper" function of academic journals \citep{MullerItten2022}.
-\paragraph{Boundary regimes: global honesty and global corruption}
-
-Beyond the interior dynamics, the system may exhibit monotonic behaviour where the incentive to submit low-quality work is uniformly positive or negative.
-
-\paragraph{Global Honesty ($x^* = 1$): Defense by Rigor}
-
-When $\Pi_{bad}(x) < 0$ for all $x \in [0,1]$, the evolutionary velocity $\dot{x}$ remains positive throughout the domain, driving the system unconditionally toward $x^* = 1$ (Figure \ref{fig:global_honesty}).
-A sufficient condition for this regime is that the payoff is negative even at the most favorable boundary ($x=1$):
-\begin{equation}
-    \Pi_{bad}(1) = r \cdot \lambda - c < 0
-\end{equation}
-This implies that suppressing the false-positive rate $\lambda$ below the cost-reward ratio $c/r$ is the primary safeguard for global honesty.
-
-\begin{figure}[hbt!]
-    \centering
-    \includegraphics[width=0.9\textwidth]{polynomial_graph_3.pdf}
-    \caption{\textbf{Phase Portrait of Global Honesty.} 
-    Parameters: $N=1000, K_{rev}=800, K_{store}=400, r=100, c=35, \lambda=0.1$.
-    The velocity is strictly positive (Green Zone), ensuring convergence to $x=1$ from any initial state.}
-    \label{fig:global_honesty}
-\end{figure}
-
-\paragraph{Global Corruption ($x^* = 0$): Systemic Failure}
-
-Conversely, when $\Pi_{bad}(x) > 0$ for all $x \in [0,1]$, the system collapses unconditionally to $x^* = 0$ (Figure \ref{fig:global_corruption}).
-This occurs when the payoff remains positive even under maximum congestion ($x=0$):
-\begin{equation}
-    \Pi_{bad}(0) = r \cdot \bar{\rho}(V_{max}) \cdot \pi_0(V_{max}) - c > 0
-\end{equation}
-This regime represents a total failure of governance, often seen in predatory journals where the profit motive drives acceptance regardless of quality.
-
-\begin{figure}[hbt!]
-    \centering
-    \includegraphics[width=0.9\textwidth]{polynomial_graph_4.pdf}
-    \caption{\textbf{Phase Portrait of Global Corruption.} 
-    Parameters: $N=1000, K_{rev}=200, K_{store}=1500, r=150, c=5, \lambda=0.3$.
-    The velocity is strictly negative (Red Zone), ensuring collapse to $x=0$.}
-    \label{fig:global_corruption}
-\end{figure}
-
-
-\subsection{Summary: A Topological Classification of Regimes}
-
-The dynamical behavior is ultimately determined by the interplay between the boundary payoffs.
-Table \ref{tab:regime_classification} summarizes the four topological regimes.
+When $\Pi_{bad} > 0$, AS spreads and $x$ falls; when $\Pi_{bad} < 0$, OG spreads and $x$ rises.
+Two forces compete as the AS share grows.
+First, rising volume degrades screening ($\eta$ falls, $\pi_0$ rises): submitting bad papers becomes more attractive.
+Second, rising volume floods the publication queue ($\bar{\rho}$ falls): the publication lottery becomes harder to win.
+When the screening-collapse force dominates, the system tips toward full corruption.
+When the rationing force dominates, extreme slot scarcity deters spam even after screening has failed---a mechanism we call \emph{defence by congestion}.
+
+\paragraph{Four long-run outcomes.}
+The signs of $\Pi_{bad}$ at the two boundary states determine which long-run outcome the system reaches.
+Table~\ref{tab:regime_classification} summarises the four cases.
+A key structural observation is that the two boundaries are controlled by different parameters: the honest boundary ($x=1$) is secured by keeping $\lambda$ low, while the corrupt boundary ($x=0$) is held by keeping $K$ tight.
+This means the two bottlenecks can be targeted separately as policy instruments---a point we return to in Section~\ref{sec:analysis}.
+Figure~\ref{fig:replicator_dynamics} illustrates the bistable case.
+$\Pi_{bad}$ is positive near $x=0$ (corruption reinforces itself) and negative near $x=1$ (honesty reinforces itself), with an unstable tipping threshold at $x^* \approx 0.82$ separating the two regions.
+Which long-run outcome prevails depends entirely on where the system starts relative to this threshold.
 
 \begin{table}[hbt!]
 \centering
-\caption{\textbf{Topological Classification of Dynamical Regimes based on Boundary Payoffs}}
+\caption{\textbf{Four long-run outcomes determined by boundary payoffs.}
+$\Pi_{bad}(1)$ is the spam payoff when almost all authors are honest (low-volume limit);
+$\Pi_{bad}(0)$ is the spam payoff when almost no authors are honest (maximum-load limit).}
 \label{tab:regime_classification}
 \renewcommand{\arraystretch}{1.5}
 \small
 \begin{tabular}{|c|c|c|p{7.8cm}|}
 \hline
-\textbf{Regime} & \(\mathbf{\Pi_{bad}(1)}\) & \(\mathbf{\Pi_{bad}(0)}\) & \textbf{Dynamical Topology \& Implication} \\
-& \textit{(Low-spam Limit)} & \textit{(Max-load Limit)} & \\
+\textbf{Regime} & \(\mathbf{\Pi_{bad}(1)}\) & \(\mathbf{\Pi_{bad}(0)}\) & \textbf{Long-run outcome} \\
 \hline
 \textbf{GH} & \(<0\) & \(<0\) &
-\textbf{Honesty-dominant.} \newline
-\(x=1\) is locally stable; \(x=0\) is unstable. \newline
-Trajectories converge to \(x=1\) globally, \textit{provided \(\Pi_{bad}(x)\) has no interior root}. \\
+\textbf{Global honesty.}
+Spamming is unprofitable everywhere.
+The system reaches $x=1$ from any starting point.
+Primary lever: keep $\lambda < c/r$. \\
 \hline
 \textbf{GC} & \(>0\) & \(>0\) &
-\textbf{Corruption-dominant.} \newline
-\(x=0\) is locally stable; \(x=1\) is unstable. \newline
-Trajectories collapse to \(x=0\) globally, \textit{provided \(\Pi_{bad}(x)\) has no interior root}. \\
+\textbf{Global corruption.}
+Spamming is profitable everywhere.
+The system collapses to $x=0$ from any starting point.
+Seen in predatory journals with weak review and ample slots. \\
 \hline
 \textbf{BS} & \(<0\) & \(>0\) &
-\textbf{Bistability.} \newline
-Both boundaries are locally stable attractors. \newline
-By continuity, \textbf{at least one} unstable interior equilibrium \(x^*\) exists to separate the basins. \\
+\textbf{Bistability.}
+Both $x=1$ and $x=0$ are long-run outcomes.
+An unstable tipping threshold $x^*$ separates the regions; history determines which outcome prevails.
+Recovery from corruption requires a large intervention. \\
 \hline
 \textbf{SC} & \(>0\) & \(<0\) &
-\textbf{Stable Coexistence.} \newline
-Both boundaries are unstable repellers. \newline
-By continuity, \textbf{at least one} stable interior equilibrium \(x^*\) exists (trapped by congestion). Uniqueness depends on monotonicity. \\
-\hline
-\multicolumn{4}{p{13cm}}{\footnotesize \textit{Note:} The \textbf{Low-spam Limit} (\(x=1\)) is driven primarily by review rigor (\(\lambda\)) via \(\Pi_{bad}(1) \approx r\lambda - c\). The \textbf{Max-load Limit} (\(x=0\)) is driven by the collapse of acceptance rate (\(\bar{\rho}\)) under maximum volume, regardless of review failure.} \\
+\textbf{Stable coexistence.}
+Neither extreme is reached.
+A stable interior outcome $x^*$ emerges, sustained by rationing.
+Seen in top-tier journals where the publication lottery is very hard to win. \\
 \hline
 \end{tabular}
 \end{table}
 
-This classification reveals a dual-control mechanism: \textbf{Review Quality ($\lambda$)} secures the honest boundary ($x=1$), while \textbf{Storage Capacity ($K_{store}$)} secures the corrupt boundary ($x=0$).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{polynomial_graph_1.pdf}
+    \caption{\textbf{Baseline phase portrait (bistability).}
+    The curve plots $\Pi_{bad}(x)$, the net payoff from submitting a bad paper, against the honest-author share $x$.
+    Parameters: $N=1000$, $K_{rev}=300$, $K=400$, $r=100$, $c=25$, $\lambda=0.1$.
+    Red shading: $\Pi_{bad}>0$, so AS spreads and $x$ falls.
+    Green shading: $\Pi_{bad}<0$, so AS shrinks and $x$ rises.
+    Two long-run outcomes coexist---full honesty ($x=1$) and full corruption ($x=0$)---separated by an unstable tipping threshold at $x^*\approx 0.82$ (orange marker).
+    Which outcome prevails depends entirely on the starting position relative to $x^*$.}
+    \label{fig:replicator_dynamics}
+\end{figure}
 \section{Parameter Sensitivity and Regime Transitions}
 \label{sec:analysis}
 
