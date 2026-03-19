@@ -238,7 +238,7 @@ ax_map.set_ylabel('AI adoption  $a$', fontsize=12)
 ax_map.set_title('(a)  Regime map in $(N,\\,a)$ space\n'
                  r'Red curve: collapse boundary $N_\uparrow(a)$ falls as $a$ rises',
                  fontsize=11, pad=8, fontweight='bold')
-ax_map.legend(fontsize=9.5, loc='upper right', framealpha=0.92)
+ax_map.legend(loc='upper right', framealpha=0.92, prop={'size': 11, 'weight': 'bold'})
 
 # ── Right: N_up(a) and Q*(a) ──────────────────────────────────────────────────
 ax_r = fig.add_subplot(gs[0, 1])
@@ -282,7 +282,7 @@ handles = [
     Line2D([0],[0], color='#3A7EC8',lw=2.0, label=r'$Q^*(a)$ in SC (blue)'),
     Line2D([0],[0], color='#C83A3A',lw=2.0, label=r'$Q^*(a)$ in GC (red)'),
 ]
-ax_r.legend(handles=handles, fontsize=8.5, loc='upper right', framealpha=0.93)
+ax_r.legend(handles=handles, loc='upper right', framealpha=0.93, prop={'size': 11, 'weight': 'bold'})
 
 # Parameter box
 param_txt = (r'$K_{rev}=300,\ K=400,\ N_{eval}=500$' '\n'
@@ -307,7 +307,8 @@ legend_patches = [
     Patch(facecolor='#D3D3D3', edgecolor='gray', label='No Submission (NS)'),
 ]
 fig.legend(handles=legend_patches, loc='lower center', ncol=5,
-           fontsize=9, framealpha=0.95, bbox_to_anchor=(0.5, -0.08))
+           framealpha=0.95, bbox_to_anchor=(0.5, -0.08),
+           prop={'size': 11, 'weight': 'bold'})
 
 fig.suptitle(
     'Fig. 6  ·  AI adoption erodes the stable-honesty window and lowers the collapse threshold\n'

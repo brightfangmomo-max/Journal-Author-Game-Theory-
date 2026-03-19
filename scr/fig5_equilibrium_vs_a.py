@@ -260,7 +260,7 @@ for ax, (label, kr, ks, color, marker,
         ax.set_ylabel(r'Honest-author share at long-run outcome  $x^*$', fontsize=11)
     ax.set_title(label, fontsize=10.5, pad=7)
     ax.grid(True, alpha=0.25, ls='--')
-    ax.legend(fontsize=8, loc='lower left', framealpha=0.92)
+    ax.legend(loc='lower left', framealpha=0.92, prop={'size': 11, 'weight': 'bold'})
 
     # AI-parameter box (bottom right)
     box_txt = (r'$\gamma=0.5,\ \delta=0.1$' '\n'

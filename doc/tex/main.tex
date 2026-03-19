@@ -59,7 +59,7 @@ We ask what happens to a publishing \emph{system} when it becomes substantially 
 By September 2024, more than one-fifth of computer-science preprints on arXiv showed measurable evidence of large-language-model modification \citep{Liang2025}, and at least 13.5\% of all biomedical abstracts published that year contained AI-assisted text \citep{Kobak2025}.
 Monthly submissions to arXiv reached a record 24{,}226 in October 2024, roughly 50\% higher than in late 2022 \citep{arXiv2024}.
 Verification has not kept pace.
-Reviewer acceptance rates have declined steadily over two decades \citep{Meyerson2025}, and between 6.5\% and 16.9\% of conference peer reviews now contain substantial AI-generated text \citep{Liang2024ICML}.
+The rate at which researchers accept reviewer invitations has declined steadily over two decades \citep{Meyerson2025}, and between 6.5\% and 16.9\% of conference peer reviews now contain substantial AI-generated text \citep{Liang2024ICML}.
 More than half of active researchers surveyed in 2025 reported using AI tools to write reviews, often against explicit journal policy \citep{Naddaf2025}.
 The question is not whether individual researchers behave ethically, but whether the system as a whole can absorb an asymmetric shock to production and verification.
 
@@ -87,26 +87,26 @@ The production elasticity exceeds the verification elasticity by assumption, for
 The net effect of $a$ on the profitability of submitting a low-quality paper, $\Pi_{bad}(x, a) = r \cdot \bar{\rho}(x,a) \cdot \pi_0(x,a) - c(a)$, is positive: AI makes spamming more attractive.
 
 We find three results.
-First, extreme publication scarcity stabilizes honest submission norms even when screening is imperfect.
-When the publication lottery is rare enough to win, the expected payoff from submitting a low-quality paper falls below the submission cost, and defection is unprofitable.
-Scarcity, paradoxically, acts as a deterrent.
-Second, as $a$ rises, the system can cross a tipping threshold: the long-run outcome shifts abruptly from a high-quality equilibrium to a low-quality one.
-This tipping occurs because AI simultaneously lowers the break-even point for spam and erodes the screening mechanism that would otherwise deter it.
-Third, the system exhibits persistent path dependence.
-The value of $a$ at which quality collapses is strictly lower than the value at which quality recovers.
-Once the system has tipped into the low-quality long-run outcome, incremental reforms cannot restore it; a large coordinated intervention is needed to cross the recovery threshold.
+First, extreme slot scarcity can stabilize honest submission norms even under degraded screening, because the publication lottery becomes too hard to win.
+Scarcity, paradoxically, acts as a deterrent---but AI gradually erodes this protection by lowering the submission cost $c(a)$, so the deterrent requires progressively tighter slot constraints as adoption deepens.
+Second, gradual AI adoption can trigger a discrete tipping point into a low-quality long-run outcome; once tipped, the system is self-sustaining.
+Recovery requires a large coordinated intervention, not incremental reform: the value of $a$ at which quality collapses is strictly lower than the value at which quality recovers, so the system exhibits hysteresis.
+Third, expanding publication capacity (raising $K$) without scaling verification makes the situation worse, not better.
+More slots raise the expected payoff from submitting marginal work; under AI adoption, where $c(a)$ is already low and $\lambda(a)$ already elevated, even a modest improvement in the publication lottery is enough to push the system across the tipping threshold.
 
-While expanding publication capacity (raising $K$) seems like the obvious remedy, we find that doing so without raising review capacity makes the situation worse, not better.
-More slots increase the expected reward from submitting marginal work, accelerating the drift toward the defecting strategy.
-Effective intervention must instead target the two primary levers: raising genuine review capacity $K_{rev}$ and reducing the false-positive rate $\lambda$.
-Practical instruments that move these levers include structured code and data audit requirements, submission quotas or tokens, cascading triage systems, and layered certification schemes that decouple preprint dissemination from editorial endorsement.
+These results point to a concrete policy agenda of verification-centric institutions---structured audits, submission quotas, and decoupled certification---rather than simply more publication slots.
+Effective intervention must target the two primary levers: raising genuine review capacity $K_{rev}$ and reducing the false-positive rate $\lambda$.
 These are not incremental reforms; they constitute a different institutional design, one oriented toward verification rather than volume.
 
 We proceed as follows.
+Section~\ref{sec:stylized_facts} documents the empirical asymmetry between AI-assisted production and verification.
+Section~\ref{sec:literature} reviews related literature.
 Section~\ref{sec:model} presents the baseline model.
 Section~\ref{sec:ai_extension} introduces the AI adoption parameter and derives the extended spam payoff.
-Section~ef{sec:analysis} analyses how AI adoption shifts equilibria, erodes the stability window, and amplifies the slot expansion paradox.
+Section~\ref{sec:analysis} analyses how AI adoption shifts equilibria, erodes the stability window, and amplifies the slot expansion paradox.
 Section~\ref{sec:abm} reports agent-based simulation results.
+Section~\ref{sec:institutions} translates the analytical results into a four-principle institutional agenda and evaluates the mechanisms using Figure~\ref{fig:interventions}.
+Section~\ref{sec:predictions} derives testable empirical predictions, proposes proxies for the key model channels, and outlines an identification strategy.
 Section~\ref{sec:conclusion} concludes.
 
 \begin{figure}[H]
@@ -975,151 +975,306 @@ We examine the testability of these predictions in Section~\ref{sec:conclusion}.
 \section{Agent-Based Modeling}
 \label{sec:abm}
 
-\subsection{Simulation Design}
+\subsection{Why Simulate? Heterogeneity and the Diffusion of AI Adoption}
 
-The analytical results above assume a large, well-mixed population and deterministic strategy evolution---the standard mean-field approximation \citep{Hofbauer1998}.
-Real academic communities are finite and subject to stochastic fluctuations \citep{Nowak2006}.
-We therefore implement an agent-based model (ABM) to test whether our main claims survive these complications: that dominated strategies die out naturally, that the predicted long-run outcomes emerge from local interactions under noise, and that the defence-by-congestion mechanism is not an artefact of the mean-field limit \citep{Bonabeau2002}.
+The analytical results in Section~\ref{sec:analysis} derive from a deterministic, infinite-population mean-field approximation \citep{Hofbauer1998}.
+Two features of real academic communities are suppressed by this approximation.
+First, AI adoption is not uniform: early adopters, late adopters, and non-adopters coexist within any field, and the overall adoption level $a$ rises gradually through a diffusion process analogous to the spread of other general-purpose technologies \citep{Rogers2003, Bass1969}.
+Second, finite populations are subject to stochastic fluctuations that can push a system across a tipping threshold even when the deterministic drift would not \citep{Nowak2006, Traulsen2009}.
+An agent-based model (ABM) allows us to test whether our three main results---gradual onset of fragility, discrete tipping, and severe path dependence---survive both of these complications \citep{Bonabeau2002, Epstein1996}.
 
-We simulate a population of $N=1000$ agents, following the standard protocols of stochastic evolutionary game theory in finite populations \cite{Traulsen2009}.
-We initialise the population with a uniform distribution across all four strategies (25\% each), so that the simulation must find the reduced state on its own rather than having it assumed.
-The process proceeds as follows:
+\subsection{Model Design}
 
-\begin{enumerate}
-    \item \textbf{Interaction Phase:} In each time step $t$, agents generate submissions based on their full strategy space ($s_i \in \{\text{OG}, \text{AS}, \text{OB}, \text{NS}\}$). The aggregate volume $V$ and peer-accepted volume $M$ are calculated endogenously, determining the congestion levels $\eta$ and $\rho$.
-    \item \textbf{Payoff Realization:} Agents receive payoffs $\Pi_i$ based on the realized publication outcomes. This captures the "lottery" nature of the congestion bottleneck.
-    \item \textbf{Strategy Update (Social Learning):} We employ the \textbf{pairwise comparison process} to model strategy evolution. A randomly selected agent $A$ considers mimicking agent $B$'s strategy. The probability of switching $s_A \to s_B$ is given by the Fermi function derived from statistical mechanics \cite{Szabo1998}:
-    \begin{equation}
-        P(s_A \to s_B) = \frac{1}{1 + \exp(-\beta [\Pi_B - \Pi_A])}
-    \end{equation}
-    where $\beta$ represents the intensity of selection.
-    This update rule is the standard method for introducing bounded rationality and decision noise into evolutionary dynamics \cite{Traulsen2009}.
-\end{enumerate}
+We simulate a population of $N = 1000$ authors.
+Each author plays one of two strategies: selective submission (OG) or universal submission (AS); dominated strategies are excluded by the iterated elimination result of Section~\ref{sec:model}.
+The journal's review capacity and quality parameters evolve with the field-level AI adoption level $a_t$, which rises exogenously along a linear ramp from $a = 0$ to $a = 0.8$ over the simulation horizon---a stylised representation of the diffusion trajectory documented empirically \citep{arXiv2024, Liang2025}.
+At each step, the effective parameters $K_{rev}(a_t)$, $\lambda(a_t)$, and $c(a_t)$ are updated according to the functional forms in Section~\ref{sec:ai_extension}.
+Strategy revision follows the pairwise Fermi comparison process \citep{Szabo1998, Traulsen2009}: a randomly chosen agent $i$ compares its payoff $\Pi_i$ with that of a randomly drawn peer $j$ and switches with probability
+\begin{equation}
+    P(s_i \to s_j) = \frac{1}{1 + \exp\!\bigl(-\beta\,[\Pi_j - \Pi_i]\bigr)},
+\end{equation}
+where $\beta = 1.0$ governs selection intensity.
+This rule captures bounded rationality: better-performing strategies spread, but noisily.
 
-\subsection{Simulation Results}
+\subsection{Results: Tipping as AI Adoption Rises}
 
-We simulated both parameter sets from Table \ref{tab:calibration} with a high selection intensity ($\beta=1.0$) to reduce noise.
-Figure \ref{fig:abm_results} shows that the agent-based simulations corroborate both the strategy elimination and the macroscopic predictions from Section~3.
+Figure~\ref{fig:tipping_timeseries} reports the core dynamic result.
+Panel~(a) traces the tipping threshold $x^*(a_t)$---the unstable boundary separating the honesty and corruption basins---as $a_t$ rises from 0 to 0.8.
+The threshold climbs from $x^* \approx 0.80$ at baseline to $x^* \approx 0.93$ under high adoption.
+The system appears healthy throughout: observed honest-author shares near the GH boundary remain at $x \approx 1$.
+Yet a fixed-size shock of $\Delta x = 0.18$---representing a coordinated wave of low-quality submissions, of the kind documented at major publishers during paper-mill incidents \citep{Bik2016}---has opposite consequences depending on timing.
+Applied early at $a \approx 0.08$, it drops $x$ to $0.82$, which is still above $x^*(0.08) \approx 0.80$; the honesty norm self-repairs within a few hundred steps.
+Applied late at $a \approx 0.53$, the identical shock drops $x$ to the same absolute level but now below $x^*(0.53) \approx 0.90$; the system collapses permanently to $x = 0$.
+The gap between $x_t$ and $x^*(a_t)$---the \emph{safety margin}---therefore shrinks silently even while observable quality remains high.
+This is precisely the ``quiet before the cliff'' signature that catastrophic-shift theory predicts for systems approaching a bifurcation \citep{Scheffer2009}.
 
-In both scenarios, the ``Only Bad'' (OB) and ``Never Submit'' (NS) strategies are rapidly driven to extinction within the first few hundred time steps, directly verifying the iterated elimination of strictly dominated strategies (IESDS) conducted in Section~2.6.
-The system autonomously reduces to a binary contest between OG and AS, consistent with the finding that strictly dominated strategies cannot survive under monotonic selection dynamics \cite{Samuelson1997}.
-
-In the review-dominated regime (Scenario~A), the dynamics exhibit sharp bistability (Figure \ref{fig:abm_bistability}).
-Because the initial proportion of honest OG authors ($25\%$) falls well below the theoretical unstable tipping point ($x^* \approx 0.82$), the system cannot self-correct.
-Once OB and NS vanish, the AS strategy outcompetes the remaining honest authors, driving the system into the absorbing state of full corruption ($x=0$).
-This confirms the severe path dependence predicted by the analytical model \cite{Scheffer2001, Schelling1978}.
-
-In the rationing-dominated regime (Scenario~B), we observe a qualitatively different outcome (Figure \ref{fig:abm_stable}).
-Despite the initial chaotic interaction of all four strategies, the population rapidly settles to a long-run average of $x^* \approx 0.49$ for OG and AS, while OB and NS remain extinct.
-This result aligns precisely with the analytical fixed point ($x^* \approx 0.49$) identified in the phase portrait analysis, confirming that the defence-by-congestion mechanism is a robust emergent property, immune to initial strategy turbulence and finite-size stochasticity.
-
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}[b]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{ABM_bistability.pdf}
-        \caption{Scenario A: Review-Dominated Dynamics}
-        \label{fig:abm_bistability}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{ABM_stable.pdf}
-        \caption{Scenario B: Stable Coexistence}
-        \label{fig:abm_stable}
-    \end{subfigure}
-    \caption{\textbf{Agent-Based Model Trajectories with 4 Strategies ($\beta=1.0$).} The plots show the time evolution of the strategy proportions. \textbf{(a)} Strong Bistability: Starting from an equal uniform mix, the system rapidly eliminates OB and NS. Because the initial OG fraction ($0.25$) is below the critical tipping point, the system collapses to full corruption ($x=0$). \textbf{(b)} Stable Coexistence: OB and NS are quickly eliminated, and the remaining OG and AS populations converge to a mixed equilibrium ($x^* \approx 0.49$). The precise agreement with analytical predictions confirms both the theoretical dominance analysis and the structural congestion stabilization.}
-    \label{fig:abm_results}
-\end{figure}
-
-\subsection{Co-operation ABM}
-
-To rigorously validate the robustness of our theoretical findings and explore the microscopic foundations of the ``Defense by Congestion'' mechanism, we develop a specialized Co-operation Agent-Based Model (ABM) featuring local batch-matching.
-While the standard replicator dynamics rely on a mean-field approximation assuming an infinite population and a single monolithic market, real-world academic publishing is inherently fragmented.
-Authors typically compete within specific sub-disciplines, specialized journals, or distinct temporal submission windows.
-The primary motivation for designing this ABM is to investigate whether the macroscopic stability predicted by the ODEs holds when subjected to the localized uncertainty, heterogeneous payoffs, and stochastic fluctuations characteristic of finite populations.
-
-The core innovation of this extended ABM is the \textit{batch-matching} algorithm.
-Instead of evaluating all $N$ agents globally, the population is randomly partitioned into local batches (sub-markets) in each time step.
-The journal's review and storage capacities ($K_{rev}$ and $K_{store}$) are scaled proportionally to match these local batches.
-This approach significantly improves upon standard global ABMs by introducing critical variance into the localized rationing probability ($\rho$) and enabling stochastic drift.
-It captures the granular reality that the publication ``lottery'' is not uniform; different sub-fields experience varying degrees of congestion simultaneously.
-This localized competition provides a much more rigorous stress-test for the theoretical equilibria.
-
-The simulation results validate our threshold competition framework across two key dimensions, as illustrated in Figure \ref{fig:co_abm_composite}:
-
-\textbf{Trajectory Analysis and Robustness:} Figures~\ref{fig:co_abm_composite}(a) and~\ref{fig:co_abm_composite}(b) illustrate the time evolution of strategies under batch matching.
-In the rationing-dominated regime (Scenario B), despite chaotic local interactions, both the theoretical ODE and the ABM trajectories converge tightly to the stable internal equilibrium of $x^* \approx 0.49$.
-This confirms that the stable coexistence induced by congestion is highly robust against local noise.
-Conversely, in the review-dominated regime (Scenario A), the ABM demonstrates sharp bistability, collapsing rapidly to global honesty ($x=1.0$) or global corruption ($x=0.0$) depending on initial conditions.
-The ABM closely traces the expected theoretical paths but exhibits micro-oscillations, validating the IESDS reduction while underscoring the severe path-dependence of the bistable regime.
+Panel~(b) confirms path dependence at $a = 0.45$ (bistable regime).
+Two trajectories separated by only $\Delta x_0 = 0.08$ diverge to opposite absorbing states: the run starting just above $x^*(0.45) \approx 0.92$ converges to full honesty within a few hundred steps, while the run starting just below collapses immediately.
+No endogenous force can reverse this collapse; the population is trapped in the low-quality long-run outcome \citep{Schelling1978, Scheffer2001}.
 
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[b]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{co_ABM_stable.pdf}
-        \caption{Scenario B (Stable Coexistence) Trajectories}
-        \label{fig:co_abm_stable}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{co_ABM_bistability.pdf}
-        \caption{Scenario A (Bistability) Trajectories}
-        \label{fig:co_abm_bistability}
-    \end{subfigure}
-    \caption{\textbf{Results of the Co-operation ABM with Local Batch-Matching.} The composite figure demonstrates that the theoretical mean-field predictions hold even under the rigorous localized constraints and stochastic noise introduced by fragmented sub-markets.}
-    \label{fig:co_abm_composite}
+    \includegraphics[width=\textwidth]{fig7_tipping_timeseries.pdf}
+    \caption{\textbf{AI adoption silently erodes the stability window (Fig.~7).}
+    \textbf{(a)} The tipping threshold $x^*(a_t)$ (red dashed) rises from $\approx 0.80$ to $\approx 0.93$ as AI adoption increases.
+    A fixed-size shock of $\Delta x = 0.18$ recovers when applied at $a \approx 0.08$ (green; safety margin intact) but causes permanent collapse when applied at $a \approx 0.53$ (blue; safety margin exhausted).
+    Observable quality gives no warning: $x_t \approx 1$ in both cases until the shock hits.
+    \textbf{(b)} Path dependence at $a = 0.45$: two initial conditions separated by $\Delta x_0 = 0.08$ diverge to opposite long-run outcomes.
+    Parameters: Set~A, $\gamma=0.5$, $\delta=0.1$, $\phi=0.4$, $\mu=0.2$.}
+    \label{fig:tipping_timeseries}
 \end{figure}
 
+\subsection{Robustness: Varying $\delta/\gamma$ and $\mu$}
 
-\paragraph{The Journal as an Independent Evolutionary Agent}
+Figure~\ref{fig:heatmap_outcomes} maps the long-run outcome across the two policy-sensitive dimensions identified in Section~\ref{sec:analysis}: the verification elasticity ratio $\delta/\gamma$ and the false-positive slope $\mu$.
+Both panels are evaluated at $a = 0.8$, representing sustained high AI adoption.
 
-\paragraph{From Fixed Environment to Co-Evolutionary Agent}
-In previous sections, including the local batch-matching analysis in Section 5.4, the journal was mathematically treated as a fixed institutional player locked into the "Only Good" (OG) strategy.
-It acted purely as a static environmental constraint enforcing a peer review filter and a capacity limit.
-By elevating the journal to an independent, adaptive agent, we transition the framework from a simple population game into an asymmetric co-evolutionary game.
-Journals now possess their own complete strategy space, consisting of Only Good (OG), Always Accept (AA), Only Bad (OB), and Reject All (AR).
-They update their behavior based on their own distinct utility function, which must balance the reputation benefits of publishing good papers, the penalties of publishing bad papers, and the administrative costs of peer review.
-This structural update captures the "Red Queen" dynamic inherent in academic publishing: if the author population becomes overwhelmingly honest, journals are financially incentivized to drop their costly screening processes and adopt the "Always Accept" (AA) strategy.
-However, this relaxation immediately triggers an opportunistic invasion of "Always Submit" (AS) authors, which in turn forces the journals to revert to strict filtering.
+Panel~(a) shows the long-run honest-author share $x^*$ on a continuous colour scale.
+The parameter space is dominated by the collapse region ($x^* \approx 0$, dark red); a stable-honesty zone ($x^* \approx 1$, dark green) exists only in the bottom-right corner, where $\delta/\gamma \gtrsim 0.5$ and $\mu \lesssim 0.08$ simultaneously.
+Panel~(b) confirms this pattern in terms of regime classification.
+The baseline calibration ($\delta/\gamma = 0.2$, $\mu = 0.2$, marked by white dotted lines) lies solidly inside the Global Corruption zone.
+The Bistability region (yellow) is confined to a narrow band at $\mu \lesssim 0.09$, independent of $\delta/\gamma$.
+The Stable Coexistence and Global Honesty regions are accessible only when both conditions hold jointly; satisfying one alone is insufficient.
 
-\paragraph{The Significance of the 10:1 Local Batch-Matching Mechanism}
-Real-world academic publishing is not a monolithic global market, but rather a highly fragmented ecosystem divided into specific sub-disciplines and specialized journals.
-To accurately model this micro-level reality, we introduce an extreme 10:1 local batch-matching mechanism, pairing 1000 authors with 100 distinct journal agents.
-In this configuration, global capacities ($K_{rev}$ and $K_{store}$) are scaled down proportionally to match the size of these local sub-markets.
-The primary significance of this 10:1 ratio is the maximization of localized variance and stochastic drift.
-By breaking the assumption of uniform global congestion, a single journal agent shifting to a rubber-stamping (AA) strategy creates a massive, localized payoff spike for the specific batch of 10 authors assigned to it, severely testing the structural resilience of the system.
-
-\paragraph{ABM Configuration and Result Analysis}
-To simulate this environment, we employ an Agent-Based Model (ABM) where both populations update their strategies via a Fermi pairwise comparison process, introducing bounded rationality and decision noise. 
-
-First, we analyze the global co-evolutionary baseline without fragmentation, as illustrated in \textbf{Figure \ref{fig:co_ABM_B}}.
-The ABM realization demonstrates that structurally dominated strategies, such as Only Bad (OB) and Reject All (AR), are rapidly driven to extinction.
-The remaining strategies enter a dynamic coexistence where the continuous mathematical predictions (ODE) and the finite-population ABM trajectories align closely.
+Two findings from this robustness check are particularly important.
+First, the $\mu$ dimension is the binding constraint: even if $\delta/\gamma = 1$ (review capacity scales perfectly with submission volume), the system remains in Global Corruption whenever $\mu > 0.09$.
+No investment in review staffing can compensate for a screening process that cannot distinguish polished AI text from genuine contributions \citep{Checco2021, Liang2023detectors}.
+Second, the boundary between BS and GC is nearly vertical in the right panel, meaning that raising $\delta/\gamma$ from 0.2 to 0.5 shifts the system from GC to BS (where recovery is at least possible) only if $\mu$ is already low.
+This interaction confirms that the two policy levers---raising $K_{rev}$ and reducing $\lambda$---must be deployed together, not sequentially.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{co_ABM_B.pdf}
-    \caption{Global Co-evolutionary Baseline (Scenario B). The system demonstrates stable coexistence without fragmentation, where the finite-population ABM trajectory closely aligns with the continuous ODE predictions.}
-    \label{fig:co_ABM_B}
+    \includegraphics[width=\textwidth]{fig8_heatmap_outcomes.pdf}
+    \caption{\textbf{Outcome sensitivity to verification investment and screening vulnerability (Fig.~8).}
+    Both panels are evaluated at $a = 0.8$ across a grid of $\delta/\gamma \in [0,1]$ and $\mu \in [0, 0.4]$.
+    \textbf{(a)} Long-run honest-author share $x^*$: a stable-honesty zone (green) exists only when $\delta/\gamma \gtrsim 0.5$ and $\mu \lesssim 0.08$ simultaneously; the remainder of the space collapses ($x^* \approx 0$).
+    \textbf{(b)} Regime classification: the baseline calibration (white dotted lines, $\delta/\gamma = 0.2$, $\mu = 0.2$) sits in Global Corruption.
+    The Bistability corridor is narrow and confined to very low $\mu$.
+    Global Honesty requires high $\delta/\gamma$ and low $\mu$ jointly.
+    Parameters: $\gamma = 0.5$, $\phi = 0.4$; Set~A.}
+    \label{fig:heatmap_outcomes}
 \end{figure}
 
-However, under the extreme fragmentation of the 10:1 batch-matching architecture, illustrated in \textbf{Figure \ref{fig:co_ABM_A}}, the system exhibits a profound deviation from the global mean-field predictions.
-In the rationing-dominated regime (Scenario B), the ABM reveals that the "Never Submit" (NS) strategy unexpectedly overtakes the ecosystem.
-This occurs due to a phenomenon we term "Feasibility Collapse." Because the global publication slots ($K_{store}$) are strictly divided among the 100 journals, each local sub-market operates with an extremely narrow bottleneck.
-If even a small number of opportunistic (AS) authors flood a specific 10-person room, the local rationing probability ($\rho$) plummets below the economic break-even threshold required to justify the submission cost ($c$).
-Consequently, the "Defense by Congestion" becomes too punitive; even honest authors (OG) suffer negative expected payoffs and are forced to exit the market entirely, leaving NS as the only rational, risk-averse strategy.
+\subsection{Stochastic ABM: Does Finite-Population Noise Validate the ODE?}
+
+The ODE assumes an infinitely large, well-mixed population and therefore suppresses all randomness.
+Real academic communities are finite.
+Even a system that sits nominally above the tipping threshold can cross it by chance when the number of authors is small \citep{Traulsen2009, Nowak2006}.
+This subsection tests whether the deterministic tipping results of Section~\ref{sec:analysis} survive under finite-population noise, and whether community size changes that verdict.
+
+We extend the batch-matching ABM from \citet{Bonabeau2002} to incorporate the same rising AI adoption schedule used in Section~\ref{sec:abm} ($a_t$ linear from 0 to 0.8 over 3{,}000 steps).
+At each step $t$, the local screening capacity is $K_{rev,\text{eff}}(a_t) = K_{rev,0}\cdot(1+\delta a_t)/(1+\gamma a_t)$, the false-positive rate is $\lambda(a_t)$, and the submission cost is $c(a_t)$---identical functional forms to the ODE.
+The only departure from the ODE is that $N$ is finite and strategy revision is stochastic: each revision attempt uses the Fermi rule \citep{Szabo1998}, so the population does not move deterministically toward its expected next state but takes a noisy step.
+We run 30 independent replications for each of two community sizes: $N = 1{,}000$ (a full research field, the original calibration) and $N = 200$ (a specialised sub-field).
+Both start at $x_0 = 0.82$, which is 0.02 above the initial tipping threshold $x^*(a=0) \approx 0.80$---a thin but nominally safe margin.
+
+Figure~\ref{fig:abm_validation} shows the results.
+Panel~(a) overlays individual trajectories, the mean ABM path, and the ODE prediction.
+The ODE rises steadily to $x \approx 1$ and stays there: deterministic drift at $x = 0.82$ points toward honesty, and an infinite population never crosses the threshold by noise alone.
+The $N = 200$ runs tell a different story.
+Most collapse immediately; only a handful survive to the honest long-run outcome.
+The $N = 1{,}000$ mean settles near $x \approx 0.63$, reflecting the mix of collapsed and surviving runs in that sample.
+Panel~(b) quantifies this: by $a \approx 0.06$, approximately 90\% of $N = 200$ runs have already collapsed, while 35\% of $N = 1{,}000$ runs have done so.
+Both fractions plateau for higher $a$, because the sorting between collapse and survival is complete before AI adoption has risen appreciably---the safety margin of only 0.02 is insufficient to resist even the earliest stochastic fluctuations.
+
+Three conclusions follow from this comparison.
+First, the ABM confirms the ODE mechanism: in every run the tipping threshold $x^*(a_t)$ acts as the critical boundary, and no run escapes once it crosses below it.
+Second, the ODE systematically overestimates stability by ignoring finite-population noise.
+The same parameters that make the ODE predict ``safe'' lead to 35--90\% stochastic collapse, depending on community size.
+This is consistent with theoretical results on stochastic evolutionary games: the probability of crossing a tipping threshold scales roughly as $\exp(-N \cdot \Delta)$, where $\Delta$ is the size of the safety margin, so thin margins are exponentially more dangerous in small populations \citep{Traulsen2006}.
+Third, community size is itself a policy variable.
+Fragmented peer-review ecosystems---specialised conferences, niche journals---face higher stochastic collapse risk than large generalist venues under the same AI adoption pressure.
+Institutional design should therefore calibrate the required safety margin $x_t - x^*(a_t)$ to the effective community size, not merely to the average field-level adoption level.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{co_ABM_A.pdf}
-    \caption{Co-evolutionary Dynamics under 10:1 Local Batch-Matching (Scenario B). The extreme fragmentation induces severe localized congestion variance, causing the "Never Submit" (NS) strategy to dominate due to Feasibility Collapse.}
-    \label{fig:co_ABM_A}
+    \includegraphics[width=\textwidth]{fig9_abm_validation.pdf}
+    \caption{\textbf{Stochastic ABM vs ODE prediction (Fig.~9).}
+    Both panels use Set~A parameters with a linear AI adoption ramp, starting at $x_0 = 0.82$
+    (safety margin 0.02 above the initial tipping threshold).
+    \textbf{(a)} Individual $N=200$ run trajectories (blue: survive; red: collapse), mean paths for $N=200$ and $N=1{,}000$, the ODE prediction, and the rising tipping threshold $x^*(a_t)$.
+    The ODE stays near $x=1$; most $N=200$ runs collapse within the first 200 steps.
+    \textbf{(b)} Fraction of 30 runs collapsed ($x < 0.3$) as a function of $a$.
+    By $a \approx 0.06$, 90\% of $N=200$ runs and 35\% of $N=1{,}000$ runs have collapsed---well before the ODE would predict vulnerability.
+    Parameters: $\gamma=0.5$, $\delta=0.1$, $\phi=0.4$, $\mu=0.2$; Set~A.}
+    \label{fig:abm_validation}
 \end{figure}
 
 
+\section{Institutional Responses}
+\label{sec:institutions}
+
+The three results from Section~\ref{sec:analysis} reduce the institutional problem to a single condition: keep $\Pi_{bad}(x, a)$ negative.
+AI adoption pushes $\Pi_{bad}$ upward through four channels simultaneously: submission volume rises, review capacity lags, submission cost falls, and the false-positive rate $\lambda$ increases.
+Effective policy must counteract each channel.
+We organize the response around four principles, ordered by the tightness of the constraint each relieves.
+
+\textbf{Principle 1: Scale verification ($K_{rev}\uparrow$).}
+Higher review capacity raises the screening intensity $\eta = \min(1, K_{rev}/V)$, which reduces the bad-paper pass rate $\pi_0$ and lowers $\Pi_{bad}$ at the corrupt boundary $x \approx 0$.
+Practical mechanisms include structured reviewer panels with explicit recognition credits \citep{Aczel2021}, AI-assisted consistency and format pre-screening that frees expert time for substantive judgment \citep{Checco2021}, and co-review programmes that train junior reviewers alongside senior ones.
+However, there is a binding caveat: when $\lambda > c(a)/r$, even perfect screening ($\eta = 1$) cannot make $\Pi_{bad}(1) < 0$ at the honest boundary.
+At $a = 0.8$ under baseline parameters, $\lambda = 0.26$ while $c(a)/r = 0.17$; no feasible increase in $K_{rev}$ alone can stabilize the system at $K = 400$.
+Crucially, review assistance tools must not themselves raise $\lambda$: format and consistency checks are appropriate, but automated quality scoring is not \citep{Naddaf2025}.
+
+\textbf{Principle 2: Reduce the false-positive rate ($\lambda\downarrow$) — the binding constraint.}
+The GH condition at the honest boundary requires $\Pi_{bad}(1) < 0$, which holds if and only if $\lambda < c(a)/r$.
+This is the binding constraint: no amount of $K_{rev}$ expansion or slot restriction restores GH while $\lambda$ exceeds this threshold.
+Three mechanisms directly reduce $\lambda$.
+First, mandatory data, code, and materials sharing makes fabrication costlier and enables post-publication verification \citep{Munafo2017, Nosek2015}.
+Second, structured reporting checklists---CONSORT for randomised trials \citep{Moher2009}, PRISMA for systematic reviews---force authors to document methods in ways that make gaps visible to reviewers.
+Third, Registered Reports commit authors to their hypotheses and analysis plan before results are known, eliminating outcome-selective reporting \citep{Nosek2018}, which is itself a leading source of inflated false-positive rates \citep{Simmons2011}.
+Taken together, these mechanisms address the root cause that $\lambda$ is elevated: reviewers cannot easily distinguish genuine contributions from polished but uninformative manuscripts.
+
+\textbf{Principle 3: Add smart friction ($c\uparrow$).}
+The GH condition also requires $c > r \cdot \lambda$.
+As AI adoption lowers $c(a) = c_0(1 - \phi a)$, this gap closes and eventually inverts.
+Submission tokens or annual per-journal quotas raise the effective cost of marginal submissions without requiring any detection of AI use \citep{Cotton2013}.
+Escalating resubmission fees impose additional costs on the low-quality cycling of rejected papers through multiple journals.
+We note an equity caveat: blunt friction raises costs for all authors, including those at under-resourced institutions; targeted exemptions are discussed in the final paragraph of this section.
+
+\textbf{Principle 4: Decouple dissemination from certification.}
+The current publishing architecture conflates two distinct functions: disseminating findings quickly and certifying quality carefully.
+When certification degrades under submission pressure, both functions fail together.
+Separating the two---via preprint servers combined with overlay journals or community platforms such as Peer Community In \citep{Ginsparg2011}---allows dissemination to remain immediate while certification proceeds at the pace required for genuine scrutiny.
+The slot-expansion paradox established in Section~\ref{sec:analysis} applies specifically to certified publication slots $K_{cert}$, not to preprint availability.
+Decoupling therefore prevents the paradox from emerging: adding preprint capacity does not raise $\Pi_{bad}$, because preprint posting is not the payoff-generating event in the spam incentive.
+
+Table~\ref{tab:institutions} maps each mechanism to its primary parameter shift, and Figure~\ref{fig:interventions} illustrates the joint effect of the principles in the $(K_{rev}, K)$ parameter space.
+The left panel of Figure~\ref{fig:interventions} shows that at $a = 0.8$ under baseline parameters, Global Corruption dominates most of the space, and Set~A sits deep in the GC region; the navy arrow shows that raising $K_{rev}$ alone (Principle~1) leaves Set~A in GC because $\lambda = 0.26 > c/r = 0.17$.
+The right panel applies Principles 2 and 3 jointly ($\lambda = 0.05$, $c = 35$, with $\phi = \mu = 0$ locking in those improvements): the GC region is eliminated entirely and Set~A shifts to the bistability (BS) region; the dark green arrow then shows that combining Principle~1 ($K_{rev}$ raised to 600) carries Set~A into the Global Honesty region.
+The lesson is that Principles~2 and~3 are necessary to exit GC, while Principle~1 converts bistability into global honesty: the three levers are complements, not substitutes.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{fig10_interventions.pdf}
+  \caption{Intervention levers in the $(K_{rev}, K)$ parameter space at $a = 0.8$.
+    \textit{Left panel:} base parameters ($\lambda = 0.26$, $c = 17$); GC dominates and Set~A (star) sits deep in GC.
+    The navy arrow shows Principle~1 ($K_{rev}\uparrow$) alone stays in GC because $\lambda > c/r$.
+    \textit{Right panel:} after Principles~2 and~3 ($\lambda = 0.05$, $c = 35$, $\phi = \mu = 0$); GC is eliminated and Set~A shifts to BS.
+    The dark green arrow shows the combined intervention (Principles~1+2+3, $K_{rev}$ raised to 600) restores Global Honesty.
+    Parameters: $\gamma = 0.5$, $\delta = 0.1$; Set~A baseline $N = 1000$, $\alpha = 0.2$, $r = 100$, $\varepsilon = 0.05$.}
+  \label{fig:interventions}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \footnotesize
+  \caption{Institutional mechanisms and their model parameter effects.
+    Each row maps a concrete institution to the parameter it primarily shifts.
+    Arrows: $\uparrow$ raises, $\downarrow$ lowers, \textemdash\ no direct effect, $\uparrow\!(\cdot)$ partial or indirect effect.
+    Publication reward $r$ is unchanged by all mechanisms listed; adjusting $r$ is a longer-run reform beyond the scope of this analysis.}
+  \label{tab:institutions}
+  \setlength{\tabcolsep}{5pt}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{p{3.8cm}p{3.4cm}ccccp{1.3cm}}
+    \toprule
+    Institution & Mechanism summary & $K_{rev}$ & $\lambda$ & $c$ & $K$ & Horizon \\
+    \midrule
+    \multicolumn{7}{l}{\textit{Principle 1: Scale verification}} \\
+    \addlinespace
+    Structured reviewer panels \& recognition     & Reward and recognise review effort           & $\uparrow$        & \textemdash & \textemdash & \textemdash & Quick  \\
+    AI-assisted pre-screening (format/consistency) & Flag obvious flaws before expert review      & $\uparrow$        & \textemdash & \textemdash & \textemdash & Quick  \\
+    \midrule
+    \multicolumn{7}{l}{\textit{Principle 2: Reduce false-positive rate}} \\
+    \addlinespace
+    Mandatory data, code, and materials sharing    & Enables post-submission verification         & $\uparrow(\cdot)$ & $\downarrow$        & $\uparrow(\cdot)$ & \textemdash & Quick  \\
+    Structured reporting checklists (CONSORT/PRISMA) & Forces method transparency               & \textemdash       & $\downarrow$        & \textemdash & \textemdash & Quick  \\
+    Registered Reports (pre-registered design)     & Eliminates outcome-selective reporting       & $\uparrow(\cdot)$ & $\downarrow\downarrow$ & $\uparrow$ & \textemdash & Medium \\
+    Dedicated statistical/methods editorial review & Specialist check of analytic choices         & $\uparrow$        & $\downarrow$        & \textemdash & \textemdash & Quick  \\
+    \midrule
+    \multicolumn{7}{l}{\textit{Principle 3: Add smart friction}} \\
+    \addlinespace
+    Annual submission tokens or quotas             & Raise cost of marginal submissions           & \textemdash & \textemdash & $\uparrow\uparrow$ & \textemdash & Quick  \\
+    Escalating resubmission fees                   & Target low-cost paper cycling                & \textemdash & \textemdash & $\uparrow$         & \textemdash & Quick  \\
+    Pre-submission triage/desk-rejection filter    & Reject obvious mismatches before review      & $\uparrow(\cdot)$ & $\downarrow(\cdot)$ & \textemdash & \textemdash & Quick  \\
+    \midrule
+    \multicolumn{7}{l}{\textit{Principle 4: Decouple dissemination}} \\
+    \addlinespace
+    Preprint $+$ overlay certification layer       & Separate speed from quality guarantee        & $\uparrow$ & \textemdash & \textemdash & $\downarrow$ (cert.) & Deep \\
+    \midrule
+    \multicolumn{7}{l}{\textit{Transition: post-collapse reset}} \\
+    \addlinespace
+    Coordinated field-wide mandate                 & Simultaneous cross-journal reform push       & $\uparrow\uparrow$ & $\downarrow\downarrow$ & $\uparrow\uparrow$ & \textemdash & Crisis \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+\textbf{Transition policy: resetting after tipping.}
+Hysteresis means that gradual, journal-by-journal reforms are insufficient once the system has tipped into Global Corruption.
+In the GC long-run outcome, $\Pi_{bad} > 0$ for all values of the honest-author share $x$; no individual author has an incentive to deviate back toward honesty \citep{Scheffer2001}.
+Recovery requires a large, coordinated intervention that simultaneously restores $\lambda$, raises $c$, and expands $K_{rev}$ enough to shift the entire parameter configuration out of the GC region.
+The ClinicalTrials.gov registration mandate, which required prospective trial registration as a condition of journal publication, illustrates the scale of coordination needed \citep{Moher2009}: a single policy change, applied across many journals simultaneously, moved an entire field.
+The implication for AI-era publishing is that funders and professional societies must act across journal families, not journal by journal.
+
+\textbf{Equity.}
+Friction mechanisms ($c\uparrow$) and strict verification requirements ($\lambda\downarrow$) impose larger burdens on authors at under-resourced institutions, who may lack the data-sharing infrastructure, statistical support, or time to meet demanding new standards.
+Smart design can preserve the incentive effects while redistributing the cost: submission token grants for authors at lower-income institutions \citep{Cotton2013}; structured reporting checklists, which carry low infrastructure cost, preferred over mandatory open data repositories, which carry high infrastructure cost; subsidized reviewer development programmes that build review capacity where it is currently thin \citep{Aczel2021}.
+These equity adjustments do not change the core model predictions---the regime boundaries shift on the same dimensions---but they change who bears the adjustment cost.
+
+\textbf{Policy menu: quick wins and deep redesign.}
+Some mechanisms require no inter-journal coordination and can be adopted immediately: structured reporting checklists, mandatory data and code sharing policies, submission token caps, and escalating resubmission fees.
+Others require collective action across journals or fields: overlay certification architectures, cross-journal quota systems, and coordinated field-wide mandates.
+The right sequencing strategy is to deploy the quick wins first, to arrest the upward drift of $\Pi_{bad}$, while building the coordination capacity needed for deep redesign before any tipping event occurs.
+Waiting for a quality crisis before acting is the worst strategy: recovering from GC requires a larger simultaneous push than preventing the tip in the first place \citep{Scheffer2009}.
+
+\section{Empirical Predictions and Measurement}
+\label{sec:predictions}
+
+\paragraph{Prediction 1: Quality degradation is nonlinear---quiet, then a cliff.}
+The bistable structure of the model generates a specific observable signature.
+Quality metrics should hold approximately steady while AI adoption $a$ rises below the tipping threshold, then deteriorate rapidly once the tipping threshold $x^*(a)$ reaches the current honest-author share.
+Smooth, continuous quality decline would be inconsistent with the model: the bistable structure produces a cliff, not a slope.
+The early-warning indicators are not quality itself but the shrinking gap between the current author composition $x_t$ and the rising tipping threshold $x^*(a_t)$---a gap that narrows silently while quality appears stable \citep{Scheffer2009}.
+Empirical evidence is consistent with this reading.
+Monthly arXiv submissions rose approximately 50\% between late 2022 and late 2024, while reviewer acceptance rates and post-publication retraction counts have not yet stabilised at new long-run levels \citep{arXiv2024, VanNoorden2023}.
+Field-level heterogeneity provides additional structure: \citet{Kobak2025} find AI-modified text rates exceeding 40\% in some biomedical sub-disciplines while remaining near zero in others, suggesting that different fields sit at different distances from their respective tipping thresholds---some already past it, others still in the quiet phase.
+
+\paragraph{Prediction 2: The gap between collapse and recovery thresholds widens as AI adoption rises.}
+As $a$ increases, Proposition~3 shows that the defence-by-congestion mechanism requires progressively tighter slot constraints to hold the corrupt boundary, while Proposition~1 shows the Global Honesty boundary erodes.
+The model therefore predicts that the intervention required to restore quality in a field that has tipped is strictly larger than the intervention that would have prevented the tip.
+Pre-AI evidence establishes that the hysteresis mechanism itself is empirically real, independently of what triggers the initial collapse.
+\citet{Bik2016} document that image duplication---driven by paper mills, not generative AI---became entrenched in specific biomedical sub-fields despite sustained editorial intervention; \citet{VanNoorden2023} report that annual retraction counts exceeded 10{,}000 for the first time in 2023 without receding, suggesting that the low-quality long-run outcome sustains itself once established.
+The pre-AI paper-mill literature thus confirms the mechanism: quality collapses are not self-correcting, and removing the proximate trigger (the mills) does not restore the parameter configuration that originally supported honest submission.
+The AI-specific prediction is that the same mechanism will be triggered at lower adoption thresholds and across more fields simultaneously, because AI lowers $c(a)$ and raises $\lambda(a)$ for the entire author population rather than for a subset of bad actors.
+A direct test would compare the institutional effort required to restore quality indicators in a field that tipped---whether by paper mills before 2022 or by AI-driven flooding after---against one that never tipped but faces equivalent submission pressure.
+
+\paragraph{Prediction 3: Proxies for a rising false-positive rate.}
+A rising $\lambda$ produces a detectable mismatch between surface quality and substantive reliability: manuscripts become more polished while methodological soundness does not improve proportionately.
+Three observable proxies track this channel.
+First, \textbf{acceptance rates} should rise faster than any improvement in underlying research quality, because easier-to-pass manuscripts inflate the acceptance pool without proportionate quality gains; \citet{Latona2024} document this experimentally---AI-assisted reviews award systematically higher scores.
+Second, \textbf{surface linguistic quality} should improve independently of replication success or citation impact.
+\citet{Kobak2025} show that AI modification is measurable through excess vocabulary, providing a continuous field-level proxy for surface polish that can be compared against downstream quality indicators.
+Third, \textbf{replication rates} should decline in fields with high AI adoption if the screening signal is genuinely degrading.
+The Open Science Collaboration found that fewer than half of 100 psychology studies replicated successfully \citep{OSC2015}; replicating that audit with papers published after 2022 in high-AI-adoption fields, and comparing against low-adoption fields, would directly test whether the false-positive channel is active.
+
+\paragraph{Prediction 4: Proxies for review-capacity stress.}
+The model predicts declining screening intensity $\eta = \min(1, K_{rev}/V)$ as submission volume grows faster than review capacity.
+Four observable proxies track this channel.
+First, \textbf{reviewer invitation acceptance rates} should decline faster in high-AI-adoption fields; \citet{Meyerson2025} document a continuous 21-year decline at a single journal, and the model predicts this trajectory steepens as AI-driven submission pressure intensifies.
+Second, \textbf{editorial turnaround times} should lengthen as editors wait longer for reviewer responses, signalling scarcity in the review pool.
+Third, \textbf{desk rejection rates} should rise as editorial offices pre-filter to protect reviewers from overload; an increasing share of submissions receiving no substantive evaluation is a direct proxy for $\eta$ falling toward zero for that fraction of papers.
+Fourth, \textbf{reviewer concentration} should increase---a growing Gini coefficient on review counts across the active reviewer pool indicates that a shrinking fraction of researchers is absorbing a rising fraction of the total burden, a pattern that preceded the current shortage \citep{Kovanis2016}.
+
+\paragraph{Prediction 5: Data sources and identification strategy.}
+Testing these predictions requires field-level panel data on both the production and verification sides of the system.
+Several existing sources can be combined.
+On the production side, arXiv submission records are public, monthly, and tagged by subfield; the LLM modification classifier of \citet{Liang2025}, applied to these records, provides a continuous field-level estimate of $a_t$.
+The vocabulary-based detection approach of \citet{Kobak2025}, applied across the 15-million-abstract PubMed archive, offers an independent measure of AI modification at the sub-discipline level.
+On the verification side, reviewer acceptance rate series can be constructed from editorial logs at journals that publish annual statistics; acceptance rates, turnaround times, and retraction counts are available at scale through OpenAlex, CrossRef, and the Retraction Watch database.
+The natural experiment for causal identification is the release of ChatGPT in November 2022, which created a sharp and field-heterogeneous shock to submission cost $c$.
+A difference-in-differences design would compare fields with high ex-ante AI amenability---measured by pre-2022 adoption of computational tools, large collaborative networks, or text-heavy output---against low-amenability fields, before and after November 2022.
+The prediction is that high-amenability fields show faster growth in submission-to-review ratios, rising acceptance rates, and more rapid accumulation of post-publication retractions relative to low-amenability fields, controlling for field size and pre-shock submission trends.
+
+\paragraph{Prediction 6: What would falsify the asymmetry hypothesis.}
+The model's conclusions rest on two empirical claims: production scales faster than verification ($\gamma > \delta$), and the false-positive rate rises with AI adoption ($\mu > 0$).
+Either claim failing empirically would revise the institutional implications.
+If $\delta \approx \gamma$---if AI-assisted reviewing tools raise review capacity at nearly the same rate as AI raises submission volume---the congestion channel would not activate.
+This would be observable as stable submission-to-acceptance ratios and constant turnaround times despite rising submission volumes in high-adoption fields.
+If $\mu \approx 0$---if AI tools improve screening reliability, perhaps because structured AI-assisted checklists close the gap that polished writing opens---the false-positive channel would be neutralised.
+This would be observable as stable or falling acceptance rates in high-AI-adoption fields combined with stable replication rates for newly published work.
+The robustness analysis in Figure~\ref{fig:heatmap_outcomes} shows that $\mu$ is the binding parameter: even if $\delta/\gamma$ rises toward 1, the system remains in Global Corruption whenever $\mu > 0.09$.
+A finding that AI-assisted reviewing consistently \emph{improves} score calibration---rather than inflating it---would therefore be the strongest possible disconfirmation of the model's policy conclusions \citep{Checco2021}.
+The available evidence currently points in the opposite direction \citep{Latona2024, Liang2024ICML, Naddaf2025}.
 
 \section{Conclusion}
 \label{sec:conclusion}

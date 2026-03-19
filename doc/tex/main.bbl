@@ -1,4 +1,4 @@
-\begin{thebibliography}{40}
+\begin{thebibliography}{52}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -29,11 +29,21 @@ Ofer~H Azar.
 \newblock The review process in economics: Is it too fast?
 \newblock \emph{Southern Economic Journal}, 72\penalty0 (2):\penalty0 482--491, 2005.
 
+\bibitem[Bass(1969)]{Bass1969}
+Frank~M. Bass.
+\newblock A new product growth for model consumer durables.
+\newblock \emph{Management Science}, 15\penalty0 (5):\penalty0 215--227, 1969.
+
 \bibitem[Bianchi et~al.(2018)Bianchi, Grimaldo, Bravo, and Squazzoni]{Bianchi2018}
 Federico Bianchi, Francisco Grimaldo, Giangiacomo Bravo, and Flaminio Squazzoni.
 \newblock The peer review game: an agent-based model of scientists facing resource constraints and institutional pressures.
 \newblock \emph{Scientometrics}, 116\penalty0 (3):\penalty0 1401--1420, 2018.
 \newblock \doi{10.1007/s11192-018-2825-4}.
+
+\bibitem[Bik et~al.(2016)Bik, Casadevall, and Fang]{Bik2016}
+Elisabeth~M. Bik, Arturo Casadevall, and Ferric~C. Fang.
+\newblock The prevalence of inappropriate image duplication in biomedical research publications.
+\newblock \emph{mBio}, 7\penalty0 (3):\penalty0 e00809--16, 2016.
 
 \bibitem[Bonabeau(2002)]{Bonabeau2002}
 Eric Bonabeau.
@@ -70,6 +80,11 @@ Christopher Cotton.
 Glenn Ellison.
 \newblock Evolving standards for academic publishing: A q-r theory.
 \newblock \emph{Journal of Political Economy}, 110\penalty0 (5):\penalty0 994--1034, 2002.
+
+\bibitem[Epstein and Axtell(1996)]{Epstein1996}
+Joshua~M. Epstein and Robert Axtell.
+\newblock \emph{Growing Artificial Societies: Social Science from the Bottom Up}.
+\newblock Brookings Institution Press, Washington, DC, 1996.
 
 \bibitem[Fudenberg and Tirole(1991)]{Fudenberg1991}
 Drew Fudenberg and Jean Tirole.
@@ -138,16 +153,40 @@ Laura~A. Meyerson, Adam Suzzi-Simmons, and Daniel Simberloff.
 \newblock \emph{Biological Invasions}, 27:\penalty0 223, 2025.
 \newblock \doi{10.1007/s10530-025-03679-1}.
 
+\bibitem[Moher et~al.(2009)Moher, Liberati, Tetzlaff, Altman, and {PRISMA Group}]{Moher2009}
+David Moher, Alessandro Liberati, Jennifer Tetzlaff, Douglas~G. Altman, and {PRISMA Group}.
+\newblock Preferred reporting items for systematic reviews and meta-analyses: the {PRISMA} statement.
+\newblock \emph{PLoS Medicine}, 6\penalty0 (7):\penalty0 e1000097, 2009.
+\newblock \doi{10.1371/journal.pmed.1000097}.
+
 \bibitem[Muller-Itten(2022)]{MullerItten2022}
 Michele Muller-Itten.
 \newblock Gatekeeper competition.
 \newblock \emph{European Economic Review}, 148:\penalty0 104230, 2022.
+
+\bibitem[Munaf{\`o} et~al.(2017)Munaf{\`o}, Nosek, Bishop, Button, Chambers, {Percie du Sert}, Simonsohn, Wagenmakers, Ware, and Ioannidis]{Munafo2017}
+Marcus~R. Munaf{\`o}, Brian~A. Nosek, Dorothy V.~M. Bishop, Katherine~S. Button, Christopher~D. Chambers, Nathalie {Percie du Sert}, Uri Simonsohn, Eric-Jan Wagenmakers, Jennifer~J. Ware, and John P.~A. Ioannidis.
+\newblock A manifesto for reproducible science.
+\newblock \emph{Nature Human Behaviour}, 1:\penalty0 0021, 2017.
+\newblock \doi{10.1038/s41562-016-0021}.
 
 \bibitem[Naddaf(2025)]{Naddaf2025}
 Miryam Naddaf.
 \newblock More than half of researchers now use {AI} for peer review --- often against guidance.
 \newblock \emph{Nature}, 649, 2025.
 \newblock \doi{10.1038/d41586-025-04066-5}.
+
+\bibitem[Nosek et~al.(2015)Nosek, Alter, Banks, Borsboom, Bowman, Breckler, Buck, Chambers, Chin, Christensen, Contestabile, Dafoe, Eich, Freese, Glennerster, Goroff, Green, Hesse, Humphreys, Ishiyama, Karlan, Kraut, Lupia, Mabry, Madon, Malhotra, Mayo-Wilson, McNutt, Miguel, Paluck, Simonsohn, Soderberg, Spellman, Turitto, VandenBos, Vazire, Wagenmakers, Wilson, and Yarkoni]{Nosek2015}
+Brian~A. Nosek, George Alter, George~C. Banks, Denny Borsboom, Sara~D. Bowman, Steven~J. Breckler, Stuart Buck, Christopher~D. Chambers, Gilbert Chin, Garret Christensen, Morteza Contestabile, Alan Dafoe, Eric Eich, Jeremy Freese, Rachel Glennerster, David Goroff, Donald~P. Green, Brian Hesse, Macartan Humphreys, John Ishiyama, Dean Karlan, Arnie Kraut, Arthur Lupia, Peter Mabry, Theresa Madon, Neil Malhotra, Evan Mayo-Wilson, Marcia McNutt, Edward Miguel, Elizabeth~Levy Paluck, Uri Simonsohn, Courtney Soderberg, Barbara~A. Spellman, Jeffrey Turitto, Gary VandenBos, Simine Vazire, Eric~Jan Wagenmakers, Rachel Wilson, and Tal Yarkoni.
+\newblock Promoting an open research culture.
+\newblock \emph{Science}, 348\penalty0 (6242):\penalty0 1422--1425, 2015.
+\newblock \doi{10.1126/science.aab2374}.
+
+\bibitem[Nosek et~al.(2018)Nosek, Ebersole, DeHaven, and Mellor]{Nosek2018}
+Brian~A. Nosek, Charles~R. Ebersole, Alexander~C. DeHaven, and David~T. Mellor.
+\newblock The preregistration revolution.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 115\penalty0 (11):\penalty0 2600--2606, 2018.
+\newblock \doi{10.1073/pnas.1708274114}.
 
 \bibitem[Nowak(2006)]{Nowak2006}
 Martin~A Nowak.
@@ -160,10 +199,21 @@ Shakked Noy and Whitney Zhang.
 \newblock \emph{Science}, 381\penalty0 (6654):\penalty0 187--192, 2023.
 \newblock \doi{10.1126/science.adh2586}.
 
-\bibitem[Samuelson(1997)]{Samuelson1997}
-Larry Samuelson.
-\newblock \emph{Evolutionary games and equilibrium selection}.
-\newblock MIT press, 1997.
+\bibitem[{Open Science Collaboration}(2015)]{OSC2015}
+{Open Science Collaboration}.
+\newblock Estimating the reproducibility of psychological science.
+\newblock \emph{Science}, 349\penalty0 (6251):\penalty0 aac4716, 2015.
+\newblock \doi{10.1126/science.aac4716}.
+
+\bibitem[Rogers(2003)]{Rogers2003}
+Everett~M. Rogers.
+\newblock \emph{Diffusion of Innovations}.
+\newblock Free Press, New York, 5th edition, 2003.
+
+\bibitem[Scheffer(2009)]{Scheffer2009}
+Marten Scheffer.
+\newblock \emph{Critical Transitions in Nature and Society}.
+\newblock Princeton University Press, Princeton, NJ, 2009.
 
 \bibitem[Scheffer et~al.(2001)Scheffer, Carpenter, Foley, Folke, and Walker]{Scheffer2001}
 Marten Scheffer, Steve Carpenter, Jonathan~A Foley, Carl Folke, and Brian Walker.
@@ -176,6 +226,12 @@ Thomas~C Schelling.
 \newblock \emph{Micromotives and Macrobehavior}.
 \newblock W. W. Norton \& Company, New York, 1978.
 \newblock ISBN 9780393090090.
+
+\bibitem[Simmons et~al.(2011)Simmons, Nelson, and Simonsohn]{Simmons2011}
+Joseph~P. Simmons, Leif~D. Nelson, and Uri Simonsohn.
+\newblock False-positive psychology: Undisclosed flexibility in data collection and analysis allows presenting anything as significant.
+\newblock \emph{Psychological Science}, 22\penalty0 (11):\penalty0 1359--1366, 2011.
+\newblock \doi{10.1177/0956797611417632}.
 
 \bibitem[Smaldino and McElreath(2016)]{Smaldino2016}
 Paul~E Smaldino and Richard McElreath.
@@ -213,6 +269,17 @@ Leonid Tiokhin, Karthik Panchanathan, Daniel Lakens, Simine Vazire, Thomas Morga
 Arne Traulsen and Christoph Hauert.
 \newblock Stochastic evolutionary game dynamics.
 \newblock \emph{Reviews of nonlinear dynamics and complexity}, 2:\penalty0 25--61, 2009.
+
+\bibitem[Traulsen et~al.(2006)Traulsen, Nowak, and Pacheco]{Traulsen2006}
+Arne Traulsen, Martin~A. Nowak, and Jorge~M. Pacheco.
+\newblock Stochastic dynamics of invasion and fixation.
+\newblock \emph{Physical Review E}, 74\penalty0 (1):\penalty0 011909, 2006.
+
+\bibitem[Van~Noorden(2023)]{VanNoorden2023}
+Richard Van~Noorden.
+\newblock More than 10{,}000 research papers were retracted in 2023---a new record.
+\newblock \emph{Nature}, 624:\penalty0 479--481, 2023.
+\newblock \doi{10.1038/d41586-023-03974-8}.
 
 \bibitem[Weibull(1995)]{Weibull1995}
 J{\"o}rgen~W Weibull.

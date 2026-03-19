@@ -209,10 +209,11 @@ legend_handles = [
     Patch(facecolor='#D3D3D3', edgecolor='#555', label='No Submission (NS)      —  participation fails'),
 ]
 fig.legend(handles=legend_handles, loc='lower center',
-           ncol=3, fontsize=9.5, framealpha=0.95,
+           ncol=3, framealpha=0.95,
            bbox_to_anchor=(0.5, -0.10),
+           prop={'size': 11, 'weight': 'bold'},
            title=(r'Regime legend  |  AI parameters: $\gamma=0.5,\ \delta=0.1,\ \phi=0.4,\ \mu=0.2$'),
-           title_fontsize=9)
+           title_fontsize=10)
 
 fig.suptitle(
     'Fig. 4  ·  AI adoption shifts regime boundaries in the '
