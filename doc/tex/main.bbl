@@ -1,4 +1,4 @@
-\begin{thebibliography}{42}
+\begin{thebibliography}{40}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -177,11 +177,6 @@ Thomas~C Schelling.
 \newblock W. W. Norton \& Company, New York, 1978.
 \newblock ISBN 9780393090090.
 
-\bibitem[Siler et~al.(2015)Siler, Lee, and Bero]{Siler2015}
-Kyle Siler, Kirby Lee, and Lisa Bero.
-\newblock Measuring the effectiveness of scientific gatekeeping.
-\newblock \emph{Proceedings of the National Academy of Sciences}, 112\penalty0 (2):\penalty0 360--365, 2015.
-
 \bibitem[Smaldino and McElreath(2016)]{Smaldino2016}
 Paul~E Smaldino and Richard McElreath.
 \newblock The natural selection of bad science.
@@ -213,12 +208,6 @@ Stefan Thurner and Rudolf Hanel.
 Leonid Tiokhin, Karthik Panchanathan, Daniel Lakens, Simine Vazire, Thomas Morgan, and Kevin Zollman.
 \newblock Honest signaling in academic publishing.
 \newblock \emph{PLoS One}, 16\penalty0 (2):\penalty0 e0246675, 2021.
-
-\bibitem[Tirole(1996)]{Tirole1996}
-Jean Tirole.
-\newblock A theory of collective reputations (with applications to the persistence of corruption and to firm quality).
-\newblock \emph{The Review of Economic Studies}, 63\penalty0 (1):\penalty0 1--22, 1996.
-\newblock \doi{10.2307/2298112}.
 
 \bibitem[Traulsen and Hauert(2009)]{Traulsen2009}
 Arne Traulsen and Christoph Hauert.

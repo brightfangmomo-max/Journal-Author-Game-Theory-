@@ -105,7 +105,7 @@ These are not incremental reforms; they constitute a different institutional des
 We proceed as follows.
 Section~\ref{sec:model} presents the baseline model.
 Section~\ref{sec:ai_extension} introduces the AI adoption parameter and derives the extended spam payoff.
-Section~\ref{sec:analysis} examines parameter sensitivity, hysteresis, and strategic levers.
+Section~ef{sec:analysis} analyses how AI adoption shifts equilibria, erodes the stability window, and amplifies the slot expansion paradox.
 Section~\ref{sec:abm} reports agent-based simulation results.
 Section~\ref{sec:conclusion} concludes.
 
@@ -770,224 +770,206 @@ Third, acceptance rates should rise in fields with widespread AI-assisted review
 Fourth, expanding publication slots should have \emph{asymmetric} effects: before tipping, more slots increase access; after tipping, more slots accelerate quality collapse by raising the spam payoff $\Pi_{bad}$.
 We examine the regime consequences of each lever in Section~\ref{sec:analysis}.
 
-\section{Parameter Sensitivity and Regime Transitions}
+\section{Equilibria, Tipping, and Hysteresis under AI Adoption}
 \label{sec:analysis}
 
+\subsection{Equilibrium Conditions and the AI Shift}
 
-\subsection{Methodology and Baseline Calibration}
+The long-run outcome of the publishing system is determined by the signs of the spam payoff $\Pi_{bad}$ at two boundary states.
+At the \emph{honest boundary} ($x = 1$), almost all authors are selective; the question is whether a single deviating author can profitably flood the system.
+At the \emph{corrupt boundary} ($x = 0$), almost all authors submit everything; the question is whether the system can self-correct.
+These two boundaries are governed by different parameters.
+As established in Section~\ref{sec:model}, the honest boundary is secured by keeping $\lambda$ low; the corrupt boundary is held by keeping $K$ tight enough that the publication lottery deters spam even under degraded screening.
 
-We want to know which policies maximize publication quality and minimize academic misconduct.
-However, due to the non-linear interplay between the review bottleneck ($\eta$) and the storage bottleneck ($\bar{\rho}$), the system does not respond smoothly to policy changes.
-Instead, the ecosystem undergoes phase transitions between qualitatively distinct regimes.
-
-To analyze these transitions, we use numerical bifurcation analysis.
-We define the instantaneous Average Publication Quality $Q(x)$ as the proportion of good papers within the set of accepted publications, a metric that aligns with standard meta-scientific frameworks for assessing the reliability of research findings \citep{Ioannidis2005}:
+We define publication quality as the share of genuinely good papers among those accepted:
 \begin{equation}
-    Q(x) = \frac{N\alpha \cdot \pi_1(x)}{M(x)} = \frac{\alpha \pi_1(x)}{\alpha \pi_1(x) + (1-\alpha)(1-x)\pi_0(x)}
+    Q(x) \;=\; \frac{N\alpha\,\pi_1(x)}{M(x)} \;=\; \frac{\alpha\,\pi_1(x)}{\alpha\,\pi_1(x) + (1-\alpha)(1-x)\,\pi_0(x)}.
+    \label{eq:quality}
 \end{equation}
-Crucially, the long-term quality $Q_\infty$ is determined by the system's stable attractors.
-In bistable regimes, $Q_\infty$ is path-dependent, meaning the final quality depends on whether the system started from a high-trust or low-trust state.
+Since slot rationing applies uniformly to the peer-accepted pool $M(x)$, it does not alter the ratio of good to bad papers; quality is therefore determined entirely by the composition $x$ at the long-run outcome.
+The four possible long-run outcomes---GH, GC, BS, SC---and their quality levels are summarised in Table~\ref{tab:regime_classification}.
 
-We classify the system into four regimes based on the stability of equilibria:
-\begin{enumerate}
-    \item \textbf{Global Honesty (GH):} the system converges to $x=1$, yielding $Q_\infty = 1.0$.
-    \item \textbf{Global Corruption (GC):} the system collapses to $x=0$, yielding $Q_\infty \approx \alpha$---a ``market for lemons'' where the journal fails to filter noise \citep{Akerlof1970}.
-    \item \textbf{Bistability (BS):} two stable attractors coexist and the outcome depends on history.
-    \item \textbf{Stable Coexistence (SC):} an interior equilibrium $x^*$ is maintained by congestion, stabilizing quality at a mediocre level ($Q_\infty \approx 0.5$).
-\end{enumerate}
+Under AI adoption $a > 0$, four simultaneous shifts push $\Pi_{bad}(x, a)$ upward at every interior $x$.
+Rising submission volume (elasticity $\gamma$) and lagging review capacity (elasticity $\delta < \gamma$) lower the screening intensity $\eta(x, a)$, raising the bad-paper pass rate $\pi_0(x, a)$.
+Falling submission cost $c(a)$ directly raises the net payoff from each submission attempt.
+Rising false-positive rate $\lambda(a)$ further degrades the review filter even for papers that receive full scrutiny.
+The combined derivative (Equation~\ref{eq:pibad_slope}) is strictly positive under the asymmetry $\gamma > \delta$: AI makes spamming more attractive at every composition of the author population.
+The analysis in this section traces the structural consequences of this shift for regime boundaries, stability windows, and recovery conditions.
 
-To ensure comparative consistency, we use two representative parameter sets (Table \ref{tab:calibration}).
-Set~A represents a typical journal with moderate capacity, prone to bistability.
-Set~B represents a top-tier journal with strict page limits and high rewards, prone to stable coexistence.
+We use two representative parameter sets throughout (Table~\ref{tab:calibration}).
+Set~A ($K_{rev}=300$, $K=400$, $r=100$, $c=25$, $\lambda=0.1$) represents a typical journal prone to bistability, where the review bottleneck is the binding constraint.
+Set~B ($K_{rev}=1200$, $K=180$, $r=150$, $c=30$, $\lambda=0.4$) represents a top-tier journal where extreme slot scarcity is the defining constraint.
+AI elasticity parameters are fixed at $\gamma=0.5$, $\delta=0.1$, $\phi=0.4$, $\mu=0.2$ throughout.
 
 \begin{table}[hbt!]
     \centering
-    \caption{Parameter Calibration for Numerical Analysis}
+    \caption{Parameter calibration for numerical analysis}
     \label{tab:calibration}
     \renewcommand{\arraystretch}{1.2}
     \begin{tabular}{clcc}
         \toprule
-        \textbf{Symbol} & \textbf{Description} & \textbf{Set A (Baseline)} & \textbf{Set B (High-Pressure)} \\ 
+        \textbf{Symbol} & \textbf{Description} & \textbf{Set A (Baseline)} & \textbf{Set B (Top-tier)} \\
         \midrule
-        $N$ & Total Population & 1000 & 1000 \\
-        $\alpha$ & Author Productivity & 0.2 & 0.2 \\
+        $N$          & Author population       & 1000          & 1000 \\
+        $\alpha$     & Good-paper probability  & 0.2           & 0.2  \\
         \midrule
-        $K_{rev}$ & Review Capacity & \textbf{300} & \textbf{1200} \\
-        $K$ & Slot Capacity & \textbf{400} & \textbf{180} \\
+        $K_{rev}$    & Review capacity         & \textbf{300}  & \textbf{1200} \\
+        $K$          & Slot capacity           & \textbf{400}  & \textbf{180}  \\
         \midrule
-        $r$ & Reward & 100 & \textbf{150} \\
-        $c$ & Cost & 25 & \textbf{30} \\
-        $\lambda$ & False Positive Rate & 0.1 & \textbf{0.4} \\
-        $\epsilon$ & False Negative Rate & 0.05 & 0.01 \\
+        $r$          & Publication reward      & 100           & \textbf{150}  \\
+        $c$          & Submission cost         & 25            & \textbf{30}   \\
+        $\lambda$    & False-positive rate     & 0.1           & \textbf{0.4}  \\
+        $\varepsilon$& False-negative rate     & 0.05          & 0.01          \\
         \bottomrule
     \end{tabular}
-    \footnotesize{\\ \textit{Note: Set A is used as the default for sensitivity sweeps. Set B is used to illustrate the defense-by-congestion mechanism.}}
+    \smallskip\\
+    \footnotesize{\textit{Set~A: review bottleneck dominates; primary failure mode is bistability.
+    Set~B: slot scarcity dominates; illustrates defence by congestion.}}
 \end{table}
 
-\paragraph{Why two parameter sets?}
+\subsection{How AI Shifts Regime Boundaries}
 
-A single baseline cannot capture the full range of the system's dynamical behaviours, because the dual-bottleneck mechanism is non-monotonic.
-We distinguish two archetypes.
-Set~A represents the default state of many modern journals: moderate prestige ($r=100$) and limited but not extreme storage constraints ($K=400$).
-Here the primary failure mode is the review bottleneck ($K_{rev}=300$)---when submission volume rises, the review process collapses before the storage limit is reached.
-This setup reflects the empirical reality of the ``global burden'' of peer review, where reviewer scarcity is the dominant constraint \citep{Kovanis2016}, and it generates a bistable topology in which the system is fragile and prone to catastrophic tipping.
-Set~B represents top-tier prestige journals such as \textit{Nature} or \textit{Science}, where the reward is significantly higher ($r=150$) and the defining constraint is not the lack of reviewers (we assume ample review capacity $K_{rev}=1200$) but the extreme scarcity of publication slots ($K=180$).
-This aligns with empirical findings on scientific gatekeeping, where high rejection rates are driven by physical slot limits rather than quality filtering alone \citep{Siler2015, casadevall2014reforming}, and it generates the stable coexistence topology that illustrates what we call the defence-by-congestion mechanism.
-By analysing both sets, we decouple the effects of review collapse from slot rationing, ensuring that our conclusions are robust across different segments of the academic publishing hierarchy.
-
-\subsection{The Decoupling of Capacities: Phase Diagram Analysis}
-
-Standard academic models often treat ``journal capacity'' as a single resource.
-Our dual-bottleneck framework reveals that the system's fate depends on how two distinct capacities interact: review capacity $K_{rev}$, which determines the screening intensity $\eta(x)$, and slot capacity $K_{store}$, which determines the rationing probability $\bar{\rho}(x)$.
-High $K_{rev}$ prevents review collapse; low $K_{store}$ creates what we call a defence by congestion.
-
-To visualize the interaction between these forces, we perform a two-dimensional bifurcation scan across the parameter space $(K_{rev}, K_{store})$.
-The resulting phase diagram (Figure \ref{fig:regime_map}) maps the system's regimes.
-
-\begin{figure}[hbt!]
-    \centering
-    \includegraphics[width=0.9\textwidth]{regime_map_final.pdf}
-    \caption{\textbf{Phase Diagram of the Dual-Bottleneck System.} 
-    The map classifies the topological regime based on the availability of review resources ($K_{rev}$) versus publication slots ($K_{store}$).
-    \textbf{Green (Global Honesty):} High review capacity ensures cheating is unprofitable ($Q \to 1.0$).
-    \textbf{Blue (Stable Coexistence):} Extreme slot scarcity ($K_{store} \ll N$) triggers the "Defense by Congestion," stabilizing the system at a mediocre but functional level.
-    \textbf{Yellow (Bistability):} A transition zone where the outcome is history-dependent.
-    \textbf{Red (Global Corruption):} When slots are abundant but review is weak, the defense mechanism vanishes, leading to total collapse ($Q \to \alpha$).
-    \textbf{Gray (System Collapse):} Feasibility constraint violated ($K_{store}$ too low); even honest authors cannot break even.}
-    \label{fig:regime_map}
-\end{figure}
-
-The topology of Figure \ref{fig:regime_map} highlights two critical dynamical phenomena:
-
-\paragraph{The paradox of slot expansion.}
-Intuition suggests that giving a journal more publication slots should improve the system.
-We find the opposite.
-Moving vertically from the bottom of the diagram corresponds to increasing $K_{store}$.
-Initially, increasing slots rescues the system from total collapse (Gray to Blue), making participation rational for honest authors.
-However, further increasing $K_{store}$ pushes the system from stable coexistence (Blue) into global corruption (Red) or bistability (Yellow).
-This paradox arises because tight storage constraints act as a passive defence by congestion, keeping $\bar{\rho}$ low enough to deter spam.
-By increasing $K_{store}$, the journal inadvertently dismantles this defence: $\bar{\rho}$ rises, the publication lottery becomes winnable again, and if $K_{rev}$ is not increased simultaneously, the incentive to cheat reactivates and the system tips into full corruption.
-This finding aligns with strategic gatekeeping models showing that expanding capacity without scaling review rigour destroys the signal value of the journal \citep{MullerItten2022}.
-
-\paragraph{The necessity of review resources.}
-Moving horizontally to the right corresponds to investing in review capacity $K_{rev}$.
-Provided the system is in a feasible region (not Gray), we find that increasing $K_{rev}$ is unconditionally beneficial, expanding the Global Honesty (Green) zone.
-Crucially, the boundary between corruption and honesty slopes upward: as $K_{store}$ increases, the journal requires \textit{disproportionately} more review capacity to maintain honesty.
-This implies that larger journals are inherently harder to police than smaller ones---they require a review infrastructure that scales super-linearly with volume to maintain the same level of integrity, exacerbating the already critical burden of peer review \citep{Kovanis2016}.
-
-\subsection{Population Pressure and Hysteresis: The Cost of Lost Trust}
-
-While capacity parameters define the structural limits of the journal, the total population $N$ represents the external load.
-One might expect quality to decline smoothly as load increases.
-We find instead that the system exhibits hysteresis in the bistable regime: the value of $N$ at which quality collapses is much higher than the value at which it recovers.
-This is consistent with theories of catastrophic shifts in complex systems, where state recovery requires significantly more effort than state maintenance \citep{Scheffer2001}.
-
-To capture this path dependence, we use a numerical adiabatic continuation method.
-We define the system state $x_{st}(N)$ as the stable equilibrium selected by continuity from the previous state:
-\begin{equation}
-    x_{st}(N_i) = \arg\min_{x \in \mathcal{E}_{st}(N_i)} |x - x_{st}(N_{i-1})|
-\end{equation}
-where $\mathcal{E}_{st}(N_i)$ is the set of stable fixed points at $N_i$.
-\begin{itemize}
-    \item \textbf{Forward Path (Crowding):} Increments $N$, initializing from $x_{st}(N_{min}) \approx 1$.
-    \item \textbf{Backward Path (Recovery):} Decrements $N$, initializing from $x_{st}(N_{max}) \approx 0$.
-\end{itemize}
-Figure \ref{fig:hysteresis} illustrates the resulting trajectories using Baseline Set A.
-
-\begin{figure}[hbt!]
-    \centering
-    \includegraphics[width=1.0\textwidth]{hysteresis_combined.pdf}
-    \caption{\textbf{Hysteresis Loop and Quality Collapse (Baseline Set A).} 
-    The shaded region represents the bistable interval $[N_{\downarrow}, N_{\uparrow}]$.
-    \textbf{Left Panel (State):} On the Forward Path (Blue), the "Honest Norm" is resilient ($x_{st} \approx 1$) until the collapse threshold $N_{\uparrow} \approx 1800$. Once corrupted (Red Dashed), the system is trapped in the low-honesty attractor ($x_{st} \approx 0$). Recovery requires reducing $N$ below the distinct recovery threshold $N_{\downarrow} \approx 350$.
-    \textbf{Right Panel (Quality):} The collapse leads to a discrete jump in quality. In the corrupt state (Red Dashed), quality is dominated by the baseline productivity ($\alpha=0.2$) but fluctuates slightly as review intensity $\eta(N)$ varies. Recovery only occurs when the system crosses $N_{\downarrow}$.}
-    \label{fig:hysteresis}
-\end{figure}
-
-We highlight three features of the result.
-
-\paragraph{Structural resilience (forward path).}
-A journal with a strong reputation demonstrates remarkable resilience.
-As seen in the blue trajectory, the system maintains $x_{st} \approx 1$ and perfect quality ($Q=1.0$) even when $N$ far exceeds the nominal capacity, because honest authors self-regulate, keeping the effective load $V(1) = N\alpha$ manageable.
-The collapse point $N_{\uparrow} \approx 1800$ is the threshold where the honest equilibrium loses stability: $N_{\uparrow} = \inf \{N : \Pi_{bad}(1; N) \ge 0\}$.
-
-\paragraph{The stickiness of corruption (backward path).}
-Once the system settles into the corrupt equilibrium, the sheer volume of spam saturates the review capacity.
-Even if $N$ is reduced, the system remains trapped in the low-quality state as long as $\Pi_{bad}(0; N) > 0$.
-The recovery point $N_{\downarrow} \approx 350$ corresponds to the threshold where the corrupt equilibrium finally becomes unstable.
-This asymmetry mirrors the dynamics of collective reputation, where a group remains locked in a low-quality equilibrium long after external conditions improve, because the burden of proof is too high for individual reformers \citep{Tirole1996}.
-
-Crucially, we define the Average Publication Quality $Q(x)$ as the proportion of good papers in the passed pool $M(x)$:
-\begin{equation}
-    Q(x) = \frac{N\alpha \pi_1(x)}{N\alpha \pi_1(x) + N(1-\alpha)(1-x)\pi_0(x)}
-\end{equation}
-Since slot rationing ($\bar{\rho}$) applies uniformly to $M(x)$, it does not alter the ratio of good-to-bad papers.
-Consequently, quality remains low throughout the backward path until the critical transition occurs.
-
-\paragraph{Policy implication: basin hopping.}
-The disparity between $N_{\uparrow}$ and $N_{\downarrow}$ implies that incremental reforms are structurally insufficient for a corrupted journal.
-Within the bistable interval, marginal reductions in submissions do not change the long-run attractor.
-Escaping the low-quality basin requires interventions strong enough to move the system across the recovery threshold ($N < N_{\downarrow}$).
-This suggests that while soft measures work for maintenance, hard measures (e.g., temporary submission moratoriums) are structural necessities for recovery.
-
-\subsection{Strategic Levers and Regime Transitions}
-
-While capacity parameters define the structural limits, the strategic parameters ($r, c, \lambda, \epsilon, \alpha$) determine the incentives.
-We perform a comparative sensitivity analysis across all five dimensions, grouping them into three functional categories: screening, economic incentives, and productivity.
-
-\paragraph{Screening parameters: the false-positive rate versus friction.}
-
-We begin with the two parameters controlling the peer review filter (Figure \ref{fig:strategic_part1}).
-Panel~(a) reveals that the false-positive rate $\lambda$ is the most critical parameter in the entire system.
-As $\lambda$ increases, the system shifts rapidly from Green (Honesty) to Yellow (Bistability) and finally to Red (Corruption); in the yellow zone, a minor perturbation can trigger a catastrophic tip into the corrupt equilibrium.
-This aligns with signalling theory, where the reliability of the signal (low $\lambda$) is paramount for maintaining the separating equilibrium \citep{Tiokhin2021}.
-
-In contrast, Panel~(b) shows that friction $\epsilon$ has negligible structural impact: within the explored range, the regime boundaries remain largely unchanged.
-This implies that policies focused solely on reducing administrative friction for good papers yield little improvement in integrity compared to improving detection accuracy.
+Figure~\ref{fig:ai_phase_diagram} presents the core comparative-statics result.
+The left panel shows the baseline ($a = 0$) regime map across the $(K_{rev}, K)$ parameter space.
+The right panel shows the same map under high AI adoption ($a = 0.8$).
+The comparison is unambiguous: the Global Honesty (green) region shrinks substantially, the Bistability (yellow) and Global Corruption (red) zones expand and shift left, and the Stable Coexistence (blue) region contracts.
+A journal safely in the GH zone at baseline may find itself in BS or GC at $a = 0.8$ without any change in its own institutional parameters.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{strategic_regimes_scan_1.pdf}
-    \caption{\textbf{Screening Parameters and Regime Stability.} 
-    \textbf{(a) False Positive Rate $\lambda$:} Acts as a major destabilizer. Increasing $\lambda$ destroys the honest equilibrium, pushing the system into high-risk bistability.
-    \textbf{(b) Friction $\epsilon$:} Has negligible impact on regime boundaries, acting merely as a silent administrative cost.}
-    \label{fig:strategic_part1}
+    \includegraphics[width=\textwidth]{fig4_ai_phase_diagram.pdf}
+    \caption{\textbf{AI adoption shifts regime boundaries in the $(K_{rev}, K)$ parameter space (Fig.~4).}
+    Left: baseline ($a = 0$). Right: high AI adoption ($a = 0.8$, $\gamma=0.5$, $\delta=0.1$, $\phi=0.4$, $\mu=0.2$).
+    The Global Honesty (green) region shrinks and the Bistability and Corruption zones expand.
+    The Set~A calibration point (star) moves from a safe location at baseline toward the boundary of GH and BS under high AI adoption.
+    The asymmetry $\gamma > \delta$ is the key driver: review capacity grows too slowly to absorb the AI-driven surge in submission volume.}
+    \label{fig:ai_phase_diagram}
 \end{figure}
 
-\paragraph{Economic levers: reward and submission cost.}
+The magnitude of the shift is quantifiable.
+At $a = 0.8$ with $\gamma = 0.5$ and $\delta = 0.1$, submission volume has risen by 40\% while review capacity has risen by only 8\%.
+A journal with $K_{rev} = 300$ has the effective screening power of a journal with $K_{rev} \approx 231$ at baseline---a loss of nearly one-quarter of screening capacity with no change in institutional design.
+To restore the same screening intensity, the journal would need to raise $K_{rev}$ to approximately $389$, a 30\% increase in review resources.
 
-We next examine the financial and reputational incentives (Figure \ref{fig:strategic_part2}).
-Panel~(c) demonstrates that high rewards $r$ act as an accelerant for corruption, significantly expanding the Red and Yellow zones.
-When publication rewards are excessive, the lottery of rubber-stamping becomes profitable even at low probabilities---confirming the mechanism of ``natural selection of bad science,'' where high incentives select for strategies that maximize output at the expense of quality \citep{Smaldino2016}.
+\paragraph{The slot expansion paradox is amplified by AI.}
+Expanding publication slots ($K$) seems like an obvious response to submission pressure.
+Our model shows this response backfires when verification does not scale proportionally.
+Increasing $K$ raises the rationing probability $\bar{\rho}(x, a)$, which raises the expected payoff from submitting a bad paper.
+This effect is amplified under AI adoption: when $c(a)$ is already low and $\lambda(a)$ is already elevated, even a modest improvement in the publication lottery is enough to push $\Pi_{bad}(1, a)$ from negative to positive, tipping the system from GH into Bistability.
+More slots increase the prize in a game whose entry barrier has already been eroded by AI.
+This is visible in Figure~\ref{fig:ai_phase_diagram}: moving upward (increasing $K$) in the right panel is more dangerous than the same move in the left panel.
+The slot expansion paradox identified in the baseline model is not merely preserved under AI adoption---it is exacerbated.
 
-While reward drives the system toward corruption, submission cost $c$ pulls it back.
-Panel~(d) shows that increasing $c$ effectively shifts the system from Red to Green, providing theoretical support for submission fees as a tool to reduce congestion and filter out low-quality submissions \citep{Cotton2013}.
-However, pushing costs too high forces the system into the Gray zone, where even honest authors cannot sustain participation ($\Pi_{good} < 0$).
+\paragraph{Defence by congestion and its limits.}
+Extreme slot scarcity can stabilize an otherwise fragile system.
+When $K$ is small relative to the peer-accepted pool $M$, the rationing probability $\bar{\rho}$ is so low that the expected payoff from submitting a bad paper falls below the submission cost even under degraded screening---the journal's publication lottery is simply too hard to win.
+This defence operates through the condition $\bar{\rho}(0, a) \cdot \pi_0(0, a) < c(a)/r$, and all three terms move against it as $a$ rises.
+Rising $\pi_0(0, a)$ from degraded screening and rising $\lambda$ increases the left side.
+Falling $c(a)$ reduces the right side.
+The net effect is that a journal relying on slot scarcity needs progressively tighter $K$ to maintain the same deterrent effect as $a$ increases.
+At some point, $K$ must be so low that the participation constraint for honest authors---$\Pi_{good}(1, a) > 0$---is violated, pushing the system into the No Submission zone.
+Defence by congestion is a real stabilising force, but it is not robust to sustained increases in $a$.
+
+\subsection{Equilibrium Trajectories and Stability Window Erosion}
+
+Figure~\ref{fig:equilibrium_vs_a} traces the long-run honest-author share $x^*(a)$ as AI adoption rises from 0 to 1 under three parameter scenarios.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{strategic_regimes_scan_2.pdf}
-    \caption{\textbf{Economic Incentives and Filtering.} 
-    \textbf{(c) Reward $r$:} High rewards expand the corrupt zones (Red/Yellow), incentivizing spamming strategies.
-    \textbf{(d) Cost $c$:} Submission fees filter out spam, restoring Green, but excessive costs kill the journal (Gray).}
-    \label{fig:strategic_part2}
+    \includegraphics[width=\textwidth]{fig5_equilibrium_vs_a.pdf}
+    \caption{\textbf{Long-run honest-author share $x^*(a)$ as AI adoption rises (Fig.~5).}
+    Left: Set~A (bistability-prone). The system remains in GH ($x^* = 1$) until $a$ crosses a threshold, then enters BS; the orange dashed curve shows the unstable tipping threshold $x^*_{tip}$, below which the system collapses.
+    Centre: Set~B (coexistence-prone). The interior stable long-run outcome $x^*$ falls as $a$ rises, tracking the declining profitability of honest submission relative to spamming.
+    Right: Intermediate parameters. Shows the full GH$\to$BS$\to$GC transition as $a$ increases.
+    Vertical dashed lines mark regime transitions; shaded backgrounds indicate the active regime.}
+    \label{fig:equilibrium_vs_a}
 \end{figure}
 
-\paragraph{The productivity paradox.}
+The left panel (Set~A) shows a threshold effect.
+For low $a$, the system remains in GH: $x^* = 1$ and spamming is unprofitable everywhere.
+Once $a$ crosses the critical value at which $\Pi_{bad}(1, a) = 0$, the system enters Bistability.
+The unstable tipping threshold $x^*_{tip}$ (orange dashed) now separates two regions: above it, the honest norm is self-sustaining; below it, the system drifts toward full corruption.
+The practical implication is that the system can appear healthy---with $x^*_{tip}$ far below the current share of honest authors---while becoming progressively more fragile.
+A single coordinated wave of low-quality submissions, or a field-wide shift in norms, can push the population below $x^*_{tip}$ and initiate a collapse that the system cannot reverse on its own.
 
-Finally, we analyse the impact of aggregate author productivity (Figure \ref{fig:strategic_part3}).
-One might expect that higher productivity $\alpha$ would stabilize the system, since the input mix improves.
-We find the opposite: as $\alpha$ increases, the background topology shifts toward unstable regimes (Yellow/Red), even though the average quality (black line) rises mechanically.
-The mechanism is congestion.
-As legitimate authors produce more papers, the total volume rises and consumes scarce review capacity; if $K_{rev}$ is fixed, this ``good congestion'' dilutes the screening intensity for everyone, paradoxically making the system more vulnerable to invasion by spammers.
+The right panel (Intermediate parameters) illustrates the full transition from GH through BS to GC as $a$ increases.
+In the GC zone, the long-run outcome is $x^* = 0$: spamming dominates from every starting point.
+The path from GH to GC passes through a BS corridor, during which the long-run outcome is history-dependent and recovery is still possible.
+The width of this corridor---the range of $a$ values during which recovery remains feasible---depends on how quickly $\lambda(a)$ rises and how much $c(a)$ falls.
+
+Figure~\ref{fig:hysteresis_widening} maps this dynamic in the $(N, a)$ plane, treating the author population size $N$ as the external pressure variable.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{strategic_regimes_scan_3.pdf}
-    \caption{\textbf{The Productivity Paradox.} 
-    \textbf{(e) Productivity $\alpha$:} Higher productivity increases total congestion. While observable quality rises (black line), the structural stability degrades (background shifts to Red), narrowing the window of stability.}
-    \label{fig:strategic_part3}
+    \includegraphics[width=\textwidth]{fig6_hysteresis_widening.pdf}
+    \caption{\textbf{AI adoption erodes the stable-honesty window and lowers the collapse threshold (Fig.~6).}
+    Left: regime map in $(N, a)$ space with Set~A parameters.
+    The red curve $N_\uparrow(a)$ marks the collapse boundary: to its right, the forward (honest-start) path collapses.
+    The blue dashed curve marks the lower boundary of the Bistability zone.
+    As $a$ rises, $N_\uparrow(a)$ falls monotonically; at $a \gtrsim 0.5$ (for the chosen AI parameters) the GH and BS zones disappear entirely.
+    Right: $N_\uparrow(a)$ (red, left axis) falls continuously; equilibrium quality $Q^*(a)$ at moderate pressure $N = 500$ (right axis, coloured by regime) also declines as $a$ rises, tracking the regime transitions from GH (green) through BS (yellow) to SC (blue).}
+    \label{fig:hysteresis_widening}
 \end{figure}
+
+The left panel of Figure~\ref{fig:hysteresis_widening} shows the collapse threshold $N_\uparrow(a)$ falling monotonically as $a$ rises.
+At $a = 0$, a population of $N \approx 1800$ is needed to push Set~A out of the stable-honesty zone; at $a = 0.5$, this threshold has fallen to roughly half that.
+The right panel shows the corresponding quality decline: at a moderate load ($N = 500$), quality $Q^*(a)$ is near 1 at low $a$ but falls continuously, tracking the regime transitions from GH through BS to SC.
+Crucially, at $a \gtrsim 0.5$, the bistable zone disappears entirely.
+There is no longer any starting position from which the honest norm is self-sustaining.
+Recovery from this state is not simply harder---it requires a qualitative change in institutional parameters ($K_{rev}$ raised, $\lambda$ reduced, $c$ restored), not merely a reduction in pressure $N$.
+This is the sense in which AI adoption transforms the challenge from maintenance to repair.
+
+\subsection{The False-Positive Rate as Critical Destabiliser}
+
+Among the four AI channels, rising $\lambda(a)$ is structurally the most dangerous.
+The GH condition at $x = 1$ requires $\Pi_{bad}(1, a) < 0$; when screening is fully effective ($\eta = 1$), this simplifies to $\lambda < c(a)/r$.
+Under baseline parameters ($c = 25$, $r = 100$), this requires $\lambda < 0.25$.
+A slope of $\mu = 0.2$ over full adoption ($a = 1$) pushes $\lambda$ from $0.10$ to $0.30$, crossing this threshold and making GH structurally impossible regardless of review capacity.
+No investment in $K_{rev}$ can restore GH once $\lambda \geq c/r$, because even a perfectly reviewed bad paper passes at rate $\lambda$ and yields a positive expected payoff.
+This result is consistent with signalling theory: the reliability of the screening signal---not merely the volume of screening---is what sustains the separating equilibrium \citep{Tiokhin2021, Ellison2002}.
+
+The false-positive channel also explains why AI-assisted reviewing is particularly concerning.
+AI-assisted reviews have been shown to award systematically higher scores, raising acceptance rates \citep{Latona2024, Liang2024ICML}.
+If widespread AI use in reviewing raises the average $\lambda$, the effect is direct and structural: the GH boundary shifts inward regardless of what authors do.
+Interventions that target $\lambda$ directly---structured reporting checklists, mandatory data and code deposition, statistical audit requirements---therefore address the most critical vulnerability in the system.
+
+\subsection{Policy Levers and Summary Propositions}
+
+Each parameter corresponds to a concrete institutional intervention.
+We summarise the mapping in four propositions; formal derivations are in the Appendix.
+
+\begin{description}
+
+\item[Proposition 1 (Monotone destabilisation).]
+\textit{Under the asymmetry $\gamma > \delta \geq 0$, the spam payoff $\Pi_{bad}(x, a)$ is strictly increasing in $a$ at every $x \in (0,1)$.
+Consequently, the Global Honesty region in $(K_{rev}, K)$ space shrinks weakly as $a$ increases, and there exists a finite threshold $a^* \in (0,1]$ above which no $(K_{rev}, K)$ combination sustains GH without additional institutional intervention.}
+
+\item[Proposition 2 (Slot expansion paradox).]
+\textit{Holding $K_{rev}$ and $a$ fixed, increasing $K$ weakly raises $\Pi_{bad}(x, a)$ at every $x$.
+The marginal destabilising effect of an additional slot is strictly larger at higher $a$, because lower $c(a)$ and higher $\lambda(a)$ amplify the gain from winning the publication lottery.
+The paradox is therefore amplified, not attenuated, by AI adoption.}
+
+\item[Proposition 3 (Erosion of congestion defence).]
+\textit{The corrupt-boundary stability condition $\Pi_{bad}(0, a) < 0$ requires $\bar{\rho}(0,a) < c(a)/\bigl(r\cdot\pi_0(0,a)\bigr)$.
+Since $c(a)$ falls and $\pi_0(0,a)$ rises with $a$, the required tightness of slot constraint increases with AI adoption.
+A journal that relied on passive scarcity for protection at baseline may need to actively reduce $K$ to maintain the same deterrent as $a$ rises.}
+
+\item[Proposition 4 (Policy lever ranking).]
+\textit{Among the primary levers, reducing $\lambda$ (verification quality) and raising $K_{rev}$ (review capacity) are unconditionally beneficial: they expand the GH region without side effects.
+Raising $c$ (submission friction) restores the honesty condition but may deter some honest authors.
+Reducing $K$ (tightening slots) provides passive deterrence but risks the No Submission zone.
+Expanding $K$ alone is the only intervention that can make the system strictly worse.}
+
+\end{description}
+
+\paragraph{Early warning signals.}
+The model identifies observable signatures that precede a tipping-point collapse.
+Rising submission-to-review ratios ($V / K_{rev}$) signal declining screening intensity $\eta$.
+Lengthening turnaround times and increasing desk-rejection rates indicate reviewer overload and the onset of rubber-stamping.
+Acceptance rates rising faster than improvements in underlying research quality signal a rising effective $\lambda$.
+In fields where AI adoption is high, these signals should appear before any observable quality decline, because the system can remain near $x \approx 1$ while the tipping threshold $x^*_{tip}$ rises toward the current honest-author share.
+The gap between observable quality (still high) and structural fragility (rapidly growing) is precisely what makes AI-induced tipping difficult to detect in advance.
+We examine the testability of these predictions in Section~\ref{sec:conclusion}.
 
 
 \section{Agent-Based Modeling}
