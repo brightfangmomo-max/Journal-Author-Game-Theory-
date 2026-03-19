@@ -252,17 +252,6 @@ Section~\ref{sec:conclusion} concludes.
      \quad
      \textcolor{teal!70!black}{\raisebox{1pt}{\makebox[0.6cm]{\dotfill}}$\!\!\rightarrow$}\;\textcolor{teal!70!black}{Policy lever}};
 
-%% Outcome box
-\node [
-    rectangle, rounded corners=5pt,
-    draw=red!60!black, fill=red!6,
-    minimum width=3.4cm, minimum height=1.6cm,
-    align=center, font=\small, text=red!70!black
-] (outcome) at (21.5, 0)
-    {$\Pi_{bad}(x,a)\;\uparrow$\\[4pt]
-     {\scriptsize $\Rightarrow$ tipping /\\hysteresis risk}};
-\draw[thick, ->, red!60!black] (19.8, 0) -- (outcome.west);
-
 \end{tikzpicture}%
 }
 \caption{\textbf{Mechanism diagram: AI as an asymmetric shock to the publication system.}
@@ -599,7 +588,7 @@ Figure~\ref{fig:ai_channels} summarises the four channels and their functional f
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
     >=stealth,
-    font=\small,
+    font=\normalsize, 
     aibox/.style={
         rectangle, rounded corners=5pt,
         draw=violet!70, fill=violet!12,
@@ -623,7 +612,7 @@ Figure~\ref{fig:ai_channels} summarises the four channels and their functional f
 ]
 
 %% AI node
-\node (ai) [aibox] at (0,0) {\textbf{AI adoption}\\[3pt]{\small $a \in [0,1]$}};
+\node (ai) [aibox] at (0,0) {\textbf{AI adoption}\\[3pt]{$a \in [0,1]$}};
 
 %% Channel nodes (right column)
 \node (V)    [destab]  at (8.8,  3.2)
@@ -646,27 +635,38 @@ Figure~\ref{fig:ai_channels} summarises the four channels and their functional f
 \draw[sarrow, -] (\busX,  3.2) -- (\busX, -1.2);
 \draw[warrow, -] (\busX, -1.2) -- (\busX, -3.4);
 
-%% Horizontal prongs to channels
-\draw[sarrow] (\busX, 3.2)  -- node[above, font=\scriptsize]{elasticity $\gamma$}  (V.west);
-\draw[sarrow] (\busX, 1.0)  -- node[above, font=\scriptsize]{slope $\phi$}         (c.west);
-\draw[sarrow] (\busX, -1.2) -- node[below, font=\scriptsize]{slope $\mu$}          (lam.west);
-\draw[warrow] (\busX, -3.4) -- node[below, font=\scriptsize, text=gray, pos=0.25]{elasticity $\delta < \gamma$} (krev.west);
+%% Horizontal prongs to channels 
+\draw[sarrow] (\busX, 3.2)  -- node[above, font=\footnotesize]{elasticity $\gamma$}  (V.west);
+\draw[sarrow] (\busX, 1.0)  -- node[above, font=\footnotesize]{slope $\phi$}         (c.west);
+\draw[sarrow] (\busX, -1.2) -- node[below, font=\footnotesize]{slope $\mu$}          (lam.west);
+\draw[warrow] (\busX, -3.4) -- node[below, font=\footnotesize, text=gray, pos=0.3]{elasticity $\delta < \gamma$} (krev.west);
 
 %% Asymmetry brace annotation
 \draw[thick, decorate, decoration={brace, amplitude=7pt}]
     (14.4,  3.7) -- (14.4, -0.7)
-    node[midway, right=10pt, font=\scriptsize, align=left]
+    node[midway, right=10pt, font=\footnotesize, align=left] (bracetext) 
     {Three channels raise\\spam profitability $\Pi_{bad}$};
 \draw[thick, decorate, decoration={brace, amplitude=7pt}]
     (14.4, -0.7) -- (14.4, -3.9)
-    node[midway, right=10pt, font=\scriptsize, text=gray!70, align=left]
+    node[midway, right=10pt, font=\footnotesize, text=gray!70, align=left]
     {Partial offset\\$(\delta < \gamma)$};
 
-%% Legend
-\node [font=\normalsize, text=black!60, align=center] at (6.5, -5.2)
-    {\raisebox{1pt}{\rule{0.7cm}{0.8pt}}$\!\rightarrow$\;Destabilising channel
-     \qquad\qquad
-     \raisebox{1pt}{\makebox[0.7cm]{\dotfill}}$\!\rightarrow$\;Lagging / partial offset};
+
+\draw[sarrow] (3.5, -5.2) -- (4.3, -5.2) node[right, text=black!60, font=\normalsize] {Destabilising channel};
+\draw[warrow] (9.0, -5.2) -- (9.8, -5.2) node[right, text=black!60, font=\normalsize] {Lagging / partial offset};
+
+
+\node [
+    rectangle, rounded corners=5pt,
+    draw=red!60!black, fill=red!6,
+    minimum width=3.4cm, minimum height=1.6cm,
+    align=center, font=\normalsize, text=red!70!black
+] (outcome) at (20, 1.5)
+    {$\Pi_{bad}(x,a)\;\uparrow$\\[3pt]
+     {\footnotesize $\Rightarrow$ tipping / hysteresis risk}};
+
+
+\draw[thick, ->, red!60!black] (bracetext.east) ++(0.1,0) -- (outcome.west);
 
 \end{tikzpicture}%
 }
