@@ -1,9 +1,15 @@
-\begin{thebibliography}{52}
+\begin{thebibliography}{56}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Acemoglu and Restrepo(2019)]{AcemogluRestrepo2019}
+Daron Acemoglu and Pascual Restrepo.
+\newblock Automation and new tasks: How technology displaces and reinstates labor.
+\newblock \emph{Journal of Economic Perspectives}, 33\penalty0 (2):\penalty0 3--30, 2019.
+\newblock \doi{10.1257/jep.33.2.3}.
 
 \bibitem[Acz{\'e}l et~al.(2021)Acz{\'e}l, Szaszi, and Holcombe]{Aczel2021}
 Balazs Acz{\'e}l, Barnabas Szaszi, and Alex~O. Holcombe.
@@ -71,6 +77,12 @@ Domenic~V Cicchetti.
 \newblock The reliability of peer review for manuscript and grant submissions: A cross-disciplinary investigation.
 \newblock \emph{Behavioral and Brain Sciences}, 14\penalty0 (1):\penalty0 119--135, 1991.
 
+\bibitem[Clauset et~al.(2015)Clauset, Arbesman, and Larremore]{Clauset2015}
+Aaron Clauset, Samuel Arbesman, and Daniel~B. Larremore.
+\newblock Systematic inequality and hierarchy in faculty hiring networks.
+\newblock \emph{Science Advances}, 1\penalty0 (1):\penalty0 e1400005, 2015.
+\newblock \doi{10.1126/sciadv.1400005}.
+
 \bibitem[Cotton(2013)]{Cotton2013}
 Christopher Cotton.
 \newblock Submission fees and response times in academic publishing.
@@ -102,6 +114,12 @@ Kevin Gross and Carl~T Bergstrom.
 \newblock Contest models highlight inherent inefficiencies of scientific funding competitions.
 \newblock \emph{PLOS Biology}, 17\penalty0 (1):\penalty0 e3000065, 2019.
 \newblock \doi{10.1371/journal.pbio.3000065}.
+
+\bibitem[Hicks et~al.(2015)Hicks, Wouters, Waltman, de~Rijcke, and Rafols]{Hicks2015}
+Diana Hicks, Paul Wouters, Ludo Waltman, Sarah de~Rijcke, and Ismael Rafols.
+\newblock Bibliometrics: The {Leiden Manifesto} for research metrics.
+\newblock \emph{Nature}, 520\penalty0 (7548):\penalty0 429--431, 2015.
+\newblock \doi{10.1038/520429a}.
 
 \bibitem[Hofbauer and Sigmund(1998)]{Hofbauer1998}
 Josef Hofbauer and Karl Sigmund.
@@ -226,6 +244,11 @@ Thomas~C Schelling.
 \newblock \emph{Micromotives and Macrobehavior}.
 \newblock W. W. Norton \& Company, New York, 1978.
 \newblock ISBN 9780393090090.
+
+\bibitem[Siler et~al.(2015)Siler, Lee, and Bero]{Siler2015}
+Kyle Siler, Kirby Lee, and Lisa Bero.
+\newblock Measuring the effectiveness of scientific gatekeeping.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 112\penalty0 (2):\penalty0 360--365, 2015.
 
 \bibitem[Simmons et~al.(2011)Simmons, Nelson, and Simonsohn]{Simmons2011}
 Joseph~P. Simmons, Leif~D. Nelson, and Uri Simonsohn.

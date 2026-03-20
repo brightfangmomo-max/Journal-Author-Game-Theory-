@@ -7,7 +7,6 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{tikz}
-\usepackage{graphicx}   
 \usepackage{subcaption} 
 \usepackage{tabularx}
 \usepackage{booktabs}
@@ -42,9 +41,8 @@
 \maketitle
 
 \begin{abstract}
-Generative AI is transforming the nature of academic publishing.
-By September 2024, more than one-fifth of computer-science preprints showed evidence of large-language-model modification, while monthly submissions to arXiv reached a record 24{,}226, roughly 50\% higher than in late 2022.
-Verification has not kept pace: reviewer acceptance rates have declined steadily over two decades, and between 6.5\% and 16.9\% of conference peer reviews are now themselves AI-modified.
+Generative AI is transforming academic publishing by dramatically reducing the cost of manuscript production while review capacity grows far more slowly.
+Submission volumes have surged to record levels, a rising share of peer reviews contain AI-generated text, and verification infrastructure has not kept pace.
 We study this asymmetry---the fact that AI scales paper production faster than it scales screening---using a game-theoretic model in which AI adoption raises submission volume and lowers drafting cost faster than it raises review capacity, while also increasing the rate at which low-quality manuscripts pass screening.
 We find three results.
 First, extreme slot scarcity can stabilize honest submission norms even under degraded screening, because the publication lottery becomes too hard to win.
@@ -107,6 +105,7 @@ Section~\ref{sec:analysis} analyses how AI adoption shifts equilibria, erodes th
 Section~\ref{sec:abm} reports agent-based simulation results.
 Section~\ref{sec:institutions} translates the analytical results into a four-principle institutional agenda and evaluates the mechanisms using Figure~\ref{fig:interventions}.
 Section~\ref{sec:predictions} derives testable empirical predictions, proposes proxies for the key model channels, and outlines an identification strategy.
+Section~\ref{sec:discussion} discusses model limitations and extensions, including multi-journal competition and endogenous rewards.
 Section~\ref{sec:conclusion} concludes.
 
 \begin{figure}[H]
@@ -114,42 +113,42 @@ Section~\ref{sec:conclusion} concludes.
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
     >=stealth,
-    font=\small,
+    font=\normalsize,
     % ── Node styles ──────────────────────────────────────────────────────
     ai/.style={
         rectangle, rounded corners=5pt,
         draw=violet!70, fill=violet!12,
-        minimum width=3.0cm, minimum height=1.1cm,
+        minimum width=3.2cm, minimum height=1.3cm,
         align=center, text=violet!80!black
     },
     channel/.style={
         rectangle, rounded corners=5pt,
         draw=orange!70!red!60, fill=orange!8,
-        minimum width=3.6cm, minimum height=1.0cm,
+        minimum width=3.8cm, minimum height=1.2cm,
         align=center
     },
     lag/.style={
         rectangle, rounded corners=5pt,
         draw=gray!60, fill=gray!10,
-        minimum width=3.6cm, minimum height=1.0cm,
+        minimum width=3.8cm, minimum height=1.2cm,
         align=center, text=gray!70!black
     },
     pibad/.style={
         rectangle, rounded corners=5pt,
         draw=orange!80!black, fill=yellow!15,
-        minimum width=3.8cm, minimum height=1.4cm,
+        minimum width=4.0cm, minimum height=1.6cm,
         align=center
     },
     outcome/.style={
         rectangle, rounded corners=5pt,
         draw=red!70, fill=red!8,
-        minimum width=2.8cm, minimum height=1.0cm,
+        minimum width=3.0cm, minimum height=1.2cm,
         align=center
     },
     policy/.style={
         rectangle, rounded corners=5pt,
         draw=teal!70, fill=teal!8,
-        minimum width=12.0cm, minimum height=1.2cm,
+        minimum width=12.0cm, minimum height=1.4cm,
         align=center, text=teal!80!black
     },
     % ── Arrow styles ─────────────────────────────────────────────────────
@@ -160,33 +159,33 @@ Section~\ref{sec:conclusion} concludes.
 
 % ── Column 1: AI adoption ────────────────────────────────────────────────
 \node (ai) [ai] at (0,0)
-    {\textbf{AI adoption}\\[3pt]{\scriptsize $a \in [0,1]$}};
+    {\textbf{AI adoption}\\[3pt]{\small $a \in [0,1]$}};
 
 % ── Column 2: Channels ───────────────────────────────────────────────────
 \node (vup)   [channel] at (5.5, 2.4)
-    {Submission volume $V \uparrow$\\[2pt]{\scriptsize (elasticity $\gamma$)}};
+    {\textbf{Submission volume} $V \uparrow$\\[2pt]{\small (elasticity $\gamma$)}};
 
 \node (cdown) [channel] at (5.5, 0.8)
-    {Submission cost $c \downarrow$\\[2pt]{\scriptsize (AI lowers drafting effort)}};
+    {\textbf{Submission cost} $c \downarrow$\\[2pt]{\small (AI lowers drafting effort)}};
 
 \node (lup)   [channel] at (5.5,-0.8)
-    {False-positive rate $\lambda \uparrow$\\[2pt]{\scriptsize (polished-but-wrong text)}};
+    {\textbf{False-positive rate} $\lambda \uparrow$\\[2pt]{\small (polished-but-wrong text)}};
 
 \node (krev)  [lag]     at (5.5,-2.4)
-    {Review capacity $K_{rev} \uparrow$\\[2pt]{\scriptsize (elasticity $\delta < \gamma$)}};
+    {\textbf{Review capacity} $K_{rev} \uparrow$\\[2pt]{\small (elasticity $\delta < \gamma$)}};
 
 % ── Column 3: Spam Payoff ────────────────────────────────────────────────
 \node (pibad) [pibad] at (11.5, 0)
     {\textbf{Spam payoff} $\Pi_{bad}(x,a) \uparrow$\\[3pt]
-     {\scriptsize $\Pi_{bad} = r\bar{\rho}\,\pi_0 - c > 0$}\\[1pt]
-     {\scriptsize cheating becomes viable}};
+     {\small $\Pi_{bad} = r\bar{\rho}\,\pi_0 - c > 0$}\\[1pt]
+     {\small cheating becomes viable}};
 
 % ── Column 4: Outcomes ───────────────────────────────────────────────────
 \node (tip)  [outcome] at (16.5, 1.3)
-    {\textbf{Tipping point}\\[2pt]{\scriptsize honesty collapses}};
+    {\textbf{Tipping point}\\[2pt]{\small honesty collapses}};
 
 \node (hyst) [outcome] at (16.5,-1.3)
-    {\textbf{Hysteresis}\\[2pt]{\scriptsize recovery is harder}};
+    {\textbf{Hysteresis}\\[2pt]{\small recovery is harder}};
 
 % ── Policy box ───────────────────────────────────────────────────────────
 \node (policy) [policy] at (8.5,-4.8)
@@ -221,7 +220,7 @@ Section~\ref{sec:conclusion} concludes.
 % ── Fork 2: Channels feeding into Spam Payoff ────────────────────────────
 % V_up (top) and K_rev (bottom) bypass the main merge and enter top/bottom
 \draw[strong] (vup.east) -| (pibad.north);
-\draw[weak]   (krev.east) -| node[pos=0.75, right, font=\scriptsize, text=gray] {partial offset} ([xshift=-10pt]pibad.south);
+\draw[weak]   (krev.east) -| node[pos=0.75, right, font=\small, text=gray] {partial offset} ([xshift=-10pt]pibad.south);
 
 % c_down and lambda_up merge together at Bus B into a single trunk
 \draw[strong, -] (cdown.east) -| (\busB, 0); % Right to Bus B, Down to Y=0
@@ -245,7 +244,7 @@ Section~\ref{sec:conclusion} concludes.
 
 
 % ── Legend ───────────────────────────────────────────────────────────────
-\node (legend) [font=\scriptsize, text=black!65] at (8.5, -6.2)
+\node (legend) [font=\small, text=black!65] at (8.5, -6.2)
     {\raisebox{1pt}{\rule{0.6cm}{0.8pt}}$\!\!\rightarrow$\;Strong AI channel
      \quad
      \raisebox{1pt}{\makebox[0.6cm]{\dotfill}}$\!\!\rightarrow$\;Lagging\,/\,partial offset\;($\delta<\gamma$)
@@ -554,9 +553,10 @@ We write:
 \end{equation}
 where $c_0$ is the baseline cost and $\phi$ governs the rate at which AI erodes submission friction.
 The cost reduction enters $\Pi_{bad}$ directly: a lower $c$ raises the net payoff from submitting a bad paper even if acceptance probabilities are unchanged.
-The effect is also asymmetric across strategies.
-For OG authors, who submit only when they have good work, cost reductions matter relatively less---they submit infrequently by choice.
-For AS authors, who submit everything, the lower $c$ directly amplifies the incentive to flood the system.
+The effect is also asymmetric across strategies, though the asymmetry is not per-paper: $c$ enters both $\Pi_{bad}$ and $\Pi_{good}$ symmetrically as a per-submission cost.
+The asymmetry arises from submission frequency.
+OG authors submit only when they have genuine work ready, so the total cost reduction they realise each period is small.
+AS authors submit everything---good papers and bad---so the same per-paper reduction compounds across a much larger submission stream, directly amplifying the flood incentive.
 
 \paragraph{Channel 3---Vulnerability: weaker screening signal.}
 AI-generated text is harder to distinguish on surface features \citep{StokelWalker2023}, AI-assisted reviews award systematically higher scores \citep{Latona2024, Liang2024ICML}, and automated detection remains unreliable---false-negative rates exceed 70\% \citep{Liang2023detectors}.
@@ -694,15 +694,17 @@ To isolate the mechanism most cleanly, consider the honest boundary $x = 1$, whe
     \Pi_{bad}(1, a) \;\approx\; r\cdot\pi_0(1,a) \;-\; c(a).
     \label{eq:pibad_boundary}
 \end{equation}
-Under the asymmetry $\gamma > \delta$, the screening intensity $\eta(1,a)$ falls as $a$ rises.
-Combined with rising $\lambda(a)$ and falling $c(a)$, this increases $\pi_0(1,a) = 1 - \eta(1,a)(1-\lambda(a))$ while reducing submission cost.
-Provided $\gamma > \delta$, $\mu \geq 0$, and $\phi > 0$:
+At $x = 1$, only good papers are submitted, so submission volume equals $V(1,a) = N\alpha(1+\gamma a)$.
+For both calibration sets this remains strictly below $K_{rev}(a)$ for all $a \in [0,1]$, so $\eta(1,a) = 1$: review capacity is not the binding constraint at the honest boundary.\footnote{For Set~A: $K_{rev}(a) = 300(1+0.1a) > 200(1+0.5a) = V(1,a)$ requires $a < 10/7 \approx 1.43$, well above the maximum adoption level.}
+The bad-paper pass rate therefore reduces to $\pi_0(1,a) = \lambda(a)$, and the GH condition at $x=1$ simplifies to $\lambda(a) < c(a)/r$.
+The operative mechanism at the honest boundary is not review congestion but the erosion of the screening signal relative to the cost of submission: $\lambda(a)$ rises while $c(a)/r$ falls simultaneously.
+Provided $\mu \geq 0$ and $\phi > 0$:
 \begin{equation}
-    \frac{\partial \Pi_{bad}(1,a)}{\partial a} \;=\; r\underbrace{\frac{\partial \pi_0}{\partial a}}_{>0\;(\gamma>\delta)} \;\underbrace{- c'(a)}_{=\,c_0\phi\,>\,0} \;>\; 0.
+    \frac{\partial \Pi_{bad}(1,a)}{\partial a} \;=\; r\underbrace{\mu}_{>0\;\text{(rising }\lambda\text{)}} \;\underbrace{+\,c_0\phi}_{>0\;\text{(falling }c\text{)}} \;>\; 0.
     \label{eq:pibad_slope}
 \end{equation}
-The condition for Global Honesty---$\Pi_{bad}(1,a) < 0$---becomes harder to satisfy as $a$ rises.
-When $\Pi_{bad}(1,a)$ crosses zero, the system exits the GH regime and enters bistability or Global Corruption.
+Setting $\Pi_{bad}(1,a^*) = 0$ gives a closed-form tipping point $a^* = (c_0 - r\lambda_0)/(r\mu + c_0\phi)$; for Set~A, $a^* = (25 - 10)/(20 + 10) = 0.50$.
+Above $a^*$, $\Pi_{bad}(1,a) > 0$: the honest long-run outcome at $x=1$ is no longer stable, and the system transitions from bistability into Global Corruption (or from GH into bistability if the corrupt boundary was previously deterred).
 
 \paragraph{Creation versus verification: why AI is structurally asymmetric.}
 The four-channel decomposition shows that AI exerts pressure from both the supply and quality dimensions simultaneously.
@@ -968,8 +970,11 @@ Rising submission-to-review ratios ($V / K_{rev}$) signal declining screening in
 Lengthening turnaround times and increasing desk-rejection rates indicate reviewer overload and the onset of rubber-stamping.
 Acceptance rates rising faster than improvements in underlying research quality signal a rising effective $\lambda$.
 In fields where AI adoption is high, these signals should appear before any observable quality decline, because the system can remain near $x \approx 1$ while the tipping threshold $x^*_{tip}$ rises toward the current honest-author share.
+To make this concrete: under Set~A parameters, $x^* \approx 0.82$ at baseline, leaving an apparent safety margin of only 0.18 from the fully honest state.
+As $a$ rises, $x^*$ climbs monotonically toward $x = 1$, so this margin closes continuously---from 0.18 toward zero---while published quality appears unchanged, because the population remains above the threshold throughout.
+By the time $a$ reaches $a^* \approx 0.50$, the margin has vanished and the system tips into Global Corruption with no visible warning in quality metrics.
 The gap between observable quality (still high) and structural fragility (rapidly growing) is precisely what makes AI-induced tipping difficult to detect in advance.
-We examine the testability of these predictions in Section~\ref{sec:conclusion}.
+We examine the testability of these predictions in Section~\ref{sec:predictions}.
 
 
 \section{Agent-Based Modeling}
@@ -999,13 +1004,14 @@ This rule captures bounded rationality: better-performing strategies spread, but
 \subsection{Results: Tipping as AI Adoption Rises}
 
 Figure~\ref{fig:tipping_timeseries} reports the core dynamic result.
-Panel~(a) traces the tipping threshold $x^*(a_t)$---the unstable boundary separating the honesty and corruption basins---as $a_t$ rises from 0 to 0.8.
-The threshold climbs from $x^* \approx 0.80$ at baseline to $x^* \approx 0.93$ under high adoption.
-The system appears healthy throughout: observed honest-author shares near the GH boundary remain at $x \approx 1$.
+Panel~(a) traces the tipping threshold $x^*(a_t)$---the unstable boundary in the bistability zone---as $a_t$ rises.
+The threshold climbs monotonically from $x^* \approx 0.80$ at baseline toward $x = 1$ as $a$ approaches the analytical limit $a^* \approx 0.50$ derived above.
+The system appears healthy throughout: observed honest-author shares remain at $x \approx 1$.
 Yet a fixed-size shock of $\Delta x = 0.18$---representing a coordinated wave of low-quality submissions, of the kind documented at major publishers during paper-mill incidents \citep{Bik2016}---has opposite consequences depending on timing.
 Applied early at $a \approx 0.08$, it drops $x$ to $0.82$, which is still above $x^*(0.08) \approx 0.80$; the honesty norm self-repairs within a few hundred steps.
-Applied late at $a \approx 0.53$, the identical shock drops $x$ to the same absolute level but now below $x^*(0.53) \approx 0.90$; the system collapses permanently to $x = 0$.
-The gap between $x_t$ and $x^*(a_t)$---the \emph{safety margin}---therefore shrinks silently even while observable quality remains high.
+Applied late at $a \approx 0.53$---just past the critical threshold $a^* \approx 0.50$ at which $\Pi_{bad}(1,a)$ turns positive and $x=1$ loses stability---the system has entered Global Corruption.
+The identical shock now causes permanent collapse not because $x$ is pushed below an interior threshold, but because no stable honest long-run outcome exists at all: any downward perturbation from $x=1$ leads irreversibly to $x=0$.
+The \emph{safety margin}---the gap between the current honest-author share $x_t$ and the rising threshold $x^*(a_t)$---therefore shrinks silently while observable quality remains high, and vanishes entirely as $a$ crosses $a^*$.
 This is precisely the ``quiet before the cliff'' signature that catastrophic-shift theory predicts for systems approaching a bifurcation \citep{Scheffer2009}.
 
 Panel~(b) confirms path dependence at $a = 0.45$ (bistable regime).
@@ -1016,10 +1022,10 @@ No endogenous force can reverse this collapse; the population is trapped in the 
     \centering
     \includegraphics[width=\textwidth]{fig7_tipping_timeseries.pdf}
     \caption{\textbf{AI adoption silently erodes the stability window (Fig.~7).}
-    \textbf{(a)} The tipping threshold $x^*(a_t)$ (red dashed) rises from $\approx 0.80$ to $\approx 0.93$ as AI adoption increases.
-    A fixed-size shock of $\Delta x = 0.18$ recovers when applied at $a \approx 0.08$ (green; safety margin intact) but causes permanent collapse when applied at $a \approx 0.53$ (blue; safety margin exhausted).
+    \textbf{(a)} The tipping threshold $x^*(a_t)$ (red dashed) rises monotonically from $\approx 0.80$ toward $x=1$ as $a$ increases through the bistability zone; the threshold ceases to exist above $a^* \approx 0.50$ (Set~A, analytical), when the system enters Global Corruption.
+    A fixed-size shock of $\Delta x = 0.18$ recovers when applied at $a \approx 0.08$ (green; safety margin intact) but causes permanent collapse when applied at $a \approx 0.53$ (blue; system in GC, no stable honest long-run outcome).
     Observable quality gives no warning: $x_t \approx 1$ in both cases until the shock hits.
-    \textbf{(b)} Path dependence at $a = 0.45$: two initial conditions separated by $\Delta x_0 = 0.08$ diverge to opposite long-run outcomes.
+    \textbf{(b)} Path dependence at $a = 0.45$ (bistable zone, just below $a^*$): two initial conditions separated by $\Delta x_0 = 0.08$ diverge to opposite long-run outcomes, with the threshold near $x^*(0.45) \approx 0.92$.
     Parameters: Set~A, $\gamma=0.5$, $\delta=0.1$, $\phi=0.4$, $\mu=0.2$.}
     \label{fig:tipping_timeseries}
 \end{figure}
@@ -1276,9 +1282,87 @@ The robustness analysis in Figure~\ref{fig:heatmap_outcomes} shows that $\mu$ is
 A finding that AI-assisted reviewing consistently \emph{improves} score calibration---rather than inflating it---would therefore be the strongest possible disconfirmation of the model's policy conclusions \citep{Checco2021}.
 The available evidence currently points in the opposite direction \citep{Latona2024, Liang2024ICML, Naddaf2025}.
 
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{Scope and simplifying assumptions.}
+The model makes two structural choices that bound its applicability.
+First, we reduce the strategy space to two options: submit only good work, or submit regardless of quality.
+Real authors calibrate effort continuously, and intermediate strategies can coexist in finite communities.
+The binary reduction is justified by a standard dominance argument \citep{Fudenberg1991}: any strategy that submits a bad paper when $\Pi_{bad} > 0$ weakly dominates the alternative, so the two-strategy formulation is exact in the limit of continuous imitation dynamics.
+In practice, a continuum of effort levels would smooth the tipping threshold into a region rather than a sharp boundary, making early warning signals harder to detect but not eliminating them.
+Second, we model a single journal with fixed capacity.
+In reality, rejected papers cascade down a prestige hierarchy: \citet{Siler2015} find that roughly 62\,\% of papers rejected at three high-impact journals were eventually published elsewhere.
+This cascade distributes submission pressure across tiers rather than absorbing it.
+A multi-journal extension would predict that tipping first occurs at lower-tier venues---which typically have smaller $K_{rev}$ and weaker screening---and then propagates upward as the pool of credibly certified papers shrinks.
+Our single-journal results are therefore conservative: the threshold at which quality degrades across the system as a whole is likely lower than the threshold we identify for any single venue.
+
+\paragraph{AI adoption as a scalar: limits and heterogeneity.}
+We represent AI adoption with a single scalar $a$ that aggregates the fraction of authors using AI tools and the intensity of their use.
+This captures the mean effect but suppresses two empirically important dimensions.
+The first is task heterogeneity.
+AI excels at drafting and reformatting text but falls short of replicating the judgment required for novel empirical analysis \citep{Checco2021}.
+The production elasticity $\gamma$ therefore measures AI's effect on submission volume rather than on genuine scientific output.
+A model that separates writing assistance from research assistance would generate sharper predictions about $\mu$: fields where AI mainly improves surface fluency face a higher $\mu$ than fields where AI genuinely improves research quality.
+The second dimension is cross-author heterogeneity in adoption timing.
+Early adopters gain a first-mover advantage under current publication incentives, and social learning then accelerates diffusion through the same imitation dynamics documented for other general-purpose technologies \citep{Rogers2003}.
+As Section~\ref{sec:abm} shows, stochastic fluctuations from a concentrated wave of intensive early adopters can push a finite community below its tipping threshold before field-wide mean adoption reaches a critical level.
+Heterogeneous adoption therefore makes tipping events more likely and less predictable than the scalar analysis implies.
+
+\paragraph{The problem is institutional mismatch, not AI adoption itself.}
+The model's prescriptions do not depend on AI being harmful to science in aggregate.
+If review capacity scaled at the same rate as submission volume---$\delta = \gamma$---and AI tools improved screening reliability rather than degrading it---$\mu \leq 0$---the Global Honesty region would expand under rising $a$, not contract.
+\citet{NoyZhang2023} document genuine productivity gains from AI assistance; the issue is not that AI exists but that the gap $\gamma - \delta > 0$ exists.
+\citet{AcemogluRestrepo2019} provide a useful framing: automation raises productivity in tasks that are routine and codifiable while increasing demand for tasks requiring contextual judgment and domain expertise.
+Text generation is largely the former; verifying the validity of a novel empirical claim is largely the latter.
+The challenge for publishing institutions is therefore not to restrict AI adoption---which would be both unenforceable and wasteful where AI genuinely helps---but to close the gap between $\gamma$ and $\delta$ through targeted investment in verification infrastructure.
+The scenario matrix in Table~\ref{tab:scenario_matrix} makes this concrete: which cell a field occupies is an institutional choice, not a technological fate.
+Fields that invest in structured AI-assisted verification pipelines, mandatory data deposition, and reviewer development programmes can remain in the upper-left cell even as $a$ rises.
+Fields that do not will drift toward the upper-right.
+
+\paragraph{Multi-journal competition and quality cascades.}
+Extending the model to a hierarchy of competing journals would capture dynamics absent from our analysis.
+When authors face multiple venues, rejection does not dissipate submission pressure---it routes it to the next tier.
+\citet{Clauset2015} document steep and persistent prestige hierarchies in academic hiring networks; analogous hierarchies characterise journals, where a small number of high-impact venues confer disproportionate career rewards $r$.
+In a tiered model, the slot expansion paradox would have a cross-venue counterpart: entry of new low-tier journals raises total certification capacity $K$ without improving screening quality $\lambda$, raising $\Pi_{bad}$ at every tier simultaneously.
+\citet{Zollman2024} show that prestige-maximising incentives in multi-journal settings already reward strategic over honest behaviour; AI adoption amplifies this dynamic by lowering $c(a)$ and raising $\lambda(a)$ for the entire author population.
+The institutional implication is that verification standards must be coordinated across journal tiers.
+A single journal raising $K_{rev}$ and lowering $\lambda$ provides limited system-level protection if rejected spam papers are absorbed by lower-tier venues and ultimately circulate as certified work.
+Overlay certification models---where a shared preprint layer is evaluated by tier-specific panels with explicit quality standards---are one architecture that could enforce coordination without requiring every journal to act simultaneously.
+
+\paragraph{Endogenous rewards, reviewer effort, and reputation systems.}
+Two parameters we treat as fixed---the publication reward $r$ and the reviewer participation rate embedded in $K_{rev}$---are endogenous to institutional design, and relaxing this assumption would enrich the model.
+On the reward side, $r$ reflects career-level incentives to publish.
+Evaluation frameworks that weight publication counts heavily inflate $r$ for marginal submissions; shifting toward impact-based or reproducibility-weighted assessment directly reduces $r$ and shrinks the parameter region where $\Pi_{bad} > 0$ \citep{Hicks2015}.
+\citet{Stephan2012} traces publication inflation to career structures that treat paper counts as a proxy for scientific value; AI adoption compounds this pre-existing incentive problem by making low-quality output cheaper to produce.
+On the reviewer side, we model $K_{rev}$ as a hard capacity constraint, but reviewer effort per paper is also a margin.
+Reviewer participation has declined continuously for two decades \citep{Meyerson2025}, and the decline accelerates if quality collapse erodes the perceived value of certification---a positive feedback loop that our model does not capture.
+An extension treating reviewer effort as endogenous would predict that transparency mechanisms---publishing review reports, providing structured evaluation templates, recognising reviewer contributions \citep{Aczel2021}---can raise effective screening accuracy without increasing the number of reviewers.
+The two levers---more reviewers and better effort per reviewer---address the same capacity constraint $K_{rev}$ through different margins and should be designed jointly.
+Neither is sufficient in isolation when $\lambda > c(a)/r$, the binding condition identified in Section~\ref{sec:analysis}.
+
 \section{Conclusion}
 \label{sec:conclusion}
 
+We have studied what happens to a publishing system when AI raises the productivity of manuscript production faster than it raises the capacity to verify manuscripts.
+The central asymmetry---production elasticity $\gamma$ exceeding verification elasticity $\delta$---is not a modelling assumption but an empirical claim supported by documented submission growth, documented reviewer decline, and experimental evidence on AI writing productivity \citep{NoyZhang2023, arXiv2024, Meyerson2025}.
+Three results follow from this asymmetry.
+First, extreme slot scarcity can stabilise the honesty norm under degraded screening, but AI erodes this protection continuously by lowering the submission cost $c(a)$: the required slot tightness grows with adoption and eventually forces the system into the No Submission zone.
+Second, gradual AI adoption can trigger a discrete collapse rather than a smooth decline; the system can appear healthy---with observable quality near its maximum---while the gap between the current author composition and the tipping threshold silently narrows.
+Third, once the system tips, recovery is harder than prevention, because the low-quality long-run outcome is self-sustaining: no individual author has a reason to deviate back toward honesty, and small interventions cannot overcome the strategic lock-in \citep{Scheffer2009}.
+Expanding publication slots accelerates rather than relieves this dynamic, because it raises the expected payoff of submitting low-quality work without addressing the underlying screening deficit.
+
+Translating these results into institutional design requires targeting the parameters that matter most.
+The false-positive rate $\lambda$ is the binding constraint: when $\lambda > c(a)/r$, no feasible increase in review staffing can restore the Global Honesty condition, because even carefully reviewed low-quality manuscripts pass at a rate that makes submission individually rational.
+Effective policy must therefore reduce $\lambda$ directly---through mandatory data and code sharing, structured reporting requirements, and registered study designs---while simultaneously raising $K_{rev}$ and restoring submission friction \citep{Munafo2017, Cotton2013}.
+These three levers are complements, not substitutes: the analysis in Section~\ref{sec:institutions} shows that $\lambda$ reduction is necessary to exit the Global Corruption region, and $K_{rev}$ expansion is necessary to convert bistability into Global Honesty.
+The institutional response to AI is therefore not "more slots" but a different kind of institution---one in which verification is a first-class resource, not an afterthought.
+
+The window for preventive action is narrower than it appears.
+Because the system can remain near the honest long-run outcome while structural fragility accumulates, the observable quality signal gives no reliable warning before a tipping event \citep{Scheffer2001}.
+Fields that invest in verification infrastructure, reviewer incentives, and submission friction before AI adoption deepens can preserve the integrity of certification at moderate cost.
+Fields that wait for a visible quality crisis will face a recovery problem that requires a larger and more disruptive coordinated intervention---the equivalent of a field-wide mandate rather than a journal-level policy.
+The asymmetry between production and verification is not temporary: it reflects a fundamental difference in what language models can automate, and institutions designed for an earlier era will need deliberate redesign to remain effective.
 
 \clearpage
 
@@ -1289,5 +1373,303 @@ The available evidence currently points in the opposite direction \citep{Latona2
 
 
 
+
+\clearpage
+\appendix
+
+\section{Proofs of Propositions~1--4}
+\label{app:proofs}
+
+The four propositions in Section~\ref{sec:analysis} characterise how the spam payoff $\Pi_{\mathit{bad}}(x,a)$ responds to the AI adoption parameter~$a$ and to the four institutional levers $\lambda$, $K_{\mathit{rev}}$, $c$, and $K$.
+This appendix provides complete formal derivations.
+We first collect notation and establish three lemmas that are used repeatedly across the proofs.
+
+\paragraph{Notation.}
+
+Throughout, $x \in [0,1]$ is the share of selective (OG) authors and $a \in [0,1]$ is the AI adoption intensity.
+Define:
+\begin{align*}
+  V_0(x)              &\;\equiv\; N\bigl[1-(1-\alpha)x\bigr]
+    && \text{baseline submission volume (at $a=0$),}\\
+  V(x,a)              &\;=\; V_0(x)(1+\gamma a)
+    && \text{total submission volume,}\\
+  K_{\mathit{rev}}(a) &\;=\; K_{\mathit{rev}}(0)(1+\delta a)
+    && \text{review capacity,}\\
+  \eta(x,a)           &\;=\; \min\!\Bigl(1,\;\tfrac{K_{\mathit{rev}}(a)}{V(x,a)}\Bigr)
+    && \text{screening intensity,}\\
+  \pi_0(x,a)          &\;=\; 1 - \eta(x,a)\bigl(1-\lambda(a)\bigr)
+    && \text{bad-paper pass rate,}\\
+  \pi_1(x,a)          &\;=\; 1 - \eta(x,a)\,\varepsilon
+    && \text{good-paper pass rate,}\\
+  M(x,a)              &\;=\; N\alpha\,\pi_1(x,a) + N(1-\alpha)(1-x)\,\pi_0(x,a)
+    && \text{peer-accepted pool,}\\
+  \bar\rho(x,a)       &\;=\; \min\!\Bigl(1,\;\tfrac{K}{M(x,a)}\Bigr)
+    && \text{rationing probability,}\\
+  \Pi_{\mathit{bad}}(x,a) &\;=\; r\,\bar\rho(x,a)\,\pi_0(x,a) - c(a)
+    && \text{spam payoff.}
+\end{align*}
+
+We work throughout under the \textbf{AI asymmetry assumption} $\gamma > \delta \geq 0$ and the parametric assumptions $\mu \geq 0$, $\phi \in (0,1)$, $r, c_0 > 0$.
+We also impose the \textbf{discriminatory filter condition}:
+\begin{equation}
+  \label{eq:app_filter}
+  \lambda(a) + \varepsilon < 1 \qquad \text{for all } a \in [0,1].
+\end{equation}
+This states that peer review rejects bad papers at a strictly higher rate than it falsely rejects good ones, i.e.\ the filter is better than random.
+The proofs split into three cases based on which capacity constraints are binding:
+\begin{itemize}
+  \item \textbf{Case~I} (uncongested): $V(x,a) \leq K_{\mathit{rev}}(a)$, so $\eta = 1$.
+  \item \textbf{Case~II} (congested, unrationed): $V > K_{\mathit{rev}}$ and $M \leq K$, so $\eta < 1$ and $\bar\rho = 1$.
+  \item \textbf{Case~III} (congested and rationed): $V > K_{\mathit{rev}}$ and $M > K$, so $\eta < 1$ and $\bar\rho = K/M < 1$.
+\end{itemize}
+
+\paragraph{Lemma A.1 (Screening intensity falls with $a$).}
+
+\textit{In Cases~II and~III:}
+\begin{equation}
+  \label{eq:app_deta}
+  \frac{\partial\eta}{\partial a}
+  = \frac{K_{\mathit{rev}}(0)\,(\delta-\gamma)}{V_0(x)\,(1+\gamma a)^2} < 0.
+\end{equation}
+
+\noindent\textit{Proof.}
+Substitute $K_{\mathit{rev}}(a) = K_{\mathit{rev}}(0)(1+\delta a)$ and $V(x,a) = V_0(x)(1+\gamma a)$ into $\eta = K_{\mathit{rev}}(a)/V(x,a)$ and differentiate with respect to $a$ using the quotient rule.
+The numerator of the result is $K_{\mathit{rev}}(0)[\delta(1+\gamma a) - \gamma(1+\delta a)] = K_{\mathit{rev}}(0)(\delta - \gamma) < 0$ since $\gamma > \delta$.
+\hfill$\square$
+
+\paragraph{Lemma A.2 (Both pass rates rise with $a$).}
+
+\textit{In Cases~II and~III, writing $\dot\eta \equiv \partial\eta/\partial a < 0$:}
+\begin{align}
+  \frac{\partial\pi_0}{\partial a} &= -\dot\eta\,(1-\lambda) + \eta\,\mu > 0,
+    \label{eq:app_dpi0} \\
+  \frac{\partial\pi_1}{\partial a} &= -\dot\eta\,\varepsilon > 0.
+    \label{eq:app_dpi1}
+\end{align}
+
+\noindent\textit{Proof.}
+Differentiate $\pi_0 = 1 - \eta(1-\lambda(a))$ with respect to $a$.
+The product rule gives $-\dot\eta(1-\lambda) + \eta\,d\lambda/da = -\dot\eta(1-\lambda) + \eta\mu$.
+Both terms are non-negative because $\dot\eta < 0$, $1-\lambda > 0$, $\eta > 0$, and $\mu \geq 0$; the first term is strictly positive.
+Differentiate $\pi_1 = 1 - \eta\varepsilon$ with respect to $a$; since $\varepsilon$ is a fixed parameter, $\partial\pi_1/\partial a = -\dot\eta\varepsilon > 0$.
+\hfill$\square$
+
+\paragraph{Lemma A.3 (Bad-paper advantage grows with $a$).}
+
+\textit{In Cases~II and~III, (i) the ratio $\pi_0/\pi_1$ is strictly increasing in $a$:}
+\begin{equation}
+  \frac{d}{da}\!\left(\frac{\pi_0}{\pi_1}\right) > 0;
+  \label{eq:app_ratio}
+\end{equation}
+\textit{and (ii) the following key inequality holds:}
+\begin{equation}
+  M\,\frac{\partial\pi_0}{\partial a} - \pi_0\,\frac{\partial M}{\partial a}
+  = N\alpha\!\left(\pi_1\,\frac{\partial\pi_0}{\partial a}
+     - \pi_0\,\frac{\partial\pi_1}{\partial a}\right) > 0.
+  \label{eq:app_key}
+\end{equation}
+
+\noindent\textit{Proof of part (i).}
+By the quotient rule, the sign of $d(\pi_0/\pi_1)/da$ equals the sign of $\pi_1\,\partial\pi_0/\partial a - \pi_0\,\partial\pi_1/\partial a$.
+Substituting \eqref{eq:app_dpi0}--\eqref{eq:app_dpi1}:
+\begin{align*}
+  &\pi_1\,\frac{\partial\pi_0}{\partial a} - \pi_0\,\frac{\partial\pi_1}{\partial a} \\
+  &\quad= (1-\eta\varepsilon)\bigl[-\dot\eta(1-\lambda)+\eta\mu\bigr]
+    - (1-\eta(1-\lambda))\bigl[-\dot\eta\varepsilon\bigr] \\
+  &\quad= \dot\eta\Bigl[\varepsilon\bigl(1-\eta(1-\lambda)\bigr)
+          - (1-\lambda)\bigl(1-\eta\varepsilon\bigr)\Bigr]
+       + \eta\mu(1-\eta\varepsilon).
+\end{align*}
+Expand the bracket in the first term:
+\[
+  \varepsilon\bigl(1-\eta(1-\lambda)\bigr) - (1-\lambda)\bigl(1-\eta\varepsilon\bigr)
+  = \varepsilon - (1-\lambda)
+  = \varepsilon + \lambda - 1 < 0,
+\]
+where the last inequality uses condition~\eqref{eq:app_filter}.
+Since $\dot\eta < 0$ and $(\varepsilon+\lambda-1) < 0$, the first term $\dot\eta(\varepsilon+\lambda-1) > 0$.
+The second term $\eta\mu(1-\eta\varepsilon) \geq 0$.
+Therefore $\pi_1\,\partial\pi_0/\partial a - \pi_0\,\partial\pi_1/\partial a > 0$ and $d(\pi_0/\pi_1)/da > 0$.
+
+\medskip\noindent\textit{Proof of part (ii).}
+Expand $M\,\partial\pi_0/\partial a - \pi_0\,\partial M/\partial a$ using $M = N\alpha\pi_1 + N(1-\alpha)(1-x)\pi_0$ and $\partial M/\partial a = N\alpha\,\partial\pi_1/\partial a + N(1-\alpha)(1-x)\,\partial\pi_0/\partial a$:
+\begin{align*}
+  &M\,\frac{\partial\pi_0}{\partial a} - \pi_0\,\frac{\partial M}{\partial a} \\
+  &= \bigl[N\alpha\pi_1 + N(1-\alpha)(1-x)\pi_0\bigr]\frac{\partial\pi_0}{\partial a}
+     - \pi_0\Bigl[N\alpha\frac{\partial\pi_1}{\partial a}
+       + N(1-\alpha)(1-x)\frac{\partial\pi_0}{\partial a}\Bigr] \\
+  &= N\alpha\!\left(\pi_1\,\frac{\partial\pi_0}{\partial a}
+     - \pi_0\,\frac{\partial\pi_1}{\partial a}\right).
+\end{align*}
+The $N(1-\alpha)(1-x)\pi_0\,\partial\pi_0/\partial a$ terms cancel exactly, leaving $N\alpha(\pi_1\,\partial\pi_0/\partial a - \pi_0\,\partial\pi_1/\partial a) = N\alpha\pi_1^2\,(d/da)(\pi_0/\pi_1) > 0$ by part (i).
+\hfill$\square$
+
+\bigskip
+
+\paragraph{Proof of Proposition~1 (Monotone Destabilisation).}
+
+\noindent\textit{Claim: Under $\gamma > \delta \geq 0$, $\mu \geq 0$, $\phi > 0$, $\Pi_{\mathit{bad}}(x,a)$ is strictly increasing in $a$ for every $x \in (0,1)$.
+Consequently, the GH region in $(K_{\mathit{rev}},K)$ space shrinks weakly as $a$ rises, and there exists a finite threshold $a^* \in (0,1]$ above which no $(K_{\mathit{rev}},K)$ pair sustains GH without additional institutional intervention.}
+
+\medskip\noindent\textbf{Step 1: Show $\partial\Pi_{\mathit{bad}}/\partial a > 0$ in each case.}
+
+\noindent\textbf{Case~I} ($\eta=1$, $\bar\rho=1$):
+In the uncongested, unrationed region $\Pi_{\mathit{bad}} = r\lambda(a) - c(a)$, so $\partial\Pi_{\mathit{bad}}/\partial a = r\mu + c_0\phi > 0$.
+
+\noindent\textbf{Case~II} ($\eta<1$, $\bar\rho=1$):
+$\Pi_{\mathit{bad}} = r\pi_0(x,a) - c(a)$, so $\partial\Pi_{\mathit{bad}}/\partial a = r\,\partial\pi_0/\partial a + c_0\phi > 0$ by Lemma~A.2 and $\phi > 0$.
+
+\noindent\textbf{Case~III} ($\eta<1$, $\bar\rho<1$):
+$\Pi_{\mathit{bad}} = rK\pi_0/M - c(a)$, so:
+\[
+  \frac{\partial\Pi_{\mathit{bad}}}{\partial a}
+  = \frac{rK}{M^2}\underbrace{\Bigl(M\,\frac{\partial\pi_0}{\partial a}
+    - \pi_0\,\frac{\partial M}{\partial a}\Bigr)}_{>\,0\;\text{by \eqref{eq:app_key}}}
+  + \underbrace{c_0\phi}_{>\,0} > 0.
+\]
+
+\noindent\textbf{Step 2: Implication for the GH region.}
+The GH regime requires $\Pi_{\mathit{bad}}(1,a) < 0$ (a single deviating author cannot profitably spam).
+Since $\Pi_{\mathit{bad}}(1,a)$ is strictly increasing in $a$ (Step~1 evaluated at $x=1$), any $(K_{\mathit{rev}},K)$ satisfying GH at $a=0$ may violate it at higher $a$.
+The GH region therefore shrinks weakly as $a$ increases.
+
+\noindent\textbf{Step 3: Existence of a finite threshold $a^*$.}
+At $x=1$ in Case~I (the least restrictive case, providing a conservative bound), $\Pi_{\mathit{bad}}(1,a) = r(\lambda_0+\mu a) - c_0(1-\phi a)$.
+Setting this to zero and solving:
+\begin{equation}
+  \label{eq:app_astar}
+  a^* = \frac{c_0 - r\lambda_0}{r\mu + c_0\phi}.
+\end{equation}
+The denominator is strictly positive since $\phi > 0$, $r, c_0 > 0$, $\mu \geq 0$.
+The numerator is positive under the baseline GH condition $c_0 > r\lambda_0$ (spamming is unprofitable without congestion at $a=0$).
+Hence $a^* \in (0,\infty)$.
+When congestion is already active at $x=1$ (Cases~II or~III), $\Pi_{\mathit{bad}}(1,a)$ rises faster than \eqref{eq:app_astar} implies, so the formula provides an upper bound.
+\hfill$\square$
+
+\bigskip
+
+\paragraph{Proof of Proposition~2 (Slot Expansion Paradox).}
+
+\noindent\textit{Claim: Holding $K_{\mathit{rev}}$ and $a$ fixed, increasing $K$ weakly raises $\Pi_{\mathit{bad}}(x,a)$ at every $x$.
+The marginal destabilising effect $\partial\Pi_{\mathit{bad}}/\partial K$ is strictly larger at higher $a$.}
+
+\medskip\noindent\textbf{Step 1: Sign of $\partial\Pi_{\mathit{bad}}/\partial K$.}
+When $M(x,a) \leq K$, rationing is inactive ($\bar\rho=1$) and $\Pi_{\mathit{bad}}$ does not depend on $K$, so $\partial\Pi_{\mathit{bad}}/\partial K = 0$.
+When $M(x,a) > K$, rationing binds ($\bar\rho = K/M$):
+\[
+  \Pi_{\mathit{bad}} = \frac{rK\,\pi_0}{M} - c, \qquad
+  \frac{\partial\Pi_{\mathit{bad}}}{\partial K} = \frac{r\,\pi_0}{M} > 0.
+\]
+In both cases $\partial\Pi_{\mathit{bad}}/\partial K \geq 0$, with strict inequality whenever rationing binds.
+
+\noindent\textbf{Step 2: Amplification by $a$.}
+When rationing binds, the marginal destabilising effect is $r\pi_0/M$.
+Differentiating with respect to $a$:
+\[
+  \frac{\partial^2\Pi_{\mathit{bad}}}{\partial K\,\partial a}
+  = \frac{r}{M^2}\underbrace{\Bigl(M\,\frac{\partial\pi_0}{\partial a}
+    - \pi_0\,\frac{\partial M}{\partial a}\Bigr)}_{>\,0\;\text{by \eqref{eq:app_key}}} > 0.
+\]
+As $a$ rises, $\pi_0$ increases (more bad papers pass the weakened filter) and $c(a)$ falls (the cost of attempting is lower), so each additional publication slot generates a larger increase in the spam payoff.
+\hfill$\square$
+
+\bigskip
+
+\paragraph{Proof of Proposition~3 (Erosion of Congestion Defence).}
+
+\noindent\textit{Claim: The slot constraint required to hold $\Pi_{\mathit{bad}}(0,a) < 0$ is strictly tighter at higher $a$.}
+
+\medskip
+When all authors play AS ($x=0$) and rationing is active, the corrupt-boundary stability condition $\Pi_{\mathit{bad}}(0,a) < 0$ holds if and only if:
+\[
+  K < K^*(a) \;\equiv\; \frac{c(a)\,M(0,a)}{r\,\pi_0(0,a)}.
+\]
+We show $K^*(a)$ is strictly decreasing in $a$.
+Write $M(0,a)/\pi_0(0,a) = N\bigl[\alpha\,\pi_1(0,a)/\pi_0(0,a) + (1-\alpha)\bigr]$, so:
+\[
+  K^*(a) = \frac{c(a)\,N}{r}\!\left[\alpha\,\frac{\pi_1(0,a)}{\pi_0(0,a)} + (1-\alpha)\right].
+\]
+Differentiating with respect to $a$:
+\[
+  \frac{dK^*}{da}
+  = \frac{N}{r}\!\left[
+      \underbrace{c'(a)}_{=\,-c_0\phi\;<\;0}\!\left(\alpha\,\frac{\pi_1}{\pi_0}+(1-\alpha)\right)
+      + c(a)\,\alpha\;\underbrace{\frac{d}{da}\!\left(\frac{\pi_1}{\pi_0}\right)}_{<\;0\;\text{by Lemma A.3}}
+    \right].
+\]
+Both terms are negative: the first because $c'(a) = -c_0\phi < 0$; the second because $\pi_1/\pi_0$ is the reciprocal of $\pi_0/\pi_1$, which is increasing by Lemma~A.3, so $d(\pi_1/\pi_0)/da < 0$.
+Therefore $dK^*/da < 0$: as $a$ rises, the maximum admissible slot count maintaining the corrupt-boundary deterrent falls strictly.
+A journal that set $K < K^*(0)$ at baseline will find $K > K^*(a)$ at higher $a$ without changing any institutional parameter; active reduction of $K$ is required to preserve the deterrent.
+\hfill$\square$
+
+\bigskip
+
+\paragraph{Proof of Proposition~4 (Policy Lever Ranking).}
+
+\noindent\textit{Claim: Among the four primary levers, reducing $\lambda$ and raising $K_{\mathit{rev}}$ are unconditionally beneficial; raising $c$ is beneficial but imposes symmetric costs on honest authors; expanding $K$ is the unique lever that strictly worsens stability.}
+
+\medskip
+We evaluate $\partial\Pi_{\mathit{bad}}/\partial\theta$ for each lever $\theta \in \{\lambda,\,K_{\mathit{rev}},\,c,\,K\}$.
+We work in Case~III (both constraints bind); Cases~I and~II are noted where they differ.
+
+\medskip\noindent\textbf{Lever 1: False-positive rate $\lambda\downarrow$.}
+
+Since $\pi_0 = 1-\eta(1-\lambda)$, we have $\partial\pi_0/\partial\lambda = \eta$.
+Since $\pi_1 = 1-\eta\varepsilon$ does not involve $\lambda$, $\partial\pi_1/\partial\lambda = 0$, and $\partial M/\partial\lambda = N(1-\alpha)(1-x)\,\eta$.
+In Case~III, compute the derivative of $\bar\rho\,\pi_0 = K\pi_0/M$:
+\[
+  M\,\frac{\partial\pi_0}{\partial\lambda} - \pi_0\,\frac{\partial M}{\partial\lambda}
+  = M\eta - \pi_0\,N(1-\alpha)(1-x)\,\eta
+  = \eta\bigl[M - N(1-\alpha)(1-x)\pi_0\bigr]
+  = \eta\cdot N\alpha\pi_1 > 0.
+\]
+Hence $\partial\Pi_{\mathit{bad}}/\partial\lambda = rK\eta N\alpha\pi_1/M^2 > 0$: reducing $\lambda$ strictly lowers the spam payoff.
+There is no adverse side effect on honest authors: the honest-author payoff is $\Pi_{\mathit{good}} = r\bar\rho\,\pi_1 - c$, and $\partial\pi_1/\partial\lambda = 0$; the slight decrease in $M$ (fewer papers pass review when $\lambda$ falls) eases rationing and weakly raises $\bar\rho$, leaving $\Pi_{\mathit{good}}$ unharmed.
+
+\medskip\noindent\textbf{Lever 2: Review capacity $K_{\mathit{rev}}\uparrow$.}
+
+When $\eta < 1$, raising $K_{\mathit{rev}}$ increases the screening intensity: $\partial\eta/\partial K_{\mathit{rev}} = 1/V > 0$.
+Both pass rates fall:
+\[
+  \frac{\partial\pi_0}{\partial K_{\mathit{rev}}} = -\frac{1-\lambda}{V} < 0,
+  \qquad
+  \frac{\partial\pi_1}{\partial K_{\mathit{rev}}} = -\frac{\varepsilon}{V} < 0.
+\]
+In Case~III, compute $M\,\partial\pi_0/\partial K_{\mathit{rev}} - \pi_0\,\partial M/\partial K_{\mathit{rev}}$.
+Using $\partial M/\partial K_{\mathit{rev}} = -N[\alpha\varepsilon + (1-\alpha)(1-x)(1-\lambda)]/V$:
+\begin{align*}
+  &M\,\frac{\partial\pi_0}{\partial K_{\mathit{rev}}} - \pi_0\,\frac{\partial M}{\partial K_{\mathit{rev}}} \\
+  &= -\frac{M(1-\lambda)}{V}
+     + \frac{\pi_0\,N\bigl[\alpha\varepsilon+(1-\alpha)(1-x)(1-\lambda)\bigr]}{V} \\
+  &= \frac{N\alpha}{V}\bigl[\varepsilon\pi_0 - (1-\lambda)\pi_1\bigr].
+\end{align*}
+Substituting $\pi_0 = 1-\eta(1-\lambda)$ and $\pi_1 = 1-\eta\varepsilon$ and collecting terms:
+\[
+  \varepsilon\pi_0 - (1-\lambda)\pi_1
+  = \varepsilon(1-\eta(1-\lambda)) - (1-\lambda)(1-\eta\varepsilon)
+  = \varepsilon + \lambda - 1 < 0,
+\]
+by condition~\eqref{eq:app_filter}.
+Hence $M\,\partial\pi_0/\partial K_{\mathit{rev}} - \pi_0\,\partial M/\partial K_{\mathit{rev}} < 0$, so $\partial\Pi_{\mathit{bad}}/\partial K_{\mathit{rev}} < 0$: raising review capacity strictly lowers the spam payoff.
+In Case~II the same sign follows directly from $\partial\pi_0/\partial K_{\mathit{rev}} < 0$ with $\bar\rho=1$.
+In Case~I ($\eta=1$), there is no congestion to relieve and the lever has no effect.
+
+\medskip\noindent\textbf{Lever 3: Submission cost $c\uparrow$.}
+
+$\Pi_{\mathit{bad}} = (\cdots) - c$, so $\partial\Pi_{\mathit{bad}}/\partial c = -1 < 0$ in all cases: raising $c$ strictly lowers the spam payoff.
+However, $\Pi_{\mathit{good}} = r\bar\rho\,\pi_1 - c$ satisfies $\partial\Pi_{\mathit{good}}/\partial c = -1 < 0$ as well.
+Honest authors bear the same marginal cost increase, and a sufficiently large increase in $c$ eventually drives $\Pi_{\mathit{good}}$ below zero, deterring honest participation.
+
+\medskip\noindent\textbf{Lever 4: Slot capacity $K\uparrow$.}
+
+From Proposition~2, $\partial\Pi_{\mathit{bad}}/\partial K \geq 0$, strictly positive whenever rationing is active.
+Expanding publication slots raises the expected payoff of submitting low-quality work without any compensating reduction in the pass rate or cost.
+Reducing $K$ provides deterrence against spam, but simultaneously lowers $\Pi_{\mathit{good}} = r\cdot\min(1,K/M)\cdot\pi_1 - c$, potentially pushing the system toward No Submission if $K$ is tightened too far.
+
+\medskip\noindent\textbf{Summary.}
+Reducing $\lambda$ and raising $K_{\mathit{rev}}$ each lower $\Pi_{\mathit{bad}}$ strictly and have no direct adverse effect on honest-author payoffs.
+Raising $c$ is effective but imposes symmetric costs on all authors.
+Expanding $K$ is the unique lever that strictly raises $\Pi_{\mathit{bad}}$: it is the only intervention that unconditionally worsens equilibrium stability.
+\hfill$\square$
 
 \end{document}
