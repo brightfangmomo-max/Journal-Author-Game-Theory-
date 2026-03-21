@@ -776,6 +776,11 @@ where $\eta(x,a) = \min\!\left(1, K_{rev}(a)/V(x,a)\right)$, $\;\pi_0(x,a) = 1 -
   \label{eq:M_ai}
 \end{equation}
 The factor $(1+\gamma a)$ reflects that AI inflates the total pool of papers reaching the publication queue proportionally to the same volume multiplier that governs $V(x,a)$: higher submission rates translate into a larger peer-accepted pool for any given pass rates $\pi_0$, $\pi_1$.
+This introduces a countervailing stabilising force.
+A larger $M$ tightens slot rationing ($\bar{\rho} = K/M$ falls), reducing each spammer's probability of publication.
+Formally, $V\uparrow\;\Rightarrow\;M\uparrow\;\Rightarrow\;\bar{\rho}\downarrow\;\Rightarrow\;\Pi_{bad}\downarrow$: the very flood of submissions that degrades screening also clogs the publication queue.
+Note that this congestion effect compresses the \emph{revenue} term $r\bar{\rho}\pi_0$ rather than raising the submission cost $c(a)$, which falls with $a$.
+Whether the destabilising channels ($\pi_0\uparrow$, $c\downarrow$) or the stabilising channel ($\bar{\rho}\downarrow$) dominates depends on the relative magnitudes of $K$ and $M$: when $K\gg M$ rationing is slack and the destabilising forces prevail; when $K\approx M$ the congestion defence is active.
 To isolate the mechanism most cleanly, consider the honest boundary $x = 1$, where only good papers are submitted and slot rationing is typically absent ($\bar{\rho}(1,a) \approx 1$ when publication slots exceed honest-author output):
 \begin{equation}
     \Pi_{bad}(1, a) \;\approx\; r\cdot\pi_0(1,a) \;-\; c(a).
@@ -1020,19 +1025,21 @@ Figure~\ref{fig:equilibrium_vs_a} traces the long-run honest-author share $x^*(a
     \centering
     \includegraphics[width=\textwidth]{fig5_equilibrium_vs_a.pdf}
     \caption{\textbf{Long-run honest-author share $x^*(a)$ as AI adoption rises (Fig.~5).}
-    Left: Set~A (bistability-prone). The system remains in GH ($x^* = 1$) until $a$ crosses a threshold, then enters BS; the orange dashed curve shows the unstable tipping threshold $x^*_{tip}$, below which the system collapses.
+    Left: Set~A (bistability-prone, $N=1000$). The system is already in BS at $a=0$: the corrupt equilibrium is self-sustaining ($\Pi_{bad}(0,0)\approx+12.4>0$) while the honest equilibrium is stable ($\Pi_{bad}(1,0)=-15<0$), giving a tipping threshold $x^*_{tip}(0)\approx0.80$ (orange dashed). As $a$ rises, $x^*_{tip}$ climbs monotonically toward $x=1$ until the honest equilibrium collapses at $a\approx0.50$ (BS$\to$GC, vertical dashed line). The full GH$\to$BS$\to$GC transition under lower submission pressure ($N=300$) is illustrated in Figure~\ref{fig:hysteresis_loop} (a).
     Centre: Set~B (coexistence-prone). The interior stable long-run outcome $x^*$ falls as $a$ rises, tracking the declining profitability of honest submission relative to spamming.
     Right: Intermediate parameters. Shows the full GH$\to$BS$\to$GC transition as $a$ increases.
     Vertical dashed lines mark regime transitions; shaded backgrounds indicate the active regime.}
     \label{fig:equilibrium_vs_a}
 \end{figure}
 
-The left panel (Set~A) shows a threshold effect.
-For low $a$, the system remains in GH: $x^* = 1$ and spamming is unprofitable everywhere.
-Once $a$ crosses the critical value at which $\Pi_{bad}(1, a) = 0$, the system enters Bistability.
-The unstable tipping threshold $x^*_{tip}$ (orange dashed) now separates two regions: above it, the honest norm is self-sustaining; below it, the system drifts toward full corruption.
-The practical implication is that the system can appear healthy---with $x^*_{tip}$ far below the current share of honest authors---while becoming progressively more fragile.
-A single coordinated wave of low-quality submissions, or a field-wide shift in norms, can push the population below $x^*_{tip}$ and initiate a collapse that the system cannot reverse on its own.
+The left panel (Set~A, $N=1000$) shows a system that is already in Bistability at $a=0$.
+With $N=1000$ authors, the full submission load ($V(0,0)=1000$) overwhelms the review capacity ($K_{rev}=300$), yielding $\Pi_{bad}(0,0)\approx+12.4>0$: the corrupt equilibrium is self-sustaining from the outset.
+The honest equilibrium remains stable ($\Pi_{bad}(1,0)=-15<0$), so the system starts in BS with a tipping threshold at $x^*_{tip}(0)\approx0.80$.
+As $a$ rises, $x^*_{tip}$ climbs monotonically toward $x=1$: the honest norm becomes progressively more fragile even as published quality appears stable.
+At $a\approx0.50$, $\Pi_{bad}(1,a)=0$ and the honest equilibrium loses stability entirely; the system transitions from BS into Global Corruption.
+The practical implication is the same as in the GH case: the system can appear healthy---with the population well above $x^*_{tip}$---while the safety margin silently narrows.
+A single coordinated wave of low-quality submissions can push the population below $x^*_{tip}$ and initiate a collapse that the system cannot reverse on its own.
+The full GH$\to$BS$\to$GC sequence, in which a community starts from Global Honesty before any AI adoption, is illustrated for $N=300$ in Figure~\ref{fig:hysteresis_loop} (a).
 
 The right panel (Intermediate parameters) illustrates the full transition from GH through BS to GC as $a$ increases.
 In the GC zone, the long-run outcome is $x^* = 0$: spamming dominates from every starting point.
@@ -1049,7 +1056,7 @@ Figure~\ref{fig:hysteresis_widening} maps this dynamic in the $(N, a)$ plane, tr
     The red curve $N_\uparrow(a)$ marks the collapse boundary: to its right, the forward (honest-start) path collapses.
     The blue dashed curve marks the lower boundary of the Bistability zone.
     As $a$ rises, $N_\uparrow(a)$ falls monotonically; at $a \gtrsim 0.5$ (for the chosen AI parameters) the GH and BS zones disappear entirely.
-    Right: $N_\uparrow(a)$ (red, left axis) falls continuously; equilibrium quality $Q^*(a)$ at moderate pressure $N = 500$ (right axis, coloured by regime) also declines as $a$ rises, tracking the regime transitions from GH (green) through BS (yellow) to SC (blue).}
+    Right: $N_\uparrow(a)$ (red, left axis) falls continuously; equilibrium quality $Q^*(a)$ at moderate pressure $N = 500$ (right axis, coloured by regime) also declines as $a$ rises, tracking the regime transitions from BS (yellow) to GC (red); $N=500$ lies in the bistable zone at $a=0$ and crosses into Global Corruption near $a\approx0.50$.}
     \label{fig:hysteresis_widening}
 \end{figure}
 
