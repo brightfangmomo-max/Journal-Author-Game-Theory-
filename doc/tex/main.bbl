@@ -1,4 +1,4 @@
-\begin{thebibliography}{54}
+\begin{thebibliography}{57}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -82,6 +82,12 @@ Aaron Clauset, Samuel Arbesman, and Daniel~B. Larremore.
 Christopher Cotton.
 \newblock Submission fees and response times in academic publishing.
 \newblock \emph{American Economic Review}, 103\penalty0 (1):\penalty0 501--509, 2013.
+
+\bibitem[Dasgupta and David(1994)]{DasguptaDavid1994}
+Partha Dasgupta and Paul~A. David.
+\newblock Toward a new economics of science.
+\newblock \emph{Research Policy}, 23\penalty0 (5):\penalty0 487--521, 1994.
+\newblock \doi{10.1016/0048-7333(94)01002-1}.
 
 \bibitem[Ellison(2002)]{Ellison2002}
 Glenn Ellison.
@@ -212,6 +218,16 @@ Shakked Noy and Whitney Zhang.
 \newblock Estimating the reproducibility of psychological science.
 \newblock \emph{Science}, 349\penalty0 (6251):\penalty0 aac4716, 2015.
 \newblock \doi{10.1126/science.aac4716}.
+
+\bibitem[Ostrom(1990)]{Ostrom1990}
+Elinor Ostrom.
+\newblock \emph{Governing the Commons: The Evolution of Institutions for Collective Action}.
+\newblock Cambridge University Press, Cambridge, 1990.
+
+\bibitem[Pigou(1920)]{Pigou1920}
+Arthur~Cecil Pigou.
+\newblock \emph{The Economics of Welfare}.
+\newblock Macmillan, London, 1920.
 
 \bibitem[Rogers(2003)]{Rogers2003}
 Everett~M. Rogers.

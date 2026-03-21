@@ -11,6 +11,7 @@
 \usepackage{tabularx}
 \usepackage{booktabs}
 \usepackage[round]{natbib}
+\usepackage{enumitem}
 \usepackage{tcolorbox}
 \tcbuselibrary{breakable}
 \tcbset{
@@ -119,6 +120,7 @@ Section~\ref{sec:ai_extension} introduces the AI adoption parameter and derives 
 Section~\ref{sec:analysis} analyses how AI adoption shifts equilibria, erodes the stability window, and amplifies the slot expansion paradox.
 Section~\ref{sec:abm} reports agent-based simulation results.
 Section~\ref{sec:institutions} translates the analytical results into a five-principle institutional agenda and evaluates the mechanisms using Figure~\ref{fig:interventions}.
+Section~\ref{sec:welfare} provides a welfare analysis of the model's regimes, identifies the two externalities that cause private incentives to diverge from the social optimum, and derives normative policy Corollaries from the welfare comparison.
 Section~\ref{sec:predictions} derives testable empirical predictions, proposes proxies for the key model channels, and outlines an identification strategy.
 Section~\ref{sec:discussion} discusses model limitations and extensions, including multi-journal competition and endogenous rewards.
 Section~\ref{sec:conclusion} concludes.
@@ -1454,6 +1456,159 @@ Prefer low-infrastructure tools (checklists) over high-infrastructure requiremen
 $\lambda\downarrow$ and $K_{rev}\uparrow$ are \emph{complements}, not substitutes — both must be deployed together.
 $\lambda$ reduction is necessary to exit the GC region; $K_{rev}$ expansion is necessary to convert bistability into Global Honesty.
 The right sequence: quick wins first to arrest the upward drift of $\Pi_{bad}$, deep redesign before any tipping event.
+\end{tcolorbox}
+
+\section{Welfare Analysis and Normative Policy Design}
+\label{sec:welfare}
+
+\paragraph{Social welfare in a certification system.}
+The publishing system produces two social goods beyond private author payoffs.
+First, it generates \emph{scientific knowledge} as a public good: verified results can be used by downstream researchers, educators, practitioners, and policymakers at zero marginal cost, without depleting the original discovery \citep{DasguptaDavid1994}.
+Second, it provides a \emph{certification signal}: a credential that allows readers to distinguish reliable findings from unreliable ones without re-examining every manuscript.
+Degradation of this signal imposes social costs that no individual author internalises.
+We define a reduced-form social welfare function:
+\begin{equation}
+  W(x,a) \;=\; \underbrace{N\bigl[x\,\Pi_{good}(x,a) + (1-x)\,\Pi_{bad}(x,a)\bigr]}_{\text{aggregate author surplus}}
+  \;+\; \underbrace{S \cdot Q(x,a) \cdot \bar{M}(x,a)}_{\text{social value of certified knowledge}}
+  \;-\; \underbrace{C(K_{rev})}_{\text{verification cost}},
+  \label{eq:welfare}
+\end{equation}
+where $S > 0$ is the per-paper social value when quality is perfect, $Q(x,a) \equiv \alpha\pi_1 / [\alpha\pi_1 + (1-\alpha)(1-x)\pi_0/(x + (1-x))]$ is the precision of the certified pool (the fraction of accepted papers that are genuinely good), $\bar{M}(x,a)$ is total papers accepted per period, and $C(K_{rev})$ is the institutional cost of maintaining review capacity.
+Welfare increases with $Q$ because a certified pool dominated by genuine contributions generates reliable knowledge cumulation, while $Q \approx 0$ produces noise that misdirects subsequent research and policy \citep{Ioannidis2005}.
+
+\paragraph{The two externalities: why private and social incentives diverge.}
+The individual spam payoff $\Pi_{bad}(x,a) = r\bar{\rho}\pi_0 - c$ omits two costs imposed on others.
+The first is a \emph{congestion externality}.
+When a spam author submits, total submission volume $V$ rises, which depresses screening intensity $\eta = \min(1, K_{rev}/V)$ and lowers the review quality received by every other submitter.
+Peer-review attention is a finite shared resource, and individual overuse degrades the commons \citep{Ostrom1990}: each spam submission captures private value while imposing a diffuse cost on all other authors and editors.
+The second is a \emph{certification externality}.
+A low-quality paper, once accepted, reduces the precision $Q$ of the certified pool and degrades the informativeness of the certification signal for all downstream readers.
+This is the quality-dilution mechanism in \citet{Akerlof1970}'s market for lemons: sellers of bad goods contaminate the quality signal, raising doubts about good goods and eroding the value of the entire market.
+In academic publishing, the ``market'' is the pool of certified papers, the ``buyers'' are readers and downstream researchers, and ``bad goods'' are low-quality manuscripts that passed degraded peer review.
+Neither externality is priced by the individual submitter.
+The divergence between private and social returns is the canonical justification for corrective policy \citep{Pigou1920}.
+Spamming is privately rational when $\Pi_{bad}(x,a) > 0$, but the full social cost includes the congestion externality imposed on honest authors and the certification-quality loss imposed on readers.
+The socially optimal submission norm is therefore $x = 1$ (global honesty): this maximises $Q$, minimises wasteful review effort, and generates the highest social value from the certification pool.
+Yet $x = 1$ is privately self-sustaining only when $\Pi_{bad}(1,a) < 0$; whenever AI adoption raises $\Pi_{bad}$ above zero, the social optimum and the private Nash equilibrium diverge.
+
+\paragraph{Welfare ranking of the four regimes.}
+Table~\ref{tab:welfare_regimes} ranks the four stable regimes by social welfare.
+In GH ($x^* = 1$), no bad papers are submitted, the certified pool consists entirely of genuine work ($Q = 1$), and review resources are used efficiently.
+In GC ($x^* = 0$), all authors submit bad papers alongside good ones, the certified pool is dominated by spam papers ($Q$ falls sharply under degraded screening), and the certification signal carries minimal information.
+The welfare gap $\Delta W = W(1,a) - W(0,a) > 0$ is strictly positive even accounting for the higher author surpluses in GC, because the social-value term $S \cdot Q \cdot \bar{M}$ collapses in GC while the congestion cost of maintaining a large review apparatus to process a flood of mostly bad papers remains.
+In SC ($x^* \in (0,1)$), welfare lies strictly between the two extremes.
+In BS, expected welfare is a probability-weighted average of $W(1,a)$ and $W(0,a)$ determined by initial conditions and stochastic shocks: bistability is not itself a welfare outcome but a risk of tipping into GC from a currently-healthy GH state.
+
+\begin{table}[H]
+  \centering
+  \footnotesize
+  \caption{Welfare ranking of the four stable regimes at a given AI adoption level $a$.
+    $Q^*$: precision of the certified pool (fraction of accepted papers that are genuine).
+    $\eta^*$: screening intensity at the long-run equilibrium.
+    Social welfare $W^*$ is the value of~\eqref{eq:welfare} evaluated at the long-run author composition $x^*$.}
+  \label{tab:welfare_regimes}
+  \setlength{\tabcolsep}{6pt}
+  \begin{tabular}{lllllc}
+    \toprule
+    Regime & $x^*$ & $Q^*$ & $\eta^*$ & Author surplus & $W^*$ rank \\
+    \midrule
+    GH (Global Honesty)      & $1$          & High ($= 1$)          & High        & High (honest work rewarded)       & 1st (best)  \\
+    SC (Stable Coexistence)  & $(0,1)$      & Medium                & Medium      & Mixed (both types coexist)        & 2nd         \\
+    GC (Global Corruption)   & $0$          & Low ($\ll 1$)         & Low         & Positive (spam) but low social $S\cdot Q$ & 3rd  \\
+    NS (No Submission)       & n/a          & n/a                   & n/a         & Zero                              & Dominated   \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Hysteresis amplifies the welfare loss.}
+The welfare cost of AI adoption is not simply the static difference $W(1,a) - W(0,a)$; it is amplified by the hysteresis dynamic.
+Once the system tips from GH into GC, restoring GH requires a large simultaneous intervention across $\lambda$, $K_{rev}$, and $c$.
+This transition is costly: review infrastructure must be rebuilt, submission friction must be re-imposed, and reporting norms must be rehabilitated, all while the system is already in a low-quality long-run outcome that discourages investment in verification.
+The ex-ante social cost of failing to prevent tipping therefore includes both the static welfare gap $\Delta W$ and the transition cost of recovery---a cost that is entirely avoided if preventive institutions are maintained \citep{Scheffer2001}.
+This welfare-dynamic argument provides the theoretical foundation for the urgency of early intervention: the expected social benefit of preventing a tipping event is strictly larger than the expected benefit of correcting one after it occurs, because the correction requires additional resources and inflicts additional welfare losses during the recovery transition.
+
+\paragraph{Normative policy recommendations.}
+The welfare analysis converts the five institutional principles of Section~\ref{sec:institutions} into a normative hierarchy ordered by welfare efficiency.
+Four Corollaries follow from combining the welfare function~\eqref{eq:welfare} with Propositions 1--4.
+
+\medskip
+\noindent\textbf{Corollary W1 (Corrective levy on spam externalities).}
+Because spam submissions impose unpriced negative externalities---congestion costs on honest authors and certification-quality losses on readers---the welfare-maximising policy imposes a corrective (Pigouvian) levy per submission equal to the marginal social cost of a spam attempt \citep{Pigou1920}.
+In the model, this levy is equivalent to raising $c$: it restores the condition $c > r\lambda(a)$ that keeps GH stable, without restricting honest submissions if the levy is calibrated to the spam pass rate $\pi_0$ rather than applied uniformly.
+Submission tokens and per-journal annual quotas are practical approximations of this levy: the normative case for them is not administrative convenience but welfare-theoretic---they correct a market failure, not merely a nuisance \citep{Cotton2013}.
+An equity-preserving design issues token grants to authors at under-resourced institutions, ensuring that the levy targets strategic spamming rather than participation barriers.
+
+\medskip
+\noindent\textbf{Corollary W2 (Peer review as a public good requiring public funding).}
+Peer review generates a public good: the certification signal is non-excludable (once published, the quality verdict is available to all readers) and the benefit of a thorough review is non-rival (every reader gains without diminishing others' access) \citep{DasguptaDavid1994}.
+Private provision of public goods is sub-optimal under standard conditions: individual reviewers and journals do not capture the full social return from careful review, and competitive pressure to cut costs erodes voluntary supply below the socially efficient level.
+The welfare-efficient remedy is public investment in $K_{rev}$---targeted grants for reviewer development programmes, structured-review recognition schemes, and journal subsidies for methods review---rather than relying on uncompensated voluntarism.
+\citet{Aczel2021} propose transparent reviewer recognition systems as a coordination device that raises effective $K_{rev}$ without proportional budget increases; the normative case for mandating such systems is the public-good argument, not merely editorial preference.
+
+\medskip
+\noindent\textbf{Corollary W3 (Coordination mandate in the bistable region).}
+Proposition~4 establishes that reducing $\lambda$ and raising $K_{rev}$ are unconditionally welfare-improving: they lower spam payoffs without harming honest authors.
+However, decentralised adoption of verification standards is a coordination game with multiple equilibria: if competing journals do not adopt structured reporting requirements, rejected spam papers cycle to lower-tier venues, and no single journal captures the system-level benefit of its own investment in quality.
+This cross-journal externality means the welfare-maximising outcome---universal verification standards---is not a Nash equilibrium of decentralised journal competition \citep{Ostrom1990}.
+A mandatory field-wide standard, enforced by funders, accreditation bodies, or professional associations, internalises the cross-journal spillover and restores the welfare-efficient outcome.
+The ClinicalTrials.gov registration mandate, which required prospective trial registration as a publication condition across many journals simultaneously, demonstrates that such coordination is institutionally feasible and welfare-improving even when no single journal would adopt the standard unilaterally \citep{Moher2009}.
+
+\medskip
+\noindent\textbf{Corollary W4 (Welfare ranking of institutional levers).}
+The four levers of Proposition~4 have distinct welfare profiles.
+First, reducing $\lambda$ (structured reporting, mandatory data sharing) is a \emph{Pareto improvement} relative to the unregulated equilibrium: it raises $Q^*$ and raises honest-author surplus by easing competition from spam, while imposing no direct cost on honest authors who already meet the new standard.
+Second, raising $K_{rev}$ (public investment in review capacity) is welfare-improving when the congestion constraint is binding; it improves $Q^*$ and reduces the review burden per paper, with a cost borne by funders rather than authors.
+Third, raising $c$ (Pigouvian levy) improves welfare when the spam externality cost exceeds the honest-author surplus loss from higher submission costs, which holds whenever $\Pi_{bad}(x,a) > 0$ and the honest-author share is substantial; the equity caveat is that the levy must be accompanied by targeted exemptions to avoid deterring genuine science.
+Fourth, raising $K$ (expanding publication slots) is the \emph{unique lever that unconditionally reduces welfare}: it increases $\Pi_{bad}$ (Proposition~2), lowers $Q^*$ by attracting more spam, and degrades the certification signal for all readers, with no offsetting benefit.
+The normative implication is unambiguous: expanding publication slot capacity without simultaneously reducing $\lambda$ is a welfare-reducing response to submission pressure, even though it appears to relieve editorial backlogs in the short run.
+Backlogs are a symptom of submission congestion; expanding slots without fixing the underlying screening deficit treats the symptom while worsening the disease.
+
+\begin{tcolorbox}[boxstyle, title={Box 4\quad Normative Policy Agenda: Welfare Priorities and Justifications}]
+\small
+\noindent\textbf{Welfare objective:}\;
+Maximise $W(x,a) = \text{author surplus} + S \cdot Q \cdot \bar{M} - C(K_{rev})$ subject to the system converging to Global Honesty (GH), not Global Corruption (GC).
+
+\medskip
+\noindent\textbf{Market failures requiring correction:}
+\begin{itemize}[noitemsep, topsep=2pt, leftmargin=*]
+  \item \textit{Congestion externality}: each spam submission degrades review quality for all other authors by tightening $\eta = K_{rev}/V$.
+  \item \textit{Certification externality}: each accepted spam paper dilutes the certified pool precision $Q$, reducing the value of certification for all readers (Akerlof lemons mechanism).
+  \item \textit{Public-good underprovision}: peer review is non-rival and non-excludable; private voluntary supply is systematically below the socially optimal $K_{rev}$.
+  \item \textit{Coordination failure}: no single journal internalises cross-journal quality spillovers; decentralised adoption of verification standards is sub-optimal.
+\end{itemize}
+
+\medskip
+\noindent\textbf{Normative lever ranking (welfare-ordered):}
+
+\smallskip
+\noindent\begin{tabular}{@{}p{6.0cm}p{3.0cm}p{4.5cm}@{}}
+Lever & Welfare effect & Normative justification \\
+\midrule
+$\lambda\downarrow$ (structured review, checklists, data sharing) & Pareto improvement & Corollary W1+W4; no side cost on honest authors \\
+$K_{rev}\uparrow$ (public funding, recognition grants) & Welfare-improving & Corollary W2; public-good rationale \\
+$c\uparrow$ (submission tokens, Pigouvian levy) & Welfare-improving$^*$ & Corollary W1; corrects congestion externality \\
+Coordination mandate (field-wide standards) & Welfare-improving & Corollary W3; internalises cross-journal spillovers \\
+$K\uparrow$ (more slots without $\lambda\downarrow$) & \textbf{Welfare-reducing} & Corollary W4; uniquely worsens certification quality \\
+\end{tabular}
+
+\smallskip
+\noindent\footnotesize{$^*$ Subject to equity design: token grants for authors at under-resourced institutions.}
+
+\medskip
+\noindent\textbf{Priority sequencing:}
+\begin{enumerate}[noitemsep, topsep=2pt, leftmargin=*]
+  \item Deploy $\lambda\downarrow$ tools immediately: Pareto-improving and require no inter-journal coordination.
+  \item Fund $K_{rev}\uparrow$ publicly: cannot be left to voluntary effort; public-good logic requires funder mandate.
+  \item Implement Pigouvian $c\uparrow$ levy with equity exemptions: corrects the congestion externality.
+  \item Mandate cross-journal coordination before tipping: welfare loss of coordination failure is preventable.
+  \item Avoid $K\uparrow$ in isolation: any slot expansion must be paired with verified $\lambda\downarrow$ to prevent welfare deterioration.
+\end{enumerate}
+
+\medskip
+\noindent\textit{Key welfare insight:}\;
+The GH long-run outcome is both privately stable (when $\Pi_{bad} < 0$) and socially optimal.
+The policy problem arises precisely when the private stability condition fails while the social optimum remains GH\@.
+Welfare-efficient policy closes this gap by raising the private cost of spamming and the private return to honesty, not by expanding slots or ignoring the screening deficit.
 \end{tcolorbox}
 
 \section{Empirical Predictions and Measurement}
