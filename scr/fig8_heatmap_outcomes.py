@@ -32,7 +32,7 @@ def compute_Pi_bad(x, K_rev_eff, lam_eff, c_eff):
     eta = min(1.0, K_rev_eff / V) if V > 0 else 1.0
     pi0 = 1 - eta * (1 - lam_eff)
     pi1 = 1 - eta * eps
-    M   = N * alpha * pi1 + N * (1 - alpha) * (1 - x) * pi0
+    M   = (1 + gamma * a_val) * (N * alpha * pi1 + N * (1 - alpha) * (1 - x) * pi0)
     rho = min(1.0, K / M) if M > 0 else 1.0
     return r * rho * pi0 - c_eff
 

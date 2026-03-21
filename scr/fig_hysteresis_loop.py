@@ -73,7 +73,7 @@ def pibad(x, a_ai, N):
     pi0 = 1.0 - eta * (1.0 - lam_a)
     pi1 = 1.0 - eta * EPS
 
-    M   = N * ALPHA * pi1 + N * (1.0 - ALPHA) * (1.0 - x) * pi0
+    M   = (1.0 + GAMMA * a_ai) * (N * ALPHA * pi1 + N * (1.0 - ALPHA) * (1.0 - x) * pi0)
     rho = np.clip(soft_min(1.0, K / M), 0.0, 1.0)
     return R * rho * pi0 - c_a
 

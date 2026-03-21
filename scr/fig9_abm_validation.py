@@ -87,7 +87,7 @@ def Pi_bad_ode(x, a):
     eta  = min(1.0, Krev / V) if V > 0 else 1.0
     pi0  = 1 - eta * (1 - lam)
     pi1  = 1 - eta * EPS
-    M    = N * ALPHA * pi1 + N * (1 - ALPHA) * (1 - x) * pi0
+    M    = (1 + GAMMA * a) * (N * ALPHA * pi1 + N * (1 - ALPHA) * (1 - x) * pi0)
     rho  = min(1.0, K_STORE / M) if M > 0 else 1.0
     return R * rho * pi0 - c
 

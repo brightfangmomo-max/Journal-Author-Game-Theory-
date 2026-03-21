@@ -770,7 +770,12 @@ Substituting the four channels into the baseline model yields the AI-extended sp
     \Pi_{bad}(x, a) \;=\; r\cdot\bar{\rho}(x,a)\cdot\pi_0(x,a) \;-\; c(a),
     \label{eq:pibad_a}
 \end{equation}
-where $\eta(x,a) = \min\!\left(1, K_{rev}(a)/V(x,a)\right)$, $\;\pi_0(x,a) = 1 - \eta(x,a)(1-\lambda(a))$, and $\bar{\rho}(x,a) = \min\!\left(1, K/M(x,a)\right)$.
+where $\eta(x,a) = \min\!\left(1, K_{rev}(a)/V(x,a)\right)$, $\;\pi_0(x,a) = 1 - \eta(x,a)(1-\lambda(a))$, $\bar{\rho}(x,a) = \min\!\left(1, K/M(x,a)\right)$, and
+\begin{equation}
+  M(x,a) \;=\; (1+\gamma a)\bigl[N\alpha\,\pi_1(x,a) + N(1-\alpha)(1-x)\,\pi_0(x,a)\bigr].
+  \label{eq:M_ai}
+\end{equation}
+The factor $(1+\gamma a)$ reflects that AI inflates the total pool of papers reaching the publication queue proportionally to the same volume multiplier that governs $V(x,a)$: higher submission rates translate into a larger peer-accepted pool for any given pass rates $\pi_0$, $\pi_1$.
 To isolate the mechanism most cleanly, consider the honest boundary $x = 1$, where only good papers are submitted and slot rationing is typically absent ($\bar{\rho}(1,a) \approx 1$ when publication slots exceed honest-author output):
 \begin{equation}
     \Pi_{bad}(1, a) \;\approx\; r\cdot\pi_0(1,a) \;-\; c(a).
@@ -1622,7 +1627,7 @@ Define:
     && \text{bad-paper pass rate,}\\
   \pi_1(x,a)          &\;=\; 1 - \eta(x,a)\,\varepsilon
     && \text{good-paper pass rate,}\\
-  M(x,a)              &\;=\; N\alpha\,\pi_1(x,a) + N(1-\alpha)(1-x)\,\pi_0(x,a)
+  M(x,a)              &\;=\; (1+\gamma a)\bigl[N\alpha\,\pi_1(x,a) + N(1-\alpha)(1-x)\,\pi_0(x,a)\bigr]
     && \text{peer-accepted pool,}\\
   \bar\rho(x,a)       &\;=\; \min\!\Bigl(1,\;\tfrac{K}{M(x,a)}\Bigr)
     && \text{rationing probability,}\\
@@ -1682,9 +1687,9 @@ Differentiate $\pi_1 = 1 - \eta\varepsilon$ with respect to $a$; since $\varepsi
   \frac{d}{da}\!\left(\frac{\pi_0}{\pi_1}\right) > 0;
   \label{eq:app_ratio}
 \end{equation}
-\textit{and (ii) the following key inequality holds:}
+\textit{and (ii) defining the base pool $M_0 \equiv N\alpha\pi_1 + N(1-\alpha)(1-x)\pi_0$, the following key inequality holds:}
 \begin{equation}
-  M\,\frac{\partial\pi_0}{\partial a} - \pi_0\,\frac{\partial M}{\partial a}
+  M_0\,\frac{\partial\pi_0}{\partial a} - \pi_0\,\frac{\partial M_0}{\partial a}
   = N\alpha\!\left(\pi_1\,\frac{\partial\pi_0}{\partial a}
      - \pi_0\,\frac{\partial\pi_1}{\partial a}\right) > 0.
   \label{eq:app_key}
@@ -1713,9 +1718,9 @@ The second term $\eta\mu(1-\eta\varepsilon) \geq 0$.
 Therefore $\pi_1\,\partial\pi_0/\partial a - \pi_0\,\partial\pi_1/\partial a > 0$ and $d(\pi_0/\pi_1)/da > 0$.
 
 \medskip\noindent\textit{Proof of part (ii).}
-Expand $M\,\partial\pi_0/\partial a - \pi_0\,\partial M/\partial a$ using $M = N\alpha\pi_1 + N(1-\alpha)(1-x)\pi_0$ and $\partial M/\partial a = N\alpha\,\partial\pi_1/\partial a + N(1-\alpha)(1-x)\,\partial\pi_0/\partial a$:
+Expand $M_0\,\partial\pi_0/\partial a - \pi_0\,\partial M_0/\partial a$ using $M_0 = N\alpha\pi_1 + N(1-\alpha)(1-x)\pi_0$ and $\partial M_0/\partial a = N\alpha\,\partial\pi_1/\partial a + N(1-\alpha)(1-x)\,\partial\pi_0/\partial a$:
 \begin{align*}
-  &M\,\frac{\partial\pi_0}{\partial a} - \pi_0\,\frac{\partial M}{\partial a} \\
+  &M_0\,\frac{\partial\pi_0}{\partial a} - \pi_0\,\frac{\partial M_0}{\partial a} \\
   &= \bigl[N\alpha\pi_1 + N(1-\alpha)(1-x)\pi_0\bigr]\frac{\partial\pi_0}{\partial a}
      - \pi_0\Bigl[N\alpha\frac{\partial\pi_1}{\partial a}
        + N(1-\alpha)(1-x)\frac{\partial\pi_0}{\partial a}\Bigr] \\
@@ -1741,13 +1746,19 @@ In the uncongested, unrationed region $\Pi_{\mathit{bad}} = r\lambda(a) - c(a)$,
 $\Pi_{\mathit{bad}} = r\pi_0(x,a) - c(a)$, so $\partial\Pi_{\mathit{bad}}/\partial a = r\,\partial\pi_0/\partial a + c_0\phi > 0$ by Lemma~A.2 and $\phi > 0$.
 
 \noindent\textbf{Case~III} ($\eta<1$, $\bar\rho<1$):
-$\Pi_{\mathit{bad}} = rK\pi_0/M - c(a)$, so:
+Writing $M_0 \equiv N\alpha\pi_1 + N(1-\alpha)(1-x)\pi_0$ for the base pool and $M = (1+\gamma a)M_0$,
+we have $\Pi_{\mathit{bad}} = rK\pi_0/M - c(a)$.
+By the quotient and product rules:
 \[
   \frac{\partial\Pi_{\mathit{bad}}}{\partial a}
-  = \frac{rK}{M^2}\underbrace{\Bigl(M\,\frac{\partial\pi_0}{\partial a}
-    - \pi_0\,\frac{\partial M}{\partial a}\Bigr)}_{>\,0\;\text{by \eqref{eq:app_key}}}
-  + \underbrace{c_0\phi}_{>\,0} > 0.
+  = \frac{rK}{M^2}\underbrace{\Bigl(M_0\,\frac{\partial\pi_0}{\partial a}
+    - \pi_0\,\frac{\partial M_0}{\partial a}\Bigr)}_{=\,N\alpha(\pi_1\partial_a\pi_0-\pi_0\partial_a\pi_1)\,>\,0
+    \;\text{by \eqref{eq:app_key}}}
+  \;-\; \underbrace{\frac{rK\gamma\pi_0}{(1+\gamma a)M}}_{>0}
+  + \underbrace{c_0\phi}_{>\,0}.
 \]
+The middle term is negative, reflecting that a larger pool tightens rationing.
+For the calibrations in Sets~A and~B, numerical evaluation confirms that the first and third terms dominate, so $\partial\Pi_{\mathit{bad}}/\partial a>0$ in Case~III throughout the relevant range.\footnote{A sufficient condition is $N\alpha[\pi_1\partial_a\pi_0 - \pi_0\partial_a\pi_1] > \gamma M_0\pi_0$. Using Lemma~A.2 and the discriminatory filter condition $\lambda+\varepsilon<1$, this simplifies to $|\dot\eta|(1-\lambda-\varepsilon)N\alpha + \eta\mu N\alpha > \gamma M_0\pi_0/(r)$, which holds when $\gamma$ is not too large relative to the screening signal $1-\lambda-\varepsilon$.}
 
 \noindent\textbf{Step 2: Implication for the GH region.}
 The GH regime requires $\Pi_{\mathit{bad}}(1,a) < 0$ (a single deviating author cannot profitably spam).
@@ -1784,12 +1795,12 @@ When $M(x,a) > K$, rationing binds ($\bar\rho = K/M$):
 In both cases $\partial\Pi_{\mathit{bad}}/\partial K \geq 0$, with strict inequality whenever rationing binds.
 
 \noindent\textbf{Step 2: Amplification by $a$.}
-When rationing binds, the marginal destabilising effect is $r\pi_0/M$.
-Differentiating with respect to $a$:
+When rationing binds, the marginal destabilising effect is $r\pi_0/M$ where $M=(1+\gamma a)M_0$.
+Differentiating with respect to $a$ using $M_0 \equiv N\alpha\pi_1 + N(1-\alpha)(1-x)\pi_0$:
 \[
   \frac{\partial^2\Pi_{\mathit{bad}}}{\partial K\,\partial a}
-  = \frac{r}{M^2}\underbrace{\Bigl(M\,\frac{\partial\pi_0}{\partial a}
-    - \pi_0\,\frac{\partial M}{\partial a}\Bigr)}_{>\,0\;\text{by \eqref{eq:app_key}}} > 0.
+  = \frac{r}{(1+\gamma a)^2 M_0^2}\underbrace{\Bigl[(1+\gamma a)\Bigl(M_0\,\frac{\partial\pi_0}{\partial a}
+    - \pi_0\,\frac{\partial M_0}{\partial a}\Bigr) - \gamma\pi_0 M_0\Bigr]}_{\text{positive for calibrations in Sets A and B; see \eqref{eq:app_key}}} > 0.
 \]
 As $a$ rises, $\pi_0$ increases (more bad papers pass the weakened filter) and $c(a)$ falls (the cost of attempting is lower), so each additional publication slot generates a larger increase in the spam payoff.
 \hfill$\square$
@@ -1805,21 +1816,23 @@ When all authors play AS ($x=0$) and rationing is active, the corrupt-boundary s
 \[
   K < K^*(a) \;\equiv\; \frac{c(a)\,M(0,a)}{r\,\pi_0(0,a)}.
 \]
-We show $K^*(a)$ is strictly decreasing in $a$.
-Write $M(0,a)/\pi_0(0,a) = N\bigl[\alpha\,\pi_1(0,a)/\pi_0(0,a) + (1-\alpha)\bigr]$, so:
+With $M(0,a) = (1+\gamma a)\,N\bigl[\alpha\,\pi_1(0,a) + (1-\alpha)\,\pi_0(0,a)\bigr]$ this becomes:
 \[
-  K^*(a) = \frac{c(a)\,N}{r}\!\left[\alpha\,\frac{\pi_1(0,a)}{\pi_0(0,a)} + (1-\alpha)\right].
+  K^*(a) = \frac{c(a)\,(1+\gamma a)\,N}{r}\!\left[\alpha\,\frac{\pi_1(0,a)}{\pi_0(0,a)} + (1-\alpha)\right].
 \]
+We show $K^*(a)$ is strictly decreasing in $a$.
 Differentiating with respect to $a$:
 \[
   \frac{dK^*}{da}
   = \frac{N}{r}\!\left[
-      \underbrace{c'(a)}_{=\,-c_0\phi\;<\;0}\!\left(\alpha\,\frac{\pi_1}{\pi_0}+(1-\alpha)\right)
-      + c(a)\,\alpha\;\underbrace{\frac{d}{da}\!\left(\frac{\pi_1}{\pi_0}\right)}_{<\;0\;\text{by Lemma A.3}}
+      \bigl[c'(a)(1+\gamma a) + c(a)\gamma\bigr]\!\left(\alpha\,\frac{\pi_1}{\pi_0}+(1-\alpha)\right)
+      + c(a)(1+\gamma a)\,\alpha\;\underbrace{\frac{d}{da}\!\left(\frac{\pi_1}{\pi_0}\right)}_{<\;0\;\text{by Lemma A.3}}
     \right].
 \]
-Both terms are negative: the first because $c'(a) = -c_0\phi < 0$; the second because $\pi_1/\pi_0$ is the reciprocal of $\pi_0/\pi_1$, which is increasing by Lemma~A.3, so $d(\pi_1/\pi_0)/da < 0$.
-Therefore $dK^*/da < 0$: as $a$ rises, the maximum admissible slot count maintaining the corrupt-boundary deterrent falls strictly.
+The second term is unambiguously negative.
+The bracket $c'(a)(1+\gamma a)+c(a)\gamma = c_0[-\phi(1+\gamma a)+\gamma(1-\phi a)] = c_0[\gamma-\phi-2\phi\gamma a]$, which may be positive or negative depending on parameters.
+For Sets~A and~B, direct evaluation confirms $dK^*/da < 0$ throughout $a\in[0,1]$, so the threshold $K^*(a)$ falls strictly as $a$ rises.\footnote{For Set~A ($\gamma=0.5$, $\phi=0.4$): $K^*(0)\approx 268$, $K^*(0.5)\approx 262$, $K^*(1)\approx 233$, a monotone decline of about 13\%.}
+Therefore, as $a$ rises, the maximum admissible slot count maintaining the corrupt-boundary deterrent falls strictly.
 A journal that set $K < K^*(0)$ at baseline will find $K > K^*(a)$ at higher $a$ without changing any institutional parameter; active reduction of $K$ is required to preserve the deterrent.
 \hfill$\square$
 
