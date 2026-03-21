@@ -488,7 +488,7 @@ Table~\ref{tab:regime_classification} summarises the four cases.
 A key structural observation is that the two boundaries are controlled by different parameters: the honest boundary ($x=1$) is secured by keeping $\lambda$ low, while the corrupt boundary ($x=0$) is held by keeping $K$ tight.
 This means the two bottlenecks can be targeted separately as policy instruments---a point we return to in Section~\ref{sec:analysis}.
 Figure~\ref{fig:replicator_dynamics} illustrates the bistable case.
-$\Pi_{bad}$ is positive near $x=0$ (corruption reinforces itself) and negative near $x=1$ (honesty reinforces itself), with an unstable tipping threshold at $x^* \approx 0.82$ separating the two regions.
+$\Pi_{bad}$ is positive near $x=0$ (corruption reinforces itself) and negative near $x=1$ (honesty reinforces itself), with an unstable tipping threshold at $x^* \approx 0.80$ separating the two regions.
 Which long-run outcome prevails depends entirely on where the system starts relative to this threshold.
 
 \begin{table}[hbt!]
@@ -538,7 +538,7 @@ Seen in top-tier journals where the publication lottery is very hard to win. \\
     Parameters: $N=1000$, $K_{rev}=300$, $K=400$, $r=100$, $c=25$, $\lambda=0.1$.
     Red shading: $\Pi_{bad}>0$, so AS spreads and $x$ falls.
     Green shading: $\Pi_{bad}<0$, so AS shrinks and $x$ rises.
-    Two long-run outcomes coexist---full honesty ($x=1$) and full corruption ($x=0$)---separated by an unstable tipping threshold at $x^*\approx 0.82$ (orange marker).
+    Two long-run outcomes coexist---full honesty ($x=1$) and full corruption ($x=0$)---separated by an unstable tipping threshold at $x^*\approx 0.80$ (orange marker).
     Which outcome prevails depends entirely on the starting position relative to $x^*$.}
     \label{fig:replicator_dynamics}
 \end{figure}
@@ -1150,8 +1150,8 @@ Rising submission-to-review ratios ($V / K_{rev}$) signal declining screening in
 Lengthening turnaround times and increasing desk-rejection rates indicate reviewer overload and the onset of rubber-stamping.
 Acceptance rates rising faster than improvements in underlying research quality signal a rising effective $\lambda$.
 In fields where AI adoption is high, these signals should appear before any observable quality decline, because the system can remain near $x \approx 1$ while the tipping threshold $x^*_{tip}$ rises toward the current honest-author share.
-To make this concrete: under Set~A parameters, $x^* \approx 0.82$ at baseline, leaving an apparent safety margin of only 0.18 from the fully honest state.
-As $a$ rises, $x^*$ climbs monotonically toward $x = 1$, so this margin closes continuously---from 0.18 toward zero---while published quality appears unchanged, because the population remains above the threshold throughout.
+To make this concrete: under Set~A parameters, $x^* \approx 0.80$ at baseline, leaving an apparent safety margin of only 0.20 from the fully honest state.
+As $a$ rises, $x^*$ climbs monotonically toward $x = 1$, so this margin closes continuously---from 0.20 toward zero---while published quality appears unchanged, because the population remains above the threshold throughout.
 By the time $a$ reaches $a^* \approx 0.50$, the margin has vanished and the system tips into Global Corruption with no visible warning in quality metrics.
 The gap between observable quality (still high) and structural fragility (rapidly growing) is precisely what makes AI-induced tipping difficult to detect in advance.
 We examine the testability of these predictions in Section~\ref{sec:predictions}.
