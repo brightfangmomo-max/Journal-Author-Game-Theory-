@@ -25,12 +25,16 @@ AI parameters:    γ=0.5, δ=0.1, φ=0.4, μ=0.2
 """
 
 import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 from matplotlib.colors import ListedColormap
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from data_io import save_data, load_data, DATA_DIR
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1.  Model core
@@ -142,187 +146,204 @@ BASE = {
 KR, KS = 300, 400
 AI     = dict(gamma=0.5, delta=0.1, phi=0.4, mu=0.2)
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 3.  Build (N, a) phase map
-# ─────────────────────────────────────────────────────────────────────────────
 N_grid = np.linspace(50, 2500, 220)
 A_grid = np.linspace(0.0, 1.0, 150)
-
-print("Computing (N, a) phase map …")
-phase_map = np.zeros((len(A_grid), len(N_grid)), dtype=np.int8)
-for i, a_v in enumerate(A_grid):
-    for j, N_v in enumerate(N_grid):
-        phase_map[i, j] = classify(N_v, KR, KS, BASE, a_v, **AI)
-print("Done.")
-
-# ─────────────────────────────────────────────────────────────────────────────
-# 4.  Compute N_up(a) and N_lo(a) from phase map
-#     N_up(a): upper edge of GH-or-BS (last N where forward path is x=1)
-#     N_lo(a): lower edge of BS zone (smallest N where BS appears)
-# ─────────────────────────────────────────────────────────────────────────────
-N_up_curve = np.full(len(A_grid), np.nan)
-N_lo_curve = np.full(len(A_grid), np.nan)
-
-for i in range(len(A_grid)):
-    row = phase_map[i, :]
-    # N_up: largest N where regime is 0 (GH) or 2 (BS)
-    stable_honest = np.where((row == 0) | (row == 2))[0]
-    if len(stable_honest) > 0:
-        N_up_curve[i] = N_grid[stable_honest[-1]]
-    # N_lo: smallest N where regime is 2 (BS)
-    bs_idx = np.where(row == 2)[0]
-    if len(bs_idx) > 0:
-        N_lo_curve[i] = N_grid[bs_idx[0]]
-
-# ─────────────────────────────────────────────────────────────────────────────
-# 5.  Compute Q*(a) at fixed N=500 (quality erosion with AI)
-# ─────────────────────────────────────────────────────────────────────────────
 A_line  = np.linspace(0.0, 1.0, 80)
-N_fixed = 500
+N_FIXED = 500
 
-print("Computing equilibrium quality Q*(a) at N=500 …")
-Q_curve = np.array([
-    equilibrium_quality(N_fixed, KR, KS, BASE, a_v, **AI)
-    for a_v in A_line
-])
-print("Done.")
-
-# Also compute x*(a) at N=500 for reference
-print("Computing regime at N=500 across a …")
-reg_at_N500 = np.array([classify(N_fixed, KR, KS, BASE, a_v, **AI)
-                         for a_v in A_line])
-print("Done.")
-
-# ─────────────────────────────────────────────────────────────────────────────
-# 6.  Plot
-# ─────────────────────────────────────────────────────────────────────────────
-COLORS = ['#98FB98', '#FFB6C1', '#FFE4B5', '#ADD8E6', '#D3D3D3']
-CMAP   = ListedColormap(COLORS)
-
-fig = plt.figure(figsize=(15, 6.0))
-gs  = gridspec.GridSpec(1, 2, figure=fig, wspace=0.30, width_ratios=[1.2, 1])
-
-# ── Left: (N, a) phase map ────────────────────────────────────────────────────
-ax_map = fig.add_subplot(gs[0, 0])
-ax_map.imshow(phase_map, origin='lower', aspect='auto', cmap=CMAP,
-              vmin=0, vmax=4,
-              extent=[N_grid.min(), N_grid.max(), A_grid.min(), A_grid.max()])
-
-# N_up(a) boundary
-valid = ~np.isnan(N_up_curve)
-ax_map.plot(N_up_curve[valid], A_grid[valid],
-            'r-', lw=2.4, label=r'$N_\uparrow(a)$: collapse boundary')
-
-# N_lo(a) boundary (lower BS edge)
-valid2 = ~np.isnan(N_lo_curve)
-ax_map.plot(N_lo_curve[valid2], A_grid[valid2],
-            'b--', lw=1.8, label=r'$N_{lo}(a)$: lower BS boundary')
-
-# Regime labels
-ax_map.text(150,  0.05, 'GH', fontsize=12, color='#1A6B22', fontweight='bold')
-ax_map.text(950,  0.10, 'BS', fontsize=12, color='#6B5000', fontweight='bold')
-ax_map.text(1900, 0.07, 'SC', fontsize=12, color='#1A4080', fontweight='bold')
-ax_map.text(800,  0.78, 'GC', fontsize=12, color='#8B0000', fontweight='bold')
-
-# Annotate N_up shrinkage
-a0_up = N_up_curve[0]  if not np.isnan(N_up_curve[0])  else np.nan
-a5_up = N_up_curve[int(0.5*len(A_grid))] if len(A_grid) > int(0.5*len(A_grid)) else np.nan
-if not np.isnan(a0_up):
-    ax_map.annotate(f'$N_\\uparrow(0)\\approx{a0_up:.0f}$',
-                    xy=(a0_up, 0.0), xytext=(a0_up-300, 0.12),
-                    fontsize=9, color='darkred',
-                    arrowprops=dict(arrowstyle='->', color='darkred', lw=1.2))
-
-ax_map.set_xlabel('Population size  $N$', fontsize=12)
-ax_map.set_ylabel('AI adoption  $a$', fontsize=12)
-ax_map.set_title('(a)  Regime map in $(N,\\,a)$ space\n'
-                 r'Red curve: collapse boundary $N_\uparrow(a)$ falls as $a$ rises',
-                 fontsize=11, pad=8, fontweight='bold')
-ax_map.legend(loc='upper right', framealpha=0.92, prop={'size': 11, 'weight': 'bold'})
-
-# ── Right: N_up(a) and Q*(a) ──────────────────────────────────────────────────
-ax_r = fig.add_subplot(gs[0, 1])
-
-# --- N_up(a) on primary axis ---
-ax_r.plot(A_grid[valid], N_up_curve[valid],
-          'r-', lw=2.5, label=r'$N_\uparrow(a)$: collapse threshold')
-
-# Shade the area below N_up(a) = "safe zone"
-ax_r.fill_between(A_grid[valid], 0, N_up_curve[valid],
-                   color='#98FB98', alpha=0.22,
-                   label='Stable-honesty region (forward path)')
-
-ax_r.set_xlabel('AI adoption  $a$', fontsize=12)
-ax_r.set_ylabel(r'Collapse threshold  $N_\uparrow(a)$', fontsize=12, color='darkred')
-ax_r.tick_params(axis='y', labelcolor='darkred')
-ax_r.set_xlim(0, 1)
-ax_r.set_ylim(0, N_grid.max() * 1.05)
-ax_r.grid(True, alpha=0.22, ls='--')
-
-# --- Q*(a) at N=500 on twin axis ---
-ax_q = ax_r.twinx()
-# Color segments by regime
-REGIME_CLR = {0:'#2E8B57', 2:'#DAA520', 3:'#3A7EC8', 1:'#C83A3A', 4:'gray'}
-for i in range(len(A_line)-1):
-    rc = REGIME_CLR.get(reg_at_N500[i], 'gray')
-    ax_q.plot(A_line[i:i+2], Q_curve[i:i+2],
-              color=rc, lw=2.0, alpha=0.85)
-
-ax_q.set_ylabel(r'Equilibrium quality  $Q^*(a)$  at $N=500$',
-                fontsize=11, color='#444')
-ax_q.set_ylim(0, 1.12)
-ax_q.tick_params(axis='y', labelcolor='#444')
-
-# Combined legend
-handles = [
-    Line2D([0],[0], color='r',      lw=2.5, label=r'$N_\uparrow(a)$: collapse threshold'),
-    Patch(facecolor='#98FB98', alpha=0.4, label='Stable-honesty region'),
-    Line2D([0],[0], color='#2E8B57',lw=2.0, label=r'$Q^*(a)$ in GH (green)'),
-    Line2D([0],[0], color='#DAA520',lw=2.0, label=r'$Q^*(a)$ in BS (yellow)'),
-    Line2D([0],[0], color='#3A7EC8',lw=2.0, label=r'$Q^*(a)$ in SC (blue)'),
-    Line2D([0],[0], color='#C83A3A',lw=2.0, label=r'$Q^*(a)$ in GC (red)'),
-]
-ax_r.legend(handles=handles, loc='upper right', framealpha=0.93, prop={'size': 11, 'weight': 'bold'})
-
-# Parameter box
-param_txt = (r'$K_{rev}=300,\ K=400,\ N_{eval}=500$' '\n'
-             r'$r=100,\ c=25,\ \lambda_0=0.1,\ \varepsilon=0.05$' '\n'
-             r'$\gamma=0.5,\ \delta=0.1,\ \phi=0.4,\ \mu=0.2$')
-ax_r.text(0.02, 0.38, param_txt, transform=ax_r.transAxes,
-          fontsize=8, va='bottom',
-          bbox=dict(boxstyle='round,pad=0.3', facecolor='white',
-                    edgecolor='gray', alpha=0.88))
-
-ax_r.set_title(r'(b)  $N_\uparrow(a)$ falls as AI rises; quality $Q^*$ degrades'
-               '\n'
-               r'At $a\gtrsim0.5$,  $N_\uparrow$ vanishes — no stable-honesty region remains',
-               fontsize=11, pad=8, fontweight='bold')
-
-# ── Shared legend for regime colors ──────────────────────────────────────────
-legend_patches = [
-    Patch(facecolor='#98FB98', edgecolor='gray', label='Global Honesty (GH)'),
-    Patch(facecolor='#FFE4B5', edgecolor='gray', label='Bistability (BS)'),
-    Patch(facecolor='#ADD8E6', edgecolor='gray', label='Stable Coexistence (SC)'),
-    Patch(facecolor='#FFB6C1', edgecolor='gray', label='Global Corruption (GC)'),
-    Patch(facecolor='#D3D3D3', edgecolor='gray', label='No Submission (NS)'),
-]
-fig.legend(handles=legend_patches, loc='lower center', ncol=5,
-           framealpha=0.95, bbox_to_anchor=(0.5, -0.08),
-           prop={'size': 11, 'weight': 'bold'})
-
-fig.suptitle(
-    'Fig. 6  ·  AI adoption erodes the stable-honesty window and lowers the collapse threshold\n'
-    r'$N_\uparrow(a)$ falls continuously; at $a \gtrsim 0.5$ the GH/BS region disappears '
-    r'and the system defaults to GC or SC',
-    fontsize=12, fontweight='bold', y=1.02
-)
-
-# ─────────────────────────────────────────────────────────────────────────────
-# 7.  Save
-# ─────────────────────────────────────────────────────────────────────────────
 SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
-OUTPUT_PATH = os.path.join(SCRIPT_DIR, '..', 'doc', 'tex',
-                            'fig6_hysteresis_widening.pdf')
-plt.savefig(OUTPUT_PATH, dpi=300, bbox_inches='tight')
-print(f"Saved → {os.path.normpath(OUTPUT_PATH)}")
-plt.show()
+OUTPUT_PATH = os.path.join(SCRIPT_DIR, '..', 'doc', 'tex', 'fig6_hysteresis_widening.pdf')
+DATA_PATH   = os.path.join(DATA_DIR, 'fig6_data.json')
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 3.  Compute
+# ─────────────────────────────────────────────────────────────────────────────
+
+def compute_data():
+    print("Computing (N, a) phase map …")
+    phase_map = np.zeros((len(A_grid), len(N_grid)), dtype=np.int8)
+    for i, a_v in enumerate(A_grid):
+        for j, N_v in enumerate(N_grid):
+            phase_map[i, j] = classify(N_v, KR, KS, BASE, a_v, **AI)
+    print("Done.")
+
+    N_up_curve = np.full(len(A_grid), np.nan)
+    N_lo_curve = np.full(len(A_grid), np.nan)
+
+    for i in range(len(A_grid)):
+        row = phase_map[i, :]
+        stable_honest = np.where((row == 0) | (row == 2))[0]
+        if len(stable_honest) > 0:
+            N_up_curve[i] = N_grid[stable_honest[-1]]
+        bs_idx = np.where(row == 2)[0]
+        if len(bs_idx) > 0:
+            N_lo_curve[i] = N_grid[bs_idx[0]]
+
+    print(f"Computing equilibrium quality Q*(a) at N={N_FIXED} …")
+    Q_curve = np.array([
+        equilibrium_quality(N_FIXED, KR, KS, BASE, a_v, **AI)
+        for a_v in A_line
+    ])
+
+    print(f"Computing regime at N={N_FIXED} across a …")
+    reg_at_N500 = np.array([classify(N_FIXED, KR, KS, BASE, a_v, **AI)
+                             for a_v in A_line], dtype=np.int32)
+    print("Done.")
+
+    return {
+        'phase_map':   phase_map,
+        'N_up_curve':  N_up_curve,
+        'N_lo_curve':  N_lo_curve,
+        'Q_curve':     Q_curve,
+        'reg_at_N500': reg_at_N500,
+        'N_grid':      N_grid,
+        'A_grid':      A_grid,
+        'A_line':      A_line,
+        'N_fixed':     N_FIXED,
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 4.  Plot
+# ─────────────────────────────────────────────────────────────────────────────
+
+def plot(data):
+    phase_map   = data['phase_map']
+    N_up_curve  = data['N_up_curve']
+    N_lo_curve  = data['N_lo_curve']
+    Q_curve     = data['Q_curve']
+    reg_at_N500 = data['reg_at_N500']
+    N_grid_     = data['N_grid']
+    A_grid_     = data['A_grid']
+    A_line_     = data['A_line']
+
+    COLORS = ['#98FB98', '#FFB6C1', '#FFE4B5', '#ADD8E6', '#D3D3D3']
+    CMAP   = ListedColormap(COLORS)
+
+    fig = plt.figure(figsize=(15, 6.0))
+    gs  = gridspec.GridSpec(1, 2, figure=fig, wspace=0.30, width_ratios=[1.2, 1])
+
+    # ── Left: (N, a) phase map ────────────────────────────────────────────────────
+    ax_map = fig.add_subplot(gs[0, 0])
+    ax_map.imshow(phase_map, origin='lower', aspect='auto', cmap=CMAP,
+                  vmin=0, vmax=4,
+                  extent=[N_grid_.min(), N_grid_.max(), A_grid_.min(), A_grid_.max()])
+
+    valid = ~np.isnan(N_up_curve)
+    ax_map.plot(N_up_curve[valid], A_grid_[valid],
+                'r-', lw=2.4, label=r'$N_\uparrow(a)$: collapse boundary')
+
+    valid2 = ~np.isnan(N_lo_curve)
+    ax_map.plot(N_lo_curve[valid2], A_grid_[valid2],
+                'b--', lw=1.8, label=r'$N_{lo}(a)$: lower BS boundary')
+
+    ax_map.text(150,  0.05, 'GH', fontsize=12, color='#1A6B22', fontweight='bold')
+    ax_map.text(950,  0.10, 'BS', fontsize=12, color='#6B5000', fontweight='bold')
+    ax_map.text(1900, 0.07, 'SC', fontsize=12, color='#1A4080', fontweight='bold')
+    ax_map.text(800,  0.78, 'GC', fontsize=12, color='#8B0000', fontweight='bold')
+
+    a0_up = N_up_curve[0] if not np.isnan(N_up_curve[0]) else np.nan
+    if not np.isnan(a0_up):
+        ax_map.annotate(f'$N_\\uparrow(0)\\approx{a0_up:.0f}$',
+                        xy=(a0_up, 0.0), xytext=(a0_up-300, 0.12),
+                        fontsize=9, color='darkred',
+                        arrowprops=dict(arrowstyle='->', color='darkred', lw=1.2))
+
+    ax_map.set_xlabel('Population size  $N$', fontsize=12)
+    ax_map.set_ylabel('AI adoption  $a$', fontsize=12)
+    ax_map.set_title('(a)  Regime map in $(N,\\,a)$ space\n'
+                     r'Red curve: collapse boundary $N_\uparrow(a)$ falls as $a$ rises',
+                     fontsize=11, pad=8, fontweight='bold')
+    ax_map.legend(loc='upper right', framealpha=0.92, prop={'size': 11, 'weight': 'bold'})
+
+    # ── Right: N_up(a) and Q*(a) ──────────────────────────────────────────────────
+    ax_r = fig.add_subplot(gs[0, 1])
+
+    ax_r.plot(A_grid_[valid], N_up_curve[valid],
+              'r-', lw=2.5, label=r'$N_\uparrow(a)$: collapse threshold')
+    ax_r.fill_between(A_grid_[valid], 0, N_up_curve[valid],
+                       color='#98FB98', alpha=0.22,
+                       label='Stable-honesty region (forward path)')
+
+    ax_r.set_xlabel('AI adoption  $a$', fontsize=12)
+    ax_r.set_ylabel(r'Collapse threshold  $N_\uparrow(a)$', fontsize=12, color='darkred')
+    ax_r.tick_params(axis='y', labelcolor='darkred')
+    ax_r.set_xlim(0, 1)
+    ax_r.set_ylim(0, N_grid_.max() * 1.05)
+    ax_r.grid(True, alpha=0.22, ls='--')
+
+    ax_q = ax_r.twinx()
+    REGIME_CLR = {0:'#2E8B57', 2:'#DAA520', 3:'#3A7EC8', 1:'#C83A3A', 4:'gray'}
+    for i in range(len(A_line_)-1):
+        rc = REGIME_CLR.get(int(reg_at_N500[i]), 'gray')
+        ax_q.plot(A_line_[i:i+2], Q_curve[i:i+2],
+                  color=rc, lw=2.0, alpha=0.85)
+
+    ax_q.set_ylabel(r'Equilibrium quality  $Q^*(a)$  at $N=500$',
+                    fontsize=11, color='#444')
+    ax_q.set_ylim(0, 1.12)
+    ax_q.tick_params(axis='y', labelcolor='#444')
+
+    handles = [
+        Line2D([0],[0], color='r',      lw=2.5, label=r'$N_\uparrow(a)$: collapse threshold'),
+        Patch(facecolor='#98FB98', alpha=0.4, label='Stable-honesty region'),
+        Line2D([0],[0], color='#2E8B57',lw=2.0, label=r'$Q^*(a)$ in GH (green)'),
+        Line2D([0],[0], color='#DAA520',lw=2.0, label=r'$Q^*(a)$ in BS (yellow)'),
+        Line2D([0],[0], color='#3A7EC8',lw=2.0, label=r'$Q^*(a)$ in SC (blue)'),
+        Line2D([0],[0], color='#C83A3A',lw=2.0, label=r'$Q^*(a)$ in GC (red)'),
+    ]
+    ax_r.legend(handles=handles, loc='upper right', framealpha=0.93, prop={'size': 11, 'weight': 'bold'})
+
+    param_txt = (r'$K_{rev}=300,\ K=400,\ N_{eval}=500$' '\n'
+                 r'$r=100,\ c=25,\ \lambda_0=0.1,\ \varepsilon=0.05$' '\n'
+                 r'$\gamma=0.5,\ \delta=0.1,\ \phi=0.4,\ \mu=0.2$')
+    ax_r.text(0.02, 0.38, param_txt, transform=ax_r.transAxes,
+              fontsize=8, va='bottom',
+              bbox=dict(boxstyle='round,pad=0.3', facecolor='white',
+                        edgecolor='gray', alpha=0.88))
+
+    ax_r.set_title(r'(b)  $N_\uparrow(a)$ falls as AI rises; quality $Q^*$ degrades'
+                   '\n'
+                   r'At $a\gtrsim0.5$,  $N_\uparrow$ vanishes — no stable-honesty region remains',
+                   fontsize=11, pad=8, fontweight='bold')
+
+    legend_patches = [
+        Patch(facecolor='#98FB98', edgecolor='gray', label='Global Honesty (GH)'),
+        Patch(facecolor='#FFE4B5', edgecolor='gray', label='Bistability (BS)'),
+        Patch(facecolor='#ADD8E6', edgecolor='gray', label='Stable Coexistence (SC)'),
+        Patch(facecolor='#FFB6C1', edgecolor='gray', label='Global Corruption (GC)'),
+        Patch(facecolor='#D3D3D3', edgecolor='gray', label='No Submission (NS)'),
+    ]
+    fig.legend(handles=legend_patches, loc='lower center', ncol=5,
+               framealpha=0.95, bbox_to_anchor=(0.5, -0.08),
+               prop={'size': 11, 'weight': 'bold'})
+
+    fig.suptitle(
+        'Fig. 6  ·  AI adoption erodes the stable-honesty window and lowers the collapse threshold\n'
+        r'$N_\uparrow(a)$ falls continuously; at $a \gtrsim 0.5$ the GH/BS region disappears '
+        r'and the system defaults to GC or SC',
+        fontsize=12, fontweight='bold', y=1.02
+    )
+
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 5.  Save
+    # ─────────────────────────────────────────────────────────────────────────────
+    plt.savefig(OUTPUT_PATH, dpi=300, bbox_inches='tight')
+    print(f"Saved → {os.path.normpath(OUTPUT_PATH)}")
+    plt.show()
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 6.  Main
+# ─────────────────────────────────────────────────────────────────────────────
+
+if __name__ == '__main__':
+    recompute = '--recompute' in sys.argv
+    if recompute or not os.path.exists(DATA_PATH):
+        data = compute_data()
+        save_data(data, DATA_PATH)
+        print(f"Data saved → {DATA_PATH}")
+    else:
+        print(f"Loading cached data from {DATA_PATH}")
+        data = load_data(DATA_PATH)
+    plot(data)

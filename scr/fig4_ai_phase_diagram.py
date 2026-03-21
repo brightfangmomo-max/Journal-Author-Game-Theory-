@@ -13,11 +13,15 @@ Output: saves fig4_ai_phase_diagram.pdf to the same directory as this script's
 """
 
 import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 from matplotlib.colors import ListedColormap
 from matplotlib.patches import Patch
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from data_io import save_data, load_data, DATA_DIR
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1.  Model core
@@ -117,118 +121,149 @@ PHI   = 0.4   # submission-cost slope   (φ)
 MU    = 0.2   # false-positive slope    (μ)
 
 # Grid resolution and axis ranges
-RES         = 180
+RES          = 180
 K_rev_vals   = np.linspace(10, 600, RES)
 K_store_vals = np.linspace(10, 700, RES)
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 3.  Compute regime maps
-# ─────────────────────────────────────────────────────────────────────────────
-print("Computing baseline phase map  (a = 0.0) …")
-map_base = classify_regime_grid(K_rev_vals, K_store_vals, BASE,
-                                 ai_level=0.0,
-                                 gamma=GAMMA, delta=DELTA, phi=PHI, mu=MU)
+SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
+OUTPUT_PATH = os.path.join(SCRIPT_DIR, '..', 'doc', 'tex', 'fig4_ai_phase_diagram.pdf')
+DATA_PATH   = os.path.join(DATA_DIR, 'fig4_data.json')
 
-print("Computing high-AI phase map   (a = 0.8) …")
-map_ai   = classify_regime_grid(K_rev_vals, K_store_vals, BASE,
-                                 ai_level=0.8,
-                                 gamma=GAMMA, delta=DELTA, phi=PHI, mu=MU)
-print("Done.")
+# ─────────────────────────────────────────────────────────────────────────────
+# 3.  Compute
+# ─────────────────────────────────────────────────────────────────────────────
+
+def compute_data():
+    print("Computing baseline phase map  (a = 0.0) …")
+    map_base = classify_regime_grid(K_rev_vals, K_store_vals, BASE,
+                                     ai_level=0.0,
+                                     gamma=GAMMA, delta=DELTA, phi=PHI, mu=MU)
+
+    print("Computing high-AI phase map   (a = 0.8) …")
+    map_ai   = classify_regime_grid(K_rev_vals, K_store_vals, BASE,
+                                     ai_level=0.8,
+                                     gamma=GAMMA, delta=DELTA, phi=PHI, mu=MU)
+    print("Done.")
+
+    return {
+        'map_base':    map_base,
+        'map_ai':      map_ai,
+        'K_rev_vals':  K_rev_vals,
+        'K_store_vals': K_store_vals,
+    }
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 4.  Plot
 # ─────────────────────────────────────────────────────────────────────────────
-COLORS = ['#98FB98', '#FFB6C1', '#FFE4B5', '#ADD8E6', '#D3D3D3']
-CMAP   = ListedColormap(COLORS)
-EXTENT = [K_rev_vals.min(), K_rev_vals.max(),
-          K_store_vals.min(), K_store_vals.max()]
 
-fig = plt.figure(figsize=(14, 5.8))
-gs  = gridspec.GridSpec(1, 2, figure=fig, wspace=0.10)
+def plot(data):
+    map_base     = data['map_base']
+    map_ai       = data['map_ai']
+    K_rev_vals_  = data['K_rev_vals']
+    K_store_vals_= data['K_store_vals']
 
-PANEL_SPECS = [
-    (map_base, r'(a)  Baseline  ($a = 0$)',
-     r'$N=1000,\ \alpha=0.2,\ r=100,\ c=25,\ \lambda=0.10,\ \varepsilon=0.05$'),
-    (map_ai,   r'(b)  High AI adoption  ($a = 0.8$)',
-     (r'$c\!\downarrow\!{=}25{\times}0.68,\;'
-      r'\lambda\!\uparrow\!{=}0.10{+}0.16,\;'
-      r'V\!\uparrow\!{\times}1.40,\;'
-      r'K_{rev}\!\uparrow\!{\times}1.08$'
-      r'$\quad(\gamma{=}0.5>\delta{=}0.1)$')),
-]
+    COLORS = ['#98FB98', '#FFB6C1', '#FFE4B5', '#ADD8E6', '#D3D3D3']
+    CMAP   = ListedColormap(COLORS)
+    EXTENT = [K_rev_vals_.min(), K_rev_vals_.max(),
+              K_store_vals_.min(), K_store_vals_.max()]
 
-axes = []
-for col, (grid, title, subtitle) in enumerate(PANEL_SPECS):
-    ax = fig.add_subplot(gs[0, col])
-    ax.imshow(grid, origin='lower', extent=EXTENT,
-              aspect='auto', cmap=CMAP, vmin=0, vmax=4)
+    fig = plt.figure(figsize=(14, 5.8))
+    gs  = gridspec.GridSpec(1, 2, figure=fig, wspace=0.10)
 
-    ax.set_xlabel(r'Review capacity  $K_{rev}$', fontsize=12)
-    if col == 0:
-        ax.set_ylabel(r'Slot capacity  $K$', fontsize=12)
+    PANEL_SPECS = [
+        (map_base, r'(a)  Baseline  ($a = 0$)',
+         r'$N=1000,\ \alpha=0.2,\ r=100,\ c=25,\ \lambda=0.10,\ \varepsilon=0.05$'),
+        (map_ai,   r'(b)  High AI adoption  ($a = 0.8$)',
+         (r'$c\!\downarrow\!{=}25{\times}0.68,\;'
+          r'\lambda\!\uparrow\!{=}0.10{+}0.16,\;'
+          r'V\!\uparrow\!{\times}1.40,\;'
+          r'K_{rev}\!\uparrow\!{\times}1.08$'
+          r'$\quad(\gamma{=}0.5>\delta{=}0.1)$')),
+    ]
+
+    axes = []
+    for col, (grid, title, subtitle) in enumerate(PANEL_SPECS):
+        ax = fig.add_subplot(gs[0, col])
+        ax.imshow(grid, origin='lower', extent=EXTENT,
+                  aspect='auto', cmap=CMAP, vmin=0, vmax=4)
+
+        ax.set_xlabel(r'Review capacity  $K_{rev}$', fontsize=12)
+        if col == 0:
+            ax.set_ylabel(r'Slot capacity  $K$', fontsize=12)
+        else:
+            ax.set_yticklabels([])
+
+        ax.set_title(title, fontsize=13, pad=8, fontweight='bold')
+
+        # Parameter annotation box
+        ax.text(0.02, 0.98, subtitle,
+                transform=ax.transAxes, fontsize=8.5,
+                verticalalignment='top',
+                bbox=dict(boxstyle='round,pad=0.35', facecolor='white',
+                          edgecolor='gray', alpha=0.88))
+
+        # Mark the Set-A calibration point
+        ax.plot(300, 400, marker='*', markersize=11,
+                color='black', zorder=10,
+                label='Set A calibration' if col == 0 else '')
+        if col == 0:
+            ax.annotate('Set A', xy=(300, 400), xytext=(340, 490),
+                        fontsize=9, color='black',
+                        arrowprops=dict(arrowstyle='->', color='black', lw=1.2))
+        axes.append(ax)
+
+    # ── Directional arrows between panels ────────────────────────────────────────
+    fig.text(0.508, 0.52, r'$a\!\uparrow$', ha='center', va='center',
+             fontsize=15, color='#8B0000', fontweight='bold')
+    fig.text(0.508, 0.44, r'AI adoption', ha='center', va='center',
+             fontsize=8.5, color='#8B0000')
+    ax_arrow = fig.add_axes([0.498, 0.47, 0.020, 0.06])
+    ax_arrow.annotate('', xy=(0.5, 0.0), xytext=(0.5, 1.0),
+                      xycoords='axes fraction', textcoords='axes fraction',
+                      arrowprops=dict(arrowstyle='->', color='#8B0000', lw=2.0))
+    ax_arrow.axis('off')
+
+    # ── Shared legend ─────────────────────────────────────────────────────────────
+    legend_handles = [
+        Patch(facecolor='#98FB98', edgecolor='#555', label='Global Honesty (GH)  —  x→1 from anywhere'),
+        Patch(facecolor='#FFE4B5', edgecolor='#555', label='Bistability (BS)       —  history-dependent'),
+        Patch(facecolor='#ADD8E6', edgecolor='#555', label='Stable Coexistence (SC) — interior equilibrium'),
+        Patch(facecolor='#FFB6C1', edgecolor='#555', label='Global Corruption (GC) —  x→0 from anywhere'),
+        Patch(facecolor='#D3D3D3', edgecolor='#555', label='No Submission (NS)      —  participation fails'),
+    ]
+    fig.legend(handles=legend_handles, loc='lower center',
+               ncol=3, framealpha=0.95,
+               bbox_to_anchor=(0.5, -0.10),
+               prop={'size': 11, 'weight': 'bold'},
+               title=(r'Regime legend  |  AI parameters: $\gamma=0.5,\ \delta=0.1,\ \phi=0.4,\ \mu=0.2$'),
+               title_fontsize=10)
+
+    fig.suptitle(
+        'Fig. 4  ·  AI adoption shifts regime boundaries in the '
+        r'$(K_{rev},\, K)$ parameter space',
+        fontsize=13, fontweight='bold', y=1.01
+    )
+
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 5.  Save
+    # ─────────────────────────────────────────────────────────────────────────────
+    plt.savefig(OUTPUT_PATH, dpi=300, bbox_inches='tight')
+    print(f"Saved → {os.path.normpath(OUTPUT_PATH)}")
+    plt.show()
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 6.  Main
+# ─────────────────────────────────────────────────────────────────────────────
+
+if __name__ == '__main__':
+    recompute = '--recompute' in sys.argv
+    if recompute or not os.path.exists(DATA_PATH):
+        data = compute_data()
+        save_data(data, DATA_PATH)
+        print(f"Data saved → {DATA_PATH}")
     else:
-        ax.set_yticklabels([])
-
-    ax.set_title(title, fontsize=13, pad=8, fontweight='bold')
-
-    # Parameter annotation box
-    ax.text(0.02, 0.98, subtitle,
-            transform=ax.transAxes, fontsize=8.5,
-            verticalalignment='top',
-            bbox=dict(boxstyle='round,pad=0.35', facecolor='white',
-                      edgecolor='gray', alpha=0.88))
-
-    # Mark the Set-A calibration point
-    ax.plot(300, 400, marker='*', markersize=11,
-            color='black', zorder=10,
-            label='Set A calibration' if col == 0 else '')
-    if col == 0:
-        ax.annotate('Set A', xy=(300, 400), xytext=(340, 490),
-                    fontsize=9, color='black',
-                    arrowprops=dict(arrowstyle='->', color='black', lw=1.2))
-    axes.append(ax)
-
-# ── Directional arrows between panels ────────────────────────────────────────
-# Use figure-level annotation to draw a broad arrow between the two subplots
-fig.text(0.508, 0.52, r'$a\!\uparrow$', ha='center', va='center',
-         fontsize=15, color='#8B0000', fontweight='bold')
-fig.text(0.508, 0.44, r'AI adoption', ha='center', va='center',
-         fontsize=8.5, color='#8B0000')
-ax_arrow = fig.add_axes([0.498, 0.47, 0.020, 0.06])
-ax_arrow.annotate('', xy=(0.5, 0.0), xytext=(0.5, 1.0),
-                  xycoords='axes fraction', textcoords='axes fraction',
-                  arrowprops=dict(arrowstyle='->', color='#8B0000', lw=2.0))
-ax_arrow.axis('off')
-
-# ── Shared legend ─────────────────────────────────────────────────────────────
-legend_handles = [
-    Patch(facecolor='#98FB98', edgecolor='#555', label='Global Honesty (GH)  —  x→1 from anywhere'),
-    Patch(facecolor='#FFE4B5', edgecolor='#555', label='Bistability (BS)       —  history-dependent'),
-    Patch(facecolor='#ADD8E6', edgecolor='#555', label='Stable Coexistence (SC) — interior equilibrium'),
-    Patch(facecolor='#FFB6C1', edgecolor='#555', label='Global Corruption (GC) —  x→0 from anywhere'),
-    Patch(facecolor='#D3D3D3', edgecolor='#555', label='No Submission (NS)      —  participation fails'),
-]
-fig.legend(handles=legend_handles, loc='lower center',
-           ncol=3, framealpha=0.95,
-           bbox_to_anchor=(0.5, -0.10),
-           prop={'size': 11, 'weight': 'bold'},
-           title=(r'Regime legend  |  AI parameters: $\gamma=0.5,\ \delta=0.1,\ \phi=0.4,\ \mu=0.2$'),
-           title_fontsize=10)
-
-fig.suptitle(
-    'Fig. 4  ·  AI adoption shifts regime boundaries in the '
-    r'$(K_{rev},\, K)$ parameter space',
-    fontsize=13, fontweight='bold', y=1.01
-)
-
-# ─────────────────────────────────────────────────────────────────────────────
-# 5.  Save
-# ─────────────────────────────────────────────────────────────────────────────
-# Resolve output path relative to this script's location
-SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
-OUTPUT_DIR  = os.path.join(SCRIPT_DIR, '..', 'doc', 'tex')
-OUTPUT_PATH = os.path.join(OUTPUT_DIR, 'fig4_ai_phase_diagram.pdf')
-
-plt.savefig(OUTPUT_PATH, dpi=300, bbox_inches='tight')
-print(f"Saved → {os.path.normpath(OUTPUT_PATH)}")
-plt.show()
+        print(f"Loading cached data from {DATA_PATH}")
+        data = load_data(DATA_PATH)
+    plot(data)

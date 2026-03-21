@@ -8,10 +8,15 @@ For each (delta/gamma, mu) pair, we run the ODE to convergence at a=0.8
 and record the long-run honest-author share x*.
 A second panel shows the regime classification (GH / BS / SC / GC).
 """
+import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from matplotlib.patches import Patch
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from data_io import save_data, load_data, DATA_DIR
 
 # ── Fixed baseline parameters (Set A) ────────────────────────────────────────
 N      = 1000
@@ -25,6 +30,11 @@ eps    = 0.05
 gamma  = 0.50   # production elasticity (fixed)
 phi    = 0.40   # cost-reduction slope  (fixed)
 a_val  = 0.80   # AI adoption level at which we evaluate
+
+SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
+OUTPUT_PATH = os.path.join(SCRIPT_DIR, '..', 'doc', 'tex', 'fig8_heatmap_outcomes.pdf')
+DATA_PATH   = os.path.join(DATA_DIR, 'fig8_data.json')
+
 
 # ── AI-extended model at fixed a ─────────────────────────────────────────────
 def compute_Pi_bad(x, K_rev_eff, lam_eff, c_eff):
@@ -60,121 +70,151 @@ def classify_regime(K_rev_eff, lam_eff, c_eff):
     else:
         return 'SC'
 
+
 # ── Parameter grid ────────────────────────────────────────────────────────────
-n_pts = 60
+n_pts     = 60
 dg_ratios = np.linspace(0.0, 1.0,  n_pts)   # delta/gamma
 mu_vals   = np.linspace(0.0, 0.40, n_pts)   # dλ/da
 
-xstar_grid  = np.zeros((n_pts, n_pts))
-regime_grid = np.empty((n_pts, n_pts), dtype=object)
 
-regime_to_int = {'GH': 0, 'SC': 1, 'BS': 2, 'GC': 3}
+# ── Compute ───────────────────────────────────────────────────────────────────
 
-print("Computing heatmap grid (this may take ~30 s)…")
-for i, mu in enumerate(mu_vals):
-    for j, dg in enumerate(dg_ratios):
-        delta_eff = dg * gamma
-        # Effective parameters at a = a_val
-        K_rev_eff = K_rev0 * (1 + delta_eff * a_val)  # review capacity
-        # Submission volume scaling absorbed: effective K_rev relative to inflated V
-        # Divide K_rev_eff by (1+gamma*a_val) to get the true screening ratio
-        K_rev_norm = K_rev_eff / (1 + gamma * a_val)
-        lam_eff   = lam0 + mu * a_val
-        c_eff     = c0 * (1 - phi * a_val)
+def compute_data():
+    xstar_grid  = np.zeros((n_pts, n_pts))
+    regime_grid = np.empty((n_pts, n_pts), dtype=object)
 
-        regime = classify_regime(K_rev_norm, lam_eff, c_eff)
-        regime_grid[i, j] = regime
+    print("Computing heatmap grid (this may take ~30 s)…")
+    for i, mu in enumerate(mu_vals):
+        for j, dg in enumerate(dg_ratios):
+            delta_eff = dg * gamma
+            K_rev_eff = K_rev0 * (1 + delta_eff * a_val)
+            K_rev_norm = K_rev_eff / (1 + gamma * a_val)
+            lam_eff   = lam0 + mu * a_val
+            c_eff     = c0 * (1 - phi * a_val)
 
-        # Long-run x* starting from x0=0.90 (near honest boundary)
-        xstar_grid[i, j] = run_ode(K_rev_norm, lam_eff, c_eff, x0=0.90)
+            regime = classify_regime(K_rev_norm, lam_eff, c_eff)
+            regime_grid[i, j] = regime
 
-print("Grid complete.")
+            xstar_grid[i, j] = run_ode(K_rev_norm, lam_eff, c_eff, x0=0.90)
 
-# ── Regime integer map for color plot ────────────────────────────────────────
-regime_int = np.vectorize(regime_to_int.get)(regime_grid).astype(float)
+    print("Grid complete.")
 
-# ── Plotting ──────────────────────────────────────────────────────────────────
-fig, axes = plt.subplots(1, 2, figsize=(14, 5.5), gridspec_kw={'wspace': 0.45})
+    # Convert object array to list of lists for JSON serialisation
+    regime_list = regime_grid.tolist()
 
-# --- Panel A: long-run x* heatmap ---
-ax = axes[0]
-im = ax.imshow(
-    xstar_grid,
-    origin='lower',
-    aspect='auto',
-    extent=[dg_ratios[0], dg_ratios[-1], mu_vals[0], mu_vals[-1]],
-    cmap='RdYlGn',
-    vmin=0, vmax=1
-)
-cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
-cbar.set_label(r'Long-run honest-author share $x^*$', fontsize=11)
+    return {
+        'xstar_grid':  xstar_grid,
+        'regime_list': regime_list,
+        'dg_ratios':   dg_ratios,
+        'mu_vals':     mu_vals,
+    }
 
-# Contour at x*=0.5 (quality watershed)
-cs = ax.contour(
-    dg_ratios, mu_vals, xstar_grid,
-    levels=[0.50],
-    colors=['black'], linewidths=1.8, linestyles='--'
-)
-ax.clabel(cs, fmt={0.50: r'$x^*=0.5$'}, fontsize=9)
 
-ax.set_xlabel(r'Verification elasticity ratio $\delta/\gamma$', fontsize=11)
-ax.set_ylabel(r'False-positive slope $\mu = \mathrm{d}\lambda/\mathrm{d}a$', fontsize=11)
-ax.set_title(r'(a) Long-run honest-author share $x^*$'
-             '\n'
-             r'at $a=0.8$', fontsize=10)
+# ── Plot ──────────────────────────────────────────────────────────────────────
 
-# Annotations
-ax.text(0.85, 0.35, 'Collapse\nzone', color='black',   fontsize=9,
-        ha='center', va='center', fontweight='bold',
-        transform=ax.transAxes)
-ax.text(0.15, 0.10, 'Stable\nzone',  color='darkgreen',  fontsize=9,
-        ha='center', va='center', fontweight='bold',
-        transform=ax.transAxes)
+def plot(data):
+    xstar_grid  = data['xstar_grid']
+    regime_list = data['regime_list']
+    dg_ratios_  = data['dg_ratios']
+    mu_vals_    = data['mu_vals']
 
-# --- Panel B: regime classification heatmap ---
-ax2 = axes[1]
-cmap4 = mcolors.ListedColormap(['#2ca02c', '#1f77b4', '#ffdd57', '#d62728'])
-bounds = [-0.5, 0.5, 1.5, 2.5, 3.5]
-norm4  = mcolors.BoundaryNorm(bounds, cmap4.N)
+    regime_to_int = {'GH': 0, 'SC': 1, 'BS': 2, 'GC': 3}
+    regime_grid = np.array(regime_list)
+    regime_int  = np.vectorize(regime_to_int.get)(regime_grid).astype(float)
 
-im2 = ax2.imshow(
-    regime_int,
-    origin='lower',
-    aspect='auto',
-    extent=[dg_ratios[0], dg_ratios[-1], mu_vals[0], mu_vals[-1]],
-    cmap=cmap4,
-    norm=norm4
-)
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5.5), gridspec_kw={'wspace': 0.45})
 
-legend_elements = [
-    Patch(facecolor='#2ca02c', label='GH — Global Honesty'),
-    Patch(facecolor='#1f77b4', label='SC — Stable Coexistence'),
-    Patch(facecolor='#ffdd57', label='BS — Bistability'),
-    Patch(facecolor='#d62728', label='GC — Global Corruption'),
-]
-ax2.legend(handles=legend_elements, loc='upper right', fontsize=8.5,
-           framealpha=0.9)
+    # --- Panel A: long-run x* heatmap ---
+    ax = axes[0]
+    im = ax.imshow(
+        xstar_grid,
+        origin='lower',
+        aspect='auto',
+        extent=[dg_ratios_[0], dg_ratios_[-1], mu_vals_[0], mu_vals_[-1]],
+        cmap='RdYlGn',
+        vmin=0, vmax=1
+    )
+    cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
+    cbar.set_label(r'Long-run honest-author share $x^*$', fontsize=11)
 
-ax2.set_xlabel(r'Verification elasticity ratio $\delta/\gamma$', fontsize=11)
-ax2.set_ylabel(r'False-positive slope $\mu = \mathrm{d}\lambda/\mathrm{d}a$', fontsize=11)
-ax2.set_title(r'(b) Regime classification at $a=0.8$', fontsize=10)
+    cs = ax.contour(
+        dg_ratios_, mu_vals_, xstar_grid,
+        levels=[0.50],
+        colors=['black'], linewidths=1.8, linestyles='--'
+    )
+    ax.clabel(cs, fmt={0.50: r'$x^*=0.5$'}, fontsize=9)
 
-# Reference lines
-ax2.axhline(0.20, color='white', linestyle=':', linewidth=1.2, alpha=0.8)
-ax2.text(0.50, 0.21, r'Baseline $\mu=0.2$', color='black',
-         fontsize=10, fontweight='bold', ha='center', transform=ax2.get_xaxis_transform())
-ax2.axvline(0.20, color='white', linestyle=':', linewidth=1.2, alpha=0.8)
-ax2.text(0.21, 0.85, r'Baseline $\delta/\gamma=0.2$', color='white',
-         fontsize=8, va='center', rotation=90, transform=ax2.get_yaxis_transform())
+    ax.set_xlabel(r'Verification elasticity ratio $\delta/\gamma$', fontsize=11)
+    ax.set_ylabel(r'False-positive slope $\mu = \mathrm{d}\lambda/\mathrm{d}a$', fontsize=11)
+    ax.set_title(r'(a) Long-run honest-author share $x^*$'
+                 '\n'
+                 r'at $a=0.8$', fontsize=10)
 
-fig.suptitle(
-    r'Fig. 8 — Outcome sensitivity to verification investment ($\delta/\gamma$) and'
-    '\n'
-    r'screening vulnerability ($\mu$) at AI adoption $a=0.8$'
-    r'  ($\gamma=0.5,\;\phi=0.4$; Set A)',
-    fontsize=11, y=1.02
-)
+    ax.text(0.85, 0.35, 'Collapse\nzone', color='black',   fontsize=9,
+            ha='center', va='center', fontweight='bold',
+            transform=ax.transAxes)
+    ax.text(0.15, 0.10, 'Stable\nzone',  color='darkgreen',  fontsize=9,
+            ha='center', va='center', fontweight='bold',
+            transform=ax.transAxes)
 
-plt.tight_layout()
-plt.savefig('doc/tex/fig8_heatmap_outcomes.pdf', bbox_inches='tight')
-print("fig8 saved.")
+    # --- Panel B: regime classification heatmap ---
+    ax2 = axes[1]
+    cmap4 = mcolors.ListedColormap(['#2ca02c', '#1f77b4', '#ffdd57', '#d62728'])
+    bounds = [-0.5, 0.5, 1.5, 2.5, 3.5]
+    norm4  = mcolors.BoundaryNorm(bounds, cmap4.N)
+
+    im2 = ax2.imshow(
+        regime_int,
+        origin='lower',
+        aspect='auto',
+        extent=[dg_ratios_[0], dg_ratios_[-1], mu_vals_[0], mu_vals_[-1]],
+        cmap=cmap4,
+        norm=norm4
+    )
+
+    legend_elements = [
+        Patch(facecolor='#2ca02c', label='GH — Global Honesty'),
+        Patch(facecolor='#1f77b4', label='SC — Stable Coexistence'),
+        Patch(facecolor='#ffdd57', label='BS — Bistability'),
+        Patch(facecolor='#d62728', label='GC — Global Corruption'),
+    ]
+    ax2.legend(handles=legend_elements, loc='upper right', fontsize=8.5,
+               framealpha=0.9)
+
+    ax2.set_xlabel(r'Verification elasticity ratio $\delta/\gamma$', fontsize=11)
+    ax2.set_ylabel(r'False-positive slope $\mu = \mathrm{d}\lambda/\mathrm{d}a$', fontsize=11)
+    ax2.set_title(r'(b) Regime classification at $a=0.8$', fontsize=10)
+
+    ax2.axhline(0.20, color='white', linestyle=':', linewidth=1.2, alpha=0.8)
+    ax2.text(0.50, 0.21, r'Baseline $\mu=0.2$', color='black',
+             fontsize=10, fontweight='bold', ha='center', transform=ax2.get_xaxis_transform())
+    ax2.axvline(0.20, color='white', linestyle=':', linewidth=1.2, alpha=0.8)
+    ax2.text(0.21, 0.85, r'Baseline $\delta/\gamma=0.2$', color='white',
+             fontsize=8, va='center', rotation=90, transform=ax2.get_yaxis_transform())
+
+    fig.suptitle(
+        r'Fig. 8 — Outcome sensitivity to verification investment ($\delta/\gamma$) and'
+        '\n'
+        r'screening vulnerability ($\mu$) at AI adoption $a=0.8$'
+        r'  ($\gamma=0.5,\;\phi=0.4$; Set A)',
+        fontsize=11, y=1.02
+    )
+
+    plt.tight_layout()
+    plt.savefig(OUTPUT_PATH, bbox_inches='tight')
+    print("fig8 saved.")
+
+
+# ── Main ──────────────────────────────────────────────────────────────────────
+
+if __name__ == '__main__':
+    recompute = '--recompute' in sys.argv
+    if recompute or not os.path.exists(DATA_PATH):
+        print("Computing data...")
+        data = compute_data()
+        save_data(data, DATA_PATH)
+        print(f"Data saved → {DATA_PATH}")
+    else:
+        print(f"Loading cached data from {DATA_PATH}")
+        data = load_data(DATA_PATH)
+    plot(data)

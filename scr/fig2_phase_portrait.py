@@ -16,10 +16,14 @@ Output: polynomial_graph_1.pdf  →  doc/tex/
 """
 
 import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from data_io import save_data, load_data, DATA_DIR
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1.  Model core
@@ -69,111 +73,139 @@ PARAMS = {
     'smoothness': 15,
 }
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+OUTPUT_PATH = os.path.join(SCRIPT_DIR, '..', 'doc', 'tex', 'polynomial_graph_1.pdf')
+DATA_PATH   = os.path.join(DATA_DIR, 'fig2_data.json')
+
 # ─────────────────────────────────────────────────────────────────────────────
-# 3.  Compute curve and tipping threshold
+# 3.  Compute
 # ─────────────────────────────────────────────────────────────────────────────
 
-x_grid  = np.linspace(0.001, 0.999, 600)
-y_curve = spam_payoff(x_grid, PARAMS)
+def compute_data():
+    x_grid  = np.linspace(0.001, 0.999, 600)
+    y_curve = spam_payoff(x_grid, PARAMS)
 
-# Locate the interior zero crossing (tipping threshold x*)
-x_star = None
-for idx in np.where(np.diff(np.sign(y_curve)))[0]:
-    x1, x2 = x_grid[idx], x_grid[idx + 1]
-    y1, y2 = y_curve[idx], y_curve[idx + 1]
-    if y2 != y1:
-        x_star = x1 - y1 * (x2 - x1) / (y2 - y1)
-        break   # take the first (and only expected) interior crossing
+    # Locate the interior zero crossing (tipping threshold x*)
+    x_star = None
+    for idx in np.where(np.diff(np.sign(y_curve)))[0]:
+        x1, x2 = x_grid[idx], x_grid[idx + 1]
+        y1, y2 = y_curve[idx], y_curve[idx + 1]
+        if y2 != y1:
+            x_star = float(x1 - y1 * (x2 - x1) / (y2 - y1))
+            break
+
+    return {'x_grid': x_grid, 'y_curve': y_curve, 'x_star': x_star}
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 4.  Plot
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Colour palette — consistent with the phase-diagram figures (fig4–fig10)
-C_GREEN = '#98FB98'   # Π_bad < 0  →  honesty region   (matches GH colour)
-C_RED   = '#FFB6C1'   # Π_bad > 0  →  corruption region (matches GC colour)
-C_CURVE = '#1a1a2e'   # main curve
+def plot(data):
+    x_grid  = data['x_grid']
+    y_curve = data['y_curve']
+    x_star  = data['x_star']
 
-fig, ax = plt.subplots(figsize=(7.5, 4.8))
+    # Colour palette — consistent with the phase-diagram figures (fig4–fig10)
+    C_GREEN = '#98FB98'   # Π_bad < 0  →  honesty region   (matches GH colour)
+    C_RED   = '#FFB6C1'   # Π_bad > 0  →  corruption region (matches GC colour)
+    C_CURVE = '#1a1a2e'   # main curve
 
-# ── Shaded regions ────────────────────────────────────────────────────────────
-ax.fill_between(x_grid, -1e6, 1e6,
-                where=(y_curve < 0), color=C_GREEN, alpha=0.55,
-                interpolate=True, zorder=0)
-ax.fill_between(x_grid, -1e6, 1e6,
-                where=(y_curve > 0), color=C_RED, alpha=0.55,
-                interpolate=True, zorder=0)
+    fig, ax = plt.subplots(figsize=(7.5, 4.8))
 
-# ── Π_bad(x) curve ───────────────────────────────────────────────────────────
-ax.plot(x_grid, y_curve, color=C_CURVE, lw=2.2, zorder=3)
+    # ── Shaded regions ────────────────────────────────────────────────────────────
+    ax.fill_between(x_grid, -1e6, 1e6,
+                    where=(y_curve < 0), color=C_GREEN, alpha=0.55,
+                    interpolate=True, zorder=0)
+    ax.fill_between(x_grid, -1e6, 1e6,
+                    where=(y_curve > 0), color=C_RED, alpha=0.55,
+                    interpolate=True, zorder=0)
 
-# ── Zero line ────────────────────────────────────────────────────────────────
-ax.axhline(0, color='#444444', lw=0.9, linestyle='--', zorder=2)
+    # ── Π_bad(x) curve ───────────────────────────────────────────────────────────
+    ax.plot(x_grid, y_curve, color=C_CURVE, lw=2.2, zorder=3)
 
-# ── Stable fixed-point markers at x = 0 and x = 1 ───────────────────────────
-MSIZE = 10
-ax.scatter([0, 1], [0, 0],
-           s=MSIZE**2, color='black', zorder=6, clip_on=False)
+    # ── Zero line ────────────────────────────────────────────────────────────────
+    ax.axhline(0, color='#444444', lw=0.9, linestyle='--', zorder=2)
 
-# ── Tipping-threshold marker (orange, consistent with paper caption) ──────────
-if x_star is not None:
+    # ── Stable fixed-point markers at x = 0 and x = 1 ───────────────────────────
+    MSIZE = 10
+    ax.scatter([0, 1], [0, 0],
+               s=MSIZE**2, color='black', zorder=6, clip_on=False)
+
+    # ── Tipping-threshold marker (orange, consistent with paper caption) ──────────
+    if x_star is not None:
+        y_abs_max = float(np.max(np.abs(y_curve)))
+        ax.scatter([x_star], [0],
+                   s=(MSIZE + 2)**2, color='#FF8C00',
+                   edgecolors='black', linewidths=0.8, zorder=7)
+        ax.annotate(
+            rf'$x^* \approx {x_star:.2f}$',
+            xy=(x_star, 0),
+            xytext=(x_star - 0.18, y_abs_max * 0.38),
+            fontsize=10.5,
+            arrowprops=dict(arrowstyle='->', color='#333333', lw=1.0),
+            color='#333333',
+        )
+
+    # ── Axis limits and labels ────────────────────────────────────────────────────
     y_abs_max = float(np.max(np.abs(y_curve)))
-    ax.scatter([x_star], [0],
-               s=(MSIZE + 2)**2, color='#FF8C00',
-               edgecolors='black', linewidths=0.8, zorder=7)
-    ax.annotate(
-        rf'$x^* \approx {x_star:.2f}$',
-        xy=(x_star, 0),
-        xytext=(x_star - 0.18, y_abs_max * 0.38),
-        fontsize=10.5,
-        arrowprops=dict(arrowstyle='->', color='#333333', lw=1.0),
-        color='#333333',
+    ax.set_xlim(0, 1)
+    ax.set_ylim(-y_abs_max * 1.4, y_abs_max * 1.4)
+    ax.set_xlabel(r'Honest-author share  $x$', fontsize=12)
+    ax.set_ylabel(r'Spam payoff  $\Pi_{\mathrm{bad}}(x)$', fontsize=12)
+    ax.tick_params(labelsize=10)
+    ax.grid(True, alpha=0.25, linestyle='--', linewidth=0.7)
+
+    # ── Parameter annotation box — style matches fig4–fig10 ──────────────────────
+    param_str = (
+        r'$N=1000,\;\alpha=0.2$' '\n'
+        r'$K_{rev}=300,\;K=400$' '\n'
+        r'$r=100,\;c=25,\;\lambda=0.10,\;\varepsilon=0.05$'
     )
+    ax.text(0.03, 0.97, param_str,
+            transform=ax.transAxes, fontsize=9.5,
+            verticalalignment='top',
+            bbox=dict(boxstyle='round,pad=0.4', facecolor='white',
+                      edgecolor='#aaaaaa', alpha=0.90))
 
-# ── Axis limits and labels ────────────────────────────────────────────────────
-y_abs_max = float(np.max(np.abs(y_curve)))
-ax.set_xlim(0, 1)
-ax.set_ylim(-y_abs_max * 1.4, y_abs_max * 1.4)
-ax.set_xlabel(r'Honest-author share  $x$', fontsize=12)
-ax.set_ylabel(r'Spam payoff  $\Pi_{\mathrm{bad}}(x)$', fontsize=12)
-ax.tick_params(labelsize=10)
-ax.grid(True, alpha=0.25, linestyle='--', linewidth=0.7)
+    # ── Legend ────────────────────────────────────────────────────────────────────
+    legend_handles = [
+        Patch(facecolor=C_RED,   alpha=0.7,
+              label=r'$\Pi_{\mathrm{bad}}>0$: AS spreads, $x$ falls'),
+        Patch(facecolor=C_GREEN, alpha=0.7,
+              label=r'$\Pi_{\mathrm{bad}}<0$: OG spreads, $x$ rises'),
+        Line2D([0], [0], color=C_CURVE, lw=2.2,
+               label=r'$\Pi_{\mathrm{bad}}(x)$'),
+        Line2D([0], [0], marker='o', color='w', lw=0,
+               markerfacecolor='black', markersize=9,
+               label='Absorbing state ($x=0$ or $x=1$)'),
+        Line2D([0], [0], marker='o', color='w', lw=0,
+               markerfacecolor='#FF8C00', markeredgecolor='black', markersize=9,
+               label=r'Tipping threshold $x^*$'),
+    ]
+    ax.legend(handles=legend_handles, loc='lower right',
+              fontsize=9, framealpha=0.92, edgecolor='#cccccc')
 
-# ── Parameter annotation box — style matches fig4–fig10 ──────────────────────
-param_str = (
-    r'$N=1000,\;\alpha=0.2$' '\n'
-    r'$K_{rev}=300,\;K=400$' '\n'
-    r'$r=100,\;c=25,\;\lambda=0.10,\;\varepsilon=0.05$'
-)
-ax.text(0.03, 0.97, param_str,
-        transform=ax.transAxes, fontsize=9.5,
-        verticalalignment='top',
-        bbox=dict(boxstyle='round,pad=0.4', facecolor='white',
-                  edgecolor='#aaaaaa', alpha=0.90))
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 5.  Save
+    # ─────────────────────────────────────────────────────────────────────────────
+    plt.tight_layout()
+    plt.savefig(OUTPUT_PATH, dpi=150, bbox_inches='tight')
+    print(f"Saved: {OUTPUT_PATH}")
 
-# ── Legend ────────────────────────────────────────────────────────────────────
-legend_handles = [
-    Patch(facecolor=C_RED,   alpha=0.7,
-          label=r'$\Pi_{\mathrm{bad}}>0$: AS spreads, $x$ falls'),
-    Patch(facecolor=C_GREEN, alpha=0.7,
-          label=r'$\Pi_{\mathrm{bad}}<0$: OG spreads, $x$ rises'),
-    Line2D([0], [0], color=C_CURVE, lw=2.2,
-           label=r'$\Pi_{\mathrm{bad}}(x)$'),
-    Line2D([0], [0], marker='o', color='w', lw=0,
-           markerfacecolor='black', markersize=9,
-           label='Absorbing state ($x=0$ or $x=1$)'),
-    Line2D([0], [0], marker='o', color='w', lw=0,
-           markerfacecolor='#FF8C00', markeredgecolor='black', markersize=9,
-           label=r'Tipping threshold $x^*$'),
-]
-ax.legend(handles=legend_handles, loc='lower right',
-          fontsize=9, framealpha=0.92, edgecolor='#cccccc')
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 5.  Save
+# 6.  Main
 # ─────────────────────────────────────────────────────────────────────────────
-plt.tight_layout()
-OUT_DIR = os.path.join(os.path.dirname(__file__), '..', 'doc', 'tex')
-OUT_PATH = os.path.join(OUT_DIR, 'polynomial_graph_1.pdf')
-plt.savefig(OUT_PATH, dpi=150, bbox_inches='tight')
-print(f"Saved: {OUT_PATH}")
+
+if __name__ == '__main__':
+    recompute = '--recompute' in sys.argv
+    if recompute or not os.path.exists(DATA_PATH):
+        print("Computing data...")
+        data = compute_data()
+        save_data(data, DATA_PATH)
+        print(f"Data saved → {DATA_PATH}")
+    else:
+        print(f"Loading cached data from {DATA_PATH}")
+        data = load_data(DATA_PATH)
+    plot(data)

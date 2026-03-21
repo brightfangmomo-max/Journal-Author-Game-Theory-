@@ -23,10 +23,14 @@ Parameters follow Set A baseline with AI-extension (gamma, delta, phi, mu).
 """
 
 import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.lines import Line2D
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from data_io import save_data, load_data, DATA_DIR
 
 # ── Base parameters (Set A) ──────────────────────────────────────────────────
 ALPHA = 0.2
@@ -44,6 +48,10 @@ PHI   = 0.4   # cost-reduction slope    (φ)
 MU    = 0.2   # false-positive slope    (μ)
 
 K_SMOOTH = 60  # soft-min sharpness (higher → closer to hard min)
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+OUTPUT_PATH = os.path.join(SCRIPT_DIR, '..', 'doc', 'tex', 'fig_hysteresis_loop.pdf')
+DATA_PATH   = os.path.join(DATA_DIR, 'fig_hysteresis_loop_data.json')
 
 
 # ── Model functions ───────────────────────────────────────────────────────────
@@ -131,16 +139,38 @@ def find_threshold_a(N, a_vals, boundary):
     return np.nan
 
 
+# ── Compute ───────────────────────────────────────────────────────────────────
+
+def compute_data():
+    a_vals = np.linspace(0.0, 0.70, 700)
+    panels = []
+    for N in [300, 600]:
+        uppers, lowers, tippings = compute_branches(N, a_vals)
+        a_col = find_threshold_a(N, a_vals, boundary='upper')
+        a_rec = find_threshold_a(N, a_vals, boundary='lower')
+        panels.append({
+            'N':        N,
+            'a_vals':   a_vals,
+            'uppers':   uppers,
+            'lowers':   lowers,
+            'tippings': tippings,
+            'a_col':    a_col,
+            'a_rec':    a_rec,
+        })
+    return {'panels': panels}
+
+
 # ── Plotting ──────────────────────────────────────────────────────────────────
 
-def draw_panel(ax, N, a_vals, panel_label, show_ylabel):
-    """Draw one bifurcation panel for the given N."""
-
-    uppers, lowers, tippings = compute_branches(N, a_vals)
-
-    # Identify thresholds
-    a_col = find_threshold_a(N, a_vals, boundary='upper')  # collapse
-    a_rec = find_threshold_a(N, a_vals, boundary='lower')  # recovery
+def draw_panel(ax, panel):
+    """Draw one bifurcation panel."""
+    N        = panel['N']
+    a_vals   = panel['a_vals']
+    uppers   = panel['uppers']
+    lowers   = panel['lowers']
+    tippings = panel['tippings']
+    a_col    = panel['a_col']
+    a_rec    = panel['a_rec']
 
     # ── Colour scheme ──
     C_UP  = '#2166ac'   # blue  – honest stable branch
@@ -158,7 +188,6 @@ def draw_panel(ax, N, a_vals, panel_label, show_ylabel):
         ax.axvspan(a_rec, a_col, alpha=ALPHA_BG, color=C_BS, zorder=0)
         ax.axvspan(a_col, a_max, alpha=ALPHA_BG, color=C_GC, zorder=0)
     elif np.isnan(a_rec) and not np.isnan(a_col):
-        # No GH phase: starts in BS
         ax.axvspan(a_min, a_col, alpha=ALPHA_BG, color=C_BS, zorder=0)
         ax.axvspan(a_col, a_max, alpha=ALPHA_BG, color=C_GC, zorder=0)
     else:
@@ -194,7 +223,6 @@ def draw_panel(ax, N, a_vals, panel_label, show_ylabel):
                     zorder=5)
 
     # ── Horizontal path-direction arrows ──
-    # Forward: along upper branch, pointing right
     if not np.isnan(a_col):
         mid_fwd = min(a_col * 0.55, a_col - 0.05)
         ax.annotate('', xy=(mid_fwd + 0.07, 1.0), xytext=(mid_fwd, 1.0),
@@ -203,7 +231,6 @@ def draw_panel(ax, N, a_vals, panel_label, show_ylabel):
         ax.text(mid_fwd + 0.035, 1.035, 'forward $\\to$',
                 fontsize=7.5, color='#333333', ha='center', va='bottom')
 
-    # Backward: along lower branch, pointing left
     if not np.isnan(a_rec):
         mid_bwd = a_rec + (a_col - a_rec) * 0.5
         ax.annotate('', xy=(mid_bwd - 0.07, 0.0), xytext=(mid_bwd, 0.0),
@@ -245,31 +272,27 @@ def draw_panel(ax, N, a_vals, panel_label, show_ylabel):
     ax.set_xlim(a_vals[0], a_vals[-1])
     ax.set_ylim(-0.25, 1.18)
     ax.set_xlabel('AI adoption $a$', fontsize=11)
-    if show_ylabel:
-        ax.set_ylabel('Long-run honest-author share $x^*$', fontsize=11)
+    ax.set_ylabel('Long-run honest-author share $x^*$', fontsize=11)
     ax.set_yticks([0.0, 0.25, 0.50, 0.75, 1.0])
     ax.set_yticklabels(['0\n(corrupt)', '0.25', '0.50', '0.75', '1.0\n(honest)'],
                        fontsize=8.5)
-    ax.set_title(panel_label, fontsize=11, pad=12)
     ax.grid(True, alpha=0.20, ls='--')
     ax.tick_params(axis='x', labelsize=9)
 
 
-# ── Main ──────────────────────────────────────────────────────────────────────
-
-def main():
-    a_vals = np.linspace(0.0, 0.70, 700)
+def plot(data):
+    panels = data['panels']
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13.5, 5.6),
                                     gridspec_kw={'wspace': 0.30})
 
-    draw_panel(ax1, N=300, a_vals=a_vals,
-               panel_label='(a) Low-pressure field ($N=300$)',
-               show_ylabel=True)
+    draw_panel(ax1, panels[0])
+    ax1.set_title(f'(a) Low-pressure field ($N={panels[0]["N"]}$)', fontsize=11, pad=12)
+    ax1.set_ylabel('Long-run honest-author share $x^*$', fontsize=11)
 
-    draw_panel(ax2, N=600, a_vals=a_vals,
-               panel_label='(b) High-pressure field ($N=600$)',
-               show_ylabel=False)
+    draw_panel(ax2, panels[1])
+    ax2.set_title(f'(b) High-pressure field ($N={panels[1]["N"]}$)', fontsize=11, pad=12)
+    ax2.set_ylabel('')
 
     # ── Shared legend ──
     legend_handles = [
@@ -294,13 +317,21 @@ def main():
     plt.tight_layout(rect=[0, 0.08, 1, 1])
 
     # ── Save ──
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    out_path = os.path.join(script_dir, '..', 'doc', 'tex',
-                            'fig_hysteresis_loop.pdf')
-    plt.savefig(out_path, bbox_inches='tight')
-    print(f'Saved: {os.path.normpath(out_path)}')
+    plt.savefig(OUTPUT_PATH, bbox_inches='tight')
+    print(f'Saved: {os.path.normpath(OUTPUT_PATH)}')
     plt.show()
 
 
+# ── Main ──────────────────────────────────────────────────────────────────────
+
 if __name__ == '__main__':
-    main()
+    recompute = '--recompute' in sys.argv
+    if recompute or not os.path.exists(DATA_PATH):
+        print("Computing data...")
+        data = compute_data()
+        save_data(data, DATA_PATH)
+        print(f"Data saved → {DATA_PATH}")
+    else:
+        print(f"Loading cached data from {DATA_PATH}")
+        data = load_data(DATA_PATH)
+    plot(data)

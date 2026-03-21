@@ -16,9 +16,14 @@ Panel (b) — Path dependence
 Set A: N=1000, alpha=0.2, K_rev=300, K=400, r=100, c=25, lam0=0.1, eps=0.05
 AI:   gamma=0.5, delta=0.1, phi=0.4, mu=0.2
 """
+import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from data_io import save_data, load_data, DATA_DIR
 
 # ── Parameters ────────────────────────────────────────────────────────────────
 N      = 1000
@@ -33,6 +38,11 @@ gamma  = 0.50
 delta  = 0.10
 phi    = 0.40
 mu     = 0.20
+
+SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
+OUTPUT_PATH = os.path.join(SCRIPT_DIR, '..', 'doc', 'tex', 'fig7_tipping_timeseries.pdf')
+DATA_PATH   = os.path.join(DATA_DIR, 'fig7_data.json')
+
 
 def Pi_bad(x, a):
     K_rev = K_rev0 * (1 + delta * a)
@@ -55,7 +65,6 @@ def find_threshold(a, tol=1e-5):
     lo, hi = 1e-4, 1-1e-4
     for _ in range(80):
         mid = (lo+hi)/2
-        (lo if Pi_bad(mid,a)>0 else hi).__class__  # dummy
         if Pi_bad(mid, a) > 0:
             lo = mid
         else:
@@ -64,140 +73,188 @@ def find_threshold(a, tol=1e-5):
             break
     return (lo+hi)/2
 
-# ── Pre-compute x*(a) curve ───────────────────────────────────────────────────
-a_vals  = np.linspace(0.0, 0.80, 300)
-x_star  = np.array([find_threshold(a) or np.nan for a in a_vals])
 
-# ── Panel A simulation parameters ────────────────────────────────────────────
+# ── Simulation parameters ────────────────────────────────────────────────────
 T_total  = 3000
 a_max    = 0.80
 dt_sim   = 0.02
-a_series = np.linspace(0.0, a_max, T_total)
 
-SHOCK_SIZE  = 0.18    # magnitude of x drop (same in both cases)
-SHOCK_EARLY = 300     # time step of early shock (a ≈ 0.08)
-SHOCK_LATE  = 2000    # time step of late shock  (a ≈ 0.53)
+SHOCK_SIZE  = 0.18
+SHOCK_EARLY = 300
+SHOCK_LATE  = 2000
 
-def simulate(shock_step, label):
-    x = 1.0
-    xs = []
-    for t in range(T_total):
-        if t == shock_step:
-            x = max(0.0, x - SHOCK_SIZE)
-        xs.append(x)
-        x = dx_step(x, a_series[t], dt=dt_sim)
-    return np.array(xs)
+a_pd = 0.45
+T2   = 1200
+dt2  = 0.05
 
-traj_early = simulate(SHOCK_EARLY, 'early')
-traj_late  = simulate(SHOCK_LATE,  'late')
 
-# Map a-values → time steps for threshold overlay
-thresh_at_t = np.array([find_threshold(a) or np.nan for a in a_series])
+# ── Compute ──────────────────────────────────────────────────────────────────
 
-# ── Panel B: path dependence ──────────────────────────────────────────────────
-a_pd   = 0.45
-x_pd   = find_threshold(a_pd)
-if x_pd is None:
-    x_pd = 0.85
+def compute_data():
+    a_vals  = np.linspace(0.0, 0.80, 300)
+    x_star  = np.array([find_threshold(a) or np.nan for a in a_vals])
 
-T2 = 1200
-dt2 = 0.05
+    a_series = np.linspace(0.0, a_max, T_total)
+    thresh_at_t = np.array([find_threshold(a) or np.nan for a in a_series])
 
-def run_pd(x0):
-    traj = []
-    x = x0
-    for _ in range(T2):
-        traj.append(x)
-        x = dx_step(x, a_pd, dt=dt2)
-    return np.array(traj)
+    def simulate(shock_step):
+        x = 1.0
+        xs = []
+        for t in range(T_total):
+            if t == shock_step:
+                x = max(0.0, x - SHOCK_SIZE)
+            xs.append(x)
+            x = dx_step(x, a_series[t], dt=dt_sim)
+        return np.array(xs)
 
-traj_above = run_pd(x_pd + 0.04)
-traj_below = run_pd(x_pd - 0.04)
+    traj_early = simulate(SHOCK_EARLY)
+    traj_late  = simulate(SHOCK_LATE)
 
-# ── Plotting ──────────────────────────────────────────────────────────────────
-fig = plt.figure(figsize=(13, 6.2))
-gs  = gridspec.GridSpec(1, 2, figure=fig, wspace=0.38)
+    x_pd = find_threshold(a_pd)
+    if x_pd is None:
+        x_pd = 0.85
 
-# ─── Panel A ──────────────────────────────────────────────────────────────────
-ax1  = fig.add_subplot(gs[0])
-ax1b = ax1.twinx()
+    def run_pd(x0):
+        traj = []
+        x = x0
+        for _ in range(T2):
+            traj.append(x)
+            x = dx_step(x, a_pd, dt=dt2)
+        return np.array(traj)
 
-steps = np.arange(T_total)
+    traj_above = run_pd(x_pd + 0.04)
+    traj_below = run_pd(x_pd - 0.04)
 
-ax1.plot(steps, thresh_at_t, color='crimson', linewidth=2.0,
-         linestyle='--', label=r'Tipping threshold $x^*(a_t)$', zorder=3)
+    return {
+        'a_series':    a_series,
+        'thresh_at_t': thresh_at_t,
+        'traj_early':  traj_early,
+        'traj_late':   traj_late,
+        'a_pd':        float(a_pd),
+        'x_pd':        float(x_pd),
+        'traj_above':  traj_above,
+        'traj_below':  traj_below,
+        'SHOCK_SIZE':  float(SHOCK_SIZE),
+        'SHOCK_EARLY': int(SHOCK_EARLY),
+        'SHOCK_LATE':  int(SHOCK_LATE),
+        'T_total':     int(T_total),
+        'T2':          int(T2),
+    }
 
-ax1.plot(steps, traj_early, color='forestgreen', linewidth=1.8, alpha=0.9,
-         label=fr'Early shock (t={SHOCK_EARLY}, $a\approx{a_series[SHOCK_EARLY]:.2f}$) → recovers')
-ax1.plot(steps, traj_late, color='steelblue', linewidth=1.8, alpha=0.9,
-         label=fr'Late shock  (t={SHOCK_LATE},  $a\approx{a_series[SHOCK_LATE]:.2f}$) → collapses')
 
-ax1b.plot(steps, a_series, color='darkorange', linewidth=1.3,
-          linestyle=':', alpha=0.75, label=r'AI adoption $a_t$')
+# ── Plot ──────────────────────────────────────────────────────────────────────
 
-# Mark shock events
-for t_shock, color, traj in [(SHOCK_EARLY,'forestgreen',traj_early),
-                               (SHOCK_LATE, 'steelblue',  traj_late)]:
-    ax1.annotate('', xy=(t_shock, traj[t_shock]),
-                 xytext=(t_shock, traj[t_shock]+SHOCK_SIZE),
-                 arrowprops=dict(arrowstyle='->', color=color, lw=1.5))
+def plot(data):
+    a_series    = data['a_series']
+    thresh_at_t = data['thresh_at_t']
+    traj_early  = data['traj_early']
+    traj_late   = data['traj_late']
+    a_pd_       = data['a_pd']
+    x_pd_       = data['x_pd']
+    traj_above  = data['traj_above']
+    traj_below  = data['traj_below']
+    SHOCK_SIZE_ = data['SHOCK_SIZE']
+    SHOCK_EARLY_= data['SHOCK_EARLY']
+    SHOCK_LATE_ = data['SHOCK_LATE']
+    T_total_    = data['T_total']
+    T2_         = data['T2']
 
-lines1, lab1 = ax1.get_legend_handles_labels()
-lines2, lab2 = ax1b.get_legend_handles_labels()
-ax1.legend(lines1+lines2, lab1+lab2, fontsize=8.2, framealpha=0.93,
-           bbox_to_anchor=(0.5, -0.22), loc='upper center',
-           bbox_transform=ax1.transAxes, ncol=2)
+    fig = plt.figure(figsize=(13, 6.2))
+    gs  = gridspec.GridSpec(1, 2, figure=fig, wspace=0.38)
 
-ax1.set_xlabel('Time step', fontsize=11)
-ax1.set_ylabel(r'Honest-author share $x_t$', color='steelblue', fontsize=10)
-ax1b.set_ylabel(r'AI adoption level $a_t$', color='darkorange', fontsize=10)
-ax1.set_ylim(-0.05, 1.13)
-ax1b.set_ylim(-0.05, 1.13)
-ax1.tick_params(axis='y', labelcolor='steelblue')
-ax1b.tick_params(axis='y', labelcolor='darkorange')
-ax1.set_title(r'(a) Same shock, different timing: the system grows fragile silently',
-              fontsize=10, pad=7)
-ax1.grid(True, alpha=0.22)
+    # ─── Panel A ──────────────────────────────────────────────────────────────────
+    ax1  = fig.add_subplot(gs[0])
+    ax1b = ax1.twinx()
 
-# Safety-margin annotation — arrow tip lands exactly on the red dashed line
-ann_t = int(T_total * 0.60)   # t=1800, a≈0.48, threshold clearly visible
-ann_y = thresh_at_t[ann_t]
-ax1.annotate(
-    'Safety margin\nnarrows',
-    xy=(ann_t, ann_y),
-    xytext=(ann_t + 480, ann_y - 0.22),
-    fontsize=8, color='crimson', ha='left',
-    arrowprops=dict(arrowstyle='->', color='crimson', lw=1.1)
-)
+    steps = np.arange(T_total_)
 
-# ─── Panel B ──────────────────────────────────────────────────────────────────
-ax2 = fig.add_subplot(gs[1])
-pd_steps = np.arange(T2)
+    ax1.plot(steps, thresh_at_t, color='crimson', linewidth=2.0,
+             linestyle='--', label=r'Tipping threshold $x^*(a_t)$', zorder=3)
 
-ax2.plot(pd_steps, traj_above, color='forestgreen', linewidth=2.2,
-         label=fr'$x_0={x_pd+0.04:.2f}$ (above $x^*$) $\to$ full honesty')
-ax2.plot(pd_steps, traj_below, color='crimson', linewidth=2.2,
-         label=fr'$x_0={x_pd-0.04:.2f}$ (below $x^*$) $\to$ collapse')
-ax2.axhline(x_pd, color='black', linestyle='--', linewidth=1.5, alpha=0.7,
-            label=fr'Tipping threshold $x^*\approx{x_pd:.2f}$')
+    ax1.plot(steps, traj_early, color='forestgreen', linewidth=1.8, alpha=0.9,
+             label=fr'Early shock (t={SHOCK_EARLY_}, $a\approx{a_series[SHOCK_EARLY_]:.2f}$) → recovers')
+    ax1.plot(steps, traj_late, color='steelblue', linewidth=1.8, alpha=0.9,
+             label=fr'Late shock  (t={SHOCK_LATE_},  $a\approx{a_series[SHOCK_LATE_]:.2f}$) → collapses')
 
-ax2.set_xlabel('Time step', fontsize=11)
-ax2.set_ylabel(r'Honest-author share $x_t$', fontsize=11)
-ax2.set_ylim(-0.05, 1.13)
-ax2.legend(fontsize=8.5, loc='center right', framealpha=0.92)
-ax2.set_title(fr'(b) Path dependence at $a={a_pd}$: identical shock size, opposite outcomes',
-              fontsize=10, pad=7)
-ax2.grid(True, alpha=0.22)
+    ax1b.plot(steps, a_series, color='darkorange', linewidth=1.3,
+              linestyle=':', alpha=0.75, label=r'AI adoption $a_t$')
 
-fig.suptitle(
-    r'Fig. 7 — AI adoption silently erodes the stability window;'
-    r' a fixed-size shock becomes irreversible once the tipping threshold rises'
-    '\n'
-    r'($\gamma=0.5,\;\delta=0.1,\;\phi=0.4,\;\mu=0.2$; Set A)',
-    fontsize=10.5, y=1.02
-)
+    for t_shock, color, traj in [(SHOCK_EARLY_,'forestgreen',traj_early),
+                                   (SHOCK_LATE_, 'steelblue',  traj_late)]:
+        ax1.annotate('', xy=(t_shock, traj[t_shock]),
+                     xytext=(t_shock, traj[t_shock]+SHOCK_SIZE_),
+                     arrowprops=dict(arrowstyle='->', color=color, lw=1.5))
 
-plt.tight_layout()
-plt.subplots_adjust(bottom=0.18)
-plt.savefig('doc/tex/fig7_tipping_timeseries.pdf', bbox_inches='tight')
-print("fig7 saved.")
+    lines1, lab1 = ax1.get_legend_handles_labels()
+    lines2, lab2 = ax1b.get_legend_handles_labels()
+    ax1.legend(lines1+lines2, lab1+lab2, fontsize=8.2, framealpha=0.93,
+               bbox_to_anchor=(0.5, -0.22), loc='upper center',
+               bbox_transform=ax1.transAxes, ncol=2)
+
+    ax1.set_xlabel('Time step', fontsize=11)
+    ax1.set_ylabel(r'Honest-author share $x_t$', color='steelblue', fontsize=10)
+    ax1b.set_ylabel(r'AI adoption level $a_t$', color='darkorange', fontsize=10)
+    ax1.set_ylim(-0.05, 1.13)
+    ax1b.set_ylim(-0.05, 1.13)
+    ax1.tick_params(axis='y', labelcolor='steelblue')
+    ax1b.tick_params(axis='y', labelcolor='darkorange')
+    ax1.set_title(r'(a) Same shock, different timing: the system grows fragile silently',
+                  fontsize=10, pad=7)
+    ax1.grid(True, alpha=0.22)
+
+    ann_t = int(T_total_ * 0.60)
+    ann_y = thresh_at_t[ann_t]
+    ax1.annotate(
+        'Safety margin\nnarrows',
+        xy=(ann_t, ann_y),
+        xytext=(ann_t + 480, ann_y - 0.22),
+        fontsize=8, color='crimson', ha='left',
+        arrowprops=dict(arrowstyle='->', color='crimson', lw=1.1)
+    )
+
+    # ─── Panel B ──────────────────────────────────────────────────────────────────
+    ax2 = fig.add_subplot(gs[1])
+    pd_steps = np.arange(T2_)
+
+    ax2.plot(pd_steps, traj_above, color='forestgreen', linewidth=2.2,
+             label=fr'$x_0={x_pd_+0.04:.2f}$ (above $x^*$) $\to$ full honesty')
+    ax2.plot(pd_steps, traj_below, color='crimson', linewidth=2.2,
+             label=fr'$x_0={x_pd_-0.04:.2f}$ (below $x^*$) $\to$ collapse')
+    ax2.axhline(x_pd_, color='black', linestyle='--', linewidth=1.5, alpha=0.7,
+                label=fr'Tipping threshold $x^*\approx{x_pd_:.2f}$')
+
+    ax2.set_xlabel('Time step', fontsize=11)
+    ax2.set_ylabel(r'Honest-author share $x_t$', fontsize=11)
+    ax2.set_ylim(-0.05, 1.13)
+    ax2.legend(fontsize=8.5, loc='center right', framealpha=0.92)
+    ax2.set_title(fr'(b) Path dependence at $a={a_pd_}$: identical shock size, opposite outcomes',
+                  fontsize=10, pad=7)
+    ax2.grid(True, alpha=0.22)
+
+    fig.suptitle(
+        r'Fig. 7 — AI adoption silently erodes the stability window;'
+        r' a fixed-size shock becomes irreversible once the tipping threshold rises'
+        '\n'
+        r'($\gamma=0.5,\;\delta=0.1,\;\phi=0.4,\;\mu=0.2$; Set A)',
+        fontsize=10.5, y=1.02
+    )
+
+    plt.tight_layout()
+    plt.subplots_adjust(bottom=0.18)
+    plt.savefig(OUTPUT_PATH, bbox_inches='tight')
+    print("fig7 saved.")
+
+
+# ── Main ──────────────────────────────────────────────────────────────────────
+
+if __name__ == '__main__':
+    recompute = '--recompute' in sys.argv
+    if recompute or not os.path.exists(DATA_PATH):
+        print("Computing data...")
+        data = compute_data()
+        save_data(data, DATA_PATH)
+        print(f"Data saved → {DATA_PATH}")
+    else:
+        print(f"Loading cached data from {DATA_PATH}")
+        data = load_data(DATA_PATH)
+    plot(data)

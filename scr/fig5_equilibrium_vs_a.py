@@ -32,10 +32,14 @@ Output: fig5_equilibrium_vs_a.pdf in doc/tex/
 """
 
 import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.lines import Line2D
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from data_io import save_data, load_data, DATA_DIR
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1.  Model core
@@ -117,10 +121,8 @@ def classify_and_find_equilibria(K_rev, K_store, p, a,
     sign_c = np.where(np.diff(np.sign(vals)))[0]
 
     if len(sign_c) > 0:
-        # Take the first sign change (lowest x root = tipping pt in BS, stable in SC)
         for idx in sign_c:
             x_lo, x_hi = x_grid[idx], x_grid[idx + 1]
-            # Bisection to refine
             for _ in range(40):
                 x_mid = 0.5 * (x_lo + x_hi)
                 if pi_bad(x_mid, **kw) * pi_bad(x_lo, **kw) < 0:
@@ -128,8 +130,6 @@ def classify_and_find_equilibria(K_rev, K_store, p, a,
                 else:
                     x_lo = x_mid
             candidate = 0.5 * (x_lo + x_hi)
-            # In BS the interior root is the tipping point (unstable)
-            # In SC the interior root is the stable equilibrium
             x_tip = candidate
             break   # first (lowest-x) root
 
@@ -166,121 +166,154 @@ SCENARIOS = [
 
 A_VALS = np.linspace(0.0, 1.0, 120)
 
+SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
+OUTPUT_PATH = os.path.join(SCRIPT_DIR, '..', 'doc', 'tex', 'fig5_equilibrium_vs_a.pdf')
+DATA_PATH   = os.path.join(DATA_DIR, 'fig5_data.json')
+
 # ─────────────────────────────────────────────────────────────────────────────
-# 3.  Compute trajectories
+# 3.  Compute
 # ─────────────────────────────────────────────────────────────────────────────
-results = []
-for (label, kr, ks, color, marker) in SCENARIOS:
-    regimes   = []
-    x_stables = []
-    x_tips    = []
-    for a_val in A_VALS:
-        reg, xs, xt = classify_and_find_equilibria(kr, ks, BASE, a_val, **AI_KW)
-        regimes.append(reg)
-        x_stables.append(xs)
-        x_tips.append(xt)
-    results.append((label, kr, ks, color, marker,
-                    np.array(regimes),
-                    np.array(x_stables),
-                    np.array(x_tips)))
+
+def compute_data():
+    results = []
+    for (label, kr, ks, color, marker) in SCENARIOS:
+        regimes   = []
+        x_stables = []
+        x_tips    = []
+        for a_val in A_VALS:
+            reg, xs, xt = classify_and_find_equilibria(kr, ks, BASE, a_val, **AI_KW)
+            regimes.append(reg)
+            x_stables.append(xs)
+            x_tips.append(xt)
+        results.append({
+            'label':    label,
+            'kr':       kr,
+            'ks':       ks,
+            'color':    color,
+            'marker':   marker,
+            'regimes':  np.array(regimes, dtype=np.int32),
+            'x_stables': np.array(x_stables),
+            'x_tips':   np.array(x_tips),
+        })
+
+    return {'A_VALS': A_VALS, 'results': results}
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 4.  Plot
 # ─────────────────────────────────────────────────────────────────────────────
-REGIME_COLORS = {0: '#98FB98', 1: '#FFB6C1', 2: '#FFE4B5', 3: '#ADD8E6', 4: '#D3D3D3'}
-REGIME_NAMES  = {0: 'GH', 1: 'GC', 2: 'BS', 3: 'SC', 4: 'NS'}
 
-fig, axes = plt.subplots(1, 3, figsize=(15, 5.2), sharey=True,
-                          constrained_layout=True)
+def plot(data):
+    A_VALS_  = data['A_VALS']
+    results  = data['results']
 
-for ax, (label, kr, ks, color, marker,
-         regimes, x_stables, x_tips) in zip(axes, results):
+    REGIME_COLORS = {0: '#98FB98', 1: '#FFB6C1', 2: '#FFE4B5', 3: '#ADD8E6', 4: '#D3D3D3'}
+    REGIME_NAMES  = {0: 'GH', 1: 'GC', 2: 'BS', 3: 'SC', 4: 'NS'}
 
-    # ── Regime background strip ───────────────────────────────────────────────
-    # Draw thin colored spans for each contiguous regime segment
-    prev_reg = regimes[0]
-    seg_start = A_VALS[0]
-    for i in range(1, len(A_VALS)):
-        if regimes[i] != prev_reg or i == len(A_VALS) - 1:
-            seg_end = A_VALS[i]
-            rc = REGIME_COLORS.get(prev_reg, 'white')
-            ax.axvspan(seg_start, seg_end, color=rc, alpha=0.25, zorder=0)
-            # Label the regime zone
-            ax.text(0.5 * (seg_start + seg_end), 0.03,
-                    REGIME_NAMES.get(prev_reg, '?'),
-                    ha='center', va='bottom', fontsize=8,
-                    color='gray', transform=ax.get_xaxis_transform())
-            seg_start = A_VALS[i]
-            prev_reg  = regimes[i]
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5.2), sharey=True,
+                              constrained_layout=True)
 
-    # ── Stable x* line ────────────────────────────────────────────────────────
-    # Separate GH (=1) and GC (=0) segments from SC interior
-    mask_gh = (regimes == 0)
-    mask_gc = (regimes == 1)
-    mask_sc = (regimes == 3)
+    for ax, rec in zip(axes, results):
+        label    = rec['label']
+        regimes  = rec['regimes']
+        x_stables= rec['x_stables']
+        x_tips   = rec['x_tips']
 
-    if mask_gh.any():
-        ax.plot(A_VALS[mask_gh], x_stables[mask_gh],
-                color='#2E8B57', lw=2.5, label=r'$x^*=1$ (GH stable)')
-    if mask_sc.any():
-        ax.plot(A_VALS[mask_sc], x_stables[mask_sc],
-                color='#3A7EC8', lw=2.5, label=r'$x^*$ interior (SC stable)')
-    if mask_gc.any():
-        ax.plot(A_VALS[mask_gc], x_stables[mask_gc],
-                color='#C83A3A', lw=2.5, label=r'$x^*=0$ (GC stable)')
+        # ── Regime background strip ───────────────────────────────────────────────
+        prev_reg = regimes[0]
+        seg_start = A_VALS_[0]
+        for i in range(1, len(A_VALS_)):
+            if regimes[i] != prev_reg or i == len(A_VALS_) - 1:
+                seg_end = A_VALS_[i]
+                rc = REGIME_COLORS.get(int(prev_reg), 'white')
+                ax.axvspan(seg_start, seg_end, color=rc, alpha=0.25, zorder=0)
+                ax.text(0.5 * (seg_start + seg_end), 0.03,
+                        REGIME_NAMES.get(int(prev_reg), '?'),
+                        ha='center', va='bottom', fontsize=8,
+                        color='gray', transform=ax.get_xaxis_transform())
+                seg_start = A_VALS_[i]
+                prev_reg  = regimes[i]
 
-    # ── Tipping-point / BS interior x*_tip ───────────────────────────────────
-    mask_bs   = (regimes == 2)
-    tips_plot = x_tips.copy()
-    tips_plot[~(mask_bs | mask_sc)] = np.nan   # only show where interior root exists
-    tips_bs   = tips_plot.copy()
-    tips_bs[~mask_bs] = np.nan
+        # ── Stable x* line ────────────────────────────────────────────────────────
+        mask_gh = (regimes == 0)
+        mask_gc = (regimes == 1)
+        mask_sc = (regimes == 3)
 
-    if not np.all(np.isnan(tips_bs)):
-        ax.plot(A_VALS, tips_bs,
-                color='#FF8C00', lw=2.0, ls='--',
-                label=r'$x^*_{tip}$ (BS tipping threshold)')
+        if mask_gh.any():
+            ax.plot(A_VALS_[mask_gh], x_stables[mask_gh],
+                    color='#2E8B57', lw=2.5, label=r'$x^*=1$ (GH stable)')
+        if mask_sc.any():
+            ax.plot(A_VALS_[mask_sc], x_stables[mask_sc],
+                    color='#3A7EC8', lw=2.5, label=r'$x^*$ interior (SC stable)')
+        if mask_gc.any():
+            ax.plot(A_VALS_[mask_gc], x_stables[mask_gc],
+                    color='#C83A3A', lw=2.5, label=r'$x^*=0$ (GC stable)')
 
-    # ── Vertical marker at regime-transition points ───────────────────────────
-    for i in range(1, len(regimes)):
-        if regimes[i] != regimes[i - 1]:
-            a_tr = 0.5 * (A_VALS[i - 1] + A_VALS[i])
-            ax.axvline(a_tr, color='gray', lw=1.0, ls=':', alpha=0.8)
-            ax.text(a_tr + 0.01, 0.55,
-                    f'{regimes[i - 1]}→{regimes[i]}',
-                    fontsize=7.5, color='gray',
-                    transform=ax.get_xaxis_transform(),
-                    rotation=90, va='center')
+        # ── Tipping-point / BS interior x*_tip ───────────────────────────────────
+        mask_bs   = (regimes == 2)
+        tips_plot = x_tips.copy()
+        tips_plot[~(mask_bs | mask_sc)] = np.nan
+        tips_bs   = tips_plot.copy()
+        tips_bs[~mask_bs] = np.nan
 
-    # ── Decorations ───────────────────────────────────────────────────────────
-    ax.set_xlim(0, 1)
-    ax.set_ylim(-0.05, 1.10)
-    ax.set_xlabel(r'AI adoption intensity  $a$', fontsize=11)
-    if ax is axes[0]:
-        ax.set_ylabel(r'Honest-author share at long-run outcome  $x^*$', fontsize=11)
-    ax.set_title(label, fontsize=10.5, pad=7)
-    ax.grid(True, alpha=0.25, ls='--')
-    ax.legend(loc='lower left', framealpha=0.92, prop={'size': 11, 'weight': 'bold'})
+        if not np.all(np.isnan(tips_bs)):
+            ax.plot(A_VALS_, tips_bs,
+                    color='#FF8C00', lw=2.0, ls='--',
+                    label=r'$x^*_{tip}$ (BS tipping threshold)')
 
-    # AI-parameter box (bottom right)
-    box_txt = (r'$\gamma=0.5,\ \delta=0.1$' '\n'
-               r'$\phi=0.4,\ \mu=0.2$')
-    ax.text(0.97, 0.97, box_txt, transform=ax.transAxes,
-            fontsize=8, va='top', ha='right',
-            bbox=dict(boxstyle='round,pad=0.3', facecolor='white',
-                      edgecolor='gray', alpha=0.85))
+        # ── Vertical marker at regime-transition points ───────────────────────────
+        for i in range(1, len(regimes)):
+            if regimes[i] != regimes[i - 1]:
+                a_tr = 0.5 * (A_VALS_[i - 1] + A_VALS_[i])
+                ax.axvline(a_tr, color='gray', lw=1.0, ls=':', alpha=0.8)
+                ax.text(a_tr + 0.01, 0.55,
+                        f'{regimes[i - 1]}→{regimes[i]}',
+                        fontsize=7.5, color='gray',
+                        transform=ax.get_xaxis_transform(),
+                        rotation=90, va='center')
 
-# ── Figure title and shared legend ───────────────────────────────────────────
-fig.suptitle(
-    r'Fig. 5  ·  Long-run honest-author share $x^*(a)$ as AI adoption rises',
-    fontsize=13, fontweight='bold'
-)
+        # ── Decorations ───────────────────────────────────────────────────────────
+        ax.set_xlim(0, 1)
+        ax.set_ylim(-0.05, 1.10)
+        ax.set_xlabel(r'AI adoption intensity  $a$', fontsize=11)
+        if ax is axes[0]:
+            ax.set_ylabel(r'Honest-author share at long-run outcome  $x^*$', fontsize=11)
+        ax.set_title(label, fontsize=10.5, pad=7)
+        ax.grid(True, alpha=0.25, ls='--')
+        ax.legend(loc='lower left', framealpha=0.92, prop={'size': 11, 'weight': 'bold'})
+
+        box_txt = (r'$\gamma=0.5,\ \delta=0.1$' '\n'
+                   r'$\phi=0.4,\ \mu=0.2$')
+        ax.text(0.97, 0.97, box_txt, transform=ax.transAxes,
+                fontsize=8, va='top', ha='right',
+                bbox=dict(boxstyle='round,pad=0.3', facecolor='white',
+                          edgecolor='gray', alpha=0.85))
+
+    fig.suptitle(
+        r'Fig. 5  ·  Long-run honest-author share $x^*(a)$ as AI adoption rises',
+        fontsize=13, fontweight='bold'
+    )
+
+    # ─────────────────────────────────────────────────────────────────────────────
+    # 5.  Save
+    # ─────────────────────────────────────────────────────────────────────────────
+    plt.savefig(OUTPUT_PATH, dpi=300, bbox_inches='tight')
+    print(f"Saved → {os.path.normpath(OUTPUT_PATH)}")
+    plt.show()
+
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 5.  Save
+# 6.  Main
 # ─────────────────────────────────────────────────────────────────────────────
-SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
-OUTPUT_PATH = os.path.join(SCRIPT_DIR, '..', 'doc', 'tex', 'fig5_equilibrium_vs_a.pdf')
-plt.savefig(OUTPUT_PATH, dpi=300, bbox_inches='tight')
-print(f"Saved → {os.path.normpath(OUTPUT_PATH)}")
-plt.show()
+
+if __name__ == '__main__':
+    recompute = '--recompute' in sys.argv
+    if recompute or not os.path.exists(DATA_PATH):
+        print("Computing data...")
+        data = compute_data()
+        save_data(data, DATA_PATH)
+        print(f"Data saved → {DATA_PATH}")
+    else:
+        print(f"Loading cached data from {DATA_PATH}")
+        data = load_data(DATA_PATH)
+    plot(data)
