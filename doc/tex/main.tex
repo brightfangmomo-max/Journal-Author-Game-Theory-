@@ -11,6 +11,21 @@
 \usepackage{tabularx}
 \usepackage{booktabs}
 \usepackage[round]{natbib}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\tcbset{
+  boxstyle/.style={
+    colback=gray!4,
+    colframe=black!35,
+    fonttitle=\bfseries,
+    coltitle=white,
+    colbacktitle=black!55,
+    breakable,
+    before skip=1.4em,
+    after skip=1.4em,
+    left=6pt, right=6pt, top=6pt, bottom=6pt
+  }
+}
 
 \author{Yuhui Fang} 
 \usetikzlibrary{shapes.geometric, arrows, positioning, calc, patterns, decorations.pathreplacing}
@@ -103,7 +118,7 @@ Section~\ref{sec:model} presents the baseline model.
 Section~\ref{sec:ai_extension} introduces the AI adoption parameter and derives the extended spam payoff.
 Section~\ref{sec:analysis} analyses how AI adoption shifts equilibria, erodes the stability window, and amplifies the slot expansion paradox.
 Section~\ref{sec:abm} reports agent-based simulation results.
-Section~\ref{sec:institutions} translates the analytical results into a four-principle institutional agenda and evaluates the mechanisms using Figure~\ref{fig:interventions}.
+Section~\ref{sec:institutions} translates the analytical results into a five-principle institutional agenda and evaluates the mechanisms using Figure~\ref{fig:interventions}.
 Section~\ref{sec:predictions} derives testable empirical predictions, proposes proxies for the key model channels, and outlines an identification strategy.
 Section~\ref{sec:discussion} discusses model limitations and extensions, including multi-journal competition and endogenous rewards.
 Section~\ref{sec:conclusion} concludes.
@@ -406,7 +421,7 @@ We close these gaps by connecting all four channels---$c(a)$ falling, $V$ rising
 \paragraph{Players and strategies.}
 We consider a population of $N$ authors submitting to a single journal over repeated periods.
 Each manuscript has binary quality: good ($q=1$) with probability $\alpha$, and bad ($q=0$) with probability $1-\alpha$.
-Standard dominance arguments reduce the strategy space to two options \citep{Fudenberg1991}.
+Under replicator dynamics, intermediate submission strategies are evolutionarily unstable and are eliminated in the mean-field limit, reducing the effective strategy space to two options \citep{Weibull1995, Hofbauer1998}.
 Under \textbf{selective submission} (OG), an author submits only when $q=1$.
 Under \textbf{universal submission} (AS), an author submits regardless of quality, hoping that imperfect screening allows bad papers through.
 We write $x \in [0,1]$ for the share of authors playing OG; the remaining $1-x$ play AS.
@@ -415,7 +430,7 @@ We write $x \in [0,1]$ for the share of authors playing OG; the remaining $1-x$ 
 The publication process has two distinct chokepoints; each creates a different strategic force.
 The first is \textbf{review capacity} $K_{rev}$: the number of papers that can receive careful scrutiny per period.
 Submission volume is $V(x) = N[1-(1-\alpha)x]$, which rises as the AS share grows.
-When $V$ exceeds $K_{rev}$, only a fraction of submissions are carefully reviewed; the rest pass without scrutiny---a rubber-stamping effect documented in overloaded systems \citep{Azar2005, Kovanis2016}.
+When $V$ exceeds $K_{rev}$, the available reviewer time must be spread across more submissions: each paper receives less careful attention, and the effective depth of scrutiny per manuscript falls \citep{Bianchi2018, Kovanis2016}.
 The \textbf{screening intensity} is:
 \begin{equation}
     \eta(x) = \min\!\left(1,\; \frac{K_{rev}}{V(x)}\right).
@@ -432,13 +447,13 @@ The probability that a peer-accepted paper is ultimately published---the \textbf
 \paragraph{Screening errors and the spam payoff.}
 Peer review is an imperfect filter \citep{Bornmann2010, Cicchetti1991}.
 A good paper is falsely rejected with probability $\epsilon$; a bad paper wrongly passes with probability $\lambda$.
-Both error rates apply only to papers that are actually reviewed.
-When $\eta < 1$, unscreened papers pass automatically, raising the effective pass rates:
+Both error rates apply at full scrutiny.
+When $\eta < 1$, reviewer time per paper is diluted: each submission receives only a fraction $\eta$ of the careful attention required to apply the full filter, so the effective pass rates rise above their full-scrutiny values \citep{Bianchi2018}:
 \begin{equation}
     \pi_0(x) = 1 - \eta(x)(1-\lambda), \qquad \pi_1(x) = 1 - \eta(x)\,\epsilon.
     \label{eq:pass_rates}
 \end{equation}
-As $\eta \to 0$, both rates converge to 1: the journal loses all discriminatory power.
+As $\eta \to 0$, both rates converge to 1: the journal loses all discriminatory power because reviewers cannot give any paper the attention the filter requires.
 The peer-accepted pool is $M(x) = N\alpha\,\pi_1(x) + N(1-\alpha)(1-x)\,\pi_0(x)$.
 Because OG and AS authors submit good papers on identical terms, the strategic difference reduces to the net value of submitting a bad paper:
 \begin{equation}
@@ -449,7 +464,11 @@ where $r$ is the publication reward and $c$ the submission cost.
 We work in the region $\lambda r < c < r(1-\epsilon)$: without congestion, submitting a bad paper is unprofitable, but the incentive reactivates once screening degrades---the same adverse-selection logic as in Akerlof's market for lemons \citep{Akerlof1970}.
 
 \paragraph{Dynamics.}
-Strategy shares evolve according to the replicator equation \citep{Weibull1995, Hofbauer1998}:
+The expected per-period fitness of each strategy differs only in the treatment of bad papers.
+An OG author submits only when $q=1$ (probability $\alpha$), earning expected fitness $f_{OG} = \alpha[r\bar{\rho}\,\pi_1 - c]$.
+An AS author submits regardless, earning $f_{AS} = \alpha[r\bar{\rho}\,\pi_1 - c] + (1-\alpha)[r\bar{\rho}\,\pi_0 - c]$.
+The fitness advantage of AS over OG is therefore $f_{AS} - f_{OG} = (1-\alpha)\,\Pi_{bad}(x)$.
+Substituting into the standard two-strategy replicator equation $\dot{x} = x(1-x)[f_{OG}-f_{AS}]$ gives:
 \begin{equation}
     \dot{x} = -x(1-x)(1-\alpha)\,\Pi_{bad}(x).
     \label{eq:replicator}
@@ -522,6 +541,68 @@ Seen in top-tier journals where the publication lottery is very hard to win. \\
     \label{fig:replicator_dynamics}
 \end{figure}
 
+\begin{tcolorbox}[boxstyle, title={Box 1\quad The Baseline Model in Brief}]
+\small
+\textbf{Parameters.}\;
+$N$: author population;\;
+$\alpha$: probability a paper is genuinely good;\;
+$x$: share of selective (OG) authors;\;
+$K_{rev}$: review capacity;\;
+$K$: publication slots;\;
+$r$: publication reward;\;
+$c$: submission cost;\;
+$\lambda$: false-positive rate (bad paper passes review);\;
+$\varepsilon$: false-negative rate (good paper rejected).
+
+\medskip
+\textbf{Two bottlenecks.}\;
+Submission volume $V(x)=N[1-(1-\alpha)x]$ rises as the always-submit (AS) share grows.
+\[
+  \eta(x)=\min\!\left(1,\tfrac{K_{rev}}{V(x)}\right)
+  \quad\text{screening intensity — falls below 1 when volume exceeds capacity, diluting scrutiny per paper}
+\]
+\[
+  \bar{\rho}(x)=\min\!\left(1,\tfrac{K}{M(x)}\right)
+  \quad\text{rationing probability — falls below 1 when accepted papers exceed slots}
+\]
+where $M(x)=N\alpha\,\pi_1(x)+N(1-\alpha)(1-x)\,\pi_0(x)$ is the peer-accepted pool.
+
+\medskip
+\textbf{Pass rates under congestion.}
+\begin{align*}
+  \pi_0(x)&=1-\eta(x)(1-\lambda) &\text{bad paper passes; rises as scrutiny is diluted}\\
+  \pi_1(x)&=1-\eta(x)\,\varepsilon &\text{good paper passes; rises as scrutiny is diluted}
+\end{align*}
+
+\textbf{Spam payoff and dynamics.}
+\[
+  \Pi_{bad}(x)=r\cdot\bar{\rho}(x)\cdot\pi_0(x)-c
+  \qquad\Longrightarrow\qquad
+  \dot{x}=-x(1-x)(1-\alpha)\,\Pi_{bad}(x)
+\]
+$\Pi_{bad}>0$: AS spreads, $x$ falls.\quad $\Pi_{bad}<0$: OG spreads, $x$ rises.
+
+\medskip
+\textbf{Four long-run outcomes} (determined by the signs of $\Pi_{bad}$ at the two boundaries):\smallskip
+
+\noindent
+\begin{tabular}{@{}llll@{}}
+\toprule
+Regime & $\Pi_{bad}(1)$ & $\Pi_{bad}(0)$ & Long-run outcome \\
+\midrule
+\textbf{GH} & $<0$ & $<0$ & $x=1$: all authors submit only good work \\
+\textbf{GC} & $>0$ & $>0$ & $x=0$: all authors submit regardless of quality \\
+\textbf{BS} & $<0$ & $>0$ & Both $x=1$ and $x=0$ stable; history decides \\
+\textbf{SC} & $>0$ & $<0$ & Interior $x^*$; slot rationing deters spam \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\textit{Key insight:} The honest boundary ($x=1$) is secured by keeping $\lambda$ low.
+The corrupt boundary ($x=0$) is held by keeping $K$ tight.
+The two bottlenecks can therefore be targeted \emph{separately} as policy instruments.
+\end{tcolorbox}
+
 \section{The AI Extension}
 \label{sec:ai_extension}
 
@@ -533,8 +614,8 @@ We treat $a$ as a comparative-statics parameter: we hold $a$ fixed and trace how
 As established in Section~\ref{sec:stylized_facts} and illustrated in Figure~\ref{fig:mechanism}, AI acts through four distinct channels, and the channels are not symmetric.
 
 \paragraph{Channel 1---Production: more submissions at every composition.}
-The most direct effect of AI is to lower the marginal cost of drafting and resubmitting a manuscript, which raises total submission volume at any given composition of the author population.
-Randomised experiments find that LLM access cuts professional writing time by roughly 40\% and reduces resubmission effort to near zero \citep{NoyZhang2023, StokelWalker2023}.
+The most direct effect of AI is to lower the marginal cost of drafting and preparing a manuscript, which raises total submission volume at any given composition of the author population.
+Randomised experiments find that LLM access cuts professional writing time by roughly 40\% \citep{NoyZhang2023, StokelWalker2023}.
 We formalise this as a multiplicative shift in total submission volume:
 \begin{equation}
     V(x, a) \;=\; N\bigl[1-(1-\alpha)x\bigr]\cdot(1 + \gamma a),
@@ -542,7 +623,8 @@ We formalise this as a multiplicative shift in total submission volume:
 \end{equation}
 where $\gamma > 0$ is the \textbf{production elasticity}.
 System-level data confirm this: monthly arXiv submissions rose roughly 50\% in two years, with over one-fifth of preprints showing measurable LLM modification \citep{arXiv2024, Liang2025}.
-Crucially, $V$ rises with $a$ regardless of $x$: even a fully honest author population generates more submissions because each author drafts and resubmits more often.
+$V$ rises with $a$ regardless of $x$: AS authors, whose constraint was drafting effort rather than ideas, now prepare and submit low-quality manuscripts they would not previously have bothered producing; OG authors face a lower marginal cost of bringing a manuscript to submission-ready quality, converting preliminary work into formal submissions faster.
+The underlying quality probability $\alpha$ of any individual manuscript remains fixed; what changes is the number of submission-ready manuscripts each author produces per period.
 
 \paragraph{Channel 2---Friction: lower cost of submitting bad papers.}
 Beyond raising volume, AI directly lowers the cost of each submission attempt.
@@ -713,7 +795,11 @@ Channel 3 affects the screening side: it makes it harder to distinguish good sub
 Channel 4 is the only force working against the other three, but it is structurally constrained to grow more slowly.
 Writing is largely a syntactic task that language models perform well; evaluation is a semantic and domain-specific task requiring human expertise, data access, and contextual judgment \citep{Checco2021}.
 Institutions designed for the pre-AI era assumed rough parity between production and verification rates.
-That assumption no longer holds, and the asymmetry is not a temporary calibration issue---it reflects a fundamental difference in what AI can automate.
+That assumption no longer holds, and the asymmetry is not a temporary calibration issue---it reflects a fundamental difference in what AI can automate.\footnote{We hold $\alpha$ (the probability a manuscript is genuinely good) fixed throughout the formal analysis.
+In principle, AI may also raise $\alpha$ via a quality-uplift channel: writing $\alpha(a) = \alpha_0(1+\xi a)$ would add a partially offsetting force.
+Higher $\alpha$ increases the share of genuine work in the submission pool, which raises $M(x,a)$ and tightens slot rationing $\bar{\rho}$, thereby reducing $\Pi_{bad}$.
+However, the GH stability condition at $x=1$ reduces to $\lambda(a) < c(a)/r$ when $\eta=1$---a condition that does not involve $\alpha$---so quality uplift does not shift the closed-form tipping threshold $a^*$.
+Evidence that AI raises genuine research quality is mixed and modest in magnitude \citep{NoyZhang2023}; we therefore treat $\alpha$ as fixed to focus on the four identified destabilising channels.}
 
 \paragraph{Special cases: when stability can be preserved.}
 Not every AI adoption trajectory leads to quality collapse.
@@ -771,6 +857,55 @@ Second, fields with higher AI adoption should show review-congestion signatures-
 Third, acceptance rates should rise in fields with widespread AI-assisted reviewing, independently of any improvement in underlying research quality, as a signature of rising $\lambda$ \citep{Latona2024}.
 Fourth, expanding publication slots should have \emph{asymmetric} effects: before tipping, more slots increase access; after tipping, more slots accelerate quality collapse by raising the spam payoff $\Pi_{bad}$.
 We examine the regime consequences of each lever in Section~\ref{sec:analysis}.
+
+\begin{tcolorbox}[boxstyle, title={Box 2\quad What AI Changes: Parameter Shifts and the Asymmetry}]
+\small
+\textbf{AI adoption parameter.}\;
+$a\in[0,1]$: field-level AI adoption intensity ($a=0$ = pre-AI baseline; $a=1$ = full adoption).
+
+\medskip
+\textbf{Four channels and their functional forms.}\smallskip
+
+\noindent
+\begin{tabular}{@{}p{3.2cm}p{7.0cm}cl@{}}
+\toprule
+Channel & Functional form & Direction & Key parameter \\
+\midrule
+Submission volume    & $V(x,a)=N[1-(1-\alpha)x]\cdot(1+\gamma a)$ & $\uparrow$ & elasticity $\gamma$ \\
+Submission cost      & $c(a)=c_0(1-\phi\, a)$                      & $\downarrow$ & slope $\phi\in(0,1)$ \\
+False-positive rate  & $\lambda(a)=\lambda_0+\mu\, a$              & $\uparrow$ & slope $\mu\geq 0$ \\
+Review capacity      & $K_{rev}(a)=K_{rev}(0)\cdot(1+\delta\, a)$  & $\uparrow$ slowly & elasticity $\delta<\gamma$ \\
+\bottomrule
+\end{tabular}
+
+\medskip
+\textbf{The asymmetry assumption:}\; $\gamma>\delta\geq 0$ — production scales faster than verification.
+This is a testable empirical claim, not an axiom (Equation~\ref{eq:asymmetry}).
+
+\medskip
+\textbf{Net effect on spam payoff.}
+\[
+  \frac{\partial\Pi_{bad}(x,a)}{\partial a}
+  \;=\;\underbrace{r\mu}_{{\lambda\uparrow}}
+  \;+\;\underbrace{c_0\phi}_{c\downarrow}
+  \;+\;\underbrace{[\text{congestion terms}]}_{>0\text{ when }\gamma>\delta}
+  \;>\;0
+  \qquad\text{for all }x\in(0,1).
+\]
+AI makes submitting low-quality work more attractive at \emph{every} composition of the author population.
+
+\medskip
+\textbf{Closed-form tipping threshold} (honest boundary $x=1$, uncongested case):
+\[
+  a^{*}=\frac{c_0-r\lambda_0}{r\mu+c_0\phi}.
+\]
+Above $a^{*}$, $\Pi_{bad}(1,a)>0$: the honest long-run outcome is no longer self-sustaining.
+For Set~A parameters: $a^{*}=(25-10)/(20+10)=0.50$.
+
+\medskip
+\textit{Key insight:}\; $a$ is largely exogenous, but $\delta$ (verification investment) and $\mu$ (screening vulnerability) are policy choices.
+Which cell of Table~\ref{tab:scenario_matrix} a field occupies is an institutional decision, not a technological fate.
+\end{tcolorbox}
 
 \section{Equilibria, Tipping, and Hysteresis under AI Adoption}
 \label{sec:analysis}
@@ -921,6 +1056,37 @@ There is no longer any starting position from which the honest norm is self-sust
 Recovery from this state is not simply harder---it requires a qualitative change in institutional parameters ($K_{rev}$ raised, $\lambda$ reduced, $c$ restored), not merely a reduction in pressure $N$.
 This is the sense in which AI adoption transforms the challenge from maintenance to repair.
 
+Figure~\ref{fig:hysteresis_loop} makes the hysteresis structure explicit as a classic fold bifurcation diagram, plotting the long-run honest-author share $x^*$ against AI adoption $a$ under two field-pressure levels.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{fig_hysteresis_loop.pdf}
+    \caption{\textbf{Hysteresis loop: collapse and recovery thresholds in $a$-space (Fig.~6b).}
+    Each panel plots the long-run honest-author share $x^*$ against AI adoption $a$.
+    \textbf{(a)} Low-pressure field ($N=300$).
+    The blue upper branch ($x^*=1$) is stable while $a < a_{\rm col}=0.50$; the red lower branch ($x^*=0$) is stable while $a > a_{\rm rec}\approx 0.25$.
+    The dashed orange curve is the unstable tipping threshold $x^*_{\rm tip}$ that separates the two basins in the Bistability corridor.
+    A forward path (increasing $a$) follows the honest branch and collapses at $a_{\rm col}$; a backward path (decreasing $a$) follows the corrupt branch and recovers only at $a_{\rm rec}$, giving a hysteresis gap $\Delta a \approx 0.25$.
+    \textbf{(b)} High-pressure field ($N=600$).
+    The system starts in Bistability at $a=0$: the corrupt equilibrium is self-sustaining before any AI adoption.
+    The honest branch still collapses at $a_{\rm col}=0.50$, but the corrupt branch is stable for all $a \in [0,1]$: no recovery threshold exists in the admissible range.}
+    \label{fig:hysteresis_loop}
+\end{figure}
+
+In panel~(a), the system occupies Global Honesty at baseline ($a=0$), indicated by the green background.
+As $a$ rises, the corrupt equilibrium first becomes self-sustaining at $a_{\rm rec} \approx 0.25$, opening the Bistability corridor (yellow background); the honest equilibrium then loses stability at $a_{\rm col} = 0.50$, pushing the system into Global Corruption (red background).
+The forward path traces the upper branch to $a_{\rm col}$ and then drops discontinuously to $x^*=0$.
+The backward path traces the lower branch back, and recovers only when $a$ falls to $a_{\rm rec}$---a full 25 percentage points below the collapse point.
+The hysteresis gap $\Delta a = a_{\rm col} - a_{\rm rec} \approx 0.25$ measures the depth of the trap: a field that has tipped must substantially reduce AI-linked submission pressure, not merely stop increasing it.
+The unstable tipping threshold (dashed) connects the two fold points; any perturbation large enough to push the system below $x^*_{\rm tip}$ triggers irreversible collapse so long as $a$ remains above $a_{\rm rec}$.
+
+Panel~(b) shows a qualitatively different situation.
+At $N=600$, the corrupt equilibrium is already self-sustaining at $a=0$: the system starts in Bistability rather than Global Honesty.
+The collapse threshold remains $a_{\rm col}=0.50$ (this value is independent of $N$ when $\eta=1$ at $x=1$, since it is determined purely by $c(a) = r\lambda(a)$).
+But there is no recovery threshold in the range $a \in [0,1]$: the lower branch persists all the way back to $a=0$, so reducing AI adoption alone cannot restore Global Honesty.
+Escaping the corrupt basin requires an institutional intervention that raises $K_{rev}$, reduces $\lambda$, or both, until $\Pi_{bad}(0,a)$ turns negative---a shift in the parameter configuration, not merely a reversal of $a$.
+The contrast between panels~(a) and~(b) thus captures the core asymmetry of the recovery problem: low-pressure fields retain a restoration option, while high-pressure fields require coordinated institutional action regardless of what happens to AI adoption.
+
 \subsection{The False-Positive Rate as Critical Destabiliser}
 
 Among the four AI channels, rising $\lambda(a)$ is structurally the most dangerous.
@@ -991,7 +1157,7 @@ An agent-based model (ABM) allows us to test whether our three main results---gr
 \subsection{Model Design}
 
 We simulate a population of $N = 1000$ authors.
-Each author plays one of two strategies: selective submission (OG) or universal submission (AS); dominated strategies are excluded by the iterated elimination result of Section~\ref{sec:model}.
+Each author plays one of two strategies: selective submission (OG) or universal submission (AS); intermediate submission strategies are excluded by the evolutionary instability result of Section~\ref{sec:model}.
 The journal's review capacity and quality parameters evolve with the field-level AI adoption level $a_t$, which rises exogenously along a linear ramp from $a = 0$ to $a = 0.8$ over the simulation horizon---a stylised representation of the diffusion trajectory documented empirically \citep{arXiv2024, Liang2025}.
 At each step, the effective parameters $K_{rev}(a_t)$, $\lambda(a_t)$, and $c(a_t)$ are updated according to the functional forms in Section~\ref{sec:ai_extension}.
 Strategy revision follows the pairwise Fermi comparison process \citep{Szabo1998, Traulsen2009}: a randomly chosen agent $i$ compares its payoff $\Pi_i$ with that of a randomly drawn peer $j$ and switches with probability
@@ -1113,7 +1279,7 @@ Institutional design should therefore calibrate the required safety margin $x_t 
 The three results from Section~\ref{sec:analysis} reduce the institutional problem to a single condition: keep $\Pi_{bad}(x, a)$ negative.
 AI adoption pushes $\Pi_{bad}$ upward through four channels simultaneously: submission volume rises, review capacity lags, submission cost falls, and the false-positive rate $\lambda$ increases.
 Effective policy must counteract each channel.
-We organize the response around four principles, ordered by the tightness of the constraint each relieves.
+We organize the response around five principles, ordered by the tightness of the constraint each relieves.
 
 \textbf{Principle 1: Scale verification ($K_{rev}\uparrow$).}
 Higher review capacity raises the screening intensity $\eta = \min(1, K_{rev}/V)$, which reduces the bad-paper pass rate $\pi_0$ and lowers $\Pi_{bad}$ at the corrupt boundary $x \approx 0$.
@@ -1145,6 +1311,13 @@ Separating the two---via preprint servers combined with overlay journals or comm
 The slot-expansion paradox established in Section~\ref{sec:analysis} applies specifically to certified publication slots $K_{cert}$, not to preprint availability.
 Decoupling therefore prevents the paradox from emerging: adding preprint capacity does not raise $\Pi_{bad}$, because preprint posting is not the payoff-generating event in the spam incentive.
 
+\textbf{Principle 5: Reshape evaluation rewards ($r$ reduced for marginal output).}
+The spam payoff scales linearly with $r$: $\Pi_{bad} = r \cdot \bar{\rho} \cdot \pi_0 - c$.
+Current career and grant structures treat paper counts as a primary productivity metric \citep{Smaldino2016, casadevall2014reforming}, effectively maximising the effective reward for any accepted paper regardless of quality.
+Impact-weighted or reproducibility-indexed assessment would reduce the effective $r$ for marginal submissions while preserving incentives for high-quality work \citep{Stephan2012}.
+The GH condition at $x=1$ requires $\lambda(a) < c(a)/r$; reducing $r$ directly widens this margin, enlarging the parameter region in which the honest long-run outcome is self-sustaining.
+Reward reform operates on a longer horizon than Principles~1--4 and requires coordination across funders, institutions, and evaluation bodies; it is therefore a deep-redesign lever rather than a quick win.
+
 Table~\ref{tab:institutions} maps each mechanism to its primary parameter shift, and Figure~\ref{fig:interventions} illustrates the joint effect of the principles in the $(K_{rev}, K)$ parameter space.
 The left panel of Figure~\ref{fig:interventions} shows that at $a = 0.8$ under baseline parameters, Global Corruption dominates most of the space, and Set~A sits deep in the GC region; the navy arrow shows that raising $K_{rev}$ alone (Principle~1) leaves Set~A in GC because $\lambda = 0.26 > c/r = 0.17$.
 The right panel applies Principles 2 and 3 jointly ($\lambda = 0.05$, $c = 35$, with $\phi = \mu = 0$ locking in those improvements): the GC region is eliminated entirely and Set~A shifts to the bistability (BS) region; the dark green arrow then shows that combining Principle~1 ($K_{rev}$ raised to 600) carries Set~A into the Global Honesty region.
@@ -1167,40 +1340,44 @@ The lesson is that Principles~2 and~3 are necessary to exit GC, while Principle~
   \footnotesize
   \caption{Institutional mechanisms and their model parameter effects.
     Each row maps a concrete institution to the parameter it primarily shifts.
-    Arrows: $\uparrow$ raises, $\downarrow$ lowers, \textemdash\ no direct effect, $\uparrow\!(\cdot)$ partial or indirect effect.
-    Publication reward $r$ is unchanged by all mechanisms listed; adjusting $r$ is a longer-run reform beyond the scope of this analysis.}
+    Arrows: $\uparrow$ raises, $\downarrow$ lowers, \textemdash\ no direct effect, $\uparrow\!(\cdot)$ / $\downarrow\!(\cdot)$ partial or indirect effect.
+    Principle~5 operates on a longer horizon than Principles~1--4 and requires coordination across funders and institutions.}
   \label{tab:institutions}
-  \setlength{\tabcolsep}{5pt}
+  \setlength{\tabcolsep}{4pt}
   \resizebox{\textwidth}{!}{%
-  \begin{tabular}{p{3.8cm}p{3.4cm}ccccp{1.3cm}}
+  \begin{tabular}{p{3.8cm}p{3.4cm}cccccp{1.3cm}}
     \toprule
-    Institution & Mechanism summary & $K_{rev}$ & $\lambda$ & $c$ & $K$ & Horizon \\
+    Institution & Mechanism summary & $K_{rev}$ & $\lambda$ & $c$ & $r$ & $K$ & Horizon \\
     \midrule
-    \multicolumn{7}{l}{\textit{Principle 1: Scale verification}} \\
+    \multicolumn{8}{l}{\textit{Principle 1: Scale verification}} \\
     \addlinespace
-    Structured reviewer panels \& recognition     & Reward and recognise review effort           & $\uparrow$        & \textemdash & \textemdash & \textemdash & Quick  \\
-    AI-assisted pre-screening (format/consistency) & Flag obvious flaws before expert review      & $\uparrow$        & \textemdash & \textemdash & \textemdash & Quick  \\
+    Structured reviewer panels \& recognition      & Reward and recognise review effort           & $\uparrow$        & \textemdash & \textemdash & \textemdash & \textemdash & Quick  \\
+    AI-assisted pre-screening (format/consistency) & Flag obvious flaws before expert review      & $\uparrow$        & \textemdash & \textemdash & \textemdash & \textemdash & Quick  \\
     \midrule
-    \multicolumn{7}{l}{\textit{Principle 2: Reduce false-positive rate}} \\
+    \multicolumn{8}{l}{\textit{Principle 2: Reduce false-positive rate}} \\
     \addlinespace
-    Mandatory data, code, and materials sharing    & Enables post-submission verification         & $\uparrow(\cdot)$ & $\downarrow$        & $\uparrow(\cdot)$ & \textemdash & Quick  \\
-    Structured reporting checklists (CONSORT/PRISMA) & Forces method transparency               & \textemdash       & $\downarrow$        & \textemdash & \textemdash & Quick  \\
-    Registered Reports (pre-registered design)     & Eliminates outcome-selective reporting       & $\uparrow(\cdot)$ & $\downarrow\downarrow$ & $\uparrow$ & \textemdash & Medium \\
-    Dedicated statistical/methods editorial review & Specialist check of analytic choices         & $\uparrow$        & $\downarrow$        & \textemdash & \textemdash & Quick  \\
+    Mandatory data, code, and materials sharing    & Enables post-submission verification         & $\uparrow(\cdot)$ & $\downarrow$          & $\uparrow(\cdot)$ & \textemdash & \textemdash & Quick  \\
+    Structured reporting checklists (CONSORT/PRISMA) & Forces method transparency               & \textemdash       & $\downarrow$          & \textemdash       & \textemdash & \textemdash & Quick  \\
+    Registered Reports (pre-registered design)     & Eliminates outcome-selective reporting       & $\uparrow(\cdot)$ & $\downarrow\downarrow$ & $\uparrow$        & \textemdash & \textemdash & Medium \\
+    Dedicated statistical/methods editorial review & Specialist check of analytic choices         & $\uparrow$        & $\downarrow$          & \textemdash       & \textemdash & \textemdash & Quick  \\
     \midrule
-    \multicolumn{7}{l}{\textit{Principle 3: Add smart friction}} \\
+    \multicolumn{8}{l}{\textit{Principle 3: Add smart friction}} \\
     \addlinespace
-    Annual submission tokens or quotas             & Raise cost of marginal submissions           & \textemdash & \textemdash & $\uparrow\uparrow$ & \textemdash & Quick  \\
-    Escalating resubmission fees                   & Target low-cost paper cycling                & \textemdash & \textemdash & $\uparrow$         & \textemdash & Quick  \\
-    Pre-submission triage/desk-rejection filter    & Reject obvious mismatches before review      & $\uparrow(\cdot)$ & $\downarrow(\cdot)$ & \textemdash & \textemdash & Quick  \\
+    Annual submission tokens or quotas             & Raise cost of marginal submissions           & \textemdash & \textemdash & $\uparrow\uparrow$ & \textemdash & \textemdash & Quick  \\
+    Escalating resubmission fees                   & Target low-cost paper cycling                & \textemdash & \textemdash & $\uparrow$         & \textemdash & \textemdash & Quick  \\
+    Pre-submission triage/desk-rejection filter    & Reject obvious mismatches before review      & $\uparrow(\cdot)$ & $\downarrow(\cdot)$ & \textemdash & \textemdash & \textemdash & Quick  \\
     \midrule
-    \multicolumn{7}{l}{\textit{Principle 4: Decouple dissemination}} \\
+    \multicolumn{8}{l}{\textit{Principle 4: Decouple dissemination}} \\
     \addlinespace
-    Preprint $+$ overlay certification layer       & Separate speed from quality guarantee        & $\uparrow$ & \textemdash & \textemdash & $\downarrow$ (cert.) & Deep \\
+    Preprint $+$ overlay certification layer       & Separate speed from quality guarantee        & $\uparrow$ & \textemdash & \textemdash & \textemdash & $\downarrow$ (cert.) & Deep \\
     \midrule
-    \multicolumn{7}{l}{\textit{Transition: post-collapse reset}} \\
+    \multicolumn{8}{l}{\textit{Principle 5: Reshape evaluation rewards}} \\
     \addlinespace
-    Coordinated field-wide mandate                 & Simultaneous cross-journal reform push       & $\uparrow\uparrow$ & $\downarrow\downarrow$ & $\uparrow\uparrow$ & \textemdash & Crisis \\
+    Impact-weighted / reproducibility-indexed assessment & Reduce $r$ for marginal output; raise $r$ for replication and quality & \textemdash & \textemdash & \textemdash & $\downarrow$ & \textemdash & Deep \\
+    \midrule
+    \multicolumn{8}{l}{\textit{Transition: post-collapse reset}} \\
+    \addlinespace
+    Coordinated field-wide mandate                 & Simultaneous cross-journal reform push       & $\uparrow\uparrow$ & $\downarrow\downarrow$ & $\uparrow\uparrow$ & \textemdash & \textemdash & Crisis \\
     \bottomrule
   \end{tabular}}
 \end{table}
@@ -1222,6 +1399,50 @@ Some mechanisms require no inter-journal coordination and can be adopted immedia
 Others require collective action across journals or fields: overlay certification architectures, cross-journal quota systems, and coordinated field-wide mandates.
 The right sequencing strategy is to deploy the quick wins first, to arrest the upward drift of $\Pi_{bad}$, while building the coordination capacity needed for deep redesign before any tipping event occurs.
 Waiting for a quality crisis before acting is the worst strategy: recovering from GC requires a larger simultaneous push than preventing the tip in the first place \citep{Scheffer2009}.
+
+\begin{tcolorbox}[boxstyle, title={Box 3\quad Policy Menu: Institutions, Levers, and Sequencing}]
+\small
+\textbf{Goal.}\;
+Keep $\Pi_{bad}(x,a)<0$ as AI adoption $a$ deepens.
+\textbf{Binding constraint:}\; $\lambda(a)<c(a)/r$ — when violated, no increase in $K_{rev}$ alone can restore Global Honesty.
+
+\medskip
+\noindent\textit{Quick wins} (no inter-journal coordination required):\smallskip
+
+\noindent
+\begin{tabular}{@{}p{8.2cm}l@{}}
+Structured reporting checklists (CONSORT, PRISMA) & $\lambda\downarrow$ \\
+Mandatory data and code sharing                   & $\lambda\downarrow$,\;$c\uparrow$ (partial) \\
+Submission token caps / annual per-journal quotas & $c\uparrow\uparrow$ \\
+Escalating resubmission fees                      & $c\uparrow$ \\
+AI-assisted format and consistency pre-screening  & $K_{rev}\uparrow$ \\
+\end{tabular}
+
+\medskip
+\noindent\textit{Deep redesign} (requires collective action across journals or fields):\smallskip
+
+\noindent
+\begin{tabular}{@{}p{8.2cm}l@{}}
+Preprint servers + overlay certification layer         & decouple dissemination from $K_{cert}$ \\
+Cross-journal quota systems                           & $c\uparrow$ system-wide \\
+Coordinated field-wide mandate                        & $K_{rev}\uparrow\uparrow$,\;$\lambda\downarrow\downarrow$,\;$c\uparrow\uparrow$ \\
+\end{tabular}
+
+\medskip
+\noindent\textit{After tipping} (recovery, not prevention):\;
+Once in Global Corruption ($\Pi_{bad}>0$ everywhere), only a \emph{large, simultaneous} intervention across $K_{rev}$, $\lambda$, and $c$ can shift the system out of the GC region.
+Gradual, journal-by-journal reform is insufficient (Figure~\ref{fig:interventions}).
+
+\medskip
+\noindent\textbf{Equity.}\;
+Prefer low-infrastructure tools (checklists) over high-infrastructure requirements (open data repositories); offer submission token grants for authors at under-resourced institutions.
+
+\medskip
+\noindent\textit{Key insight:}\;
+$\lambda\downarrow$ and $K_{rev}\uparrow$ are \emph{complements}, not substitutes — both must be deployed together.
+$\lambda$ reduction is necessary to exit the GC region; $K_{rev}$ expansion is necessary to convert bistability into Global Honesty.
+The right sequence: quick wins first to arrest the upward drift of $\Pi_{bad}$, deep redesign before any tipping event.
+\end{tcolorbox}
 
 \section{Empirical Predictions and Measurement}
 \label{sec:predictions}
@@ -1289,7 +1510,7 @@ The available evidence currently points in the opposite direction \citep{Latona2
 The model makes two structural choices that bound its applicability.
 First, we reduce the strategy space to two options: submit only good work, or submit regardless of quality.
 Real authors calibrate effort continuously, and intermediate strategies can coexist in finite communities.
-The binary reduction is justified by a standard dominance argument \citep{Fudenberg1991}: any strategy that submits a bad paper when $\Pi_{bad} > 0$ weakly dominates the alternative, so the two-strategy formulation is exact in the limit of continuous imitation dynamics.
+The binary reduction is justified by an evolutionary instability argument \citep{Weibull1995}: at any population state $x$, a strategy that adds bad-paper submissions earns strictly higher fitness when $\Pi_{bad} > 0$, and strictly lower fitness when $\Pi_{bad} < 0$, so intermediate submission rates are unstable under replicator dynamics and the population is driven to one of the two extremes in the mean-field limit.
 In practice, a continuum of effort levels would smooth the tipping threshold into a region rather than a sharp boundary, making early warning signals harder to detect but not eliminating them.
 Second, we model a single journal with fixed capacity.
 In reality, rejected papers cascade down a prestige hierarchy: \citet{Siler2015} find that roughly 62\,\% of papers rejected at three high-impact journals were eventually published elsewhere.

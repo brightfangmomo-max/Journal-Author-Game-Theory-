@@ -1,4 +1,4 @@
-\begin{thebibliography}{56}
+\begin{thebibliography}{54}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -29,11 +29,6 @@ George~A Akerlof.
 \newblock arXiv Blog, 2024.
 \newblock URL \url{https://blog.arxiv.org/2024/11/04/arxiv-sets-new-record-for-monthly-submissions-again/}.
 \newblock Accessed March 2026.
-
-\bibitem[Azar(2005)]{Azar2005}
-Ofer~H Azar.
-\newblock The review process in economics: Is it too fast?
-\newblock \emph{Southern Economic Journal}, 72\penalty0 (2):\penalty0 482--491, 2005.
 
 \bibitem[Bass(1969)]{Bass1969}
 Frank~M. Bass.
@@ -97,11 +92,6 @@ Glenn Ellison.
 Joshua~M. Epstein and Robert Axtell.
 \newblock \emph{Growing Artificial Societies: Social Science from the Bottom Up}.
 \newblock Brookings Institution Press, Washington, DC, 1996.
-
-\bibitem[Fudenberg and Tirole(1991)]{Fudenberg1991}
-Drew Fudenberg and Jean Tirole.
-\newblock \emph{Game Theory}.
-\newblock MIT Press, Cambridge, MA, 1991.
 
 \bibitem[Ginsparg(2011)]{Ginsparg2011}
 Paul Ginsparg.
