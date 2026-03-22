@@ -902,9 +902,9 @@ This is a testable empirical claim, not an axiom (Equation~\ref{eq:asymmetry}).
   \;+\;\underbrace{c_0\phi}_{c\downarrow}
   \;+\;\underbrace{[\text{congestion terms}]}_{>0\text{ when }\gamma>\delta}
   \;>\;0
-  \qquad\text{for all }x\in(0,1).
+  \qquad\text{under the calibrations of Table~\ref{tab:calibration}.}
 \]
-AI makes submitting low-quality work more attractive at \emph{every} composition of the author population.
+AI makes submitting low-quality work more attractive at every composition of the author population, provided the volume elasticity $\gamma$ is moderate relative to the screening signal $1-\lambda-\varepsilon$ (Proposition~1).
 
 \medskip
 \textbf{Closed-form tipping threshold} (honest boundary $x=1$, uncongested case):
@@ -1123,8 +1123,16 @@ We summarise the mapping in four propositions; formal derivations are in the App
 \begin{description}
 
 \item[Proposition 1 (Monotone destabilisation).]
-\textit{Under the asymmetry $\gamma > \delta \geq 0$, the spam payoff $\Pi_{bad}(x, a)$ is strictly increasing in $a$ at every $x \in (0,1)$.
-Consequently, the Global Honesty region in $(K_{rev}, K)$ space shrinks weakly as $a$ increases, and there exists a finite threshold $a^* \in (0,1]$ above which no $(K_{rev}, K)$ combination sustains GH without additional institutional intervention.}
+\textit{Under the asymmetry $\gamma > \delta \geq 0$:
+(i)~\textbf{Honest boundary.}
+$\Pi_{bad}(1,a)$ is strictly increasing in $a$ (analytically, for all parameter values satisfying the model assumptions).
+The Global Honesty region in $(K_{rev},K)$ space shrinks strictly as $a$ rises, and there exists a finite closed-form threshold
+$a^{*} = (c_0 - r\lambda_0)/(r\mu + c_0\phi) \in (0,\infty)$
+above which no $(K_{rev},K)$ combination sustains GH without additional institutional intervention.
+(ii)~\textbf{Interior compositions.}
+For $x\in(0,1)$, $\partial\Pi_{bad}/\partial a>0$ holds analytically when review is uncongested ($\eta=1$, Case~I) or rationing is inactive ($\bar\rho=1$, Case~II).
+When both constraints bind (Case~III), the result holds under a sufficient condition on the screening signal (stated in the Appendix) and is confirmed numerically throughout $(x,a)\in(0,1)\times[0,1]$ for both calibrations in Table~\ref{tab:calibration}.
+All three cases jointly imply that the GH region shrinks as $a$ rises.}
 
 \item[Proposition 2 (Slot expansion paradox).]
 \textit{Holding $K_{rev}$ and $a$ fixed, increasing $K$ weakly raises $\Pi_{bad}(x, a)$ at every $x$.
@@ -1132,9 +1140,10 @@ The marginal destabilising effect of an additional slot is strictly larger at hi
 The paradox is therefore amplified, not attenuated, by AI adoption.}
 
 \item[Proposition 3 (Erosion of congestion defence).]
-\textit{The corrupt-boundary stability condition $\Pi_{bad}(0, a) < 0$ requires $\bar{\rho}(0,a) < c(a)/\bigl(r\cdot\pi_0(0,a)\bigr)$.
-Since $c(a)$ falls and $\pi_0(0,a)$ rises with $a$, the required tightness of slot constraint increases with AI adoption.
-A journal that relied on passive scarcity for protection at baseline may need to actively reduce $K$ to maintain the same deterrent as $a$ rises.}
+\textit{The corrupt-boundary stability condition $\Pi_{bad}(0, a) < 0$ holds if and only if $K < K^{*}(a) \equiv c(a)M(0,a)/[r\pi_0(0,a)]$.
+When the cost-reduction slope satisfies $\phi \geq \gamma$, $K^{*}(a)$ is strictly decreasing in $a$ for all $a \in [0,1]$ analytically.
+When $\gamma > \phi$ (as in the calibrations of Table~\ref{tab:calibration}), $K^{*}(a)$ is strictly decreasing for $a \geq (\gamma-\phi)/(2\phi\gamma)$ analytically and is confirmed numerically to be strictly decreasing throughout $[0,1]$ under both Sets~A and~B.
+Consequently, a journal that relied on passive slot scarcity for protection at baseline may need to actively reduce $K$ to maintain the same deterrent as $a$ rises.}
 
 \item[Proposition 4 (Policy lever ranking).]
 \textit{Among the primary levers, reducing $\lambda$ (verification quality) and raising $K_{rev}$ (review capacity) are unconditionally beneficial: they expand the GH region without side effects.
@@ -1249,7 +1258,7 @@ Even a system that sits nominally above the tipping threshold can cross it by ch
 This subsection tests whether the deterministic tipping results of Section~\ref{sec:analysis} survive under finite-population noise, and whether community size changes that verdict.
 
 We extend the batch-matching ABM from \citet{Bonabeau2002} to incorporate the same rising AI adoption schedule used in Section~\ref{sec:abm} ($a_t$ linear from 0 to 0.8 over 3{,}000 steps).
-At each step $t$, the local screening capacity is $K_{rev,\text{eff}}(a_t) = K_{rev,0}\cdot(1+\delta a_t)/(1+\gamma a_t)$, the false-positive rate is $\lambda(a_t)$, and the submission cost is $c(a_t)$---identical functional forms to the ODE.
+At each step $t$, the local screening capacity is $K_{rev,\text{eff}}(a_t) = K_{rev,0}\cdot(1+\delta a_t)/(1+\gamma a_t)$, the false-positive rate is $\lambda(a_t)$, the submission cost is $c(a_t)$, and the paper pool reaching the publication queue scales as $M(x,a_t)=(1+\gamma a_t)\cdot M_{\text{base}}(x,a_t)$---identical functional forms to the ODE\@.
 The only departure from the ODE is that $N$ is finite and strategy revision is stochastic: each revision attempt uses the Fermi rule \citep{Szabo1998}, so the population does not move deterministically toward its expected next state but takes a noisy step.
 We run 30 independent replications for each of two community sizes: $N = 1{,}000$ (a full research field, the original calibration) and $N = 200$ (a specialised sub-field).
 Both start at $x_0 = 0.82$, which is 0.02 above the initial tipping threshold $x^*(a=0) \approx 0.80$---a thin but nominally safe margin.
@@ -1908,19 +1917,35 @@ In the uncongested, unrationed region $\Pi_{\mathit{bad}} = r\lambda(a) - c(a)$,
 $\Pi_{\mathit{bad}} = r\pi_0(x,a) - c(a)$, so $\partial\Pi_{\mathit{bad}}/\partial a = r\,\partial\pi_0/\partial a + c_0\phi > 0$ by Lemma~A.2 and $\phi > 0$.
 
 \noindent\textbf{Case~III} ($\eta<1$, $\bar\rho<1$):
-Writing $M_0 \equiv N\alpha\pi_1 + N(1-\alpha)(1-x)\pi_0$ for the base pool and $M = (1+\gamma a)M_0$,
+Writing $M_0 \equiv N\alpha\pi_1 + N(1-\alpha)(1-x)\pi_0$ and $M = (1+\gamma a)M_0$,
 we have $\Pi_{\mathit{bad}} = rK\pi_0/M - c(a)$.
-By the quotient and product rules:
+Differentiating using $\partial M/\partial a = \gamma M_0 + (1+\gamma a)\,\partial_a M_0$ gives:
 \[
   \frac{\partial\Pi_{\mathit{bad}}}{\partial a}
-  = \frac{rK}{M^2}\underbrace{\Bigl(M_0\,\frac{\partial\pi_0}{\partial a}
-    - \pi_0\,\frac{\partial M_0}{\partial a}\Bigr)}_{=\,N\alpha(\pi_1\partial_a\pi_0-\pi_0\partial_a\pi_1)\,>\,0
-    \;\text{by \eqref{eq:app_key}}}
-  \;-\; \underbrace{\frac{rK\gamma\pi_0}{(1+\gamma a)M}}_{>0}
-  + \underbrace{c_0\phi}_{>\,0}.
+  = \underbrace{\frac{rK(1+\gamma a)}{M^2}\Bigl(M_0\,\frac{\partial\pi_0}{\partial a}
+    - \pi_0\,\frac{\partial M_0}{\partial a}\Bigr)}_{A\;=\;rK(1+\gamma a)N\alpha(\pi_1\partial_a\pi_0-\pi_0\partial_a\pi_1)/M^2\;>\;0
+    \;\text{(Lemma~A.3)}}
+  \;-\; \underbrace{\frac{rK\gamma\pi_0}{(1+\gamma a)M}}_{B\;>\;0}
+  + \underbrace{c_0\phi}_{C\;>\;0}.
 \]
-The middle term is negative, reflecting that a larger pool tightens rationing.
-For the calibrations in Sets~A and~B, numerical evaluation confirms that the first and third terms dominate, so $\partial\Pi_{\mathit{bad}}/\partial a>0$ in Case~III throughout the relevant range.\footnote{A sufficient condition is $N\alpha[\pi_1\partial_a\pi_0 - \pi_0\partial_a\pi_1] > \gamma M_0\pi_0$. Using Lemma~A.2 and the discriminatory filter condition $\lambda+\varepsilon<1$, this simplifies to $|\dot\eta|(1-\lambda-\varepsilon)N\alpha + \eta\mu N\alpha > \gamma M_0\pi_0/(r)$, which holds when $\gamma$ is not too large relative to the screening signal $1-\lambda-\varepsilon$.}
+The term $B$ is negative, reflecting that the larger submission pool tightens slot rationing.
+The sign of $\partial\Pi_{\mathit{bad}}/\partial a$ equals the sign of $A - B + C$.
+
+\medskip
+\noindent\textit{Sufficient condition.}
+Since $B = r\gamma\bar\rho\pi_0/(1+\gamma a)$ and $\bar\rho < 1$, we have $B < r\gamma\pi_0/(1+\gamma a) \leq r\gamma$.
+Using $A = rK(1+\gamma a)N\alpha(\pi_1\partial_a\pi_0 - \pi_0\partial_a\pi_1)/M^2$ and Lemma~A.3, a sufficient condition for $A + C > B$ is:
+\begin{equation}
+  \label{eq:caseIII_suff}
+  N\alpha(1+\gamma a)\bigl[|\dot\eta|(1-\lambda-\varepsilon)+\eta\mu\pi_1\bigr]
+  \;>\; \gamma\pi_0 M_0,
+\end{equation}
+which holds when $\gamma$ is moderate relative to the screening signal $1-\lambda-\varepsilon$
+(i.e., when submission volume does not grow so fast that slot-queue congestion overwhelms the screening-degradation and cost-reduction forces).
+
+\medskip
+\noindent\textit{Numerical confirmation.}
+For both calibrations in Table~\ref{tab:calibration}, condition~\eqref{eq:caseIII_suff} is satisfied and direct evaluation confirms $A - B + C > 0$ throughout $(x,a)\in(0,1)\times[0,1]$, so $\partial\Pi_{\mathit{bad}}/\partial a>0$ in Case~III.
 
 \noindent\textbf{Step 2: Implication for the GH region.}
 The GH regime requires $\Pi_{\mathit{bad}}(1,a) < 0$ (a single deviating author cannot profitably spam).
@@ -1987,13 +2012,31 @@ Differentiating with respect to $a$:
 \[
   \frac{dK^*}{da}
   = \frac{N}{r}\!\left[
-      \bigl[c'(a)(1+\gamma a) + c(a)\gamma\bigr]\!\left(\alpha\,\frac{\pi_1}{\pi_0}+(1-\alpha)\right)
-      + c(a)(1+\gamma a)\,\alpha\;\underbrace{\frac{d}{da}\!\left(\frac{\pi_1}{\pi_0}\right)}_{<\;0\;\text{by Lemma A.3}}
+      \underbrace{c_0[\gamma-\phi-2\phi\gamma a]}_{\text{Term 1}}\!\left(\alpha\,\frac{\pi_1}{\pi_0}+(1-\alpha)\right)
+      + c(a)(1+\gamma a)\,\alpha\;\underbrace{\frac{d}{da}\!\left(\frac{\pi_1}{\pi_0}\right)}_{<\;0\;\text{(Lemma A.3)}}_{\text{Term 2}}
     \right].
 \]
-The second term is unambiguously negative.
-The bracket $c'(a)(1+\gamma a)+c(a)\gamma = c_0[-\phi(1+\gamma a)+\gamma(1-\phi a)] = c_0[\gamma-\phi-2\phi\gamma a]$, which may be positive or negative depending on parameters.
-For Sets~A and~B, direct evaluation confirms $dK^*/da < 0$ throughout $a\in[0,1]$, so the threshold $K^*(a)$ falls strictly as $a$ rises.\footnote{For Set~A ($\gamma=0.5$, $\phi=0.4$): $K^*(0)\approx 268$, $K^*(0.5)\approx 262$, $K^*(1)\approx 233$, a monotone decline of about 13\%.}
+Term~2 is unambiguously negative.
+Term~1's sign depends on the bracket $c_0[\gamma-\phi-2\phi\gamma a]$.
+
+\medskip
+\noindent\textit{Case $\phi \geq \gamma$ (analytical).}
+When $\phi \geq \gamma$, the bracket $\gamma-\phi-2\phi\gamma a \leq \gamma-\phi \leq 0$ for all $a\geq 0$,
+so Term~1 $\leq 0$.
+Both terms are non-positive and Term~2 is strictly negative, giving $dK^*/da < 0$ for all $a\in[0,1]$.
+
+\medskip
+\noindent\textit{Case $\gamma > \phi$ (partial analytical, partial numerical).}
+The critical value at which Term~1 changes sign is $a_0 = (\gamma-\phi)/(2\phi\gamma)$.
+For $a \geq a_0$, the bracket is non-positive, both terms are non-positive, and $dK^*/da \leq 0$ analytically.
+For $a \in [0, a_0)$, Term~1 is positive and may offset part of Term~2.
+
+Under Sets~A and~B ($\gamma=0.5$, $\phi=0.4$), $a_0 = (0.5-0.4)/(2\times0.4\times0.5) = 0.25$.
+For $a \geq 0.25$, the result is analytical.
+For $a \in [0,0.25)$, direct evaluation confirms Term~2 dominates:
+for Set~A, $K^*(0)\approx 268$, $K^*(0.25)\approx 268$, $K^*(0.5)\approx 262$, $K^*(1)\approx 233$,
+a monotone decline of about 13\%.
+Therefore $K^*(a)$ is strictly decreasing throughout $a\in[0,1]$ under both calibrations.
 Therefore, as $a$ rises, the maximum admissible slot count maintaining the corrupt-boundary deterrent falls strictly.
 A journal that set $K < K^*(0)$ at baseline will find $K > K^*(a)$ at higher $a$ without changing any institutional parameter; active reduction of $K$ is required to preserve the deterrent.
 \hfill$\square$
