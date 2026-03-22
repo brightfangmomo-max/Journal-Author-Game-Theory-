@@ -463,7 +463,9 @@ Because OG and AS authors submit good papers on identical terms, the strategic d
     \label{eq:pibad}
 \end{equation}
 where $r$ is the publication reward and $c$ the submission cost.
-We work in the region $\lambda r < c < r(1-\epsilon)$: without congestion, submitting a bad paper is unprofitable, but the incentive reactivates once screening degrades---the same adverse-selection logic as in Akerlof's market for lemons \citep{Akerlof1970}.
+The analysis considers two parameter regions.
+In the primary region $\lambda r < c < r(1-\varepsilon)$---which governs Set~A and the GH and BS regimes---spamming is unprofitable without congestion but the incentive reactivates once screening degrades: the adverse-selection logic of Akerlof's market for lemons \citep{Akerlof1970}.
+Set~B explores the complementary region $\lambda r > c$, where spamming would be profitable even at full screening intensity ($\eta=1$), but tight slot rationing ($\bar{\rho}\ll 1$) keeps the corrupt boundary stable by making the publication lottery too hard to win---the defence-by-congestion mechanism operating through $\bar\rho$ rather than through $\eta$.
 
 \paragraph{Dynamics.}
 The expected per-period fitness of each strategy differs only in the treatment of bad papers.
@@ -972,8 +974,8 @@ AI elasticity parameters are fixed at $\gamma=0.5$, $\delta=0.1$, $\phi=0.4$, $\
         \bottomrule
     \end{tabular}
     \smallskip\\
-    \footnotesize{\textit{Set~A: review bottleneck dominates; primary failure mode is bistability.
-    Set~B: slot scarcity dominates; illustrates defence by congestion.}}
+    \footnotesize{\textit{Set~A: $\lambda r < c$; review bottleneck dominates; primary failure mode is bistability.
+    Set~B: $\lambda r > c$; slot scarcity dominates; illustrates defence by congestion via tight $\bar\rho$ (not via $\eta$, which equals 1 throughout since $K_{rev}\gg N$).}}
 \end{table}
 
 \subsection{How AI Shifts Regime Boundaries}
