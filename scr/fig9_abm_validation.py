@@ -159,7 +159,10 @@ def run_abm_with_ai(a_schedule, x0=X0, N_pop=N_LARGE, batch_size=BATCH_LARGE, be
             pi1   = 1 - eta * EPS
             pi0   = 1 - eta * (1 - lam)
 
-            M_loc = n_og_b * ALPHA * pi1 + n_as_b * (ALPHA * pi1 + (1 - ALPHA) * pi0)
+            M_loc = (1 + GAMMA * a_t) * (
+                n_og_b * ALPHA * pi1
+                + n_as_b * (ALPHA * pi1 + (1 - ALPHA) * pi0)
+            )
             rho   = min(1.0, K_sto_loc / M_loc) if M_loc > 0 else 1.0
 
             Pi_good = R * rho * pi1 - c
