@@ -1,0 +1,323 @@
+\begin{thebibliography}{57}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Acemoglu and Restrepo(2019)]{AcemogluRestrepo2019}
+Daron Acemoglu and Pascual Restrepo.
+\newblock Automation and new tasks: How technology displaces and reinstates labor.
+\newblock \emph{Journal of Economic Perspectives}, 33\penalty0 (2):\penalty0 3--30, 2019.
+\newblock \doi{10.1257/jep.33.2.3}.
+
+\bibitem[Acz{\'e}l et~al.(2021)Acz{\'e}l, Szaszi, and Holcombe]{Aczel2021}
+Balazs Acz{\'e}l, Barnabas Szaszi, and Alex~O. Holcombe.
+\newblock A billion-dollar donation: estimating the cost of researchers' time spent on peer review.
+\newblock \emph{Research Integrity and Peer Review}, 6\penalty0 (14), 2021.
+\newblock \doi{10.1186/s41073-021-00118-2}.
+
+\bibitem[Akerlof(1970)]{Akerlof1970}
+George~A Akerlof.
+\newblock The market for ``lemons'': Quality uncertainty and the market mechanism.
+\newblock \emph{The Quarterly Journal of Economics}, 84\penalty0 (3):\penalty0 488--500, 1970.
+\newblock \doi{10.2307/1879431}.
+
+\bibitem[{arXiv}(2024)]{arXiv2024}
+{arXiv}.
+\newblock {arXiv} sets new record for monthly submissions.
+\newblock arXiv Blog, 2024.
+\newblock URL \url{https://blog.arxiv.org/2024/11/04/arxiv-sets-new-record-for-monthly-submissions-again/}.
+\newblock Accessed March 2026.
+
+\bibitem[Bass(1969)]{Bass1969}
+Frank~M. Bass.
+\newblock A new product growth for model consumer durables.
+\newblock \emph{Management Science}, 15\penalty0 (5):\penalty0 215--227, 1969.
+
+\bibitem[Bianchi et~al.(2018)Bianchi, Grimaldo, Bravo, and Squazzoni]{Bianchi2018}
+Federico Bianchi, Francisco Grimaldo, Giangiacomo Bravo, and Flaminio Squazzoni.
+\newblock The peer review game: an agent-based model of scientists facing resource constraints and institutional pressures.
+\newblock \emph{Scientometrics}, 116\penalty0 (3):\penalty0 1401--1420, 2018.
+\newblock \doi{10.1007/s11192-018-2825-4}.
+
+\bibitem[Bik et~al.(2016)Bik, Casadevall, and Fang]{Bik2016}
+Elisabeth~M. Bik, Arturo Casadevall, and Ferric~C. Fang.
+\newblock The prevalence of inappropriate image duplication in biomedical research publications.
+\newblock \emph{mBio}, 7\penalty0 (3):\penalty0 e00809--16, 2016.
+
+\bibitem[Bonabeau(2002)]{Bonabeau2002}
+Eric Bonabeau.
+\newblock Agent-based modeling: Methods and techniques for simulating human systems.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 99\penalty0 (suppl\_3):\penalty0 7280--7287, 2002.
+
+\bibitem[Bornmann et~al.(2010)Bornmann, Mutz, and Daniel]{Bornmann2010}
+Lutz Bornmann, R{\"u}diger Mutz, and Hans-Dieter Daniel.
+\newblock A reliability-generalization study of journal peer reviews: A multilevel meta-analysis of inter-rater reliability and its determinants.
+\newblock \emph{PLoS One}, 5\penalty0 (12):\penalty0 e14331, 2010.
+
+\bibitem[Casadevall and Fang(2014)]{casadevall2014reforming}
+Arturo Casadevall and Ferric~C Fang.
+\newblock Reforming science: methodological and cultural reforms.
+\newblock \emph{Infection and Immunity}, 82\penalty0 (12):\penalty0 4881--4888, 2014.
+
+\bibitem[Checco et~al.(2021)Checco, Bracciale, Loreti, Pinfield, and Bianchi]{Checco2021}
+Alessandro Checco, Lorenzo Bracciale, Pierpaolo Loreti, Stephen Pinfield, and Giuseppe Bianchi.
+\newblock {AI}-assisted peer review.
+\newblock \emph{Humanities and Social Sciences Communications}, 8\penalty0 (1):\penalty0 25, 2021.
+\newblock \doi{10.1057/s41599-020-00703-8}.
+
+\bibitem[Cicchetti(1991)]{Cicchetti1991}
+Domenic~V Cicchetti.
+\newblock The reliability of peer review for manuscript and grant submissions: A cross-disciplinary investigation.
+\newblock \emph{Behavioral and Brain Sciences}, 14\penalty0 (1):\penalty0 119--135, 1991.
+
+\bibitem[Clauset et~al.(2015)Clauset, Arbesman, and Larremore]{Clauset2015}
+Aaron Clauset, Samuel Arbesman, and Daniel~B. Larremore.
+\newblock Systematic inequality and hierarchy in faculty hiring networks.
+\newblock \emph{Science Advances}, 1\penalty0 (1):\penalty0 e1400005, 2015.
+\newblock \doi{10.1126/sciadv.1400005}.
+
+\bibitem[Cotton(2013)]{Cotton2013}
+Christopher Cotton.
+\newblock Submission fees and response times in academic publishing.
+\newblock \emph{American Economic Review}, 103\penalty0 (1):\penalty0 501--509, 2013.
+
+\bibitem[Dasgupta and David(1994)]{DasguptaDavid1994}
+Partha Dasgupta and Paul~A. David.
+\newblock Toward a new economics of science.
+\newblock \emph{Research Policy}, 23\penalty0 (5):\penalty0 487--521, 1994.
+\newblock \doi{10.1016/0048-7333(94)01002-1}.
+
+\bibitem[Ellison(2002)]{Ellison2002}
+Glenn Ellison.
+\newblock Evolving standards for academic publishing: A q-r theory.
+\newblock \emph{Journal of Political Economy}, 110\penalty0 (5):\penalty0 994--1034, 2002.
+
+\bibitem[Epstein and Axtell(1996)]{Epstein1996}
+Joshua~M. Epstein and Robert Axtell.
+\newblock \emph{Growing Artificial Societies: Social Science from the Bottom Up}.
+\newblock Brookings Institution Press, Washington, DC, 1996.
+
+\bibitem[Ginsparg(2011)]{Ginsparg2011}
+Paul Ginsparg.
+\newblock {arXiv} at 20.
+\newblock \emph{Nature}, 476\penalty0 (7359):\penalty0 145--147, 2011.
+\newblock \doi{10.1038/476145a}.
+
+\bibitem[Gross and Bergstrom(2019)]{gross2019contest}
+Kevin Gross and Carl~T Bergstrom.
+\newblock Contest models highlight inherent inefficiencies of scientific funding competitions.
+\newblock \emph{PLOS Biology}, 17\penalty0 (1):\penalty0 e3000065, 2019.
+\newblock \doi{10.1371/journal.pbio.3000065}.
+
+\bibitem[Hicks et~al.(2015)Hicks, Wouters, Waltman, de~Rijcke, and Rafols]{Hicks2015}
+Diana Hicks, Paul Wouters, Ludo Waltman, Sarah de~Rijcke, and Ismael Rafols.
+\newblock Bibliometrics: The {Leiden Manifesto} for research metrics.
+\newblock \emph{Nature}, 520\penalty0 (7548):\penalty0 429--431, 2015.
+\newblock \doi{10.1038/520429a}.
+
+\bibitem[Hofbauer and Sigmund(1998)]{Hofbauer1998}
+Josef Hofbauer and Karl Sigmund.
+\newblock \emph{Evolutionary Games and Population Dynamics}.
+\newblock Cambridge University Press, Cambridge, UK, 1998.
+
+\bibitem[Ioannidis(2005)]{Ioannidis2005}
+John P~A Ioannidis.
+\newblock Why most published research findings are false.
+\newblock \emph{PLOS Medicine}, 2\penalty0 (8):\penalty0 e124, 2005.
+\newblock \doi{10.1371/journal.pmed.0020124}.
+
+\bibitem[Kobak et~al.(2025)Kobak, Gonz{\'a}lez-M{\'a}rquez, Horv{\'a}t, and Lause]{Kobak2025}
+Dmitry Kobak, Rita Gonz{\'a}lez-M{\'a}rquez, Em{\H{o}}ke-{\'A}gnes Horv{\'a}t, and Jan Lause.
+\newblock Delving into {LLM}-assisted writing in biomedical publications through excess vocabulary.
+\newblock \emph{Science Advances}, 11\penalty0 (27), 2025.
+\newblock \doi{10.1126/sciadv.adt3813}.
+
+\bibitem[Kovanis et~al.(2016)Kovanis, Porcher, Ravaud, and Trinquart]{Kovanis2016}
+Michail Kovanis, Raphael Porcher, Philippe Ravaud, and Ludovic Trinquart.
+\newblock The global burden of journal peer review in the biomedical literature: Strong imbalance in the collective enterprise.
+\newblock \emph{PLoS One}, 11\penalty0 (11):\penalty0 e0166387, 2016.
+
+\bibitem[Latona et~al.(2024)Latona, Horta~Ribeiro, Davidson, Veselovsky, and West]{Latona2024}
+Giuseppe~Russo Latona, Manoel Horta~Ribeiro, Tim~R. Davidson, Veniamin Veselovsky, and Robert West.
+\newblock The {AI} review lottery: Widespread {AI}-assisted peer reviews boost paper scores and acceptance rates, 2024.
+
+\bibitem[Liang et~al.(2023)Liang, Yuksekgonul, Mao, Wu, and Zou]{Liang2023detectors}
+Weixin Liang, Mert Yuksekgonul, Yining Mao, Eric Wu, and James Zou.
+\newblock {GPT} detectors are biased against non-native {English} writers.
+\newblock \emph{Patterns}, 4\penalty0 (7):\penalty0 100779, 2023.
+\newblock \doi{10.1016/j.patter.2023.100779}.
+
+\bibitem[Liang et~al.(2024)Liang, Izzo, Zhang, Lepp, Cao, Zhao, Chen, Ye, Liu, Huang, McFarland, and Zou]{Liang2024ICML}
+Weixin Liang, Zachary Izzo, Yaohui Zhang, Haley Lepp, Hancheng Cao, Xuandong Zhao, Lingjiao Chen, Haoyu Ye, Sheng Liu, Zhi Huang, Daniel~A. McFarland, and James~Y. Zou.
+\newblock Monitoring {AI}-modified content at scale: {A} case study on the impact of {ChatGPT} on {AI} conference peer reviews.
+\newblock In \emph{Proceedings of the 41st International Conference on Machine Learning}, volume 235 of \emph{Proceedings of Machine Learning Research}, pages 29575--29620. PMLR, 2024.
+\newblock URL \url{https://proceedings.mlr.press/v235/liang24b.html}.
+
+\bibitem[Liang et~al.(2025)Liang, Zhang, Wu, Lepp, Cao, Zhao, Chen, Ye, Liu, Huang, McFarland, and Zou]{Liang2025}
+Weixin Liang, Yaohui Zhang, Zhengxuan Wu, Haley Lepp, Hancheng Cao, Xuandong Zhao, Lingjiao Chen, Haoyu Ye, Sheng Liu, Zhi Huang, Daniel~A. McFarland, and James~Y. Zou.
+\newblock Quantifying large language model usage in scientific papers.
+\newblock \emph{Nature Human Behaviour}, 9:\penalty0 2599--2609, 2025.
+\newblock \doi{10.1038/s41562-025-02273-8}.
+
+\bibitem[Meyerson et~al.(2025)Meyerson, Suzzi-Simmons, and Simberloff]{Meyerson2025}
+Laura~A. Meyerson, Adam Suzzi-Simmons, and Daniel Simberloff.
+\newblock Quantifying reviewer declines in scientific publishing: twenty-one years of data from {Biological Invasions} 2002--2024.
+\newblock \emph{Biological Invasions}, 27:\penalty0 223, 2025.
+\newblock \doi{10.1007/s10530-025-03679-1}.
+
+\bibitem[Moher et~al.(2009)Moher, Liberati, Tetzlaff, Altman, and {PRISMA Group}]{Moher2009}
+David Moher, Alessandro Liberati, Jennifer Tetzlaff, Douglas~G. Altman, and {PRISMA Group}.
+\newblock Preferred reporting items for systematic reviews and meta-analyses: the {PRISMA} statement.
+\newblock \emph{PLoS Medicine}, 6\penalty0 (7):\penalty0 e1000097, 2009.
+\newblock \doi{10.1371/journal.pmed.1000097}.
+
+\bibitem[Muller-Itten(2022)]{MullerItten2022}
+Michele Muller-Itten.
+\newblock Gatekeeper competition.
+\newblock \emph{European Economic Review}, 148:\penalty0 104230, 2022.
+
+\bibitem[Munaf{\`o} et~al.(2017)Munaf{\`o}, Nosek, Bishop, Button, Chambers, {Percie du Sert}, Simonsohn, Wagenmakers, Ware, and Ioannidis]{Munafo2017}
+Marcus~R. Munaf{\`o}, Brian~A. Nosek, Dorothy V.~M. Bishop, Katherine~S. Button, Christopher~D. Chambers, Nathalie {Percie du Sert}, Uri Simonsohn, Eric-Jan Wagenmakers, Jennifer~J. Ware, and John P.~A. Ioannidis.
+\newblock A manifesto for reproducible science.
+\newblock \emph{Nature Human Behaviour}, 1:\penalty0 0021, 2017.
+\newblock \doi{10.1038/s41562-016-0021}.
+
+\bibitem[Naddaf(2025)]{Naddaf2025}
+Miryam Naddaf.
+\newblock More than half of researchers now use {AI} for peer review --- often against guidance.
+\newblock \emph{Nature}, 649, 2025.
+\newblock \doi{10.1038/d41586-025-04066-5}.
+
+\bibitem[Nosek et~al.(2015)Nosek, Alter, Banks, Borsboom, Bowman, Breckler, Buck, Chambers, Chin, Christensen, Contestabile, Dafoe, Eich, Freese, Glennerster, Goroff, Green, Hesse, Humphreys, Ishiyama, Karlan, Kraut, Lupia, Mabry, Madon, Malhotra, Mayo-Wilson, McNutt, Miguel, Paluck, Simonsohn, Soderberg, Spellman, Turitto, VandenBos, Vazire, Wagenmakers, Wilson, and Yarkoni]{Nosek2015}
+Brian~A. Nosek, George Alter, George~C. Banks, Denny Borsboom, Sara~D. Bowman, Steven~J. Breckler, Stuart Buck, Christopher~D. Chambers, Gilbert Chin, Garret Christensen, Morteza Contestabile, Alan Dafoe, Eric Eich, Jeremy Freese, Rachel Glennerster, David Goroff, Donald~P. Green, Brian Hesse, Macartan Humphreys, John Ishiyama, Dean Karlan, Arnie Kraut, Arthur Lupia, Peter Mabry, Theresa Madon, Neil Malhotra, Evan Mayo-Wilson, Marcia McNutt, Edward Miguel, Elizabeth~Levy Paluck, Uri Simonsohn, Courtney Soderberg, Barbara~A. Spellman, Jeffrey Turitto, Gary VandenBos, Simine Vazire, Eric~Jan Wagenmakers, Rachel Wilson, and Tal Yarkoni.
+\newblock Promoting an open research culture.
+\newblock \emph{Science}, 348\penalty0 (6242):\penalty0 1422--1425, 2015.
+\newblock \doi{10.1126/science.aab2374}.
+
+\bibitem[Nosek et~al.(2018)Nosek, Ebersole, DeHaven, and Mellor]{Nosek2018}
+Brian~A. Nosek, Charles~R. Ebersole, Alexander~C. DeHaven, and David~T. Mellor.
+\newblock The preregistration revolution.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 115\penalty0 (11):\penalty0 2600--2606, 2018.
+\newblock \doi{10.1073/pnas.1708274114}.
+
+\bibitem[Nowak(2006)]{Nowak2006}
+Martin~A Nowak.
+\newblock \emph{Evolutionary dynamics: exploring the equations of life}.
+\newblock Harvard university press, 2006.
+
+\bibitem[Noy and Zhang(2023)]{NoyZhang2023}
+Shakked Noy and Whitney Zhang.
+\newblock Experimental evidence on the productivity effects of generative artificial intelligence.
+\newblock \emph{Science}, 381\penalty0 (6654):\penalty0 187--192, 2023.
+\newblock \doi{10.1126/science.adh2586}.
+
+\bibitem[{Open Science Collaboration}(2015)]{OSC2015}
+{Open Science Collaboration}.
+\newblock Estimating the reproducibility of psychological science.
+\newblock \emph{Science}, 349\penalty0 (6251):\penalty0 aac4716, 2015.
+\newblock \doi{10.1126/science.aac4716}.
+
+\bibitem[Ostrom(1990)]{Ostrom1990}
+Elinor Ostrom.
+\newblock \emph{Governing the Commons: The Evolution of Institutions for Collective Action}.
+\newblock Cambridge University Press, Cambridge, 1990.
+
+\bibitem[Pigou(1920)]{Pigou1920}
+Arthur~Cecil Pigou.
+\newblock \emph{The Economics of Welfare}.
+\newblock Macmillan, London, 1920.
+
+\bibitem[Rogers(2003)]{Rogers2003}
+Everett~M. Rogers.
+\newblock \emph{Diffusion of Innovations}.
+\newblock Free Press, New York, 5th edition, 2003.
+
+\bibitem[Scheffer(2009)]{Scheffer2009}
+Marten Scheffer.
+\newblock \emph{Critical Transitions in Nature and Society}.
+\newblock Princeton University Press, Princeton, NJ, 2009.
+
+\bibitem[Scheffer et~al.(2001)Scheffer, Carpenter, Foley, Folke, and Walker]{Scheffer2001}
+Marten Scheffer, Steve Carpenter, Jonathan~A Foley, Carl Folke, and Brian Walker.
+\newblock Catastrophic shifts in ecosystems.
+\newblock \emph{Nature}, 413\penalty0 (6856):\penalty0 591--596, 2001.
+\newblock \doi{10.1038/35098000}.
+
+\bibitem[Schelling(1978)]{Schelling1978}
+Thomas~C Schelling.
+\newblock \emph{Micromotives and Macrobehavior}.
+\newblock W. W. Norton \& Company, New York, 1978.
+\newblock ISBN 9780393090090.
+
+\bibitem[Siler et~al.(2015)Siler, Lee, and Bero]{Siler2015}
+Kyle Siler, Kirby Lee, and Lisa Bero.
+\newblock Measuring the effectiveness of scientific gatekeeping.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 112\penalty0 (2):\penalty0 360--365, 2015.
+
+\bibitem[Simmons et~al.(2011)Simmons, Nelson, and Simonsohn]{Simmons2011}
+Joseph~P. Simmons, Leif~D. Nelson, and Uri Simonsohn.
+\newblock False-positive psychology: Undisclosed flexibility in data collection and analysis allows presenting anything as significant.
+\newblock \emph{Psychological Science}, 22\penalty0 (11):\penalty0 1359--1366, 2011.
+\newblock \doi{10.1177/0956797611417632}.
+
+\bibitem[Smaldino and McElreath(2016)]{Smaldino2016}
+Paul~E Smaldino and Richard McElreath.
+\newblock The natural selection of bad science.
+\newblock \emph{Royal Society Open Science}, 3\penalty0 (9):\penalty0 160384, 2016.
+\newblock \doi{10.1098/rsos.160384}.
+
+\bibitem[Stephan(2012)]{Stephan2012}
+Paula Stephan.
+\newblock \emph{How Economics Shapes Science}.
+\newblock Harvard University Press, Cambridge, MA, 2012.
+
+\bibitem[Stokel-Walker and Van~Noorden(2023)]{StokelWalker2023}
+Chris Stokel-Walker and Richard Van~Noorden.
+\newblock What {ChatGPT} and generative {AI} mean for science.
+\newblock \emph{Nature}, 614\penalty0 (7947):\penalty0 214--216, 2023.
+\newblock \doi{10.1038/d41586-023-00340-6}.
+
+\bibitem[Szab{\'o} and T{\H{o}}ke(1998)]{Szabo1998}
+Gy{\"o}rgy Szab{\'o} and Csaba T{\H{o}}ke.
+\newblock Evolutionary prisoner's dilemma game on a square lattice.
+\newblock \emph{Physical Review E}, 58\penalty0 (1):\penalty0 69, 1998.
+
+\bibitem[Thurner and Hanel(2011)]{Thurner2011}
+Stefan Thurner and Rudolf Hanel.
+\newblock Peer-review in a world with rational scientists: Toward a selection of the average.
+\newblock \emph{The European Physical Journal B}, 84\penalty0 (4):\penalty0 707--711, 2011.
+
+\bibitem[Tiokhin et~al.(2021)Tiokhin, Panchanathan, Lakens, Vazire, Morgan, and Zollman]{Tiokhin2021}
+Leonid Tiokhin, Karthik Panchanathan, Daniel Lakens, Simine Vazire, Thomas Morgan, and Kevin Zollman.
+\newblock Honest signaling in academic publishing.
+\newblock \emph{PLoS One}, 16\penalty0 (2):\penalty0 e0246675, 2021.
+
+\bibitem[Traulsen and Hauert(2009)]{Traulsen2009}
+Arne Traulsen and Christoph Hauert.
+\newblock Stochastic evolutionary game dynamics.
+\newblock \emph{Reviews of nonlinear dynamics and complexity}, 2:\penalty0 25--61, 2009.
+
+\bibitem[Traulsen et~al.(2006)Traulsen, Nowak, and Pacheco]{Traulsen2006}
+Arne Traulsen, Martin~A. Nowak, and Jorge~M. Pacheco.
+\newblock Stochastic dynamics of invasion and fixation.
+\newblock \emph{Physical Review E}, 74\penalty0 (1):\penalty0 011909, 2006.
+
+\bibitem[Van~Noorden(2023)]{VanNoorden2023}
+Richard Van~Noorden.
+\newblock More than 10{,}000 research papers were retracted in 2023---a new record.
+\newblock \emph{Nature}, 624:\penalty0 479--481, 2023.
+\newblock \doi{10.1038/d41586-023-03974-8}.
+
+\bibitem[Weibull(1995)]{Weibull1995}
+J{\"o}rgen~W Weibull.
+\newblock \emph{Evolutionary game theory}.
+\newblock MIT press, Cambridge, MA, 1995.
+
+\bibitem[Zollman et~al.(2024)Zollman, Garc{\'i}a, and Handfield]{Zollman2024}
+Kevin J.~S. Zollman, Julian Garc{\'i}a, and Toby Handfield.
+\newblock Academic journals, incentives, and the quality of peer review: A model.
+\newblock \emph{Philosophy of Science}, 91\penalty0 (1):\penalty0 186--203, 2024.
+
+\end{thebibliography}

@@ -28,7 +28,7 @@
   }
 }
 
-%\author{Yuhui Fang} 
+\author{Yuhui Fang} 
 \usetikzlibrary{shapes.geometric, arrows, positioning, calc, patterns, decorations.pathreplacing}
 
 \geometry{a4paper, margin=1in}
@@ -463,9 +463,7 @@ Because OG and AS authors submit good papers on identical terms, the strategic d
     \label{eq:pibad}
 \end{equation}
 where $r$ is the publication reward and $c$ the submission cost.
-The analysis considers two parameter regions.
-In the primary region $\lambda r < c < r(1-\varepsilon)$---which governs Set~A and the GH and BS regimes---spamming is unprofitable without congestion but the incentive reactivates once screening degrades: the adverse-selection logic of Akerlof's market for lemons \citep{Akerlof1970}.
-Set~B explores the complementary region $\lambda r > c$, where spamming would be profitable even at full screening intensity ($\eta=1$), but tight slot rationing ($\bar{\rho}\ll 1$) keeps the corrupt boundary stable by making the publication lottery too hard to win---the defence-by-congestion mechanism operating through $\bar\rho$ rather than through $\eta$.
+We work in the region $\lambda r < c < r(1-\epsilon)$: without congestion, submitting a bad paper is unprofitable, but the incentive reactivates once screening degrades---the same adverse-selection logic as in Akerlof's market for lemons \citep{Akerlof1970}.
 
 \paragraph{Dynamics.}
 The expected per-period fitness of each strategy differs only in the treatment of bad papers.
@@ -904,9 +902,9 @@ This is a testable empirical claim, not an axiom (Equation~\ref{eq:asymmetry}).
   \;+\;\underbrace{c_0\phi}_{c\downarrow}
   \;+\;\underbrace{[\text{congestion terms}]}_{>0\text{ when }\gamma>\delta}
   \;>\;0
-  \qquad\text{under the calibrations of Table~\ref{tab:calibration}.}
+  \qquad\text{for all }x\in(0,1).
 \]
-AI makes submitting low-quality work more attractive at every composition of the author population, provided the volume elasticity $\gamma$ is moderate relative to the screening signal $1-\lambda-\varepsilon$ (Proposition~1).
+AI makes submitting low-quality work more attractive at \emph{every} composition of the author population.
 
 \medskip
 \textbf{Closed-form tipping threshold} (honest boundary $x=1$, uncongested case):
@@ -974,8 +972,8 @@ AI elasticity parameters are fixed at $\gamma=0.5$, $\delta=0.1$, $\phi=0.4$, $\
         \bottomrule
     \end{tabular}
     \smallskip\\
-    \footnotesize{\textit{Set~A: $\lambda r < c$; review bottleneck dominates; primary failure mode is bistability.
-    Set~B: $\lambda r > c$; slot scarcity dominates; illustrates defence by congestion via tight $\bar\rho$ (not via $\eta$, which equals 1 throughout since $K_{rev}\gg N$).}}
+    \footnotesize{\textit{Set~A: review bottleneck dominates; primary failure mode is bistability.
+    Set~B: slot scarcity dominates; illustrates defence by congestion.}}
 \end{table}
 
 \subsection{How AI Shifts Regime Boundaries}
@@ -1262,37 +1260,47 @@ This subsection tests whether the deterministic tipping results of Section~\ref{
 We extend the batch-matching ABM from \citet{Bonabeau2002} to incorporate the same rising AI adoption schedule used in Section~\ref{sec:abm} ($a_t$ linear from 0 to 0.8 over 3{,}000 steps).
 At each step $t$, the local screening capacity is $K_{rev,\text{eff}}(a_t) = K_{rev,0}\cdot(1+\delta a_t)/(1+\gamma a_t)$, the false-positive rate is $\lambda(a_t)$, the submission cost is $c(a_t)$, and the paper pool reaching the publication queue scales as $M(x,a_t)=(1+\gamma a_t)\cdot M_{\text{base}}(x,a_t)$---identical functional forms to the ODE\@.
 The only departure from the ODE is that $N$ is finite and strategy revision is stochastic: each revision attempt uses the Fermi rule \citep{Szabo1998}, so the population does not move deterministically toward its expected next state but takes a noisy step.
-We run 30 independent replications for each of two community sizes: $N = 1{,}000$ (a full research field, the original calibration) and $N = 200$ (a specialised sub-field).
-Both start at $x_0 = 0.82$, which is 0.02 above the initial tipping threshold $x^*(a=0) \approx 0.80$---a thin but nominally safe margin.
+To isolate pure demographic noise---the $1/\!\sqrt{N}$ fluctuations inherent to any finite population---we set batch size equal to $N$ in all conditions, so every agent participates in each round and no additional batch-level heterogeneity is introduced.
+We run 100 independent replications for each of three community sizes---$N = 1{,}000$ (a large generalist field), $N = 500$ (a mid-size specialised field), and $N = 200$ (a small sub-field)---under two starting conditions that bracket the practical range of initial safety margins.
+The \emph{margin scenario} starts at $x_0 = 0.82$, which is 0.02 above the initial tipping threshold $x^*(a=0) = 0.80$: a thin but nominally positive buffer.
+The \emph{no-margin scenario} starts at $x_0 = x^*(0) = 0.80$, exactly at the tipping threshold, where the ODE's deterministic drift is zero and any noise can immediately push the system toward collapse.
 
-Figure~\ref{fig:abm_validation} shows the results.
-Panel~(a) overlays individual trajectories, the mean ABM path, and the ODE prediction.
-The ODE rises steadily to $x \approx 1$ and stays there: deterministic drift at $x = 0.82$ points toward honesty, and an infinite population never crosses the threshold by noise alone.
-The $N = 200$ runs tell a different story.
-Most collapse immediately; only a handful survive to the honest long-run outcome.
-The $N = 1{,}000$ mean settles near $x \approx 0.63$, reflecting the mix of collapsed and surviving runs in that sample.
-Panel~(b) quantifies this: by $a \approx 0.06$, approximately 90\% of $N = 200$ runs have already collapsed, while 35\% of $N = 1{,}000$ runs have done so.
-Both fractions plateau for higher $a$, because the sorting between collapse and survival is complete before AI adoption has risen appreciably---the safety margin of only 0.02 is insufficient to resist even the earliest stochastic fluctuations.
+Figure~\ref{fig:abm_validation} presents results across three panels.
+Panel~(a) shows the margin scenario ($x_0 = 0.82$).
+The ODE rises steadily toward $x \approx 1$: starting 0.02 above the tipping threshold, deterministic drift points toward full honesty.
+All three ABM means track the ODE closely, converging to $x \approx 1$ within roughly 200 steps regardless of community size.
+The 0.02 safety buffer is therefore universally protective: even the smallest community ($N = 200$) is not pushed below the threshold by demographic noise of order $1/\!\sqrt{N}$, because the buffer exceeds the typical fluctuation amplitude at all three population sizes tested.
 
-Three conclusions follow from this comparison.
-First, the ABM confirms the ODE mechanism: in every run the tipping threshold $x^*(a_t)$ acts as the critical boundary, and no run escapes once it crosses below it.
-Second, the ODE systematically overestimates stability by ignoring finite-population noise.
-The same parameters that make the ODE predict ``safe'' lead to 35--90\% stochastic collapse, depending on community size.
-This is consistent with theoretical results on stochastic evolutionary games: the probability of crossing a tipping threshold scales roughly as $\exp(-N \cdot \Delta)$, where $\Delta$ is the size of the safety margin, so thin margins are exponentially more dangerous in small populations \citep{Traulsen2006}.
-Third, community size is itself a policy variable.
-Fragmented peer-review ecosystems---specialised conferences, niche journals---face higher stochastic collapse risk than large generalist venues under the same AI adoption pressure.
-Institutional design should therefore calibrate the required safety margin $x_t - x^*(a_t)$ to the effective community size, not merely to the average field-level adoption level.
+Panel~(b) removes the buffer entirely ($x_0 = x^*(0) = 0.80$).
+The ODE now declines toward $x \approx 0$: with no margin, deterministic drift immediately points downward as $a$ rises above zero.
+The ABM tells a qualitatively different story.
+All three community sizes decline sharply in the first 200--300 steps but then stabilise at an intermediate coexistence level---$N = 1{,}000$ near $x \approx 0.40$, $N = 500$ near $x \approx 0.47$, $N = 200$ near $x \approx 0.45$---well above the ODE's near-zero equilibrium.
+This divergence reveals a structural limitation of the mean-field approximation: in a finite population, stochastic Fermi updating sustains a mixed-strategy steady state that the ODE cannot recover.
+Community size has only a minor and non-monotone effect on the terminal level, confirming that population size is not the primary determinant of outcomes once the margin has been lost.
+
+Panel~(c) quantifies both scenarios via collapse-fraction curves (collapse defined as $x < 0.3$, 100 replications).
+In the margin scenario (solid lines), the collapse fraction is zero for all three community sizes across all adoption levels: no run crosses the collapse threshold, confirming that the 0.02 buffer is a robust shield regardless of $N$.
+In the no-margin scenario (faded lines), the collapse fraction jumps to approximately $55$--$60\%$ at very low adoption levels ($a \approx 0.05$) and then plateaus.
+The three $N$ values are tightly clustered throughout; $N = 1{,}000$ sits marginally above the smaller communities, consistent with larger populations converging more faithfully toward the ODE's lower equilibrium.
+
+Three conclusions follow.
+First, the safety margin $\Delta = x_0 - x^*(0)$ operates as an effective binary shield: a margin of even 0.02 prevents any collapse across all community sizes tested, while the complete absence of a margin exposes roughly half of all runs to quality decline irrespective of $N$.
+Second, the ODE overestimates collapse severity when the margin is lost: finite-population stochasticity stabilises the system at a partial coexistence state ($x \approx 0.40$--$0.48$) rather than the ODE's near-zero long-run outcome, because Fermi noise sustains a residual share of honest authors that deterministic dynamics cannot maintain.
+Third, community size is not a meaningful safeguard in either scenario: it neither rescues small fields when a margin exists (all recover regardless) nor provides meaningful protection when it does not (all decline to a similar partial-coexistence level).
+Institutional design must therefore focus on actively maintaining a positive safety margin; community size alone cannot substitute for it.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{fig9_abm_validation.pdf}
-    \caption{\textbf{Stochastic ABM vs ODE prediction (Fig.~9).}
-    Both panels use Set~A parameters with a linear AI adoption ramp, starting at $x_0 = 0.82$
-    (safety margin 0.02 above the initial tipping threshold).
-    \textbf{(a)} Individual $N=200$ run trajectories (blue: survive; red: collapse), mean paths for $N=200$ and $N=1{,}000$, the ODE prediction, and the rising tipping threshold $x^*(a_t)$.
-    The ODE stays near $x=1$; most $N=200$ runs collapse within the first 200 steps.
-    \textbf{(b)} Fraction of 30 runs collapsed ($x < 0.3$) as a function of $a$.
-    By $a \approx 0.06$, 90\% of $N=200$ runs and 35\% of $N=1{,}000$ runs have collapsed---well before the ODE would predict vulnerability.
+    \caption{\textbf{Stochastic ABM vs ODE prediction.}
+    All panels use Set~A parameters with a linear AI adoption ramp ($a_t$ from 0 to 0.8 over 3{,}000 steps) and batch size $= N$, isolating pure $1/\!\sqrt{N}$ demographic noise.
+    \textbf{(a)} Mean ABM paths for $N \in \{200, 500, 1{,}000\}$ (100 replications each) vs the ODE, starting at $x_0 = 0.82$ (margin 0.02 above $x^*(0) = 0.80$).
+    All ABM means and the ODE converge to $x \approx 1$; the 0.02 buffer is universally protective across all community sizes.
+    \textbf{(b)} Same setup at $x_0 = 0.80$ (no margin).
+    The ODE declines toward $x \approx 0$; all three ABM means decline sharply but stabilise at a stochastic coexistence state ($x \approx 0.40$--$0.48$), well above the mean-field prediction.
+    \textbf{(c)} Collapse fraction ($x < 0.3$, 100 runs) as a function of $a$.
+    Solid lines: margin scenario ($x_0 = 0.82$), zero collapse for all $N$ at all adoption levels.
+    Faded lines: no-margin scenario ($x_0 = 0.80$), $\approx 55$--$60\%$ collapse fraction from $a \approx 0.05$, tightly clustered across $N$.
     Parameters: $\gamma=0.5$, $\delta=0.1$, $\phi=0.4$, $\mu=0.2$; Set~A.}
     \label{fig:abm_validation}
 \end{figure}
@@ -1484,7 +1492,7 @@ We define a reduced-form social welfare function:
   \;-\; \underbrace{C(K_{rev})}_{\text{verification cost}},
   \label{eq:welfare}
 \end{equation}
-where $S > 0$ is the per-paper social value when quality is perfect, $Q(x,a) \equiv \alpha\pi_1(x,a) / [\alpha\pi_1(x,a) + (1-\alpha)(1-x)\pi_0(x,a)]$ is the precision of the certified pool (the fraction of accepted papers that are genuinely good), extending \eqref{eq:quality} to $a>0$; $\bar{M}(x,a)$ is total papers accepted per period; and $C(K_{rev})$ is the institutional cost of maintaining review capacity.
+where $S > 0$ is the per-paper social value when quality is perfect, $Q(x,a) \equiv \alpha\pi_1 / [\alpha\pi_1 + (1-\alpha)(1-x)\pi_0/(x + (1-x))]$ is the precision of the certified pool (the fraction of accepted papers that are genuinely good), $\bar{M}(x,a)$ is total papers accepted per period, and $C(K_{rev})$ is the institutional cost of maintaining review capacity.
 Welfare increases with $Q$ because a certified pool dominated by genuine contributions generates reliable knowledge cumulation, while $Q \approx 0$ produces noise that misdirects subsequent research and policy \citep{Ioannidis2005}.
 
 \paragraph{The two externalities: why private and social incentives diverge.}
@@ -2015,7 +2023,7 @@ Differentiating with respect to $a$:
   \frac{dK^*}{da}
   = \frac{N}{r}\!\left[
       \underbrace{c_0[\gamma-\phi-2\phi\gamma a]}_{\text{Term 1}}\!\left(\alpha\,\frac{\pi_1}{\pi_0}+(1-\alpha)\right)
-      + c(a)(1+\gamma a)\,\alpha\;\underbrace{\frac{d}{da}\!\left(\frac{\pi_1}{\pi_0}\right)}_{<\;0\;\text{(Lemma A.3)}}_{\text{Term 2}}
+      + c(a)(1+\gamma a)\,\alpha\;\underbrace{\frac{d}{da}\!\left(\frac{\pi_1}{\pi_0}\right)}_{\substack{<\;0\;\text{(Lemma A.3)}\\\text{Term 2}}}
     \right].
 \]
 Term~2 is unambiguously negative.
