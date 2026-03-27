@@ -16,7 +16,6 @@ fi
 
 # Protected files -- edit manually or remove protection here
 PROTECTED_PATTERNS=(
-  "references.bib"
   "settings.json"
 )
 

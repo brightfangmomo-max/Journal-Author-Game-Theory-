@@ -1,4 +1,4 @@
-\begin{thebibliography}{45}
+\begin{thebibliography}{50}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -111,6 +111,12 @@ Kevin Gross and Carl~T Bergstrom.
 \newblock \emph{PLOS Biology}, 17\penalty0 (1):\penalty0 e3000065, 2019.
 \newblock \doi{10.1371/journal.pbio.3000065}.
 
+\bibitem[Hao et~al.(2026)Hao, Xu, Li, and Evans]{HaoXuLiEvans2026}
+Yu~Hao, Yuchen Xu, Yiling Li, and James Evans.
+\newblock Artificial intelligence and scientific discovery: Effects on the
+  novelty and diversity of research.
+\newblock \emph{Working paper}, 2026.
+
 \bibitem[Hofbauer and Sigmund(1998)]{Hofbauer1998}
 Josef Hofbauer and Karl Sigmund.
 \newblock \emph{Evolutionary Games and Population Dynamics}.
@@ -173,6 +179,11 @@ Weixin Liang, Yaohui Zhang, Zhengxuan Wu, Haley Lepp, Hancheng Cao, Xuandong
 \newblock \emph{Nature Human Behaviour}, 9:\penalty0 2599--2609, 2025.
 \newblock \doi{10.1038/s41562-025-02273-8}.
 
+\bibitem[March(1991)]{March1991}
+James~G. March.
+\newblock Exploration and exploitation in organizational learning.
+\newblock \emph{Organization Science}, 2\penalty0 (1):\penalty0 71--87, 1991.
+
 \bibitem[Meyerson et~al.(2025)Meyerson, Suzzi-Simmons, and
   Simberloff]{Meyerson2025}
 Laura~A. Meyerson, Adam Suzzi-Simmons, and Daniel Simberloff.
@@ -189,6 +200,12 @@ David Moher, Alessandro Liberati, Jennifer Tetzlaff, Douglas~G. Altman, and
   the {PRISMA} statement.
 \newblock \emph{PLoS Medicine}, 6\penalty0 (7):\penalty0 e1000097, 2009.
 \newblock \doi{10.1371/journal.pmed.1000097}.
+
+\bibitem[Mokyr(2002)]{Mokyr2002}
+Joel Mokyr.
+\newblock \emph{The Gifts of {Athena}: Historical Origins of the Knowledge
+  Economy}.
+\newblock Princeton University Press, Princeton, 2002.
 
 \bibitem[Muller-Itten(2022)]{MullerItten2022}
 Michele Muller-Itten.
@@ -322,10 +339,22 @@ Richard Van~Noorden.
 \newblock \emph{Nature}, 624:\penalty0 479--481, 2023.
 \newblock \doi{10.1038/d41586-023-03974-8}.
 
+\bibitem[Walker(2026)]{Walker2026}
+Chris Walker.
+\newblock A second industrial enlightenment.
+\newblock \emph{Out of Sample (Substack)}, 2026.
+\newblock 23 March 2026.
+
 \bibitem[Weibull(1995)]{Weibull1995}
 J{\"o}rgen~W Weibull.
 \newblock \emph{Evolutionary game theory}.
 \newblock MIT press, Cambridge, MA, 1995.
+
+\bibitem[Zhong et~al.(2026)Zhong, Eisenmann, Garcia, and
+  Rahwan]{ZhongEisenmannGarciaRahwan2026}
+Qiankun Zhong, Thomas~F. Eisenmann, Julian Garcia, and Iyad Rahwan.
+\newblock Group selection as a safeguard against {AI} substitution.
+\newblock \emph{arXiv preprint arXiv:2602.03541}, 2026.
 
 \bibitem[Zollman et~al.(2024)Zollman, Garc{\'i}a, and Handfield]{Zollman2024}
 Kevin J.~S. Zollman, Julian Garc{\'i}a, and Toby Handfield.

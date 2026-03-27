@@ -7,13 +7,13 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{tikz}
-\usepackage{subcaption} 
+\usepackage{subcaption}
 \usepackage{tabularx}
 \usepackage{booktabs}
 \usepackage[round]{natbib}
 \usepackage{enumitem}
 
-\author{Yuhui Fang} 
+\author{Yuhui Fang \and Toby Handfield \and Julian Garcia}
 \usetikzlibrary{shapes.geometric, arrows, positioning, calc, patterns, decorations.pathreplacing}
 
 \geometry{a4paper, margin=1in}
@@ -49,23 +49,34 @@ We find three results.
 First, extreme slot scarcity can stabilise honest submission norms even under degraded screening, because the publication lottery becomes too hard to win.
 Second, gradual AI adoption can trigger a discrete tipping point into a low-quality equilibrium; once tipped, the system is self-sustaining, so recovery requires a large coordinated intervention, not incremental reform.
 Third, expanding publication capacity without scaling verification accelerates the tipping.
-These results point to a concrete policy agenda centred on verification---structured audits, submission quotas, and decoupled certification---rather than simply more publication slots.
+These results suggest that institutional reform should prioritise verification---structured audits, submission quotas, and decoupled certification---rather than simply expanding publication capacity.
 \end{abstract}
 
 \section{Introduction}
 
-We ask what happens to a publishing \emph{system} when it becomes substantially cheaper and faster to produce a manuscript than to review one.
+Generative AI is reshaping the production of scientific knowledge at a pace that outstrips the capacity of existing institutions to absorb it.
 By September 2024, more than one-fifth of computer-science preprints on arXiv showed measurable evidence of large-language-model modification \citep{Liang2025}, and at least 13.5\% of all biomedical abstracts published that year contained AI-assisted text \citep{Kobak2025}.
 Monthly submissions to arXiv reached a record 24{,}226 in October 2024, roughly 50\% higher than in late 2022 \citep{arXiv2024}.
 While production has surged, verification has not kept pace: the rate at which researchers accept reviewer invitations has declined steadily over two decades \citep{Meyerson2025}, and between 6.5\% and 16.9\% of conference peer reviews now contain substantial AI-generated text \citep{Liang2024ICML}.
 More than half of active researchers surveyed in 2025 reported using AI tools to write reviews, often against explicit journal policy \citep{Naddaf2025}.
-The question is not whether individual researchers behave ethically, but whether the system as a whole can absorb an asymmetric shock to production and verification.
+
+This asymmetry between production and verification is not unique to publishing.
+Historically, technologies that accelerate the creation of knowledge have outpaced the institutions designed to evaluate it, and sustained progress has depended on building what \citet{Mokyr2002} calls institutional ``bridges'' between production and verification \citep{Walker2026}.
+AI intensifies this pattern: it automates precisely the tasks that are cheapest to verify---drafting, formatting, stylistic polish---while leaving the expensive tasks---checking data, replicating analyses, evaluating genuine novelty---largely untouched \citep{Walker2026}.
+The result is a growing gap between what can be produced and what can be checked.
+At the population level, AI-adopting scientists publish substantially more but follow narrower research trajectories, with distinct topics contracting and follow-on engagement between researchers declining \citep{HaoXuLiEvans2026}---a dynamic consistent with \citeauthor{March1991}'s (\citeyear{March1991}) observation that systems tend to ``refine exploitation more rapidly than exploration, becoming effective in the short run but self-destructive in the long run.''
+The question is not whether individual researchers behave ethically, but whether the \emph{system} as a whole can absorb an asymmetric shock to production and verification.
 
 While the conventional response to AI in science focuses on disclosure requirements, detection tools, and editorial guidelines, these measures address individual conduct and leave untouched a structural problem: even if every author is honest, reviewers can scrutinise only a finite number of manuscripts carefully per cycle.
 When submission volume rises faster than review capacity, screening degrades---not because of misconduct, but because of congestion.
 A reviewer who faces twice as many papers in the same time cannot give each submission the same attention.
 Congested screening lowers the effective quality threshold, and a lower threshold raises the expected payoff from submitting weak work.
 We focus on this feedback between volume and screening quality as the central mechanism.
+
+Because the outcome depends not on any single author's choice but on how submission strategies spread through a population of researchers responding to shared incentives, we frame the problem using evolutionary dynamics.
+The adoption of AI tools, the decision to submit marginal work, and the erosion of reviewing norms are social phenomena: they propagate through imitation, competitive pressure, and institutional culture \citep{Smaldino2016}.
+\citet{ZhongEisenmannGarciaRahwan2026} show that when AI adoption spreads through a population, individually rational choices---letting AI substitute for human effort---can erode the collective capacity for exploration, and that group-level institutional structures are needed to counteract this drift.
+Evolutionary game theory captures precisely this tension between individual incentives and population-level outcomes \citep{Weibull1995, Hofbauer1998}, making it a natural framework for studying whether honest submission norms can survive the spread of AI-assisted flooding.
 
 We distinguish two bottlenecks in the publishing system and show that AI affects them asymmetrically.
 The first is verification capacity: the number of papers that reviewers can evaluate carefully in a given period, denoted $K_{rev}$.
@@ -90,7 +101,7 @@ Recovery requires a large coordinated intervention, not incremental reform: the 
 Third, expanding publication capacity (raising $K$) without scaling verification makes the situation worse, not better.
 More slots raise the expected payoff from submitting marginal work; under AI adoption, where $c(a)$ is already low and $\lambda(a)$ already elevated, even a modest improvement in the publication lottery is enough to push the system across the tipping threshold.
 
-These results point to a concrete policy agenda centred on verification---structured audits, submission quotas, and decoupled certification---rather than simply more publication slots.
+These results suggest that the focus of institutional reform should be on verification---structured audits, submission quotas, and decoupled certification---rather than simply more publication slots.
 The model suggests that effective intervention must target two primary levers: raising genuine review capacity $K_{rev}$ and reducing the probability $\lambda$ that weak papers pass review.
 These are not incremental reforms; they constitute a different institutional design, one oriented towards verification rather than volume.
 
@@ -102,163 +113,7 @@ Section~\ref{sec:institutions} translates the analytical results into an institu
 Section~\ref{sec:predictions} derives testable predictions, Section~\ref{sec:discussion} discusses limitations, and Section~\ref{sec:conclusion} concludes.
 We provide agent-based simulations, welfare analysis, extended predictions, and model extensions in the Supplementary Material.
 
-\begin{figure}[H]
-\centering
-\resizebox{\textwidth}{!}{%
-\begin{tikzpicture}[
-    >=stealth,
-    font=\normalsize,
-    % ── Node styles ──────────────────────────────────────────────────────
-    ai/.style={
-        rectangle, rounded corners=5pt,
-        draw=violet!70, fill=violet!12,
-        minimum width=3.2cm, minimum height=1.3cm,
-        align=center, text=violet!80!black
-    },
-    channel/.style={
-        rectangle, rounded corners=5pt,
-        draw=orange!70!red!60, fill=orange!8,
-        minimum width=3.8cm, minimum height=1.2cm,
-        align=center
-    },
-    lag/.style={
-        rectangle, rounded corners=5pt,
-        draw=gray!60, fill=gray!10,
-        minimum width=3.8cm, minimum height=1.2cm,
-        align=center, text=gray!70!black
-    },
-    pibad/.style={
-        rectangle, rounded corners=5pt,
-        draw=orange!80!black, fill=yellow!15,
-        minimum width=4.0cm, minimum height=1.6cm,
-        align=center
-    },
-    outcome/.style={
-        rectangle, rounded corners=5pt,
-        draw=red!70, fill=red!8,
-        minimum width=3.0cm, minimum height=1.2cm,
-        align=center
-    },
-    policy/.style={
-        rectangle, rounded corners=5pt,
-        draw=teal!70, fill=teal!8,
-        minimum width=12.0cm, minimum height=1.4cm,
-        align=center, text=teal!80!black
-    },
-    % ── Arrow styles ─────────────────────────────────────────────────────
-    strong/.style={thick, ->, black!70},
-    weak/.style={thick, ->, dashed, gray!60},
-    plcy/.style={thick, ->, dashed, teal!70}
-]
-
-% ── Column 1: AI adoption ────────────────────────────────────────────────
-\node (ai) [ai] at (0,0)
-    {\textbf{AI adoption}\\[3pt]{\small $a \in [0,1]$}};
-
-% ── Column 2: Channels ───────────────────────────────────────────────────
-\node (vup)   [channel] at (5.5, 2.4)
-    {\textbf{Submission volume} $V \uparrow$\\[2pt]{\small (elasticity $\gamma$)}};
-
-\node (cdown) [channel] at (5.5, 0.8)
-    {\textbf{Submission cost} $c \downarrow$\\[2pt]{\small (AI lowers drafting effort)}};
-
-\node (lup)   [channel] at (5.5,-0.8)
-    {\textbf{False-positive rate} $\lambda \uparrow$\\[2pt]{\small (polished-but-wrong text)}};
-
-\node (krev)  [lag]     at (5.5,-2.4)
-    {\textbf{Review capacity} $K_{rev} \uparrow$\\[2pt]{\small (elasticity $\delta < \gamma$)}};
-
-% ── Column 3: Spam Payoff ────────────────────────────────────────────────
-\node (pibad) [pibad] at (11.5, 0)
-    {\textbf{Spam payoff} $\Pi_{bad}(x,a) \uparrow$\\[3pt]
-     {\small $\Pi_{bad} = r\bar{\rho}\,\pi_0 - c > 0$}\\[1pt]
-     {\small cheating becomes viable}};
-
-% ── Column 4: Outcomes ───────────────────────────────────────────────────
-\node (tip)  [outcome] at (16.5, 1.3)
-    {\textbf{Tipping point}\\[2pt]{\small honesty collapses}};
-
-\node (hyst) [outcome] at (16.5,-1.3)
-    {\textbf{Hysteresis}\\[2pt]{\small recovery is harder}};
-
-% ── Policy box ───────────────────────────────────────────────────────────
-\node (policy) [policy] at (8.5,-4.8)
-    {\textbf{Policy response:}\quad
-     raise $K_{rev}$ (verification resources)\quad$\cdot$\quad
-     lower $\lambda$ (audits, structured checks)\quad$\cdot$\quad
-     restore friction to $c$ (submission tokens)};
-
-% =========================================================================
-% ── ARROW ROUTING (Orthogonal Bus Design) ────────────────────────────────
-% =========================================================================
-% Define the X-coordinates for our vertical split/merge lines
-\def\busA{2.6}  % Between AI and Channels
-\def\busB{8.5}  % Between Channels and Spam Payoff
-\def\busC{14.4} % Between Spam Payoff and Outcomes
-
-% ── Fork 1: AI splitting into Channels ───────────────────────────────────
-% 1. Horizontal trunk from AI to Bus A
-\draw[weak, -] (ai.east) -- (\busA, 0);
-
-% 2. Vertical distribution bus (Solid for top 3, dashed for bottom lag node)
-\draw[strong, -] (\busA, 2.4) -- (\busA, -0.8);
-\draw[weak, -]   (\busA, -0.8) -- (\busA, -2.4);
-
-% 3. Horizontal prongs entering the left side of the channels
-\draw[strong] (\busA, 2.4) -- (vup.west);
-\draw[strong] (\busA, 0.8) -- (cdown.west);
-\draw[strong] (\busA, -0.8) -- (lup.west);
-\draw[weak]   (\busA, -2.4) -- (krev.west);
-
-
-% ── Fork 2: Channels feeding into Spam Payoff ────────────────────────────
-% V_up (top) and K_rev (bottom) bypass the main merge and enter top/bottom
-\draw[strong] (vup.east) -| (pibad.north);
-\draw[weak]   (krev.east) -| node[pos=0.75, right, font=\small, text=gray] {partial offset} ([xshift=-10pt]pibad.south);
-
-% c_down and lambda_up merge together at Bus B into a single trunk
-\draw[strong, -] (cdown.east) -| (\busB, 0); % Right to Bus B, Down to Y=0
-\draw[strong, -] (lup.east)   -| (\busB, 0); % Right to Bus B, Up to Y=0
-% Merged trunk enters Spam Payoff
-\draw[strong] (\busB, 0) -- (pibad.west);
-
-
-% ── Fork 3: Spam Payoff splitting into Outcomes ──────────────────────────
-% Main trunk out of Spam Payoff to Bus C
-\draw[strong, line width=1.2pt, -] (pibad.east) -- (\busC, 0);
-
-% Split to Tipping Point (Up then Right) and Hysteresis (Down then Right)
-\draw[strong, line width=1.2pt] (\busC, 0) |- (tip.west);
-\draw[strong, line width=1.2pt] (\busC, 0) |- (hyst.west);
-
-
-% ── Policy Arrow ─────────────────────────────────────────────────────────
-% Routed carefully to the south anchor, offset slightly so it doesn't overlap K_rev
-\draw[plcy] (policy.north) -| ([xshift=10pt]pibad.south);
-
-
-% ── Legend ───────────────────────────────────────────────────────────────
-\node (legend) [font=\small, text=black!65] at (8.5, -6.2)
-    {\raisebox{1pt}{\rule{0.6cm}{0.8pt}}$\!\!\rightarrow$\;Strong AI channel
-     \quad
-     \raisebox{1pt}{\makebox[0.6cm]{\dotfill}}$\!\!\rightarrow$\;Lagging\,/\,partial offset\;($\delta<\gamma$)
-     \quad
-     \textcolor{teal!70!black}{\raisebox{1pt}{\makebox[0.6cm]{\dotfill}}$\!\!\rightarrow$}\;\textcolor{teal!70!black}{Policy lever}};
-
-\end{tikzpicture}%
-}
-\caption{\textbf{Mechanism diagram: AI as an asymmetric shock to the publication system.}
-AI adoption ($a$) raises submission volume ($V$, elasticity $\gamma$) and lowers
-drafting cost ($c$), while polished AI text increases the false-positive rate ($\lambda$).
-Review capacity ($K_{rev}$) rises more slowly (elasticity $\delta < \gamma$), so the
-partial offset from AI-assisted reviewing is insufficient to prevent congestion.
-Together, these shifts raise the profitability of submitting low-quality work
-($\Pi_{bad} = r\bar{\rho}\,\pi_0 - c$), pushing the system towards a tipping point
-and widening the gap between the collapse and recovery thresholds (hysteresis).
-Effective policy must raise $K_{rev}$, reduce $\lambda$, and restore friction to $c$
-(dashed teal arrow).}
-\label{fig:mechanism}
-\end{figure}
+% Figure 1 (mechanism diagram) moved to Supplementary Material
 
 \section{Stylized Facts: AI as an Asymmetric Shock}
 \label{sec:stylized_facts}
@@ -445,7 +300,7 @@ Generative AI affects the publication system through multiple channels simultane
 We capture this with a single scalar $a \in [0,1]$, where $a = 0$ denotes the pre-AI baseline and $a = 1$ denotes full adoption across the author population.
 The parameter represents the field-level intensity of AI use---a composite of the fraction of authors employing AI tools and the depth of their integration into the writing and submission workflow.
 We hold $a$ fixed and trace how the equilibrium structure from Section~\ref{sec:model} changes as $a$ deepens.
-As established in Section~\ref{sec:stylized_facts} and illustrated in Figure~\ref{fig:mechanism}, AI acts through four distinct channels, and the channels are not symmetric.
+As established in Section~\ref{sec:stylized_facts}, AI acts through four distinct channels, and the channels are not symmetric (see the mechanism diagram in the Supplementary Material).
 
 \paragraph{Channel 1---Production: more submissions at every composition.}
 The most direct effect of AI is to lower the marginal cost of drafting and preparing a manuscript, which raises total submission volume at any given composition of the author population.
@@ -504,7 +359,7 @@ Figure~\ref{fig:ai_channels} summarises the four channels and their functional f
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
     >=stealth,
-    font=\normalsize, 
+    font=\normalsize,
     aibox/.style={
         rectangle, rounded corners=5pt,
         draw=violet!70, fill=violet!12,
@@ -551,7 +406,7 @@ Figure~\ref{fig:ai_channels} summarises the four channels and their functional f
 \draw[sarrow, -] (\busX,  3.2) -- (\busX, -1.2);
 \draw[warrow, -] (\busX, -1.2) -- (\busX, -3.4);
 
-%% Horizontal prongs to channels 
+%% Horizontal prongs to channels
 \draw[sarrow] (\busX, 3.2)  -- node[above, font=\footnotesize]{elasticity $\gamma$}  (V.west);
 \draw[sarrow] (\busX, 1.0)  -- node[above, font=\footnotesize]{slope $\phi$}         (c.west);
 \draw[sarrow] (\busX, -1.2) -- node[below, font=\footnotesize]{slope $\mu$}          (lam.west);
@@ -560,7 +415,7 @@ Figure~\ref{fig:ai_channels} summarises the four channels and their functional f
 %% Asymmetry brace annotation
 \draw[thick, decorate, decoration={brace, amplitude=7pt}]
     (14.4,  3.7) -- (14.4, -0.7)
-    node[midway, right=10pt, font=\footnotesize, align=left] (bracetext) 
+    node[midway, right=10pt, font=\footnotesize, align=left] (bracetext)
     {Three channels raise\\spam profitability $\Pi_{bad}$};
 \draw[thick, decorate, decoration={brace, amplitude=7pt}]
     (14.4, -0.7) -- (14.4, -3.9)
