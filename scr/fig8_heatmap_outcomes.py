@@ -131,7 +131,7 @@ def plot(data):
         origin='lower',
         aspect='auto',
         extent=[dg_ratios_[0], dg_ratios_[-1], mu_vals_[0], mu_vals_[-1]],
-        cmap='RdYlGn',
+        cmap='RdBu',
         vmin=0, vmax=1
     )
     cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
