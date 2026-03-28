@@ -547,19 +547,18 @@ Figure~\ref{fig:hysteresis_widening} maps this dynamic in the $(N, a)$ plane, tr
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{fig6_hysteresis_widening.pdf}
-    \caption{\textbf{AI adoption erodes the stable-honesty window and lowers the collapse threshold (Fig.~6).}
-    Left: regime map in $(N, a)$ space with Set~A parameters.
+    \includegraphics[width=0.75\textwidth]{fig7_hysteresis_widening.pdf}
+    \caption{\textbf{AI adoption erodes the stable-honesty window and lowers the collapse threshold.}
+    Regime map in $(N, a)$ space with Set~A parameters.
     The red curve $N_\uparrow(a)$ marks the collapse boundary: to its right, the forward (honest-start) path collapses.
     The blue dashed curve marks the lower boundary of the Bistability zone.
-    As $a$ rises, $N_\uparrow(a)$ falls monotonically; at $a \gtrsim 0.5$ (for the chosen AI parameters) the GH and BS zones disappear entirely.
-    Right: $N_\uparrow(a)$ (red, left axis) falls continuously; equilibrium quality $Q^*(a)$ at moderate pressure $N = 500$ (right axis, coloured by regime) also declines as $a$ rises, tracking the regime transitions from BS (yellow) to GC (red); $N=500$ lies in the bistable zone at $a=0$ and crosses into Global Corruption near $a\approx0.50$.}
+    As $a$ rises, $N_\uparrow(a)$ falls monotonically; at $a \gtrsim 0.5$ the GH and BS zones disappear entirely.
+    Parameters: $K_{rev}=300$, $K=400$, $r=100$, $c=25$, $\lambda_0=0.1$, $\varepsilon=0.05$; $\gamma=0.5$, $\delta=0.1$, $\phi=0.4$, $\mu=0.2$.}
     \label{fig:hysteresis_widening}
 \end{figure}
 
-The left panel of Figure~\ref{fig:hysteresis_widening} shows the collapse threshold $N_\uparrow(a)$ falling monotonically as $a$ rises.
+Figure~\ref{fig:hysteresis_widening} shows the collapse threshold $N_\uparrow(a)$ falling monotonically as $a$ rises.
 At $a = 0$, a population of $N \approx 1800$ is needed to push Set~A out of the stable-honesty zone; at $a = 0.5$, this threshold has fallen to roughly half that.
-The right panel shows the corresponding quality decline: at a moderate load ($N = 500$), quality $Q^*(a)$ is near 1 at low $a$ but falls continuously, tracking the regime transitions from GH through BS to SC.
 Crucially, at $a \gtrsim 0.5$, the bistable zone disappears entirely.
 There is no longer any starting position from which the honest norm is self-sustaining.
 Recovery from this state requires not merely a reduction in pressure $N$ but a qualitative change in institutional parameters ($K_{rev}$ raised, $\lambda$ reduced, $c$ restored).
