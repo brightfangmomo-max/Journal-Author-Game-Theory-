@@ -40,6 +40,17 @@
 - User prefers bib edits go through normal approval, not hard block
 - Coordination protocol: always re-read files before editing (user edits manually between turns)
 
+### Phase 3: Merge Sections 1–3 into unified Introduction (not yet committed)
+- Merged Stylized Facts and Related Literature into Introduction
+- Essential lit review citations woven into argument paragraphs
+- "What we contribute" paragraph moved into intro before results summary
+- Equation 1 (asymmetry assumption) moved to AI Extension section (Channel 4)
+- Removed standalone Sections 2 and 3; paper now goes Intro → Baseline Model
+- Model-parameter mapping sentences removed from intro (belong in Model section)
+- Updated roadmap and all cross-references (sec:stylized_facts, sec:literature)
+- Paper reduced from 25 to 23 pages
+- Added Ginsparg dissemination/certification distinction to bottlenecks paragraph
+
 ## Open Questions
-- User mentioned their manual abstract edits were overwritten — need to verify current abstract matches their intent
 - Supplement compile not yet verified after mechanism figure addition
+- Should detailed empirical evidence (Kovanis hours, Kobak vocabulary analysis) be added to supplement?

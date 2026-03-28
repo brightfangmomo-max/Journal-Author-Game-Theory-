@@ -62,16 +62,23 @@ More than half of active researchers surveyed in 2025 reported using AI tools to
 
 This asymmetry between production and verification is not unique to publishing.
 Historically, technologies that accelerate the creation of knowledge have outpaced the institutions designed to evaluate it, and sustained progress has depended on building what \citet{Mokyr2002} calls institutional ``bridges'' between production and verification \citep{Walker2026}.
-AI intensifies this pattern: it automates precisely the tasks that are cheapest to verify---drafting, formatting, stylistic polish---while leaving the expensive tasks---checking data, replicating analyses, evaluating genuine novelty---largely untouched \citep{Walker2026}.
+AI intensifies this pattern: it automates precisely the tasks that are cheapest to verify---drafting, formatting, stylistic polish---while leaving the expensive tasks---checking data, replicating analyses, evaluating genuine novelty---largely untouched \citep{Walker2026, Checco2021}.
 The result is a growing gap between what can be produced and what can be checked.
 At the population level, AI-adopting scientists publish substantially more but follow narrower research trajectories, with distinct topics contracting and follow-on engagement between researchers declining \citep{HaoXuLiEvans2026}---a dynamic consistent with \citeauthor{March1991}'s (\citeyear{March1991}) observation that systems tend to ``refine exploitation more rapidly than exploration, becoming effective in the short run but self-destructive in the long run.''
 The question is not whether individual researchers behave ethically, but whether the \emph{system} as a whole can absorb an asymmetric shock to production and verification.
 
 While the conventional response to AI in science focuses on disclosure requirements, detection tools, and editorial guidelines, these measures address individual conduct and leave untouched a structural problem: even if every author is honest, reviewers can scrutinise only a finite number of manuscripts carefully per cycle.
-When submission volume rises faster than review capacity, screening degrades---not because of misconduct, but because of congestion.
-A reviewer who faces twice as many papers in the same time cannot give each submission the same attention.
+Peer review is a shared resource under increasing strain: the global system already consumed over 100 million hours of researcher time each year before AI entered the picture \citep{Kovanis2016, Aczel2021}, and screening quality declines even when reviewers act in good faith, simply because competing demands leave too little time per paper \citep{Bianchi2018}.
+When submission volume rises faster than review capacity, screening degrades---not because of misconduct, but because of congestion \citep{gross2019contest}.
 Congested screening lowers the effective quality threshold, and a lower threshold raises the expected payoff from submitting weak work.
 We focus on this feedback between volume and screening quality as the central mechanism.
+
+The consequences of this feedback are not merely individual but collective.
+When the review filter is imprecise, submitting everything regardless of quality can become individually rational \citep{Thurner2011}, and prestige-maximising incentives can reward strategic over honest behaviour across a multi-journal system \citep{Zollman2024}.
+The honest-submission norm is fragile: it collapses when the cost of mimicking quality falls even slightly \citep{Tiokhin2021}---precisely the shift that AI-assisted writing produces.
+``Publish or perish'' incentives already act as a selection force that spreads high-volume, low-quality strategies through academic communities \citep{Smaldino2016, Ioannidis2005}, and career structures that treat paper counts as a proxy for scientific value reinforce this dynamic \citep{casadevall2014reforming, Stephan2012}.
+AI also polishes manuscripts without improving their reliability: AI-assisted reviews award systematically higher scores \citep{Latona2024, Liang2024ICML}, and automated detection remains unreliable \citep{Liang2023detectors}.
+These trends suggest that AI raises submission productivity faster than it raises verification capacity \citep{NoyZhang2023, StokelWalker2023}.
 
 Because the outcome depends not on any single author's choice but on how submission strategies spread through a population of researchers responding to shared incentives, we frame the problem using evolutionary dynamics.
 The adoption of AI tools, the decision to submit marginal work, and the erosion of reviewing norms are social phenomena: they propagate through imitation, competitive pressure, and institutional culture \citep{Smaldino2016}.
@@ -84,8 +91,9 @@ The second is allocation capacity: the number of papers the journal can publish 
 AI raises submission volume $V$ by reducing the marginal cost of drafting and resubmitting papers, lowering the effort cost $c$ of each submission.
 It may also raise the probability $\lambda$ that a weak manuscript passes peer review, because AI-assisted writing produces polished text that is harder to distinguish from genuine contributions on surface features alone.
 While production scales rapidly with AI adoption, verification does not: deep expertise, data and code checking, and replication remain human-intensive tasks, and journal policies in many fields explicitly restrict AI use in reviews \citep{Naddaf2025}.
+Dissemination and certification can in principle be separated---preprint servers make manuscripts available immediately while editorial endorsement follows independently \citep{Ginsparg2011}---but the certification function is what our model analyses, and it is certification that AI adoption threatens.
 
-We model this asymmetry in a game-theoretic framework, drawing on strategic models of scientific communication \citep{Zollman2024, Thurner2011}.
+We model this asymmetry in an evolutionary game-theoretic framework, drawing on strategic models of scientific communication \citep{Zollman2024, Thurner2011}.
 We consider a population of authors who choose between two strategies: submitting only genuine work (the cooperative strategy) or submitting everything including low-quality manuscripts (the defecting strategy).
 A journal applies peer review, subject to both a review capacity $K_{rev}$ and a publication slot constraint $K$.
 We introduce an AI adoption parameter $a \in [0,1]$.
@@ -101,12 +109,18 @@ Recovery requires a large coordinated intervention, not incremental reform: the 
 Third, expanding publication capacity (raising $K$) without scaling verification makes the situation worse, not better.
 More slots raise the expected payoff from submitting marginal work; under AI adoption, where $c(a)$ is already low and $\lambda(a)$ already elevated, even a modest improvement in the publication lottery is enough to push the system across the tipping threshold.
 
+While existing literatures each address part of this problem, none unifies them.
+Models of strategic submission do not treat AI as a structural shock that shifts multiple inputs at once \citep{Thurner2011, Zollman2024, Tiokhin2021}.
+The empirical AI-in-science literature documents faster production, slower review growth, and higher false-positive risk, but does not connect these to a model with clear predictions about the long-run state of the system \citep{NoyZhang2023, Liang2025, Latona2024}.
+Neither strand addresses the possibility that submission pressure can grow gradually until it crosses a threshold, after which the system shifts suddenly to a low-quality state and resists recovery.
+The institutional design literature asks how gatekeeping should work \citep{Ellison2002, MullerItten2022, Cotton2013} but does not ask how its proposals must change when drafting cost approaches zero and the screening signal degrades continuously with adoption.
+We close these gaps by connecting all four channels---$c(a)$ falling, $V$ rising, $K_{rev}$ lagging, and $\lambda(a)$ rising---to the long-run state of the publishing system, characterising conditions under which quality collapses suddenly and is hard to restore, and deriving which institutional levers can prevent or reverse that shift.
+
 These results suggest that the focus of institutional reform should be on verification---structured audits, submission quotas, and decoupled certification---rather than simply more publication slots.
 The model suggests that effective intervention must target two primary levers: raising genuine review capacity $K_{rev}$ and reducing the probability $\lambda$ that weak papers pass review.
 These are not incremental reforms; they constitute a different institutional design, one oriented towards verification rather than volume.
 
 The paper proceeds as follows.
-Section~\ref{sec:stylized_facts} documents the empirical asymmetry between AI-assisted production and verification.
 Sections~\ref{sec:model} and~\ref{sec:ai_extension} present the baseline model and its AI extension.
 Section~\ref{sec:analysis} analyses how AI adoption shifts equilibria, erodes stability, and amplifies the slot expansion paradox.
 Section~\ref{sec:institutions} translates the analytical results into an institutional agenda.
@@ -114,93 +128,6 @@ Section~\ref{sec:predictions} derives testable predictions, Section~\ref{sec:dis
 We provide agent-based simulations, welfare analysis, extended predictions, and model extensions in the Supplementary Material.
 
 % Figure 1 (mechanism diagram) moved to Supplementary Material
-
-\section{Stylized Facts: AI as an Asymmetric Shock}
-\label{sec:stylized_facts}
-
-AI has dramatically lowered the cost of producing a manuscript.
-In a randomised experiment with 453 college-educated professionals, \citet{NoyZhang2023} found that access to ChatGPT reduced the time to complete an incentivised writing task by approximately 40\% while raising assessed output quality by 18 percentage points, with the largest gains accruing to weaker writers.
-\citet{StokelWalker2023} report that researchers can revise a full manuscript in under five minutes at an API cost below \$0.50.
-These micro-level reductions compound at the submission level: iterative resubmission across journals was once a significant labour cost, and AI converts that friction into a near-zero marginal activity, giving every author---regardless of the underlying quality of their work---a cost-effective reason to submit or resubmit.
-Aggregate data confirm the shift.
-Monthly submissions to arXiv reached a record 24{,}226 in October 2024, roughly 50\% above the late-2022 baseline; the first month to cross 20{,}000 submissions was May 2023, shortly after the public release of ChatGPT \citep{arXiv2024}.
-More than one-fifth of computer-science preprints sampled in September 2024 showed measurable evidence of large-language-model modification \citep{Liang2025}, and a vocabulary-based analysis of 15 million biomedical abstracts found that at least 13.5\% of all 2024 \textit{PubMed} papers contain AI-assisted text, with rates exceeding 40\% in some sub-disciplines \citep{Kobak2025}.
-Alongside this volume growth, annual retraction counts exceeded 10{,}000 for the first time in 2023, with paper-mill activity implicated in mass retraction events at major publishers.
-In our model, this production surge corresponds to a downward shift in submission cost $c(a)$ and an upward shift in submission volume $V(x, a)$, which grows proportionally to $a$ with sensitivity $\gamma$.
-
-While production costs have fallen, verification capacity has not kept pace.
-Rigorous peer review requires reading carefully for logical consistency, checking data against claimed analyses, running or inspecting code, and evaluating genuine novelty---tasks that remain human-intensive in ways that text generation is not.
-Confidentiality requirements prevent reviewers from uploading submitted manuscripts to third-party AI services, and many journals explicitly forbid AI use in the review process \citep{Naddaf2025}.
-Even where AI-assisted reviewing is nominally permitted, the marginal reviewer who can detect a subtle methodological flaw is a scarce specialist whose attention cannot be replaced by a language model.
-Reviewer acceptance rates have declined continuously for two decades \citep{Meyerson2025}, and the existing burden is already extreme: reviewers contribute more than 100 million hours annually to the peer review system worldwide, with the load concentrated among a small fraction of active researchers \citep{Kovanis2016}.
-A system already under strain before the AI era cannot absorb a near-doubling of submission volume through a commensurate increase in review capacity.
-In our model, review capacity grows as $K_{rev}(a) = K_{rev}(0) \cdot (1 + \delta a)$, where the review sensitivity $\delta$ is strictly smaller than the production sensitivity $\gamma$, reflecting the structural and policy constraints described above.
-
-AI also polishes manuscripts without improving their reliability, which may weaken the screening signal.
-AI writing tools produce fluent, well-formatted, and stylistically consistent text \citep{StokelWalker2023}, and this surface polish reduces the ability of reviewers to distinguish a weak submission from a genuine contribution on textual features alone.
-The screening process degrades further when reviewers themselves turn to AI: between 6.5\% and 16.9\% of AI-conference peer reviews now contain substantial AI-generated text \citep{Liang2024ICML}, and an experimental audit found that AI-assisted reviews award systematically higher scores, leading to elevated acceptance rates \citep{Latona2024}.
-Automated detection offers limited recourse---leading AI detectors exhibit false-negative rates above 70\%, and adversarial paraphrasing can reduce recall to near zero \citep{Liang2023detectors}.
-In our model, this channel corresponds to a rising probability $\lambda(a)$ that a weak submission passes review, even holding the composition of the author population constant.
-
-These four channels---rising submission volume, falling drafting cost, lagging review capacity, and weakening screening---reduce to a single structural claim:
-\begin{quote}
-  \textit{AI raises the rate at which manuscripts can be produced faster than it raises the rate at which they can be verified.}
-\end{quote}
-We formalise this as the \textbf{AI asymmetry assumption}: with $a \in [0,1]$ denoting AI adoption intensity,
-\begin{equation}
-    \label{eq:asymmetry}
-    \gamma > \delta \geq 0,
-\end{equation}
-where $\gamma$ governs how fast submission volume grows with $a$ and $\delta$ governs how fast review capacity grows with $a$.
-This is not an axiom but a testable empirical statement about relative scaling rates.
-The four channels map directly onto model parameters: lower drafting cost reduces $c(a)$, higher submission volume raises $V$ with sensitivity $\gamma$, lagging review capacity means $K_{rev}$ grows with sensitivity $\delta < \gamma$, and weakening screening raises $\lambda(a)$.
-In Section~\ref{sec:analysis}, we examine how our qualitative results depend on the magnitude of the gap $\gamma - \delta$ and on the slope of $\lambda(a)$.
-
-\section{Related Literature}
-\label{sec:literature}
-
-Peer review functions as a shared resource under increasing strain.
-Each submission consumes a fixed amount of reviewer time and attention, and when submission volume grows faster than the pool of willing reviewers, that resource degrades.
-\citet{gross2019contest} show that scientific contests become inefficient at high participation rates: total effort rises, but expected quality per participant falls.
-\citet{Cotton2013} reaches a parallel conclusion for journals: a small entry cost can deter low-quality submissions and relieve pressure on reviewers.
-\citet{Kovanis2016} estimate that the global peer review system already consumed over 100 million hours of researcher time each year in the mid-2010s, and \citet{Aczel2021} value the US contribution alone at more than 1.5 billion USD in 2020.
-\citet{Bianchi2018} model these pressures and find that screening quality declines even when reviewers act in good faith, simply because competing demands leave too little time per paper.
-The reviewing system, in short, was already near its limits before generative AI entered the picture.
-
-While congestion models treat reviewers as passive, a second strand models authors as strategic agents---and this is where the feedback loop becomes visible.
-\citet{Thurner2011} show that when the review filter is imprecise, submitting everything regardless of quality can become individually rational, pushing the long-run outcome towards low average quality.
-\citet{Zollman2024} extend this to a multi-journal setting and find that prestige-maximising incentives can reward strategic over honest behaviour.
-\citet{Tiokhin2021} study honest signalling and show that the good outcome---where only strong work is submitted---is fragile: it collapses when the cost of mimicking quality falls even slightly.
-\citet{Smaldino2016} document this logic empirically, arguing that ``publish or perish'' incentives act as a selection force that spreads high-volume, low-quality strategies through academic communities.
-At the aggregate level, \citet{Ioannidis2005} shows that most published findings fail to replicate, not because of fraud, but because structural incentives reward output over reproducibility.
-\citet{casadevall2014reforming} and \citet{Stephan2012} trace this to career and grant structures that treat paper counts as a proxy for scientific value.
-Paper mills---commercial services producing fabricated manuscripts to order---represent the extreme end of this logic: annual retraction counts have reached record highs and single incidents have implicated thousands of papers at major publishers.
-Our model formalises the mechanism underlying these trends: when the review filter is weak and slots are available, submitting low-quality work yields a positive expected payoff, and selection pressure then favours volume over quality.
-
-In contrast to the strategic submission literature, recent empirical work documents how generative AI reshapes both sides of the system simultaneously.
-On the production side, \citet{NoyZhang2023} find that access to a large language model cuts professional writing time by 40\% and raises rated output quality by 18 percentage points.
-\citet{Liang2025} detect language-model modification in more than one-fifth of computer-science preprints by late 2024, and \citet{Kobak2025} find AI-assisted text in at least 13.5\% of biomedical abstracts from the same period.
-On the evaluation side, however, the picture is more troubling.
-\citet{Checco2021} conclude that deep verification---checking data, code, and logical consistency---remains beyond current automated systems.
-\citet{Liang2024ICML} find that between 6.5\% and 16.9\% of reviews at major conferences already contain AI-generated text, and \citet{Latona2024} show experimentally that AI-assisted reviews award higher scores, raising acceptance rates.
-\citet{Naddaf2025} reports that more than half of surveyed researchers now use AI tools for reviewing, often against journal policy.
-These findings supply the empirical foundation for our asymmetry assumption: artificial intelligence raises submission productivity faster than it raises verification capacity.
-
-A fourth strand asks how gatekeeping institutions should be designed.
-\citet{Ellison2002} shows that the equilibrium publication standard depends on how strongly readers value quality signals.
-\citet{MullerItten2022} finds that journals maintain strict standards to protect their certification value: accepting too freely devalues their own signal.
-\citet{casadevall2014reforming} argue that effective reform must target the false-positive rate directly---through data deposition, structured reporting, and replication requirements---rather than adjusting slot counts alone.
-\citet{Ginsparg2011} shows that dissemination and certification can be separated: preprint servers make manuscripts available immediately while editorial endorsement follows independently.
-\citet{Cotton2013} provides the sharpest economic case for submission fees: a small cost of entry restores friction, filters marginal submissions, and reduces reviewer overload.
-
-\subsection*{What we contribute}
-
-While these literatures each address part of the problem, none unifies them.
-Models of strategic submission do not treat AI as a structural shock that shifts multiple inputs at once.
-The empirical AI-in-science literature documents faster production, slower review growth, and higher false-positive risk, but does not connect these to a model with clear predictions about the long-run state of the system.
-Neither strand addresses the possibility that submission pressure can grow gradually until it crosses a threshold, after which the system shifts suddenly to a low-quality state and resists recovery.
-The institutional design literature does not ask how its proposals must change when drafting cost approaches zero and the screening signal degrades continuously with adoption.
-We close these gaps by connecting all four channels---$c(a)$ falling, $V$ rising, $K_{rev}$ lagging, and $\lambda(a)$ rising---to the long-run state of the publishing system, characterising conditions under which quality collapses suddenly and is hard to restore, and deriving which institutional levers can prevent or reverse that shift.
 
 \section{Baseline Model}
 \label{sec:model}
@@ -300,7 +227,7 @@ Generative AI affects the publication system through multiple channels simultane
 We capture this with a single scalar $a \in [0,1]$, where $a = 0$ denotes the pre-AI baseline and $a = 1$ denotes full adoption across the author population.
 The parameter represents the field-level intensity of AI use---a composite of the fraction of authors employing AI tools and the depth of their integration into the writing and submission workflow.
 We hold $a$ fixed and trace how the equilibrium structure from Section~\ref{sec:model} changes as $a$ deepens.
-As established in Section~\ref{sec:stylized_facts}, AI acts through four distinct channels, and the channels are not symmetric (see the mechanism diagram in the Supplementary Material).
+As established in the Introduction, AI acts through four distinct channels, and the channels are not symmetric (see the mechanism diagram in the Supplementary Material).
 
 \paragraph{Channel 1---Production: more submissions at every composition.}
 The most direct effect of AI is to lower the marginal cost of drafting and preparing a manuscript, which raises total submission volume at any given composition of the author population.
@@ -350,7 +277,12 @@ We model this as:
 \end{equation}
 where $\delta \geq 0$ governs how strongly AI adoption raises review capacity (the \textbf{verification sensitivity}).
 However, deep verification remains human-intensive: confidentiality rules restrict AI use in reviews \citep{Naddaf2025, Checco2021}, and reviewer capacity was already strained before the AI era \citep{Meyerson2025}.
-These constraints enforce the asymmetry $\gamma > \delta \geq 0$ (Equation~\ref{eq:asymmetry}).
+These constraints enforce what we call the \textbf{AI asymmetry assumption}:
+\begin{equation}
+    \label{eq:asymmetry}
+    \gamma > \delta \geq 0.
+\end{equation}
+This is not an axiom but a testable empirical statement about relative scaling rates: submission volume grows faster with AI adoption than review capacity does.
 
 Figure~\ref{fig:ai_channels} summarises the four channels and their functional forms.
 
@@ -449,7 +381,7 @@ and rising false-positive rate ($\lambda$, slope $\mu$).
 The dashed arrow indicates the only offsetting channel---review capacity ($K_{rev}$, elasticity $\delta$)---which
 grows more slowly than submission volume under the asymmetry assumption $\gamma > \delta$.
 All four channel equations are formal specifications of the informal channels
-described in Section~\ref{sec:stylized_facts}.}
+described in the Introduction.}
 \label{fig:ai_channels}
 \end{figure}
 
