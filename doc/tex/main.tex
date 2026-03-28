@@ -523,6 +523,22 @@ As $a$ rises, $x^*_{tip}$ climbs monotonically towards $x=1$: the honest norm be
 At $a\approx0.50$, $\Pi_{bad}(1,a)=0$ and the honest equilibrium loses stability entirely; the system transitions from BS into Global Corruption.
 The practical implication is striking: the system can appear healthy---with the population well above $x^*_{tip}$---while the safety margin silently narrows.
 A single coordinated wave of low-quality submissions can push the population below $x^*_{tip}$ and initiate a collapse that the system cannot reverse on its own.
+Figure~\ref{fig:tipping_timeseries} makes this concrete: an identical shock applied early (when the safety margin is wide) produces full recovery, while the same shock applied later (when the margin has narrowed) triggers irreversible collapse.
+The two trajectories are indistinguishable before the shock; only the timing relative to the rising threshold determines the outcome.
+Panel~(b) shows the complementary mechanism: at a fixed $a = 0.45$, two populations separated by just $\Delta x_0 = 0.08$ diverge to opposite absorbing states, confirming that the tipping threshold is a genuine basin boundary rather than a smooth transition.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{fig5_tipping_timeseries.pdf}
+    \caption{\textbf{AI adoption silently erodes the stability window.}
+    \textbf{(a)}~The tipping threshold $x^*(a_t)$ (red dashed) rises monotonically from $\approx 0.80$ toward $x=1$ as $a$ increases through the bistability zone.
+    An identical shock (downward arrow, $\Delta x = 0.18$) applied at $t=300$ ($a \approx 0.08$, wide safety margin) produces full recovery (green), while the same shock at $t=2000$ ($a \approx 0.53$, narrow margin) triggers irreversible collapse (blue).
+    The dotted orange line shows the AI adoption ramp $a_t$.
+    \textbf{(b)}~Path dependence at $a = 0.45$: two initial conditions separated by $\Delta x_0 = 0.08$ diverge to opposite long-run outcomes, with the threshold near $x^*(0.45) \approx 0.92$.
+    Parameters: Set~A, $\gamma=0.5$, $\delta=0.1$, $\phi=0.4$, $\mu=0.2$.}
+    \label{fig:tipping_timeseries}
+\end{figure}
+
 The full GH$\to$BS$\to$GC sequence, in which a community starts from Global Honesty before any AI adoption, is illustrated for $N=300$ in Figure~\ref{fig:hysteresis_loop}~(a).
 The path from GH to GC passes through a BS corridor, during which the long-run outcome is history-dependent and recovery is still possible.
 The width of this corridor---the range of $a$ values during which recovery remains feasible---depends on how quickly $\lambda(a)$ rises and how much $c(a)$ falls.

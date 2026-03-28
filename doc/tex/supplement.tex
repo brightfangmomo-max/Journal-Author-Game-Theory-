@@ -548,7 +548,7 @@ This rule captures bounded rationality: better-performing strategies spread, but
 
 \subsection{Results: Tipping as AI Adoption Rises}
 
-Figure~\ref{fig:tipping_timeseries} reports the core dynamic result.
+Figure~5 in the main text reports the core dynamic result.
 Panel~(a) traces the tipping threshold $x^*(a_t)$---the unstable boundary in the bistability zone---as $a_t$ rises.
 The threshold climbs monotonically from $x^* \approx 0.80$ at baseline toward $x = 1$ as $a$ approaches the analytical limit $a^* \approx 0.50$ derived above.
 The system appears healthy throughout: observed honest-author shares remain at $x \approx 1$.
@@ -563,17 +563,7 @@ Panel~(b) confirms path dependence at $a = 0.45$ (bistable regime).
 Two trajectories separated by only $\Delta x_0 = 0.08$ diverge to opposite absorbing states: the run starting just above $x^*(0.45) \approx 0.92$ converges to full honesty within a few hundred steps, while the run starting just below collapses immediately.
 No endogenous force can reverse this collapse; the population is trapped in the low-quality long-run outcome \citep{Schelling1978, Scheffer2001}.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{fig7_tipping_timeseries.pdf}
-    \caption{\textbf{AI adoption silently erodes the stability window.}
-    \textbf{(a)} The tipping threshold $x^*(a_t)$ (red dashed) rises monotonically from $\approx 0.80$ toward $x=1$ as $a$ increases through the bistability zone; the threshold ceases to exist above $a^* \approx 0.50$ (Set~A, analytical), when the system enters Global Corruption.
-    A fixed-size shock of $\Delta x = 0.18$ recovers when applied at $a \approx 0.08$ (green; safety margin intact) but causes permanent collapse when applied at $a \approx 0.53$ (blue; system in GC, no stable honest long-run outcome).
-    Observable quality gives no warning: $x_t \approx 1$ in both cases until the shock hits.
-    \textbf{(b)} Path dependence at $a = 0.45$ (bistable zone, just below $a^*$): two initial conditions separated by $\Delta x_0 = 0.08$ diverge to opposite long-run outcomes, with the threshold near $x^*(0.45) \approx 0.92$.
-    Parameters: Set~A, $\gamma=0.5$, $\delta=0.1$, $\phi=0.4$, $\mu=0.2$.}
-    \label{fig:tipping_timeseries}
-\end{figure}
+% Figure promoted to main text as Figure 5.
 
 
 \section{Robustness and Stochastic Validation}
