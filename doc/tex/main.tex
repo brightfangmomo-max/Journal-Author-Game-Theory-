@@ -499,16 +499,20 @@ While defence by congestion is a real stabilising force, it is not robust to sus
 
 \subsection{Equilibrium Trajectories and Stability Window Erosion}
 
-Figure~\ref{fig:equilibrium_vs_a} traces the long-run honest-author share $x^*(a)$ as AI adoption rises from 0 to 1 under three parameter scenarios.
+Figure~\ref{fig:equilibrium_vs_a} traces the long-run honest-author share $x^*(a)$ as AI adoption rises from 0 to 1 under two contrasting parameter sets.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{fig5_equilibrium_vs_a.pdf}
-    \caption{\textbf{Long-run honest-author share $x^*(a)$ as AI adoption rises (Fig.~5).}
-    Left: Set~A (bistability-prone, $N=1000$). The system is already in BS at $a=0$: the corrupt equilibrium is self-sustaining ($\Pi_{bad}(0,0)\approx+12.4>0$) while the honest equilibrium is stable ($\Pi_{bad}(1,0)=-15<0$), giving a tipping threshold $x^*_{tip}(0)\approx0.80$ (orange dashed). As $a$ rises, $x^*_{tip}$ climbs monotonically towards $x=1$ until the honest equilibrium collapses at $a\approx0.50$ (BS$\to$GC, vertical dashed line). The full GH$\to$BS$\to$GC transition under lower submission pressure ($N=300$) is illustrated in Figure~\ref{fig:hysteresis_loop} (a).
-    Centre: Set~B (coexistence-prone). The interior stable long-run outcome $x^*$ falls as $a$ rises, tracking the declining profitability of honest submission relative to universal submission.
-    Right: Intermediate parameters. Shows the full GH$\to$BS$\to$GC transition as $a$ increases.
-    Vertical dashed lines mark regime transitions; shaded backgrounds indicate the active regime.}
+    \includegraphics[width=\textwidth]{fig4_equilibrium_vs_a.pdf}
+    \caption{\textbf{Long-run honest-author share $x^*(a)$ as AI adoption rises.}
+    \textbf{(a)}~Set~A (bistability-prone, $N=1000$).
+    The system is already in BS at $a=0$: the corrupt equilibrium is self-sustaining ($\Pi_{bad}(0,0)\approx+12.4>0$) while the honest equilibrium is stable ($\Pi_{bad}(1,0)=-15<0$), giving a tipping threshold $x^*_{tip}(0)\approx0.80$ (orange dashed).
+    As $a$ rises, $x^*_{tip}$ climbs monotonically towards $x=1$ until the honest equilibrium collapses at $a\approx0.50$ (BS$\to$GC, vertical dotted line).
+    The full GH$\to$BS$\to$GC transition under lower submission pressure ($N=300$) is illustrated in Figure~\ref{fig:hysteresis_loop}~(a).
+    \textbf{(b)}~Set~B (coexistence-prone).
+    The interior stable long-run outcome $x^*$ falls as $a$ rises, tracking the declining profitability of honest submission relative to universal submission.
+    Shaded backgrounds indicate the active regime.
+    AI parameters: $\gamma=0.5$, $\delta=0.1$, $\phi=0.4$, $\mu=0.2$.}
     \label{fig:equilibrium_vs_a}
 \end{figure}
 
@@ -519,10 +523,7 @@ As $a$ rises, $x^*_{tip}$ climbs monotonically towards $x=1$: the honest norm be
 At $a\approx0.50$, $\Pi_{bad}(1,a)=0$ and the honest equilibrium loses stability entirely; the system transitions from BS into Global Corruption.
 The practical implication is striking: the system can appear healthy---with the population well above $x^*_{tip}$---while the safety margin silently narrows.
 A single coordinated wave of low-quality submissions can push the population below $x^*_{tip}$ and initiate a collapse that the system cannot reverse on its own.
-The full GH$\to$BS$\to$GC sequence, in which a community starts from Global Honesty before any AI adoption, is illustrated for $N=300$ in Figure~\ref{fig:hysteresis_loop} (a).
-
-The right panel (Intermediate parameters) illustrates the full transition from GH through BS to GC as $a$ increases.
-In the GC zone, the long-run outcome is $x^* = 0$: universal submission dominates from every starting point.
+The full GH$\to$BS$\to$GC sequence, in which a community starts from Global Honesty before any AI adoption, is illustrated for $N=300$ in Figure~\ref{fig:hysteresis_loop}~(a).
 The path from GH to GC passes through a BS corridor, during which the long-run outcome is history-dependent and recovery is still possible.
 The width of this corridor---the range of $a$ values during which recovery remains feasible---depends on how quickly $\lambda(a)$ rises and how much $c(a)$ falls.
 
