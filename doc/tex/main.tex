@@ -124,7 +124,7 @@ The paper proceeds as follows.
 Section~\ref{sec:model} presents the model, which incorporates AI adoption as a parameter from the outset.
 Section~\ref{sec:analysis} analyses how AI adoption shifts equilibria, erodes stability, and amplifies the slot expansion paradox.
 Section~\ref{sec:institutions} translates the analytical results into an institutional agenda.
-Section~\ref{sec:predictions} derives testable predictions, Section~\ref{sec:discussion} discusses limitations, and Section~\ref{sec:conclusion} concludes.
+Section~\ref{sec:discussion} discusses predictions, limitations, and policy implications.
 We provide agent-based simulations, welfare analysis, extended predictions, and model extensions in the Supplementary Material.
 
 % Figure 1 (mechanism diagram) moved to Supplementary Material
@@ -370,7 +370,8 @@ A journal safely in the GH zone at baseline may find itself in BS or GC at $a = 
     \includegraphics[width=\textwidth]{fig3_ai_phase_diagram.pdf}
     \caption{\textbf{AI adoption shifts regime boundaries in the $(K_{rev}, K)$ parameter space.}
     Left: baseline ($a = 0$). Right: high AI adoption ($a = 0.8$, $\gamma=0.5$, $\delta=0.1$, $\phi=0.4$, $\mu=0.2$).
-    The Global Honesty (green) region shrinks and the Bistability and Corruption zones expand.
+    Colours: GH teal, BS yellow, GC salmon, SC blue, NS grey.
+    The GH region shrinks and the BS and GC zones expand.
     The Set~A calibration point (star) moves from a safe location at baseline towards the boundary of GH and BS under high AI adoption.
     The asymmetry $\gamma > \delta$ is the key driver: review capacity grows too slowly to absorb the AI-driven surge in submission volume.}
     \label{fig:ai_phase_diagram}
@@ -450,7 +451,7 @@ Figure~\ref{fig:hysteresis_widening} maps this dynamic in the $(N, a)$ plane, tr
     \centering
     \includegraphics[width=0.75\textwidth]{fig7_hysteresis_widening.pdf}
     \caption{\textbf{AI adoption erodes the stable-honesty window and lowers the collapse threshold.}
-    Regime map in $(N, a)$ space with Set~A parameters.
+    Regime map in $(N, a)$ space with Set~A parameters; colours as in \cref{fig:ai_phase_diagram}.
     The red curve $N_\uparrow(a)$ marks the collapse boundary: to its right, the forward (honest-start) path collapses.
     The blue dashed curve marks the lower boundary of the Bistability zone.
     As $a$ rises, $N_\uparrow(a)$ falls monotonically; at $a \gtrsim 0.5$ the GH and BS zones disappear entirely.
@@ -482,8 +483,8 @@ Figure~\ref{fig:hysteresis_loop} makes the hysteresis structure explicit as a cl
     \label{fig:hysteresis_loop}
 \end{figure}
 
-In panel~(a), the system occupies Global Honesty at baseline ($a=0$), indicated by the green background.
-As $a$ rises, the corrupt equilibrium first becomes self-sustaining at $a_{\rm rec} \approx 0.25$, opening the Bistability corridor (yellow background); the honest equilibrium then loses stability at $a_{\rm col} = 0.50$, pushing the system into Global Corruption (red background).
+In panel~(a), the system occupies Global Honesty at baseline ($a=0$), indicated by the teal background.
+As $a$ rises, the corrupt equilibrium first becomes self-sustaining at $a_{\rm rec} \approx 0.25$, opening the Bistability corridor (yellow background); the honest equilibrium then loses stability at $a_{\rm col} = 0.50$, pushing the system into Global Corruption (salmon background).
 While the forward path traces the upper branch to $a_{\rm col}$ and then drops discontinuously to $x^*=0$, the backward path recovers only when $a$ falls to $a_{\rm rec}$---a full 25 percentage points below the collapse point.
 The hysteresis gap $\Delta a = a_{\rm col} - a_{\rm rec} \approx 0.25$ measures the depth of the trap: a field that has tipped must substantially reduce AI-linked submission pressure, not merely stop increasing it.
 The unstable tipping threshold (dashed) connects the two fold points; any perturbation large enough to push the system below $x^*_{\rm tip}$ triggers irreversible collapse so long as $a$ remains above $a_{\rm rec}$.
@@ -557,7 +558,7 @@ To make this concrete: under Set~A parameters, $x^* \approx 0.80$ at baseline, l
 As $a$ rises, $x^*$ climbs monotonically towards $x = 1$, so this margin closes continuously---from 0.20 towards zero---while published quality appears unchanged, because the population remains above the threshold throughout.
 By the time $a$ reaches $a^* \approx 0.50$, the margin has vanished and the system tips into Global Corruption with no visible warning in quality metrics.
 While observable quality remains high, structural fragility grows rapidly---and this gap is precisely what makes AI-induced tipping difficult to detect in advance.
-We examine the testability of these predictions in Section~\ref{sec:predictions}.
+We examine the testability of these predictions in Section~\ref{sec:discussion}.
 
 
 Agent-based simulations confirm that the three main results---gradual onset of fragility, discrete tipping, and severe path dependence---survive finite-population noise and heterogeneous AI adoption diffusion (Appendices~B and~C of the Supplementary Material).
@@ -624,7 +625,8 @@ The lesson is that Principles~2 and~3 are necessary to exit GC, while Principle~
     \textit{Left panel:} base parameters ($\lambda = 0.26$, $c = 17$); GC dominates and Set~A (star) sits deep in GC.
     The navy arrow shows Principle~1 ($K_{rev}\uparrow$) alone stays in GC because $\lambda > c/r$.
     \textit{Right panel:} after Principles~2 and~3 ($\lambda = 0.05$, $c = 35$, $\phi = \mu = 0$); GC is eliminated and Set~A shifts to BS.
-    The dark green arrow shows the combined intervention (Principles~1+2+3, $K_{rev}$ raised to 600) restores Global Honesty.
+    The green arrow shows the combined intervention (Principles~1+2+3, $K_{rev}$ raised to 600) restores Global Honesty.
+    Colours as in \cref{fig:ai_phase_diagram}.
     Parameters: $\gamma = 0.5$, $\delta = 0.1$; Set~A baseline $N = 1000$, $\alpha = 0.2$, $r = 100$, $\varepsilon = 0.05$.}
   \label{fig:interventions}
 \end{figure}
@@ -657,30 +659,19 @@ Expanding $K$ without reducing $\lambda$ is the unique lever that unconditionall
 The normative lever ranking is therefore: $\lambda\downarrow$ first (Pareto-improving), then $K_{rev}\uparrow$ (public-good rationale), then $c\uparrow$ with equity exemptions (a corrective levy on the congestion externality), and never $K\uparrow$ in isolation.
 This welfare ordering provides the formal justification for the priority sequencing detailed in Appendix~G of the Supplementary Material.
 
-\section{Empirical Predictions and Measurement}
-\label{sec:predictions}
-
-\paragraph{Prediction 1: Quality degradation is nonlinear---quiet, then a cliff.}
-The bistable structure of the model generates a specific observable signature: quality metrics should hold approximately steady while AI adoption $a$ rises below the tipping threshold, then deteriorate rapidly once the tipping threshold $x^*(a)$ reaches the current honest-author share.
-Smooth, continuous quality decline would be inconsistent with the model; the bistable structure produces a cliff, not a slope.
-The early-warning indicators are not quality itself but the shrinking gap between the current author composition $x_t$ and the rising tipping threshold $x^*(a_t)$---a gap that narrows silently while quality appears stable \citep{Scheffer2009}.
-Empirical evidence is consistent with this reading.
-Monthly arXiv submissions rose approximately 50\% between late 2022 and late 2024, while reviewer acceptance rates and post-publication retraction counts have not yet stabilised at new equilibrium levels \citep{arXiv2024, VanNoorden2023}.
-Field-level heterogeneity provides additional structure: \citet{Kobak2025} find AI-modified text rates exceeding 40\% in some biomedical sub-disciplines while remaining near zero in others, suggesting that different fields may sit at different distances from their respective tipping thresholds.
-
-\paragraph{Prediction 2: The gap between collapse and recovery thresholds widens as AI adoption rises.}
-As $a$ increases, Proposition~3 shows that the defence-by-congestion mechanism requires progressively tighter slot constraints to hold the corrupt boundary, while Proposition~1 shows that the Global Honesty boundary erodes.
-The model predicts that the intervention required to restore quality in a field that has tipped is strictly larger than the intervention that would have prevented the tip.
-Pre-AI evidence suggests that the hysteresis mechanism itself is empirically real, independently of what triggers the initial collapse.
-\citet{Bik2016} document that image duplication---driven by paper mills, not generative AI---became entrenched in specific biomedical sub-fields despite sustained editorial intervention; \citet{VanNoorden2023} report that annual retraction counts exceeded 10{,}000 for the first time in 2023 without receding, suggesting that the low-quality long-run outcome sustains itself once established.
-The pre-AI paper-mill literature thus confirms the mechanism: quality collapses are not self-correcting, and removing the proximate trigger (the mills) does not restore the parameter configuration that originally supported honest submission.
-The AI-specific prediction is that the same mechanism will be triggered at lower adoption thresholds and across more fields simultaneously, because AI lowers $c(a)$ and raises $\lambda(a)$ for the entire author population rather than for a subset of bad actors.
-A direct test would compare the institutional effort required to restore quality indicators in a field that tipped---whether by paper mills before 2022 or by AI-driven flooding after---against one that never tipped but faces equivalent submission pressure.
-
-Appendix~E of the Supplementary Material develops four additional predictions: observable proxies for a rising false-positive rate (acceptance rates, surface polish, replication rates), proxies for review-capacity stress (reviewer acceptance rates, turnaround times, desk rejections, reviewer concentration), a data-source and identification strategy exploiting the November 2022 ChatGPT release as a natural experiment, and falsification conditions for the asymmetry hypothesis.
-
 \section{Discussion}
 \label{sec:discussion}
+
+\paragraph{Testable predictions.}
+The bistable structure of the model generates two core empirical signatures.
+First, quality degradation should be nonlinear: metrics hold approximately steady while AI adoption $a$ rises below the tipping threshold, then deteriorate rapidly once $x^*(a)$ reaches the current honest-author share---a cliff, not a slope \citep{Scheffer2009}.
+Monthly arXiv submissions rose approximately 50\% between late 2022 and late 2024, while reviewer acceptance rates and retraction counts have not yet stabilised at new equilibrium levels \citep{arXiv2024, VanNoorden2023}.
+\citet{Kobak2025} find AI-modified text rates exceeding 40\% in some biomedical sub-disciplines while remaining near zero in others, suggesting that different fields sit at different distances from their respective tipping thresholds.
+Second, the gap between collapse and recovery thresholds widens as $a$ increases (Propositions~1 and~3): the intervention required to restore quality in a field that has tipped is strictly larger than the intervention that would have prevented the tip.
+Pre-AI evidence confirms this hysteresis mechanism: \citet{Bik2016} document that paper-mill image duplication became entrenched in specific sub-fields despite sustained editorial intervention, and \citet{VanNoorden2023} report that annual retractions exceeded 10{,}000 in 2023 without receding.
+The AI-specific prediction is that the same mechanism will be triggered at lower adoption thresholds and across more fields simultaneously, because AI lowers $c(a)$ and raises $\lambda(a)$ for the entire author population rather than for a subset of bad actors.
+A direct test would compare the institutional effort required to restore quality in a field that tipped against one that never tipped but faces equivalent submission pressure.
+Appendix~E of the Supplementary Material develops four additional predictions, a data-source and identification strategy, and falsification conditions.
 
 \paragraph{Model boundaries and what they mean for interpretation.}
 The model makes two structural choices that bound its applicability.
@@ -693,37 +684,21 @@ In reality, rejected papers cascade down a prestige hierarchy: \citet{Siler2015}
 This cascade distributes submission pressure across tiers rather than absorbing it.
 A multi-journal extension would predict that tipping first occurs at lower-tier venues---which typically have smaller $K_{rev}$ and weaker screening---and then propagates upward as the pool of credibly certified papers shrinks.
 Our single-journal results are therefore conservative: the threshold at which quality degrades across the system as a whole is likely lower than the threshold we identify for any single venue.
+We develop several model extensions---multi-journal competition and quality cascades, heterogeneous AI adoption, and endogenous reviewer effort---in Appendix~F of the Supplementary Material.
 
-\paragraph{The problem is institutional mismatch, not AI adoption itself.}
-The model establishes that the core vulnerability is the gap $\gamma - \delta > 0$, not AI adoption per se.
+\paragraph{Institutional mismatch and policy.}
+The core vulnerability is the gap $\gamma - \delta > 0$, not AI adoption per se.
 If review capacity scaled at the same rate as submission volume---$\delta = \gamma$---and AI tools improved screening reliability rather than degrading it---$\mu \leq 0$---the Global Honesty region would expand under rising $a$, not contract.
 \citet{NoyZhang2023} document genuine productivity gains from AI assistance; the issue is not that AI exists but that the gap between production and verification growth rates exists.
 \citet{AcemogluRestrepo2019} provide a useful framing: automation raises productivity in tasks that are routine and codifiable while increasing demand for tasks requiring contextual judgement and domain expertise.
 While text generation is largely the former, verifying the validity of a novel empirical claim is largely the latter.
 The challenge for publishing institutions is therefore not to restrict AI adoption---which would be both unenforceable and wasteful where AI genuinely helps---but to close the gap between $\gamma$ and $\delta$ through targeted investment in verification infrastructure.
-Which scenario a field occupies is an institutional choice, not a technological fate.
-Fields that invest in structured AI-assisted verification pipelines, mandatory data deposition, and reviewer development programmes can remain stable even as $a$ rises.
-Fields that do not will drift towards collapse (see the scenario matrix in Appendix~G of the Supplementary Material).
-
-We develop several model extensions---multi-journal competition and quality cascades, heterogeneous AI adoption, and endogenous reviewer effort---in Appendix~F of the Supplementary Material.
-
-\section{Conclusion}
-\label{sec:conclusion}
-
-We have studied what happens to a publishing system when AI raises the productivity of manuscript production faster than it raises the capacity to verify manuscripts.
-The central asymmetry---production sensitivity $\gamma$ exceeding verification sensitivity $\delta$---is not a modelling assumption but an empirical claim supported by documented submission growth, documented reviewer decline, and experimental evidence on AI writing productivity \citep{NoyZhang2023, arXiv2024, Meyerson2025}.
-Three results follow from this asymmetry.
-First, extreme slot scarcity can stabilise the honesty norm under degraded screening, but AI erodes this protection continuously by lowering the submission cost $c(a)$: the required slot tightness grows with adoption and eventually forces the system into the No Submission zone.
-Second, gradual AI adoption can trigger a discrete collapse rather than a smooth decline; the system can appear healthy---with observable quality near its maximum---while the gap between the current author composition and the tipping threshold narrows without any visible warning in quality metrics.
-Third, once the system tips, recovery is harder than prevention, because the low-quality equilibrium is self-sustaining: no individual author has a reason to deviate back towards honesty, and small interventions cannot overcome the strategic lock-in \citep{Scheffer2009}.
-Expanding publication slots accelerates rather than relieves this dynamic, because it raises the expected payoff of submitting low-quality work without addressing the underlying screening deficit.
-
-Translating these results into institutional design requires targeting the parameters that matter most.
-The probability $\lambda$ that weak papers pass review is the binding constraint: when $\lambda > c(a)/r$, no feasible increase in review staffing can restore the Global Honesty condition, because even carefully reviewed weak manuscripts pass at a rate that makes submission individually rational.
+The probability $\lambda$ that weak papers pass review is the binding constraint: when $\lambda > c(a)/r$, no feasible increase in review staffing can restore the Global Honesty condition.
 The model suggests that effective policy must reduce $\lambda$ directly---through mandatory data and code sharing, structured reporting requirements, and registered study designs---while simultaneously raising $K_{rev}$ and restoring submission friction \citep{Munafo2017, Cotton2013}.
 These three levers are complements, not substitutes: our analysis in Section~\ref{sec:institutions} shows that $\lambda$ reduction is necessary to exit the Global Corruption region, and $K_{rev}$ expansion is necessary to convert bistability into Global Honesty.
-The institutional response to AI is therefore not ``more slots'' but a different kind of institution---one in which verification is a first-class resource, not an afterthought.
+The institutional response to AI is therefore not ``more slots'' but a different kind of institution---one in which verification is a first-class resource, not an afterthought (see the scenario matrix in Appendix~G of the Supplementary Material).
 
+\paragraph{The window for action.}
 The window for preventive action is narrower than it appears.
 Because the system can remain near the honest equilibrium while structural fragility accumulates, the observable quality signal gives no reliable warning before a tipping event \citep{Scheffer2001}.
 While fields that invest in verification infrastructure, reviewer incentives, and submission friction before AI adoption deepens can preserve the integrity of certification at moderate cost, fields that wait for a visible quality crisis will face a recovery problem that requires a larger and more disruptive coordinated intervention---the equivalent of a field-wide mandate rather than a journal-level policy.

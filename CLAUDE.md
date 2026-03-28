@@ -22,6 +22,7 @@ Academic research project modeling the impact of AI on academic publishing syste
 | `Boundaries_regimes.py` | Phase diagram across K_rev vs K_store | `regime_map_final.pdf` |
 | `Hysteresis_Loop_and_Quality_Collapse.py` | Evolutionary dynamics curves showing convergence regions | `polynomial_graph_1-4.pdf` |
 | `regimes_distribution.py` | Parameter space regime classification | `regime_map_final.pdf` |
+| `fig_style.py` | Shared figure style: seaborn paper context, regime palette, annotation helpers | — |
 | `data_io.py` | Data I/O utilities | — |
 | `fig_hysteresis_loop.py` | Hysteresis loop figure | `fig_hysteresis_loop.pdf` |
 | `fig2_phase_portrait.py` | Phase portrait | `fig2_phase_portrait.pdf` |

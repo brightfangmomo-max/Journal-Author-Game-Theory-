@@ -7,45 +7,19 @@ The comparison makes visible that the GH region shrinks and the BS/GC region
 expands as AI lowers submission cost, raises submission volume, and degrades
 screening accuracy faster than it raises review capacity.
 
-Output: fig3_ai_phase_diagram.pdf  →  doc/tex/
+Output: fig3_ai_phase_diagram.pdf  ->  doc/tex/
 """
 
 import os
 import sys
 import numpy as np
-import matplotlib as mpl
 import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
-from matplotlib.colors import ListedColormap
-from matplotlib.patches import Patch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from data_io import save_data, load_data, DATA_DIR
+from fig_style import apply_style, REGIME_CMAP, regime_legend, mark_point
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 0.  Publication rcParams
-# ─────────────────────────────────────────────────────────────────────────────
-
-mpl.rcParams.update({
-    'font.family':        'serif',
-    'text.usetex':        True,
-    'pdf.fonttype':       42,
-    'savefig.dpi':        300,
-    'axes.spines.top':    False,
-    'axes.spines.right':  False,
-    'axes.linewidth':     0.6,
-    'xtick.major.width':  0.6,
-    'ytick.major.width':  0.6,
-    'xtick.direction':    'out',
-    'ytick.direction':    'out',
-})
-
-# Paul Tol Bright palette — regime colours
-# 0=GH, 1=GC, 2=BS, 3=SC, 4=NS
-REGIME_COLORS = ['#228833', '#EE6677', '#CCBB44', '#4477AA', '#BBBBBB']
-REGIME_NAMES  = ['Global Honesty (GH)', 'Global Corruption (GC)',
-                 'Bistability (BS)', 'Stable Coexistence (SC)',
-                 'No Submission (NS)']
+apply_style()
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1.  Model core
@@ -173,12 +147,11 @@ def plot(data):
     K_rev_vals_  = data['K_rev_vals']
     K_store_vals_= data['K_store_vals']
 
-    CMAP   = ListedColormap(REGIME_COLORS)
     EXTENT = [K_rev_vals_.min(), K_rev_vals_.max(),
               K_store_vals_.min(), K_store_vals_.max()]
 
     fig, axes = plt.subplots(1, 2, figsize=(7.0, 3.2), sharey=True)
-    fig.subplots_adjust(wspace=0.08)
+    fig.subplots_adjust(wspace=0.08, bottom=0.28)
 
     panel_data = [
         (map_base, r'Baseline ($a = 0$)'),
@@ -186,80 +159,45 @@ def plot(data):
     ]
     panel_labels = ['(a)', '(b)']
 
+    all_codes = set()
     for col, (grid, subtitle) in enumerate(panel_data):
         ax = axes[col]
         ax.imshow(grid, origin='lower', extent=EXTENT,
-                  aspect='auto', cmap=CMAP, vmin=0, vmax=4)
+                  aspect='auto', cmap=REGIME_CMAP, vmin=0, vmax=4)
+
+        # Contour lines at regime boundaries
+        ax.contour(K_rev_vals_, K_store_vals_, grid.astype(float),
+                   levels=[0.5, 1.5, 2.5, 3.5],
+                   colors='#333333', linewidths=0.5, alpha=0.6)
 
         ax.set_xlabel(r'Verification capacity $K_{rev}$', fontsize=10)
         if col == 0:
             ax.set_ylabel(r'Allocation capacity $K$', fontsize=10)
 
-        # Panel label — bold, upper-left
+        # Panel label
         ax.text(0.04, 0.96, r'\textbf{' + panel_labels[col] + '}',
                 transform=ax.transAxes, fontsize=11, va='top')
 
-        # Subtitle below panel label
-        ax.text(0.04, 0.87, subtitle,
-                transform=ax.transAxes, fontsize=9, va='top')
-
-        # Mark the Set-A calibration point
-        ax.plot(300, 400, marker='*', markersize=10,
-                color='black', zorder=10)
-        if col == 0:
-            ax.annotate(r'Set A', xy=(300, 400), xytext=(350, 510),
-                        fontsize=8, color='black',
-                        arrowprops=dict(arrowstyle='->', color='black', lw=0.8))
-
-        # Direct regime labels inside regions
-        if col == 0:
-            ax.text(0.70, 0.25, 'GH', transform=ax.transAxes,
-                    fontsize=8, color='white', fontweight='bold',
-                    ha='center', va='center')
-            ax.text(0.25, 0.80, 'GC', transform=ax.transAxes,
-                    fontsize=8, color='white', fontweight='bold',
-                    ha='center', va='center')
-            ax.text(0.60, 0.65, 'BS', transform=ax.transAxes,
-                    fontsize=8, color='black', fontweight='bold',
-                    ha='center', va='center', alpha=0.7)
-        else:
-            ax.text(0.82, 0.15, 'GH', transform=ax.transAxes,
-                    fontsize=8, color='white', fontweight='bold',
-                    ha='center', va='center')
-            ax.text(0.35, 0.70, 'GC', transform=ax.transAxes,
-                    fontsize=8, color='white', fontweight='bold',
-                    ha='center', va='center')
-            ax.text(0.55, 0.35, 'BS', transform=ax.transAxes,
-                    fontsize=8, color='black', fontweight='bold',
-                    ha='center', va='center', alpha=0.7)
-            ax.annotate(r'Set A', xy=(300, 400), xytext=(360, 510),
-                        fontsize=8, color='black',
-                        arrowprops=dict(arrowstyle='->', color='black', lw=0.8))
+        # Mark Set A calibration point
+        mark_point(ax, 300, 400, label='Set A', offset=(12, 12))
 
         ax.tick_params(labelsize=9)
+        all_codes.update(np.unique(grid).tolist())
 
-    # ── Shared legend ───────────────────────────────────────────────────────
-    legend_handles = [
-        Patch(facecolor=REGIME_COLORS[0], edgecolor='#555555', label='GH'),
-        Patch(facecolor=REGIME_COLORS[2], edgecolor='#555555', label='BS'),
-        Patch(facecolor=REGIME_COLORS[3], edgecolor='#555555', label='SC'),
-        Patch(facecolor=REGIME_COLORS[1], edgecolor='#555555', label='GC'),
-        Patch(facecolor=REGIME_COLORS[4], edgecolor='#555555', label='NS'),
-    ]
-    fig.legend(handles=legend_handles, loc='lower center',
-               ncol=5, framealpha=0.95,
-               bbox_to_anchor=(0.5, -0.06),
-               fontsize=9)
+    # Discard sentinel -1 if present
+    all_codes.discard(-1)
 
-    # ─────────────────────────────────────────────────────────────────────────
-    # 5.  Save
-    # ─────────────────────────────────────────────────────────────────────────
+    # Shared regime legend below panels
+    regime_legend(fig, present_codes=sorted(all_codes),
+                  loc='lower center', bbox_to_anchor=(0.5, 0.0),
+                  ncol=len(all_codes))
+
     plt.savefig(OUTPUT_PATH, bbox_inches='tight')
     print(f"Saved: {os.path.normpath(OUTPUT_PATH)}")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 6.  Main
+# 5.  Main
 # ─────────────────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':

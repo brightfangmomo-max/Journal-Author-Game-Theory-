@@ -2,10 +2,10 @@
 Figure 4: Stable equilibrium x*(a) as AI adoption rises
 
 Two scenario tracks:
-  Track A — Set A (K_rev=300, K=400): bistability-prone.
+  Track A -- Set A (K_rev=300, K=400): bistability-prone.
             Shows the tipping threshold x*_tip rising silently toward x=1,
             then collapsing into GC.
-  Track B — Set B (K_rev=1200, K=180): coexistence-prone.
+  Track B -- Set B (K_rev=1200, K=180): coexistence-prone.
             Interior stable equilibrium x* falls smoothly as a rises.
 
 Output: fig4_equilibrium_vs_a.pdf in doc/tex/
@@ -14,43 +14,27 @@ Output: fig4_equilibrium_vs_a.pdf in doc/tex/
 import os
 import sys
 import numpy as np
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from data_io import save_data, load_data, DATA_DIR
+from fig_style import apply_style
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 0.  Publication rcParams
-# ─────────────────────────────────────────────────────────────────────────────
+apply_style()
 
-mpl.rcParams.update({
-    'font.family':        'serif',
-    'text.usetex':        True,
-    'pdf.fonttype':       42,
-    'savefig.dpi':        300,
-    'axes.spines.top':    False,
-    'axes.spines.right':  False,
-    'axes.linewidth':     0.6,
-    'xtick.major.width':  0.6,
-    'ytick.major.width':  0.6,
-    'xtick.direction':    'out',
-    'ytick.direction':    'out',
-})
-
-# Paul Tol Bright palette
+# Paul Tol Bright
 C_GH   = '#228833'   # Global Honesty stable branch
 C_GC   = '#EE6677'   # Global Corruption stable branch
 C_SC   = '#4477AA'   # Stable Coexistence branch
 C_TIP  = '#EE7733'   # Tipping threshold (dashed)
 
-# Regime background shading (light tints)
-BG_GH  = '#228833'
-BG_GC  = '#EE6677'
-BG_BS  = '#CCBB44'
-BG_SC  = '#4477AA'
-BG_NS  = '#BBBBBB'
+# Regime background shading -- Paul Tol Light (softer for fills)
+BG_GH  = '#44BB99'
+BG_GC  = '#EE8866'
+BG_BS  = '#EEDD88'
+BG_SC  = '#77AADD'
+BG_NS  = '#DDDDDD'
 BG_MAP = {0: BG_GH, 1: BG_GC, 2: BG_BS, 3: BG_SC, 4: BG_NS}
 NAME_MAP = {0: 'GH', 1: 'GC', 2: 'BS', 3: 'SC', 4: 'NS'}
 
@@ -209,8 +193,8 @@ def plot(data):
 
     panel_labels = [r'\textbf{(a)}', r'\textbf{(b)}']
     subtitles = [
-        r'Set A ($K_{rev}=300,\; K=400$) --- bistability-prone',
-        r'Set B ($K_{rev}=1200,\; K=180$) --- coexistence-prone',
+        r'Set A',
+        r'Set B',
     ]
 
     for col, rec in enumerate(results):

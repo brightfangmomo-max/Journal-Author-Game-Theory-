@@ -1,9 +1,9 @@
 """
 Figure 8: Intervention levers in the (K_rev, K) parameter space at a=0.8
 
-Left panel:  base parameters — GC dominates, Set A deep in GC.
+Left panel:  base parameters -- GC dominates, Set A deep in GC.
              Arrow shows K_rev expansion alone fails.
-Right panel: after interventions (lambda=0.05, c=35) — GC eliminated.
+Right panel: after interventions (lambda=0.05, c=35) -- GC eliminated.
              Combined arrow (K_rev + lambda + c) restores GH.
 
 Output: fig8_interventions.pdf in doc/tex/
@@ -12,35 +12,13 @@ Output: fig8_interventions.pdf in doc/tex/
 import os
 import sys
 import numpy as np
-import matplotlib as mpl
 import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
-from matplotlib.patches import Patch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from data_io import save_data, load_data, DATA_DIR
+from fig_style import apply_style, REGIME_CMAP, regime_legend, mark_point
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 0.  Publication rcParams
-# ─────────────────────────────────────────────────────────────────────────────
-
-mpl.rcParams.update({
-    'font.family':        'serif',
-    'text.usetex':        True,
-    'pdf.fonttype':       42,
-    'savefig.dpi':        300,
-    'axes.spines.top':    False,
-    'axes.spines.right':  False,
-    'axes.linewidth':     0.6,
-    'xtick.major.width':  0.6,
-    'ytick.major.width':  0.6,
-    'xtick.direction':    'out',
-    'ytick.direction':    'out',
-})
-
-# Paul Tol Bright
-REGIME_COLORS = ['#228833', '#EE6677', '#CCBB44', '#4477AA', '#BBBBBB']
-REGIME_CMAP   = ListedColormap(REGIME_COLORS)
+apply_style()
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1.  Model core (same as fig3)
@@ -166,11 +144,16 @@ def plot(data):
               K_store_vals_.min(), K_store_vals_.max()]
 
     fig, (ax0, ax1) = plt.subplots(1, 2, figsize=(7.0, 3.2), sharey=True)
-    fig.subplots_adjust(wspace=0.08)
+    fig.subplots_adjust(wspace=0.08, bottom=0.28)
+
+    all_codes = set()
 
     # ── Left panel: base parameters ──────────────────────────────────────────
     ax0.imshow(map_base, origin='lower', extent=EXTENT,
                aspect='auto', cmap=REGIME_CMAP, vmin=0, vmax=4)
+    ax0.contour(K_rev_vals_, K_store_vals_, map_base.astype(float),
+                levels=[0.5, 1.5, 2.5, 3.5],
+                colors='#333333', linewidths=0.5, alpha=0.6)
 
     ax0.set_xlabel(r'Verification capacity $K_{rev}$', fontsize=10)
     ax0.set_ylabel(r'Allocation capacity $K$', fontsize=10)
@@ -181,28 +164,21 @@ def plot(data):
     ax0.text(0.04, 0.87, r'Base parameters at $a=0.8$',
              transform=ax0.transAxes, fontsize=8, va='top', color='#444444')
 
-    # Set A marker + arrow
-    ax0.plot(300, 400, marker='*', markersize=12, color='black', zorder=10)
-    ax0.annotate('Set A', xy=(300, 400), xytext=(220, 510),
-                 fontsize=8, color='black',
-                 arrowprops=dict(arrowstyle='->', color='black', lw=0.8))
+    # Set A marker
+    mark_point(ax0, 300, 400, label='Set A', offset=(12, 12))
 
-    ax0.annotate('',
-                 xy=(550, 400), xytext=(330, 400),
-                 arrowprops=dict(arrowstyle='->', color='#004488',
-                                 lw=2.0, mutation_scale=16))
-    ax0.text(440, 435, r'$K_{rev}\!\uparrow$ alone',
-             ha='center', fontsize=7.5, color='#004488')
+    # Intervention path: thin dashed line + small triangle endpoint
+    ax0.plot([320, 550], [400, 400], ls='--', lw=1.0, color='#004488', zorder=8)
+    ax0.plot(550, 400, marker='>', markersize=5, color='#004488', zorder=8)
 
-    # Direct regime labels
-    ax0.text(0.75, 0.12, 'GH', transform=ax0.transAxes,
-             fontsize=8, color='white', fontweight='bold', ha='center')
-    ax0.text(0.30, 0.70, 'GC', transform=ax0.transAxes,
-             fontsize=8, color='white', fontweight='bold', ha='center')
+    all_codes.update(np.unique(map_base).tolist())
 
     # ── Right panel: after interventions ─────────────────────────────────────
     ax1.imshow(map_int, origin='lower', extent=EXTENT,
                aspect='auto', cmap=REGIME_CMAP, vmin=0, vmax=4)
+    ax1.contour(K_rev_vals_, K_store_vals_, map_int.astype(float),
+                levels=[0.5, 1.5, 2.5, 3.5],
+                colors='#333333', linewidths=0.5, alpha=0.6)
 
     ax1.set_xlabel(r'Verification capacity $K_{rev}$', fontsize=10)
     ax1.tick_params(labelsize=9)
@@ -212,38 +188,23 @@ def plot(data):
     ax1.text(0.04, 0.87, r'After $\lambda\!\downarrow$, $c\!\uparrow$',
              transform=ax1.transAxes, fontsize=8, va='top', color='#444444')
 
-    # Set A marker + combined arrow
-    ax1.plot(300, 400, marker='*', markersize=12, color='black', zorder=10)
-    ax1.annotate('Set A', xy=(300, 400), xytext=(200, 510),
-                 fontsize=8, color='black',
-                 arrowprops=dict(arrowstyle='->', color='black', lw=0.8))
+    # Set A marker
+    mark_point(ax1, 300, 400, label='Set A', offset=(12, 12))
 
-    ax1.annotate('',
-                 xy=(600, 400), xytext=(330, 400),
-                 arrowprops=dict(arrowstyle='->', color='#228833',
-                                 lw=2.0, mutation_scale=16))
-    ax1.text(465, 435, r'$+\; K_{rev}\!\uparrow \to$ GH',
-             ha='center', fontsize=7.5, color='#228833')
+    # Combined intervention path
+    ax1.plot([320, 600], [400, 400], ls='--', lw=1.0, color='#228833', zorder=8)
+    ax1.plot(600, 400, marker='>', markersize=5, color='#228833', zorder=8)
 
-    # Direct regime labels
-    ax1.text(0.80, 0.12, 'GH', transform=ax1.transAxes,
-             fontsize=8, color='white', fontweight='bold', ha='center')
-    ax1.text(0.35, 0.50, 'BS', transform=ax1.transAxes,
-             fontsize=8, color='black', fontweight='bold', ha='center', alpha=0.7)
+    all_codes.update(np.unique(map_int).tolist())
 
-    # ── Shared legend ────────────────────────────────────────────────────────
-    legend_handles = [
-        Patch(facecolor=REGIME_COLORS[0], edgecolor='#555555', label='GH'),
-        Patch(facecolor=REGIME_COLORS[2], edgecolor='#555555', label='BS'),
-        Patch(facecolor=REGIME_COLORS[3], edgecolor='#555555', label='SC'),
-        Patch(facecolor=REGIME_COLORS[1], edgecolor='#555555', label='GC'),
-        Patch(facecolor=REGIME_COLORS[4], edgecolor='#555555', label='NS'),
-    ]
-    fig.legend(handles=legend_handles, loc='lower center',
-               ncol=5, framealpha=0.95,
-               bbox_to_anchor=(0.5, -0.06), fontsize=9)
+    # Discard sentinel
+    all_codes.discard(-1)
 
-    plt.tight_layout()
+    # Shared regime legend below panels
+    regime_legend(fig, present_codes=sorted(all_codes),
+                  loc='lower center', bbox_to_anchor=(0.5, 0.0),
+                  ncol=len(all_codes))
+
     plt.savefig(OUTPUT_PATH, bbox_inches='tight')
     print(f"Saved: {os.path.normpath(OUTPUT_PATH)}")
 

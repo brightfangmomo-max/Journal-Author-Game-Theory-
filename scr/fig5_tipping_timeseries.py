@@ -1,12 +1,12 @@
 """
 Figure 5: Tipping dynamics under rising AI adoption
 
-Panel (a) — Shrinking safety margin + shock asymmetry
+Panel (a) -- Shrinking safety margin + shock asymmetry
   The tipping threshold x*(a_t) rises silently toward the population.
   An identical shock applied early (large safety margin) vs late (small
   margin) produces opposite outcomes: recovery vs collapse.
 
-Panel (b) — Path dependence
+Panel (b) -- Path dependence
   At fixed a=0.45 (bistable regime), two trajectories starting just above /
   just below x*(0.45) diverge to opposite absorbing states.
 
@@ -19,29 +19,13 @@ Output: fig5_tipping_timeseries.pdf in doc/tex/
 import os
 import sys
 import numpy as np
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from data_io import save_data, load_data, DATA_DIR
+from fig_style import apply_style
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 0.  Publication rcParams
-# ─────────────────────────────────────────────────────────────────────────────
-
-mpl.rcParams.update({
-    'font.family':        'serif',
-    'text.usetex':        True,
-    'pdf.fonttype':       42,
-    'savefig.dpi':        300,
-    'axes.spines.top':    False,
-    'axes.spines.right':  False,
-    'axes.linewidth':     0.6,
-    'xtick.major.width':  0.6,
-    'ytick.major.width':  0.6,
-    'xtick.direction':    'out',
-    'ytick.direction':    'out',
-})
+apply_style()
 
 # Paul Tol Bright
 C_THRESHOLD = '#EE6677'   # tipping threshold (red)
@@ -212,18 +196,6 @@ def plot(data):
     ax1b.spines['right'].set_visible(True)
     ax1b.spines['right'].set_color(C_AI)
     ax1b.spines['right'].set_alpha(0.4)
-
-    # Safety margin annotation
-    ann_t = int(T_total_ * 0.55)
-    ann_y = thresh_at_t[ann_t]
-    if not np.isnan(ann_y):
-        ax1.annotate(
-            'Safety margin\nnarrows',
-            xy=(ann_t, ann_y),
-            xytext=(ann_t + 400, ann_y - 0.25),
-            fontsize=7.5, color=C_THRESHOLD, ha='left',
-            arrowprops=dict(arrowstyle='->', color=C_THRESHOLD, lw=0.9)
-        )
 
     ax1.set_xlabel('Time step', fontsize=10)
     ax1.set_ylabel(r'Honest-author share $x_t$', fontsize=10)

@@ -1,9 +1,9 @@
 """
-Figure 7: Regime map in (N, a) space — AI erodes the stability window
+Figure 7: Regime map in (N, a) space -- AI erodes the stability window
 
 Single-panel figure showing how the collapse threshold N_up(a) falls as AI
 adoption rises. The regime map in (N, a) space makes visible that the
-GH and BS regions shrink and vanish at a ≈ 0.5.
+GH and BS regions shrink and vanish at a ~ 0.5.
 
 Set A parameters: K_rev=300, K=400, r=100, c=25, lam0=0.1, eps=0.05
 AI parameters:    gamma=0.5, delta=0.1, phi=0.4, mu=0.2
@@ -14,36 +14,13 @@ Output: fig7_hysteresis_widening.pdf in doc/tex/
 import os
 import sys
 import numpy as np
-import matplotlib as mpl
 import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
-from matplotlib.patches import Patch
-from matplotlib.lines import Line2D
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from data_io import save_data, load_data, DATA_DIR
+from fig_style import apply_style, REGIME_CMAP, regime_legend
 
-# ─────────────────────────────────────────────────────────────────────────────
-# 0.  Publication rcParams
-# ─────────────────────────────────────────────────────────────────────────────
-
-mpl.rcParams.update({
-    'font.family':        'serif',
-    'text.usetex':        True,
-    'pdf.fonttype':       42,
-    'savefig.dpi':        300,
-    'axes.spines.top':    False,
-    'axes.spines.right':  False,
-    'axes.linewidth':     0.6,
-    'xtick.major.width':  0.6,
-    'ytick.major.width':  0.6,
-    'xtick.direction':    'out',
-    'ytick.direction':    'out',
-})
-
-# Paul Tol Bright
-REGIME_COLORS = ['#228833', '#EE6677', '#CCBB44', '#4477AA', '#BBBBBB']
-REGIME_CMAP   = ListedColormap(REGIME_COLORS)
+apply_style()
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1.  Model core
@@ -159,6 +136,11 @@ def plot(data):
               vmin=0, vmax=4,
               extent=[N_grid_.min(), N_grid_.max(), A_grid_.min(), A_grid_.max()])
 
+    # Contour lines at regime boundaries
+    ax.contour(N_grid_, A_grid_, phase_map.astype(float),
+               levels=[0.5, 1.5, 2.5, 3.5],
+               colors='#333333', linewidths=0.5, alpha=0.6)
+
     # Collapse boundary
     valid = ~np.isnan(N_up_curve)
     ax.plot(N_up_curve[valid], A_grid_[valid],
@@ -169,37 +151,17 @@ def plot(data):
     ax.plot(N_lo_curve[valid2], A_grid_[valid2],
             color='#004488', lw=1.5, ls='--', label=r'Lower BS boundary')
 
-    # Direct regime labels
-    ax.text(150,  0.05, 'GH', fontsize=9, color='white', fontweight='bold')
-    ax.text(950,  0.10, 'BS', fontsize=9, color='black', fontweight='bold', alpha=0.7)
-    ax.text(1900, 0.07, 'SC', fontsize=9, color='white', fontweight='bold')
-    ax.text(800,  0.78, 'GC', fontsize=9, color='white', fontweight='bold')
-
-    # Annotation: N_up(0)
-    a0_up = N_up_curve[0] if not np.isnan(N_up_curve[0]) else np.nan
-    if not np.isnan(a0_up):
-        ax.annotate(rf'$N_\uparrow(0)\approx{a0_up:.0f}$',
-                    xy=(a0_up, 0.0), xytext=(a0_up - 350, 0.14),
-                    fontsize=8, color='#CC3311',
-                    arrowprops=dict(arrowstyle='->', color='#CC3311', lw=0.9))
-
     ax.set_xlabel(r'Population size $N$', fontsize=10)
     ax.set_ylabel(r'AI adoption $a$', fontsize=10)
     ax.tick_params(labelsize=9)
 
     ax.legend(loc='upper right', framealpha=0.92, fontsize=8)
 
-    # Compact regime legend at bottom
-    legend_handles = [
-        Patch(facecolor=REGIME_COLORS[0], edgecolor='#555555', label='GH'),
-        Patch(facecolor=REGIME_COLORS[2], edgecolor='#555555', label='BS'),
-        Patch(facecolor=REGIME_COLORS[3], edgecolor='#555555', label='SC'),
-        Patch(facecolor=REGIME_COLORS[1], edgecolor='#555555', label='GC'),
-        Patch(facecolor=REGIME_COLORS[4], edgecolor='#555555', label='NS'),
-    ]
-    fig.legend(handles=legend_handles, loc='lower center',
-               ncol=5, framealpha=0.95,
-               bbox_to_anchor=(0.5, -0.04), fontsize=8)
+    # Regime legend below panel
+    present = sorted(set(np.unique(phase_map).tolist()))
+    regime_legend(fig, present_codes=present,
+                  loc='lower center', bbox_to_anchor=(0.5, -0.02),
+                  ncol=len(present))
 
     plt.tight_layout()
     plt.savefig(OUTPUT_PATH, bbox_inches='tight')
