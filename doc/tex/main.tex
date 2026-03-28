@@ -85,7 +85,7 @@ The adoption of AI tools, the decision to submit marginal work, and the erosion 
 \citet{ZhongEisenmannGarciaRahwan2026} show that when AI adoption spreads through a population, individually rational choices---letting AI substitute for human effort---can erode the collective capacity for exploration, and that group-level institutional structures are needed to counteract this drift.
 Evolutionary game theory captures precisely this tension between individual incentives and population-level outcomes \citep{Weibull1995, Hofbauer1998}, making it a natural framework for studying whether honest submission norms can survive the spread of AI-assisted flooding.
 
-We distinguish two bottlenecks in the publishing system and show that AI affects them asymmetrically.
+We distinguish two capacity constraints in the publishing system and show that AI affects them asymmetrically.
 The first is verification capacity: the number of papers that reviewers can evaluate carefully in a given period, denoted $K_{rev}$.
 The second is allocation capacity: the number of papers the journal can publish per period, denoted $K$.
 AI raises submission volume $V$ by reducing the marginal cost of drafting and resubmitting papers, lowering the effort cost $c$ of each submission.
@@ -99,7 +99,7 @@ A journal applies peer review, subject to both a review capacity $K_{rev}$ and a
 We introduce an AI adoption parameter $a \in [0,1]$.
 Higher $a$ raises submission volume $V$ by a factor $(1 + \gamma a)$, raises review capacity $K_{rev}$ more slowly by $(1 + \delta a)$ with $\delta < \gamma$, lowers submission cost $c$, and raises the probability $\lambda$ that weak papers pass review.
 By assumption, submission volume grows faster than review capacity---formalising the asymmetry observed empirically.
-The net effect of $a$ on the profitability of submitting a low-quality paper, $\Pi_{bad}(x, a) = r \cdot \bar{\rho}(x,a) \cdot \pi_0(x,a) - c(a)$, is positive: AI makes flooding more attractive.
+The net effect of $a$ on the profitability of submitting a low-quality paper, $\Pi_{bad}(x, a) = r \cdot \bar{\rho}(x,a) \cdot \pi_0(x,a) - c(a)$, is positive: AI makes indiscriminate submission more attractive.
 
 We find three results.
 First, extreme slot scarcity can stabilise honest submission norms even under degraded screening, because the publication lottery becomes too hard to win.
@@ -121,7 +121,7 @@ The model suggests that effective intervention must target two primary levers: r
 These are not incremental reforms; they constitute a different institutional design, one oriented towards verification rather than volume.
 
 The paper proceeds as follows.
-Sections~\ref{sec:model} and~\ref{sec:ai_extension} present the baseline model and its AI extension.
+Section~\ref{sec:model} presents the model, which incorporates AI adoption as a parameter from the outset.
 Section~\ref{sec:analysis} analyses how AI adoption shifts equilibria, erodes stability, and amplifies the slot expansion paradox.
 Section~\ref{sec:institutions} translates the analytical results into an institutional agenda.
 Section~\ref{sec:predictions} derives testable predictions, Section~\ref{sec:discussion} discusses limitations, and Section~\ref{sec:conclusion} concludes.
@@ -129,7 +129,7 @@ We provide agent-based simulations, welfare analysis, extended predictions, and 
 
 % Figure 1 (mechanism diagram) moved to Supplementary Material
 
-\section{Baseline Model}
+\section{The Model}
 \label{sec:model}
 
 \paragraph{Players and strategies.}
@@ -140,94 +140,11 @@ Under \textbf{selective submission} (OG), an author submits only when $q=1$.
 Under \textbf{universal submission} (AS), an author submits regardless of quality, hoping that imperfect screening allows bad papers through.
 We write $x \in [0,1]$ for the share of authors playing OG; the remaining $1-x$ play AS.
 
-\paragraph{Two bottlenecks.}
-The publication process has two distinct chokepoints, and each creates a different strategic force.
-The first is \textbf{review capacity} $K_{rev}$: the number of papers that can receive careful scrutiny per period.
-Submission volume is $V(x) = N[1-(1-\alpha)x]$, which rises as the AS share grows.
-When $V$ exceeds $K_{rev}$, reviewer time must be spread across more submissions: each paper receives less careful attention, and the effective depth of scrutiny per manuscript falls \citep{Bianchi2018, Kovanis2016}.
-We define the \textbf{screening intensity} as:
-\begin{equation}
-    \eta(x) = \min\!\left(1,\; \frac{K_{rev}}{V(x)}\right).
-    \label{eq:eta}
-\end{equation}
-The second bottleneck is \textbf{publication capacity} $K$: the number of slots the journal can fill per period.
-Papers that pass review form a peer-accepted pool $M(x)$; at most $K$ are published.
-The probability that a peer-accepted paper is ultimately published---the \textbf{rationing probability}---is:
-\begin{equation}
-    \bar{\rho}(x) = \min\!\left(1,\; \frac{K}{M(x)}\right).
-    \label{eq:rho}
-\end{equation}
-
-\paragraph{Screening errors and the spam payoff.}
-Peer review is an imperfect filter \citep{Bornmann2010, Cicchetti1991}.
-A good paper is falsely rejected with probability $\epsilon$; a bad paper wrongly passes with probability $\lambda$.
-Both error rates apply at full scrutiny.
-When $\eta < 1$, reviewer time per paper is diluted: each submission receives only a fraction $\eta$ of the careful attention the filter requires, so the effective pass rates rise above their full-scrutiny values \citep{Bianchi2018}:
-\begin{equation}
-    \pi_0(x) = 1 - \eta(x)(1-\lambda), \qquad \pi_1(x) = 1 - \eta(x)\,\epsilon.
-    \label{eq:pass_rates}
-\end{equation}
-As $\eta \to 0$, both rates converge to 1: the journal loses all discriminatory power because reviewers cannot give any paper the attention the filter requires.
-The peer-accepted pool is $M(x) = N\alpha\,\pi_1(x) + N(1-\alpha)(1-x)\,\pi_0(x)$.
-Because OG and AS authors submit good papers on identical terms, the strategic difference reduces to the net value of submitting a bad paper:
-\begin{equation}
-    \Pi_{bad}(x) = r \cdot \bar{\rho}(x) \cdot \pi_0(x) - c,
-    \label{eq:pibad}
-\end{equation}
-where $r$ is the publication reward and $c$ the submission cost.
-We work in the region $\lambda r < c < r(1-\epsilon)$: without congestion, submitting a bad paper is unprofitable, but the incentive reactivates once screening degrades---a dynamic analogous to adverse selection in Akerlof's market for lemons \citep{Akerlof1970}.
-
-\paragraph{Dynamics.}
-The two strategies differ only in how they treat bad papers.
-An OG author submits only when $q=1$ (probability $\alpha$), earning expected fitness $f_{OG} = \alpha[r\bar{\rho}\,\pi_1 - c]$.
-An AS author submits regardless, earning $f_{AS} = \alpha[r\bar{\rho}\,\pi_1 - c] + (1-\alpha)[r\bar{\rho}\,\pi_0 - c]$.
-The fitness advantage of AS over OG is therefore $f_{AS} - f_{OG} = (1-\alpha)\,\Pi_{bad}(x)$.
-Substituting into the standard two-strategy replicator equation $\dot{x} = x(1-x)[f_{OG}-f_{AS}]$ gives:
-\begin{equation}
-    \dot{x} = -x(1-x)(1-\alpha)\,\Pi_{bad}(x).
-    \label{eq:replicator}
-\end{equation}
-When $\Pi_{bad} > 0$, AS spreads and $x$ falls; when $\Pi_{bad} < 0$, OG spreads and $x$ rises.
-Two forces compete as the AS share grows.
-First, rising volume degrades screening ($\eta$ falls, $\pi_0$ rises), making it more attractive to submit bad papers.
-Second, rising volume floods the publication queue ($\bar{\rho}$ falls), making the publication lottery harder to win.
-While the screening-collapse force pushes the system towards full corruption, the rationing force can counteract it: when slot scarcity is extreme, the lottery deters flooding even after screening has failed---a mechanism we call \emph{defence by congestion}.
-
-\paragraph{Four long-run outcomes.}
-The signs of $\Pi_{bad}$ at the two boundary states determine the long-run outcome.
-When $\Pi_{bad}$ is negative at both boundaries, flooding is unprofitable everywhere and the system converges to \textbf{Global Honesty} (GH, $x = 1$).
-When $\Pi_{bad}$ is positive at both boundaries, flooding pays everywhere and the system collapses to \textbf{Global Corruption} (GC, $x = 0$).
-When $\Pi_{bad}(1) < 0$ but $\Pi_{bad}(0) > 0$, both extremes are stable and an unstable tipping threshold $x^*$ separates their basins of attraction: this is \textbf{Bistability} (BS), where history determines the outcome and recovery from corruption requires a large intervention.
-The reverse sign pattern ($\Pi_{bad}(1) > 0$, $\Pi_{bad}(0) < 0$) produces \textbf{Stable Coexistence} (SC) at an interior $x^*$, sustained by slot rationing.
-A key structural observation is that the two boundaries are controlled by different parameters: while the honest boundary ($x=1$) is secured by keeping $\lambda$ low, the corrupt boundary ($x=0$) is held by keeping $K$ tight.
-The two bottlenecks can therefore be targeted separately as policy instruments---a point we return to in Section~\ref{sec:analysis}.
-Figure~\ref{fig:replicator_dynamics} illustrates the bistable case.
-$\Pi_{bad}$ is positive near $x=0$ (corruption reinforces itself) and negative near $x=1$ (honesty reinforces itself), with an unstable tipping threshold at $x^* \approx 0.80$ separating the two regions.
-Which outcome prevails depends entirely on where the system starts relative to this threshold.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{polynomial_graph_1.pdf}
-    \caption{\textbf{Baseline phase portrait (bistability).}
-    The curve plots $\Pi_{bad}(x)$, the net payoff from submitting a bad paper, against the honest-author share $x$.
-    Parameters: $N=1000$, $K_{rev}=300$, $K=400$, $r=100$, $c=25$, $\lambda=0.1$.
-    Red shading: $\Pi_{bad}>0$, so AS spreads and $x$ falls.
-    Green shading: $\Pi_{bad}<0$, so AS shrinks and $x$ rises.
-    Two long-run outcomes coexist---full honesty ($x=1$) and full corruption ($x=0$)---separated by an unstable tipping threshold at $x^*\approx 0.80$ (orange marker).
-    Which outcome prevails depends entirely on the starting position relative to $x^*$.}
-    \label{fig:replicator_dynamics}
-\end{figure}
-
-
-\section{The AI Extension}
-\label{sec:ai_extension}
-
-\paragraph{AI adoption as a parameter shift.}
+\paragraph{AI adoption and the four channels.}
 Generative AI affects the publication system through multiple channels simultaneously.
-We capture this with a single scalar $a \in [0,1]$, where $a = 0$ denotes the pre-AI baseline and $a = 1$ denotes full adoption across the author population.
+We capture this with a single scalar $a \in [0,1]$, where $a = 0$ denotes the pre-AI system and $a = 1$ denotes full adoption across the author population.
 The parameter represents the field-level intensity of AI use---a composite of the fraction of authors employing AI tools and the depth of their integration into the writing and submission workflow.
-We hold $a$ fixed and trace how the equilibrium structure from Section~\ref{sec:model} changes as $a$ deepens.
-As established in the Introduction, AI acts through four distinct channels, and the channels are not symmetric (see the mechanism diagram in the Supplementary Material).
+AI acts through four distinct channels, and the channels are not symmetric (Figure~\ref{fig:ai_channels}).
 
 \paragraph{Channel 1---Production: more submissions at every composition.}
 The most direct effect of AI is to lower the marginal cost of drafting and preparing a manuscript, which raises total submission volume at any given composition of the author population.
@@ -242,7 +159,7 @@ System-level data confirm the scale of this shift: monthly arXiv submissions ros
 $V$ rises with $a$ regardless of $x$: AS authors, whose constraint was drafting effort rather than ideas, now prepare and submit weak manuscripts they would not previously have bothered producing; OG authors face a lower marginal cost of bringing a manuscript to submission-ready quality, converting preliminary work into formal submissions faster.
 The underlying quality probability $\alpha$ of any individual manuscript remains fixed; what changes is the number of submission-ready manuscripts each author produces per period.
 
-\paragraph{Channel 2---Friction: lower cost of submitting bad papers.}
+\paragraph{Channel 2---Friction: lower cost of submitting weak papers.}
 Beyond raising volume, AI directly lowers the cost of each submission attempt.
 We write:
 \begin{equation}
@@ -250,11 +167,11 @@ We write:
     \label{eq:c_a}
 \end{equation}
 where $c_0$ is the baseline cost and $\phi$ governs the rate at which AI erodes submission friction.
-The cost reduction enters $\Pi_{bad}$ directly: a lower $c$ raises the net payoff from submitting a bad paper even if acceptance probabilities are unchanged.
+The cost reduction enters $\Pi_{bad}$ directly: a lower $c$ raises the net payoff from submitting a weak paper even if acceptance probabilities are unchanged.
 The effect is also asymmetric across strategies, though the asymmetry is not per-paper: $c$ enters both $\Pi_{bad}$ and $\Pi_{good}$ symmetrically as a per-submission cost.
 The asymmetry arises from submission frequency.
 OG authors submit only when they have genuine work ready, so the total cost reduction they realise each period is small.
-AS authors submit everything---good papers and bad---so the same per-paper reduction compounds across a much larger submission stream, directly amplifying the flood incentive.
+AS authors submit everything---good papers and bad---so the same per-paper reduction compounds across a much larger submission stream, directly amplifying the incentive to submit indiscriminately.
 
 \paragraph{Channel 3---Vulnerability: weaker screening signal.}
 AI-generated text is harder to distinguish on surface features \citep{StokelWalker2023}, AI-assisted reviews award systematically higher scores \citep{Latona2024, Liang2024ICML}, and automated detection remains unreliable---false-negative rates exceed 70\% \citep{Liang2023detectors}.
@@ -348,7 +265,7 @@ Figure~\ref{fig:ai_channels} summarises the four channels and their functional f
 \draw[thick, decorate, decoration={brace, amplitude=7pt}]
     (14.4,  3.7) -- (14.4, -0.7)
     node[midway, right=10pt, font=\footnotesize, align=left] (bracetext)
-    {Three channels raise\\spam profitability $\Pi_{bad}$};
+    {Three channels raise\\$\Pi_{bad}$ profitability};
 \draw[thick, decorate, decoration={brace, amplitude=7pt}]
     (14.4, -0.7) -- (14.4, -3.9)
     node[midway, right=10pt, font=\footnotesize, text=gray!70, align=left]
@@ -374,8 +291,8 @@ Figure~\ref{fig:ai_channels} summarises the four channels and their functional f
 \end{tikzpicture}%
 }
 
-\caption{\textbf{AI adoption shifts four model parameters (Figure~3).}
-Solid arrows indicate channels that directly raise spam profitability $\Pi_{bad}$:
+\caption{\textbf{AI adoption shifts four model parameters simultaneously.}
+Solid arrows indicate channels that directly raise the profitability of indiscriminate submission $\Pi_{bad}$:
 rising submission volume ($V$, elasticity $\gamma$), falling submission cost ($c$, slope $\phi$),
 and rising false-positive rate ($\lambda$, slope $\mu$).
 The dashed arrow indicates the only offsetting channel---review capacity ($K_{rev}$, elasticity $\delta$)---which
@@ -385,21 +302,78 @@ described in the Introduction.}
 \label{fig:ai_channels}
 \end{figure}
 
-\paragraph{Putting the channels together: flooding becomes more profitable.}
-Substituting the four channels into the baseline model yields the AI-extended spam payoff:
+\paragraph{Two capacity constraints.}
+The publication process has two distinct constraints, and each creates a different strategic force.
+The first is \textbf{verification capacity} $K_{rev}(a)$: the number of papers that can receive careful scrutiny per period.
+When submission volume $V(x,a)$ exceeds $K_{rev}(a)$, reviewer time must be spread across more submissions: each paper receives less careful attention, and the effective depth of scrutiny per manuscript falls \citep{Bianchi2018, Kovanis2016}.
+We define the \textbf{screening intensity} as:
 \begin{equation}
-    \Pi_{bad}(x, a) \;=\; r\cdot\bar{\rho}(x,a)\cdot\pi_0(x,a) \;-\; c(a),
-    \label{eq:pibad_a}
+    \eta(x,a) = \min\!\left(1,\; \frac{K_{rev}(a)}{V(x,a)}\right).
+    \label{eq:eta}
 \end{equation}
-where $\eta(x,a) = \min\!\left(1, K_{rev}(a)/V(x,a)\right)$, $\;\pi_0(x,a) = 1 - \eta(x,a)(1-\lambda(a))$, $\bar{\rho}(x,a) = \min\!\left(1, K/M(x,a)\right)$, and
+The second constraint is \textbf{allocation capacity} $K$: the number of slots the journal can fill per period.
+Papers that pass review form a peer-accepted pool $M(x,a)$; at most $K$ are published.
+The probability that a peer-accepted paper is ultimately published---the \textbf{rationing probability}---is:
+\begin{equation}
+    \bar{\rho}(x,a) = \min\!\left(1,\; \frac{K}{M(x,a)}\right).
+    \label{eq:rho}
+\end{equation}
+
+\paragraph{Screening errors and the payoff from indiscriminate submission.}
+Peer review is an imperfect filter \citep{Bornmann2010, Cicchetti1991}.
+A good paper is falsely rejected with probability $\epsilon$; a bad paper wrongly passes with probability $\lambda(a)$.
+Both error rates apply at full scrutiny.
+When $\eta < 1$, reviewer time per paper is diluted: each submission receives only a fraction $\eta$ of the careful attention the filter requires, so the effective pass rates rise above their full-scrutiny values \citep{Bianchi2018}:
+\begin{equation}
+    \pi_0(x,a) = 1 - \eta(x,a)(1-\lambda(a)), \qquad \pi_1(x,a) = 1 - \eta(x,a)\,\epsilon.
+    \label{eq:pass_rates}
+\end{equation}
+As $\eta \to 0$, both rates converge to 1: the journal loses all discriminatory power because reviewers cannot give any paper the attention the filter requires.
+The peer-accepted pool is:
 \begin{equation}
   M(x,a) \;=\; (1+\gamma a)\bigl[N\alpha\,\pi_1(x,a) + N(1-\alpha)(1-x)\,\pi_0(x,a)\bigr].
   \label{eq:M_ai}
 \end{equation}
-The factor $(1+\gamma a)$ reflects that AI inflates the total pool of papers reaching the publication queue in proportion to the same volume multiplier that governs $V(x,a)$: higher submission rates translate into a larger peer-accepted pool for any given pass rates $\pi_0$, $\pi_1$.
+The factor $(1+\gamma a)$ reflects that AI inflates the total pool of papers reaching the publication queue in proportion to the volume multiplier that governs $V(x,a)$: higher submission rates translate into a larger peer-accepted pool for any given pass rates $\pi_0$, $\pi_1$.
+Because OG and AS authors submit good papers on identical terms, the strategic difference reduces to the net value of submitting a weak paper:
+\begin{equation}
+    \Pi_{bad}(x,a) = r \cdot \bar{\rho}(x,a) \cdot \pi_0(x,a) - c(a),
+    \label{eq:pibad}
+\end{equation}
+where $r$ is the publication reward and $c(a) = c_0(1 - \phi a)$ the submission cost (Channel~2).
+We work in the region $\lambda(a) r < c(a) < r(1-\epsilon)$: without congestion, submitting a weak paper is unprofitable, but the incentive reactivates once screening degrades---a dynamic analogous to adverse selection in Akerlof's market for lemons \citep{Akerlof1970}.
+
+\paragraph{Dynamics.}
+The two strategies differ only in how they treat bad papers.
+An OG author submits only when $q=1$ (probability $\alpha$), earning expected fitness $f_{OG} = \alpha[r\bar{\rho}\,\pi_1 - c(a)]$.
+An AS author submits regardless, earning $f_{AS} = \alpha[r\bar{\rho}\,\pi_1 - c(a)] + (1-\alpha)[r\bar{\rho}\,\pi_0 - c(a)]$.
+The fitness advantage of AS over OG is therefore $f_{AS} - f_{OG} = (1-\alpha)\,\Pi_{bad}(x,a)$.
+Substituting into the standard two-strategy replicator equation $\dot{x} = x(1-x)[f_{OG}-f_{AS}]$ gives:
+\begin{equation}
+    \dot{x} = -x(1-x)(1-\alpha)\,\Pi_{bad}(x,a).
+    \label{eq:replicator}
+\end{equation}
+When $\Pi_{bad} > 0$, AS spreads and $x$ falls; when $\Pi_{bad} < 0$, OG spreads and $x$ rises.
+Two forces compete as the AS share grows.
+First, rising volume degrades screening ($\eta$ falls, $\pi_0$ rises), making it more attractive to submit weak papers.
+Second, rising volume saturates the publication queue ($\bar{\rho}$ falls), making the publication lottery harder to win.
+While the screening-collapse force pushes the system towards universal submission, the rationing force can counteract it: when slot scarcity is extreme, the lottery deters indiscriminate submission even after screening has failed---a mechanism we call \emph{defence by congestion}.
+
+\paragraph{Four long-run outcomes.}
+The signs of $\Pi_{bad}$ at the two boundary states determine the long-run outcome.
+When $\Pi_{bad}$ is negative at both boundaries, indiscriminate submission is unprofitable everywhere and the system converges to \textbf{Global Honesty} (GH, $x = 1$).
+When $\Pi_{bad}$ is positive at both boundaries, indiscriminate submission pays everywhere and the system collapses to \textbf{Global Corruption} (GC, $x = 0$).
+When $\Pi_{bad}(1) < 0$ but $\Pi_{bad}(0) > 0$, both extremes are stable and an unstable tipping threshold $x^*$ separates their basins of attraction: this is \textbf{Bistability} (BS), where history determines the outcome and recovery from corruption requires a large intervention.
+The reverse sign pattern ($\Pi_{bad}(1) > 0$, $\Pi_{bad}(0) < 0$) produces \textbf{Stable Coexistence} (SC) at an interior $x^*$, sustained by slot rationing.
+A key structural observation is that the two boundaries are controlled by different parameters: while the honest boundary ($x=1$) is secured by keeping $\lambda$ low, the corrupt boundary ($x=0$) is held by keeping $K$ tight.
+The two capacity constraints can therefore be targeted separately as policy instruments---a point we return to in Section~\ref{sec:analysis}.
+Figure~S2 in the Supplementary Material illustrates the bistable case at $a = 0$: $\Pi_{bad}$ is positive near $x=0$ (corruption reinforces itself) and negative near $x=1$ (honesty reinforces itself), with an unstable tipping threshold at $x^* \approx 0.80$ separating the two basins of attraction.
+
+\paragraph{The combined effect: indiscriminate submission becomes more profitable.}
+The four channels act jointly on the net payoff from submitting a weak paper.
 This introduces a countervailing stabilising force.
-A larger $M$ tightens slot rationing ($\bar{\rho} = K/M$ falls), reducing each spammer's probability of publication.
-The very flood of submissions that degrades screening also clogs the publication queue: $V\uparrow\;\Rightarrow\;M\uparrow\;\Rightarrow\;\bar{\rho}\downarrow\;\Rightarrow\;\Pi_{bad}\downarrow$.
+A larger $M$ tightens slot rationing ($\bar{\rho} = K/M$ falls), reducing each indiscriminate submitter's probability of publication.
+The very surge of submissions that degrades screening also clogs the publication queue: $V\uparrow\;\Rightarrow\;M\uparrow\;\Rightarrow\;\bar{\rho}\downarrow\;\Rightarrow\;\Pi_{bad}\downarrow$.
 This congestion effect compresses the \emph{revenue} term $r\bar{\rho}\pi_0$ rather than raising the submission cost $c(a)$, which falls with $a$.
 Whether the destabilising channels ($\pi_0\uparrow$, $c\downarrow$) or the stabilising channel ($\bar{\rho}\downarrow$) dominates depends on the relative magnitudes of $K$ and $M$: when $K\gg M$, rationing is slack and the destabilising forces prevail; when $K\approx M$, the congestion defence is active.
 To isolate the core mechanism, consider the honest boundary $x = 1$, where only good papers are submitted and slot rationing is typically absent ($\bar{\rho}(1,a) \approx 1$ when publication slots exceed honest-author output):
@@ -442,7 +416,7 @@ While the combination $\delta \approx \gamma$ and $\mu \approx 0$ keeps the syst
 The critical implication is that the institutional response determines which scenario the system occupies: while $a$ is largely exogenous, $\delta$ and $\mu$ are policy choices.
 
 \paragraph{Testable predictions.}
-The AI extension generates four empirically distinguishable predictions.
+The model generates four empirically distinguishable predictions.
 First, quality degradation should be \emph{nonlinear} in AI adoption: the system holds near the honest equilibrium while $a$ remains below the tipping threshold, then shifts abruptly rather than gradually.
 Smooth, continuous quality decline would be inconsistent with the bistable structure.
 Second, fields with higher AI adoption should show review-congestion signatures---longer turnaround times, rising desk-rejection rates, declining reviewer acceptance rates---as proxies for falling $\eta$ \citep{Meyerson2025}.
@@ -456,11 +430,11 @@ We examine the regime consequences of each lever in Section~\ref{sec:analysis}.
 
 \subsection{Equilibrium Conditions and the AI Shift}
 
-Whether the publishing system sustains honest norms or collapses into widespread flooding depends on the signs of $\Pi_{bad}$ at two boundary states.
+Whether the publishing system sustains honest norms or collapses into widespread indiscriminate submission depends on the signs of $\Pi_{bad}$ at two boundary states.
 At the \emph{honest boundary} ($x = 1$), almost all authors are selective; the question is whether a single deviating author can profitably flood the system.
 At the \emph{corrupt boundary} ($x = 0$), almost all authors submit everything; the question is whether the system can self-correct.
 These two boundaries are governed by different parameters.
-As we established in Section~\ref{sec:model}, the honest boundary is secured by keeping $\lambda$ low, while the corrupt boundary is held by keeping $K$ tight enough that the publication lottery deters flooding even under degraded screening.
+As we established in Section~\ref{sec:model}, the honest boundary is secured by keeping $\lambda$ low, while the corrupt boundary is held by keeping $K$ tight enough that the publication lottery deters indiscriminate submission even under degraded screening.
 
 We define publication quality as the share of genuinely good papers among those accepted:
 \begin{equation}
@@ -468,17 +442,17 @@ We define publication quality as the share of genuinely good papers among those 
     \label{eq:quality}
 \end{equation}
 Since slot rationing applies uniformly to the peer-accepted pool $M(x)$, it does not alter the ratio of good to bad papers; quality is therefore determined entirely by the composition $x$ at the long-run outcome.
-The four possible long-run outcomes---GH, GC, BS, SC---are defined by the signs of $\Pi_{bad}$ at the two boundary states, as described in the Baseline Model section.
+The four possible long-run outcomes---GH, GC, BS, SC---are defined by the signs of $\Pi_{bad}$ at the two boundary states, as described in Section~\ref{sec:model}.
 
 Under AI adoption $a > 0$, four simultaneous shifts push $\Pi_{bad}(x, a)$ upward at every interior $x$.
 Rising submission volume (sensitivity $\gamma$) and lagging review capacity (sensitivity $\delta < \gamma$) lower the screening intensity $\eta(x, a)$, raising the bad-paper pass rate $\pi_0(x, a)$.
 Falling submission cost $c(a)$ directly raises the net payoff from each submission attempt.
 Rising $\lambda(a)$ further degrades the review filter even for papers that receive full scrutiny.
-The combined derivative (Equation~\ref{eq:pibad_slope}) is strictly positive under the asymmetry $\gamma > \delta$: AI makes flooding more attractive at every composition of the author population.
+The combined derivative (Equation~\ref{eq:pibad_slope}) is strictly positive under the asymmetry $\gamma > \delta$: AI makes indiscriminate submission more attractive at every composition of the author population.
 We now trace the structural consequences of this shift for regime boundaries, stability windows, and recovery conditions.
 
 We use two representative parameter sets throughout (full calibration in Appendix~G of the Supplementary Material).
-Set~A ($K_{rev}=300$, $K=400$, $r=100$, $c=25$, $\lambda=0.1$) represents a typical journal prone to bistability, where the review bottleneck is the binding constraint.
+Set~A ($K_{rev}=300$, $K=400$, $r=100$, $c=25$, $\lambda=0.1$) represents a typical journal prone to bistability, where the verification constraint is binding.
 Set~B ($K_{rev}=1200$, $K=180$, $r=150$, $c=30$, $\lambda=0.4$) represents a top-tier journal where extreme slot scarcity is the defining constraint.
 AI sensitivity parameters are fixed at $\gamma=0.5$, $\delta=0.1$, $\phi=0.4$, $\mu=0.2$ throughout.
 
@@ -508,15 +482,15 @@ Restoring the same screening intensity would require raising $K_{rev}$ to approx
 
 \paragraph{The slot expansion paradox is amplified by AI.}
 Expanding publication slots ($K$) seems like an obvious response to submission pressure, but we show that this response backfires when verification does not scale proportionally.
-Increasing $K$ raises the rationing probability $\bar{\rho}(x, a)$, which raises the expected payoff from submitting a bad paper.
+Increasing $K$ raises the rationing probability $\bar{\rho}(x, a)$, which raises the expected payoff from submitting a weak paper.
 AI amplifies this effect: when $c(a)$ is already low and $\lambda(a)$ already elevated, even a modest improvement in the publication lottery is enough to push $\Pi_{bad}(1, a)$ from negative to positive, tipping the system from GH into Bistability.
 More slots increase the prize in a game whose entry barrier has already been eroded by AI.
 This is visible in Figure~\ref{fig:ai_phase_diagram}: moving upward (increasing $K$) in the right panel is more dangerous than the same move in the left panel.
-The slot expansion paradox identified in the baseline model is not merely preserved under AI adoption---it is exacerbated.
+AI adoption amplifies the slot expansion paradox.
 
 \paragraph{Defence by congestion and its limits.}
 Extreme slot scarcity can stabilise an otherwise fragile system.
-When $K$ is small relative to the peer-accepted pool $M$, the rationing probability $\bar{\rho}$ is so low that the expected payoff from submitting a bad paper falls below the submission cost even under degraded screening---the journal's publication lottery is simply too hard to win.
+When $K$ is small relative to the peer-accepted pool $M$, the rationing probability $\bar{\rho}$ is so low that the expected payoff from submitting a weak paper falls below the submission cost even under degraded screening---the journal's publication lottery is simply too hard to win.
 This defence operates through the condition $\bar{\rho}(0, a) \cdot \pi_0(0, a) < c(a)/r$, and all three terms move against it as $a$ rises.
 Rising $\pi_0(0, a)$ from degraded screening and rising $\lambda$ increase the left side; falling $c(a)$ reduces the right side.
 The net effect is that a journal relying on slot scarcity needs progressively tighter $K$ to maintain the same deterrent as $a$ increases.
@@ -532,7 +506,7 @@ Figure~\ref{fig:equilibrium_vs_a} traces the long-run honest-author share $x^*(a
     \includegraphics[width=\textwidth]{fig5_equilibrium_vs_a.pdf}
     \caption{\textbf{Long-run honest-author share $x^*(a)$ as AI adoption rises (Fig.~5).}
     Left: Set~A (bistability-prone, $N=1000$). The system is already in BS at $a=0$: the corrupt equilibrium is self-sustaining ($\Pi_{bad}(0,0)\approx+12.4>0$) while the honest equilibrium is stable ($\Pi_{bad}(1,0)=-15<0$), giving a tipping threshold $x^*_{tip}(0)\approx0.80$ (orange dashed). As $a$ rises, $x^*_{tip}$ climbs monotonically towards $x=1$ until the honest equilibrium collapses at $a\approx0.50$ (BS$\to$GC, vertical dashed line). The full GH$\to$BS$\to$GC transition under lower submission pressure ($N=300$) is illustrated in Figure~\ref{fig:hysteresis_loop} (a).
-    Centre: Set~B (coexistence-prone). The interior stable long-run outcome $x^*$ falls as $a$ rises, tracking the declining profitability of honest submission relative to spamming.
+    Centre: Set~B (coexistence-prone). The interior stable long-run outcome $x^*$ falls as $a$ rises, tracking the declining profitability of honest submission relative to universal submission.
     Right: Intermediate parameters. Shows the full GH$\to$BS$\to$GC transition as $a$ increases.
     Vertical dashed lines mark regime transitions; shaded backgrounds indicate the active regime.}
     \label{fig:equilibrium_vs_a}
@@ -548,7 +522,7 @@ A single coordinated wave of low-quality submissions can push the population bel
 The full GH$\to$BS$\to$GC sequence, in which a community starts from Global Honesty before any AI adoption, is illustrated for $N=300$ in Figure~\ref{fig:hysteresis_loop} (a).
 
 The right panel (Intermediate parameters) illustrates the full transition from GH through BS to GC as $a$ increases.
-In the GC zone, the long-run outcome is $x^* = 0$: spamming dominates from every starting point.
+In the GC zone, the long-run outcome is $x^* = 0$: universal submission dominates from every starting point.
 The path from GH to GC passes through a BS corridor, during which the long-run outcome is history-dependent and recovery is still possible.
 The width of this corridor---the range of $a$ values during which recovery remains feasible---depends on how quickly $\lambda(a)$ rises and how much $c(a)$ falls.
 
@@ -712,10 +686,10 @@ The current publishing architecture conflates two distinct functions: disseminat
 When certification degrades under submission pressure, both functions fail together.
 Separating the two---via preprint servers combined with overlay journals or community platforms such as Peer Community In \citep{Ginsparg2011}---allows dissemination to remain immediate while certification proceeds at the pace required for genuine scrutiny.
 The slot-expansion paradox established in Section~\ref{sec:analysis} applies specifically to certified publication slots $K_{cert}$, not to preprint availability.
-Decoupling therefore prevents the paradox from emerging: adding preprint capacity does not raise $\Pi_{bad}$, because preprint posting is not the payoff-generating event in the spam incentive.
+Decoupling therefore prevents the paradox from emerging: adding preprint capacity does not raise $\Pi_{bad}$, because preprint posting is not the payoff-generating event in the indiscriminate-submission incentive.
 
 \textbf{Principle 5: Reshape evaluation rewards ($r$ reduced for marginal output).}
-The spam payoff scales linearly with $r$: $\Pi_{bad} = r \cdot \bar{\rho} \cdot \pi_0 - c$.
+The payoff from indiscriminate submission scales linearly with $r$: $\Pi_{bad} = r \cdot \bar{\rho} \cdot \pi_0 - c$.
 Current career and grant structures treat paper counts as a primary productivity metric \citep{Smaldino2016, casadevall2014reforming}, in effect maximising the reward for any accepted paper regardless of quality.
 Impact-weighted or reproducibility-indexed assessment would reduce the effective $r$ for marginal submissions while preserving incentives for high-quality work \citep{Stephan2012}.
 The GH condition at $x=1$ requires $\lambda(a) < c(a)/r$; reducing $r$ directly widens this margin, enlarging the parameter region in which the honest long-run outcome is self-sustaining.
@@ -759,7 +733,7 @@ Waiting for a quality crisis before acting is the worst strategy: recovering fro
 
 
 The welfare analysis (Appendix~D of the Supplementary Material) formalises the normative case for these interventions.
-Spam submissions impose two unpriced externalities: a \emph{congestion externality} that degrades review quality for all authors by tightening $\eta = K_{rev}/V$, and a \emph{certification externality} that dilutes the precision of the certified pool, reducing its value for all downstream readers \citep{Akerlof1970, Ostrom1990}.
+Indiscriminate submissions impose two unpriced externalities: a \emph{congestion externality} that degrades review quality for all authors by tightening $\eta = K_{rev}/V$, and a \emph{certification externality} that dilutes the precision of the certified pool, reducing its value for all downstream readers \citep{Akerlof1970, Ostrom1990}.
 Reducing $\lambda$ is a Pareto improvement: it raises certification precision and honest-author surplus without imposing costs on authors who already meet the new standard (Corollary~W4 in the Supplementary Material).
 Raising $K_{rev}$ is welfare-improving when the congestion constraint binds, with costs borne by funders rather than authors (Corollary~W2).
 Expanding $K$ without reducing $\lambda$ is the unique lever that unconditionally reduces welfare, because it raises $\Pi_{bad}$ and degrades the certification signal with no offsetting benefit (Corollary~W4).

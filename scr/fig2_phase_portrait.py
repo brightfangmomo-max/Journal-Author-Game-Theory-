@@ -1,12 +1,12 @@
 """
-Figure 2: Baseline phase portrait (bistability)
+Figure S2: Phase portrait (bistability) under pre-AI parameters (a = 0)
 
-Plots the spam payoff Π_bad(x) against the honest-author share x under
+Plots the weak-paper payoff Π_bad(x) against the honest-author share x under
 Set-A parameters (the bistability-prone calibration).  The curve crosses
 zero at an interior tipping threshold x* ≈ 0.82.
 
-  Red shading  : Π_bad(x) > 0 → AS strategy spreads, x falls toward 0.
-  Green shading: Π_bad(x) < 0 → OG strategy spreads, x rises toward 1.
+  Blue shading : Π_bad(x) < 0  →  OG strategy spreads, x rises toward 1.
+  Red shading  : Π_bad(x) > 0  →  AS strategy spreads, x falls toward 0.
 
 Both x = 0 (full corruption) and x = 1 (full honesty) are absorbing states.
 Which one prevails depends on whether the initial share of honest authors
@@ -18,12 +18,31 @@ Output: polynomial_graph_1.pdf  →  doc/tex/
 import os
 import sys
 import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from data_io import save_data, load_data, DATA_DIR
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 0.  Publication rcParams
+# ─────────────────────────────────────────────────────────────────────────────
+
+mpl.rcParams.update({
+    'font.family':        'serif',
+    'text.usetex':        True,
+    'pdf.fonttype':       42,          # TrueType embedding
+    'savefig.dpi':        300,
+    'axes.spines.top':    False,
+    'axes.spines.right':  False,
+    'axes.linewidth':     0.6,
+    'xtick.major.width':  0.6,
+    'ytick.major.width':  0.6,
+    'xtick.direction':    'out',
+    'ytick.direction':    'out',
+})
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1.  Model core
@@ -34,9 +53,9 @@ def soft_min(a, b, k=15):
     return -np.log(np.exp(-k * a) + np.exp(-k * b)) / k
 
 
-def spam_payoff(x, p):
+def weak_paper_payoff(x, p):
     """
-    Spam payoff  Π_bad(x) = r · ρ̄(x) · π₀(x) − c.
+    Weak-paper payoff  Π_bad(x) = r · ρ̄(x) · π₀(x) − c.
 
     Parameters
     ----------
@@ -83,7 +102,7 @@ DATA_PATH   = os.path.join(DATA_DIR, 'fig2_data.json')
 
 def compute_data():
     x_grid  = np.linspace(0.001, 0.999, 600)
-    y_curve = spam_payoff(x_grid, PARAMS)
+    y_curve = weak_paper_payoff(x_grid, PARAMS)
 
     # Locate the interior zero crossing (tipping threshold x*)
     x_star = None
@@ -106,91 +125,92 @@ def plot(data):
     y_curve = data['y_curve']
     x_star  = data['x_star']
 
-    # Colour palette — consistent with the phase-diagram figures (fig4–fig10)
-    C_GREEN = '#98FB98'   # Π_bad < 0  →  honesty region   (matches GH colour)
-    C_RED   = '#FFB6C1'   # Π_bad > 0  →  corruption region (matches GC colour)
+    # Paul Tol Bright palette
+    C_BLUE  = '#4477AA'   # Π_bad < 0  →  honesty region
+    C_RED   = '#EE6677'   # Π_bad > 0  →  corruption region
     C_CURVE = '#1a1a2e'   # main curve
 
-    fig, ax = plt.subplots(figsize=(7.5, 4.8))
+    fig, ax = plt.subplots(figsize=(6.5, 4.0))
 
-    # ── Shaded regions ────────────────────────────────────────────────────────────
+    # ── Shaded regions ──────────────────────────────────────────────────────
     ax.fill_between(x_grid, -1e6, 1e6,
-                    where=(y_curve < 0), color=C_GREEN, alpha=0.55,
+                    where=(y_curve < 0), color=C_BLUE, alpha=0.25,
                     interpolate=True, zorder=0)
     ax.fill_between(x_grid, -1e6, 1e6,
-                    where=(y_curve > 0), color=C_RED, alpha=0.55,
+                    where=(y_curve > 0), color=C_RED, alpha=0.25,
                     interpolate=True, zorder=0)
 
-    # ── Π_bad(x) curve ───────────────────────────────────────────────────────────
-    ax.plot(x_grid, y_curve, color=C_CURVE, lw=2.2, zorder=3)
+    # ── Direct region labels ────────────────────────────────────────────────
+    ax.text(0.92, 0.75, r'OG spreads',
+            transform=ax.transAxes, fontsize=9, color=C_BLUE,
+            ha='center', fontstyle='italic')
+    ax.text(0.15, 0.25, r'AS spreads',
+            transform=ax.transAxes, fontsize=9, color=C_RED,
+            ha='center', fontstyle='italic')
 
-    # ── Zero line ────────────────────────────────────────────────────────────────
-    ax.axhline(0, color='#444444', lw=0.9, linestyle='--', zorder=2)
+    # ── Π_bad(x) curve ─────────────────────────────────────────────────────
+    ax.plot(x_grid, y_curve, color=C_CURVE, lw=2.0, zorder=3)
 
-    # ── Stable fixed-point markers at x = 0 and x = 1 ───────────────────────────
-    MSIZE = 10
+    # ── Zero line ───────────────────────────────────────────────────────────
+    ax.axhline(0, color='#444444', lw=0.8, linestyle='--', zorder=2)
+
+    # ── Stable fixed-point markers at x = 0 and x = 1 ─────────────────────
+    MSIZE = 9
     ax.scatter([0, 1], [0, 0],
                s=MSIZE**2, color='black', zorder=6, clip_on=False)
 
-    # ── Tipping-threshold marker (orange, consistent with paper caption) ──────────
+    # ── Tipping-threshold marker ────────────────────────────────────────────
     if x_star is not None:
         y_abs_max = float(np.max(np.abs(y_curve)))
         ax.scatter([x_star], [0],
-                   s=(MSIZE + 2)**2, color='#FF8C00',
+                   s=(MSIZE + 2)**2, color='#EE7733',
                    edgecolors='black', linewidths=0.8, zorder=7)
         ax.annotate(
             rf'$x^* \approx {x_star:.2f}$',
             xy=(x_star, 0),
             xytext=(x_star - 0.18, y_abs_max * 0.38),
-            fontsize=10.5,
+            fontsize=10,
             arrowprops=dict(arrowstyle='->', color='#333333', lw=1.0),
             color='#333333',
         )
 
-    # ── Axis limits and labels ────────────────────────────────────────────────────
+    # ── Axis limits and labels ──────────────────────────────────────────────
     y_abs_max = float(np.max(np.abs(y_curve)))
     ax.set_xlim(0, 1)
     ax.set_ylim(-y_abs_max * 1.4, y_abs_max * 1.4)
-    ax.set_xlabel(r'Honest-author share  $x$', fontsize=12)
-    ax.set_ylabel(r'Spam payoff  $\Pi_{\mathrm{bad}}(x)$', fontsize=12)
+    ax.set_xlabel(r'Honest-author share $x$', fontsize=11)
+    ax.set_ylabel(r'Weak-paper payoff $\Pi_{\mathrm{bad}}(x)$', fontsize=11)
     ax.tick_params(labelsize=10)
-    ax.grid(True, alpha=0.25, linestyle='--', linewidth=0.7)
 
-    # ── Parameter annotation box — style matches fig4–fig10 ──────────────────────
+    # ── Parameter annotation box ────────────────────────────────────────────
     param_str = (
         r'$N=1000,\;\alpha=0.2$' '\n'
         r'$K_{rev}=300,\;K=400$' '\n'
         r'$r=100,\;c=25,\;\lambda=0.10,\;\varepsilon=0.05$'
     )
     ax.text(0.03, 0.97, param_str,
-            transform=ax.transAxes, fontsize=9.5,
+            transform=ax.transAxes, fontsize=9,
             verticalalignment='top',
             bbox=dict(boxstyle='round,pad=0.4', facecolor='white',
                       edgecolor='#aaaaaa', alpha=0.90))
 
-    # ── Legend ────────────────────────────────────────────────────────────────────
+    # ── Minimal legend ──────────────────────────────────────────────────────
     legend_handles = [
-        Patch(facecolor=C_RED,   alpha=0.7,
-              label=r'$\Pi_{\mathrm{bad}}>0$: AS spreads, $x$ falls'),
-        Patch(facecolor=C_GREEN, alpha=0.7,
-              label=r'$\Pi_{\mathrm{bad}}<0$: OG spreads, $x$ rises'),
-        Line2D([0], [0], color=C_CURVE, lw=2.2,
-               label=r'$\Pi_{\mathrm{bad}}(x)$'),
         Line2D([0], [0], marker='o', color='w', lw=0,
-               markerfacecolor='black', markersize=9,
-               label='Absorbing state ($x=0$ or $x=1$)'),
+               markerfacecolor='black', markersize=8,
+               label='Absorbing state'),
         Line2D([0], [0], marker='o', color='w', lw=0,
-               markerfacecolor='#FF8C00', markeredgecolor='black', markersize=9,
+               markerfacecolor='#EE7733', markeredgecolor='black', markersize=8,
                label=r'Tipping threshold $x^*$'),
     ]
     ax.legend(handles=legend_handles, loc='lower right',
               fontsize=9, framealpha=0.92, edgecolor='#cccccc')
 
-    # ─────────────────────────────────────────────────────────────────────────────
+    # ─────────────────────────────────────────────────────────────────────────
     # 5.  Save
-    # ─────────────────────────────────────────────────────────────────────────────
+    # ─────────────────────────────────────────────────────────────────────────
     plt.tight_layout()
-    plt.savefig(OUTPUT_PATH, dpi=150, bbox_inches='tight')
+    plt.savefig(OUTPUT_PATH, bbox_inches='tight')
     print(f"Saved: {OUTPUT_PATH}")
 
 
