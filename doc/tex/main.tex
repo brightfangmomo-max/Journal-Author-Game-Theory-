@@ -144,7 +144,7 @@ We write $x \in [0,1]$ for the share of authors playing OG; the remaining $1-x$ 
 Generative AI affects the publication system through multiple channels simultaneously.
 We capture this with a single scalar $a \in [0,1]$, where $a = 0$ denotes the pre-AI system and $a = 1$ denotes full adoption across the author population.
 The parameter represents the field-level intensity of AI use---a composite of the fraction of authors employing AI tools and the depth of their integration into the writing and submission workflow.
-AI acts through four distinct channels, and the channels are not symmetric (Figure~\ref{fig:ai_channels}).
+AI acts through four distinct channels, and the channels are not symmetric (Figure~S3 in the Supplementary Material).
 
 \paragraph{Channel 1---Production: more submissions at every composition.}
 The most direct effect of AI is to lower the marginal cost of drafting and preparing a manuscript, which raises total submission volume at any given composition of the author population.
@@ -201,106 +201,7 @@ These constraints enforce what we call the \textbf{AI asymmetry assumption}:
 \end{equation}
 This is not an axiom but a testable empirical statement about relative scaling rates: submission volume grows faster with AI adoption than review capacity does.
 
-Figure~\ref{fig:ai_channels} summarises the four channels and their functional forms.
-
-\begin{figure}[H]
-\centering
-\resizebox{\textwidth}{!}{%
-\begin{tikzpicture}[
-    >=stealth,
-    font=\normalsize,
-    aibox/.style={
-        rectangle, rounded corners=5pt,
-        draw=violet!70, fill=violet!12,
-        minimum width=2.8cm, minimum height=1.6cm,
-        align=center, text=violet!80!black
-    },
-    destab/.style={
-        rectangle, rounded corners=4pt,
-        draw=orange!60!black, fill=orange!6,
-        minimum width=8.2cm, minimum height=1.05cm,
-        align=left, inner sep=7pt
-    },
-    lagging/.style={
-        rectangle, rounded corners=4pt,
-        draw=gray!55, fill=gray!7,
-        minimum width=8.2cm, minimum height=1.05cm,
-        align=left, inner sep=7pt, text=gray!65!black
-    },
-    sarrow/.style={thick, ->, black!70},
-    warrow/.style={thick, ->, dashed, gray!55}
-]
-
-%% AI node
-\node (ai) [aibox] at (0,0) {\textbf{AI adoption}\\[3pt]{$a \in [0,1]$}};
-
-%% Channel nodes (right column)
-\node (V)    [destab]  at (8.8,  3.2)
-    {\textbf{Submission volume}\quad
-     $V(x,a) = N[1-(1-\alpha)x]\cdot(1+\gamma a)$\hspace{0.5em}{\color{red!70!black}$\uparrow$}};
-\node (c)    [destab]  at (8.8,  1.0)
-    {\textbf{Submission cost}\quad
-     $c(a) = c_0(1 - \phi\, a)$\hspace{0.5em}{\color{red!70!black}$\downarrow$}};
-\node (lam)  [destab]  at (8.8, -1.2)
-    {\textbf{False-positive rate}\quad
-     $\lambda(a) = \lambda_0 + \mu\, a$\hspace{0.5em}{\color{red!70!black}$\uparrow$}};
-\node (krev) [lagging] at (8.8, -3.4)
-    {\textbf{Review capacity}\quad
-     $K_{\mathit{rev}}(a) = K_{\mathit{rev}}(0)\cdot(1+\delta\, a)$,\quad $\delta < \gamma$
-     \hspace{0.5em}{\color{teal!70!black}$\uparrow$ slowly}};
-
-%% Vertical bus line
-\def\busX{2.6}
-\draw[sarrow, -] (ai.east) -- (\busX, 0);
-\draw[sarrow, -] (\busX,  3.2) -- (\busX, -1.2);
-\draw[warrow, -] (\busX, -1.2) -- (\busX, -3.4);
-
-%% Horizontal prongs to channels
-\draw[sarrow] (\busX, 3.2)  -- node[above, font=\footnotesize]{elasticity $\gamma$}  (V.west);
-\draw[sarrow] (\busX, 1.0)  -- node[above, font=\footnotesize]{slope $\phi$}         (c.west);
-\draw[sarrow] (\busX, -1.2) -- node[below, font=\footnotesize]{slope $\mu$}          (lam.west);
-\draw[warrow] (\busX, -3.4) -- node[below, font=\footnotesize, text=gray, pos=0.3]{elasticity $\delta < \gamma$} (krev.west);
-
-%% Asymmetry brace annotation
-\draw[thick, decorate, decoration={brace, amplitude=7pt}]
-    (14.4,  3.7) -- (14.4, -0.7)
-    node[midway, right=10pt, font=\footnotesize, align=left] (bracetext)
-    {Three channels raise\\$\Pi_{bad}$ profitability};
-\draw[thick, decorate, decoration={brace, amplitude=7pt}]
-    (14.4, -0.7) -- (14.4, -3.9)
-    node[midway, right=10pt, font=\footnotesize, text=gray!70, align=left]
-    {Partial offset\\$(\delta < \gamma)$};
-
-
-\draw[sarrow] (3.5, -5.2) -- (4.3, -5.2) node[right, text=black!60, font=\normalsize] {Destabilising channel};
-\draw[warrow] (9.0, -5.2) -- (9.8, -5.2) node[right, text=black!60, font=\normalsize] {Lagging / partial offset};
-
-
-\node [
-    rectangle, rounded corners=5pt,
-    draw=red!60!black, fill=red!6,
-    minimum width=3.4cm, minimum height=1.6cm,
-    align=center, font=\normalsize, text=red!70!black
-] (outcome) at (20, 1.5)
-    {$\Pi_{bad}(x,a)\;\uparrow$\\[3pt]
-     {\footnotesize $\Rightarrow$ tipping / hysteresis risk}};
-
-
-\draw[thick, ->, red!60!black] (bracetext.east) ++(0.1,0) -- (outcome.west);
-
-\end{tikzpicture}%
-}
-
-\caption{\textbf{AI adoption shifts four model parameters simultaneously.}
-Solid arrows indicate channels that directly raise the profitability of indiscriminate submission $\Pi_{bad}$:
-rising submission volume ($V$, elasticity $\gamma$), falling submission cost ($c$, slope $\phi$),
-and rising false-positive rate ($\lambda$, slope $\mu$).
-The dashed arrow indicates the only offsetting channel---review capacity ($K_{rev}$, elasticity $\delta$)---which
-grows more slowly than submission volume under the asymmetry assumption $\gamma > \delta$.
-All four channel equations are formal specifications of the informal channels
-described in the Introduction.}
-\label{fig:ai_channels}
-\end{figure}
+Figure~S3 in the Supplementary Material summarises the four channels and their functional forms in a single diagram.
 
 \paragraph{Two capacity constraints.}
 The publication process has two distinct constraints, and each creates a different strategic force.
