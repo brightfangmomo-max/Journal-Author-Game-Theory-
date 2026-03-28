@@ -48,138 +48,34 @@ Flooding the filter: a game-theoretic model of AI, submission pressure, and qual
 
 \maketitle
 
-\begin{figure}[H]
-\centering
-\resizebox{\textwidth}{!}{%
-\begin{tikzpicture}[
-    >=stealth,
-    font=\normalsize,
-    ai/.style={
-        rectangle, rounded corners=5pt,
-        draw=violet!70, fill=violet!12,
-        minimum width=3.2cm, minimum height=1.3cm,
-        align=center, text=violet!80!black
-    },
-    channel/.style={
-        rectangle, rounded corners=5pt,
-        draw=orange!70!red!60, fill=orange!8,
-        minimum width=3.8cm, minimum height=1.2cm,
-        align=center
-    },
-    lag/.style={
-        rectangle, rounded corners=5pt,
-        draw=gray!60, fill=gray!10,
-        minimum width=3.8cm, minimum height=1.2cm,
-        align=center, text=gray!70!black
-    },
-    pibad/.style={
-        rectangle, rounded corners=5pt,
-        draw=orange!80!black, fill=yellow!15,
-        minimum width=4.0cm, minimum height=1.6cm,
-        align=center
-    },
-    outcome/.style={
-        rectangle, rounded corners=5pt,
-        draw=red!70, fill=red!8,
-        minimum width=3.0cm, minimum height=1.2cm,
-        align=center
-    },
-    policy/.style={
-        rectangle, rounded corners=5pt,
-        draw=teal!70, fill=teal!8,
-        minimum width=12.0cm, minimum height=1.4cm,
-        align=center, text=teal!80!black
-    },
-    strong/.style={thick, ->, black!70},
-    weak/.style={thick, ->, dashed, gray!60},
-    plcy/.style={thick, ->, dashed, teal!70}
-]
-
-\node (ai) [ai] at (0,0)
-    {\textbf{AI adoption}\\[3pt]{\small $a \in [0,1]$}};
-
-\node (vup)   [channel] at (5.5, 2.4)
-    {\textbf{Submission volume} $V \uparrow$\\[2pt]{\small (sensitivity $\gamma$)}};
-\node (cdown) [channel] at (5.5, 0.8)
-    {\textbf{Submission cost} $c \downarrow$\\[2pt]{\small (AI lowers drafting effort)}};
-\node (lup)   [channel] at (5.5,-0.8)
-    {\textbf{False-positive rate} $\lambda \uparrow$\\[2pt]{\small (polished-but-wrong text)}};
-\node (krev)  [lag]     at (5.5,-2.4)
-    {\textbf{Review capacity} $K_{rev} \uparrow$\\[2pt]{\small (sensitivity $\delta < \gamma$)}};
-
-\node (pibad) [pibad] at (11.5, 0)
-    {\textbf{Spam payoff} $\Pi_{bad}(x,a) \uparrow$\\[3pt]
-     {\small $\Pi_{bad} = r\bar{\rho}\,\pi_0 - c > 0$}\\[1pt]
-     {\small cheating becomes viable}};
-
-\node (tip)  [outcome] at (16.5, 1.3)
-    {\textbf{Tipping point}\\[2pt]{\small honesty collapses}};
-\node (hyst) [outcome] at (16.5,-1.3)
-    {\textbf{Hysteresis}\\[2pt]{\small recovery is harder}};
-
-\node (policy) [policy] at (8.5,-4.8)
-    {\textbf{Policy response:}\quad
-     raise $K_{rev}$ (verification resources)\quad$\cdot$\quad
-     lower $\lambda$ (audits, structured checks)\quad$\cdot$\quad
-     restore friction to $c$ (submission tokens)};
-
-\def\busA{2.6}
-\def\busB{8.5}
-\def\busC{14.4}
-
-\draw[weak, -] (ai.east) -- (\busA, 0);
-\draw[strong, -] (\busA, 2.4) -- (\busA, -0.8);
-\draw[weak, -]   (\busA, -0.8) -- (\busA, -2.4);
-\draw[strong] (\busA, 2.4) -- (vup.west);
-\draw[strong] (\busA, 0.8) -- (cdown.west);
-\draw[strong] (\busA, -0.8) -- (lup.west);
-\draw[weak]   (\busA, -2.4) -- (krev.west);
-
-\draw[strong] (vup.east) -| (pibad.north);
-\draw[weak]   (krev.east) -| node[pos=0.75, right, font=\small, text=gray] {partial offset} ([xshift=-10pt]pibad.south);
-\draw[strong, -] (cdown.east) -| (\busB, 0);
-\draw[strong, -] (lup.east)   -| (\busB, 0);
-\draw[strong] (\busB, 0) -- (pibad.west);
-
-\draw[strong, line width=1.2pt, -] (pibad.east) -- (\busC, 0);
-\draw[strong, line width=1.2pt] (\busC, 0) |- (tip.west);
-\draw[strong, line width=1.2pt] (\busC, 0) |- (hyst.west);
-
-\draw[plcy] (policy.north) -| ([xshift=10pt]pibad.south);
-
-\node (legend) [font=\small, text=black!65] at (8.5, -6.2)
-    {\raisebox{1pt}{\rule{0.6cm}{0.8pt}}$\!\!\rightarrow$\;Strong AI channel
-     \quad
-     \raisebox{1pt}{\makebox[0.6cm]{\dotfill}}$\!\!\rightarrow$\;Lagging\,/\,partial offset\;($\delta<\gamma$)
-     \quad
-     \textcolor{teal!70!black}{\raisebox{1pt}{\makebox[0.6cm]{\dotfill}}$\!\!\rightarrow$}\;\textcolor{teal!70!black}{Policy lever}};
-
-\end{tikzpicture}%
-}
-\caption{\textbf{Mechanism diagram: AI as an asymmetric shock to the publication system.}
-AI adoption ($a$) raises submission volume ($V$, sensitivity $\gamma$) and lowers
-drafting cost ($c$), while polished AI text increases the false-positive rate ($\lambda$).
-Review capacity ($K_{rev}$) rises more slowly (sensitivity $\delta < \gamma$), so the
-partial offset from AI-assisted reviewing is insufficient to prevent congestion.
-Together, these shifts raise the profitability of submitting low-quality work
-($\Pi_{bad} = r\bar{\rho}\,\pi_0 - c$), pushing the system towards a tipping point
-and widening the gap between the collapse and recovery thresholds (hysteresis).
-Effective policy must raise $K_{rev}$, reduce $\lambda$, and restore friction to $c$
-(dashed teal arrow).}
-\label{fig:mechanism}
-\end{figure}
+% Note: The mechanism diagram (formerly Figure S1) has been removed from the supplement;
+% the mechanism is now conveyed in prose in the main text (Section 2.1).
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{polynomial_graph_1.pdf}
     \caption{\textbf{Phase portrait under pre-AI parameters ($a = 0$, bistability).}
     The curve plots $\Pi_{bad}(x, 0)$, the net payoff from submitting a weak paper, against the honest-author share $x$.
-    Parameters: $N=1000$, $K_{rev}=300$, $K=400$, $r=100$, $c=25$, $\lambda=0.1$, $a=0$.
-    Red shading: $\Pi_{bad}>0$, so AS spreads and $x$ falls.
-    Blue shading: $\Pi_{bad}<0$, so OG spreads and $x$ rises.
-    Two long-run outcomes coexist---full honesty ($x=1$) and full corruption ($x=0$)---separated by an unstable tipping threshold at $x^*\approx 0.80$ (orange marker).
-    Setting $a > 0$ shifts the curve upward, narrowing the basin of attraction around honesty.}
+    Red shading: $\Pi_{bad}>0$, so the universal-submission strategy spreads and $x$ falls.
+    Blue shading: $\Pi_{bad}<0$, so the selective strategy spreads and $x$ rises.
+    Two long-run outcomes coexist---full honesty ($x=1$) and full corruption ($x=0$)---separated by an unstable collapse threshold at $x^*\approx 0.80$ (orange marker).
+    Setting $a > 0$ shifts the curve upward, narrowing the basin of attraction around honesty.
+    (Parameters: $N=1000$, $K_{rev}=300$, $K=400$, $r=100$, $c=25$, $\lambda=0.1$.)}
     \label{fig:replicator_dynamics}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{fig4_equilibrium_vs_a.pdf}
+    \caption{\textbf{Long-run honest-author share $x^*(a)$ as AI adoption rises under two contrasting parameter sets.}
+    \textbf{(a)}~Set~A (bistability-prone, $N=1000$).
+    The system is already in bistability at $a=0$: the corrupt equilibrium is self-sustaining while the honest equilibrium is stable, giving a collapse threshold $x^*_{tip}(0)\approx0.80$ (orange dashed).
+    As $a$ rises, this threshold climbs monotonically towards $x=1$ until the honest equilibrium collapses at $a\approx0.50$ (vertical dotted line).
+    \textbf{(b)}~Set~B (coexistence-prone).
+    The interior stable equilibrium $x^*$ falls as $a$ rises, tracking the declining profitability of selective submission relative to universal submission.
+    Shaded backgrounds indicate the active regime.
+    (AI parameters: $\gamma=0.5$, $\delta=0.1$, $\phi=0.4$, $\mu=0.2$.)}
+    \label{fig:equilibrium_vs_a}
 \end{figure}
 
 \begin{figure}[H]
@@ -449,7 +345,7 @@ which holds when $\gamma$ is moderate relative to the screening signal $1-\lambd
 
 \medskip
 \noindent\textit{Numerical confirmation.}
-For both calibrations in the main text (Table~2), condition~\eqref{eq:caseIII_suff} is satisfied and direct evaluation confirms $A - B + C > 0$ throughout $(x,a)\in(0,1)\times[0,1]$, so $\partial\Pi_{\mathit{bad}}/\partial a>0$ in Case~III.
+For both calibrations in the main text (Table~\ref{tab:calibration}), condition~\eqref{eq:caseIII_suff} is satisfied and direct evaluation confirms $A - B + C > 0$ throughout $(x,a)\in(0,1)\times[0,1]$, so $\partial\Pi_{\mathit{bad}}/\partial a>0$ in Case~III.
 
 \noindent\textbf{Step 2: Implication for the GH region.}
 The GH regime requires $\Pi_{\mathit{bad}}(1,a) < 0$ (a single deviating author cannot profitably spam).
@@ -632,7 +528,7 @@ An agent-based model (ABM) allows us to test whether our three main results---gr
 We simulate a population of $N = 1000$ authors.
 Each author plays one of two strategies: selective submission (OG) or universal submission (AS); intermediate submission strategies are excluded by the evolutionary instability result in the main text.
 The journal's review capacity and quality parameters evolve with the field-level AI adoption level $a_t$, which rises exogenously along a linear ramp from $a = 0$ to $a = 0.8$ over the simulation horizon---a stylised representation of the diffusion trajectory documented empirically \citep{arXiv2024, Liang2025}.
-At each step, the effective parameters $K_{rev}(a_t)$, $\lambda(a_t)$, and $c(a_t)$ are updated according to the functional forms in the AI Extension section of the main text.
+At each step, the effective parameters $K_{rev}(a_t)$, $\lambda(a_t)$, and $c(a_t)$ are updated according to the functional forms in the Materials and Methods section of the main text.
 Strategy revision follows the pairwise Fermi comparison process \citep{Szabo1998, Traulsen2009}: a randomly chosen agent $i$ compares its payoff $\Pi_i$ with that of a randomly drawn peer $j$ and switches with probability
 \begin{equation}
     P(s_i \to s_j) = \frac{1}{1 + \exp\!\bigl(-\beta\,[\Pi_j - \Pi_i]\bigr)},
@@ -642,7 +538,7 @@ This rule captures bounded rationality: better-performing strategies spread, but
 
 \subsection{Results: Tipping as AI Adoption Rises}
 
-Figure~5 in the main text reports the core dynamic result.
+Figure~3 in the main text reports the core dynamic result.
 Panel~(a) traces the tipping threshold $x^*(a_t)$---the unstable boundary in the bistability zone---as $a_t$ rises.
 The threshold climbs monotonically from $x^* \approx 0.80$ at baseline toward $x = 1$ as $a$ approaches the analytical limit $a^* \approx 0.50$ derived above.
 The system appears healthy throughout: observed honest-author shares remain at $x \approx 1$.
@@ -657,7 +553,7 @@ Panel~(b) confirms path dependence at $a = 0.45$ (bistable regime).
 Two trajectories separated by only $\Delta x_0 = 0.08$ diverge to opposite absorbing states: the run starting just above $x^*(0.45) \approx 0.92$ converges to full honesty within a few hundred steps, while the run starting just below collapses immediately.
 No endogenous force can reverse this collapse; the population is trapped in the low-quality long-run outcome \citep{Schelling1978, Scheffer2001}.
 
-% Figure promoted to main text as Figure 5.
+% Figure promoted to main text as Figure 3.
 
 
 \section{Robustness and Stochastic Validation}
@@ -820,7 +716,7 @@ The ex-ante social cost of failing to prevent tipping therefore includes both th
 This welfare-dynamic argument provides the theoretical foundation for the urgency of early intervention: the expected social benefit of preventing a tipping event is strictly larger than the expected benefit of correcting one after it occurs, because the correction requires additional resources and inflicts additional welfare losses during the recovery transition.
 
 \paragraph{Normative policy recommendations.}
-The welfare analysis converts the five institutional principles of the Institutional Responses section of the main text into a normative hierarchy ordered by welfare efficiency.
+The welfare analysis converts the five institutional principles discussed in the main text into a normative hierarchy ordered by welfare efficiency.
 Four Corollaries follow from combining the welfare function~\eqref{eq:welfare} with Propositions 1--4.
 
 \medskip
