@@ -102,6 +102,8 @@ We close these gaps by connecting all four channels of AI influence---rising vol
 
 We model a population of $N$ authors submitting to a single journal over repeated periods.
 Each manuscript has binary quality: good with probability $\alpha$, and bad with probability $1-\alpha$.
+Here $\alpha$ reflects the rate at which a researcher's programme generates genuine findings worth reporting---a property of the research opportunity landscape, not of the writing process.
+We hold $\alpha$ fixed throughout; the implications of this choice are discussed in Section~\ref{sec:discussion}.
 Authors choose between two strategies: \emph{selective submission}, in which an author submits only genuine work, and \emph{universal submission}, in which an author submits regardless of quality, hoping that imperfect screening allows weak papers through.
 We write $x \in [0,1]$ for the share of authors playing the selective strategy.
 We restrict attention to these two pure strategies; agent-based simulations with a continuous strategy space confirm that intermediate submission rates are unstable and the population converges to one of the two extremes (SI Appendix, section~B).
@@ -362,11 +364,18 @@ A direct test would compare the institutional effort required to restore quality
 Extended predictions, data sources, and falsification conditions are developed in Appendix~E of the Supplementary Material.
 
 \paragraph{Model boundaries.}
-The model makes two structural choices that bound its applicability.
-First, we reduce the strategy space to two options; real authors calibrate effort continuously, and intermediate strategies can coexist in finite communities.
+The model makes three structural choices that bound its applicability.
+First, we hold $\alpha$---the probability that a researcher's project yields a genuine finding---fixed as AI adoption rises.
+AI could plausibly shift $\alpha$ in either direction.
+On the optimistic side, better data-analysis tools, automated literature search, and code debugging may help researchers with marginal ideas turn them into genuine contributions, raising the effective $\alpha$.
+On the pessimistic side, lower entry barriers may draw submissions from individuals without active research programmes, reducing the average $\alpha$ in the submission pool.
+We treat $\alpha$ as fixed, representing the neutral case between these two forces.
+Crucially, the collapse threshold $a^* = (c_0 - r\lambda_0)/(r\mu + c_0\phi)$ does not involve $\alpha$: the level of AI adoption at which honest norms become unsustainable is determined entirely by the cost, reward, and screening parameters, not by the underlying quality of research opportunities.
+Rising $\alpha$ would improve the composition of the accepted pool at every population state, partially offsetting the welfare damage after collapse, but it cannot prevent the collapse itself.
+Second, we reduce the strategy space to two options; real authors calibrate effort continuously, and intermediate strategies can coexist in finite communities.
 We justify the binary reduction with agent-based simulations in which authors choose a continuous submission rate: the population converges to one of the two extremes (SI Appendix, section~B).
 In practice, a continuum of effort levels would smooth the collapse threshold into a region rather than a sharp boundary, making early warning signals harder to detect but not eliminating them.
-Second, we model a single journal with fixed capacity.
+Third, we model a single journal with fixed capacity.
 In reality, rejected papers cascade down a prestige hierarchy:~\citet{Siler2015} find that roughly 62\% of papers rejected at high-impact journals were eventually published elsewhere.
 A multi-journal extension would predict that collapse first occurs at lower-tier venues---which typically have smaller review capacity and weaker screening---and then propagates upward.
 Our single-journal results are therefore conservative: the threshold at which quality degrades across the system is likely lower than the threshold for any single venue.
