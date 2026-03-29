@@ -11,6 +11,8 @@
 \usepackage{booktabs}
 \usepackage[round]{natbib}
 \usepackage{enumitem}
+\usepackage{xcolor}  % For student review notes
+\usepackage{lineno}  % TEMPORARY: line numbers for review
 
 \author{Yuhui Fang \and Toby Handfield \and Julian Garcia}
 
@@ -18,7 +20,7 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.8em}
 
-\title{Flooding the filter: a game-theoretic model of AI, submission pressure, and quality collapse}
+\title{More papers, worse science? Why AI-driven publishing needs peer review reform}
 \date{\today}
 
 \makeatletter
@@ -36,6 +38,7 @@
 \makeatother
 
 \begin{document}
+\linenumbers  % TEMPORARY: line numbers for review
 
 \maketitle
 
@@ -55,40 +58,41 @@ We find that this payoff rises monotonically with AI adoption, so that a system 
 Once collapsed, recovery is asymmetric: the level of AI adoption at which quality recovers is strictly lower than the level at which it collapses, trapping the system in a degraded state.
 Expanding publication capacity without scaling verification accelerates the collapse---more slots raise the prize in a game whose entry barrier has already been eroded.
 Agent-based simulations confirm these dynamics under finite-population noise and heterogeneous adoption.
+The model predicts that quality degradation should be abrupt rather than gradual: observable metrics remain stable while the distance to collapse shrinks silently, giving no reliable early warning.
 Our analysis suggests that effective institutional reform must target verification directly---strengthening screening quality, expanding review capacity, and restoring submission friction---rather than simply adding publication slots.
 \end{abstract}
 
 \section{Introduction}
 
 Generative AI is reshaping the production of scientific knowledge at a pace that outstrips the capacity of existing institutions to absorb it.
-By September 2024, more than one-fifth of computer-science preprints on arXiv showed measurable evidence of large-language-model modification \citep{Liang2025}, and at least 13.5\% of all biomedical abstracts published that year contained AI-assisted text \citep{Kobak2025}.
-Monthly submissions to arXiv reached a record 24{,}226 in October 2024, roughly 50\% higher than in late 2022 \citep{arXiv2024}.
-While production has surged, verification has not kept pace: the rate at which researchers accept reviewer invitations has declined steadily over two decades \citep{Meyerson2025}, and between 6.5\% and 16.9\% of conference peer reviews now contain substantial AI-generated text \citep{Liang2024ICML}.
+By September 2024, more than one-fifth of computer-science preprints on arXiv showed measurable evidence of large-language-model modification~\citep{Liang2025}, and at least 13.5\% of all biomedical abstracts published that year contained AI-assisted text~\citep{Kobak2025}.
+Monthly submissions to arXiv reached a record 24{,}226 in October 2024, roughly 50\% higher than in late 2022~\citep{arXiv2024}.
+While production has surged, verification has not kept pace: the rate at which researchers accept reviewer invitations has declined steadily over two decades~\citep{Meyerson2025}, and between 6.5\% and 16.9\% of conference peer reviews now contain substantial AI-generated text~\citep{Liang2024ICML}.
 
 This asymmetry between production and verification is not unique to publishing.
-Historically, technologies that accelerate the creation of knowledge have outpaced the institutions designed to evaluate it, and sustained progress has depended on building institutional bridges between production and verification \citep{Mokyr2002, Walker2026}.
-AI intensifies this pattern: it automates precisely the tasks that are cheapest to verify---drafting, formatting, stylistic polish---while leaving the expensive tasks---checking data, replicating analyses, evaluating genuine novelty---largely untouched \citep{Walker2026, Checco2021}.
-At the population level, AI-adopting scientists publish substantially more but follow narrower research trajectories, with distinct topics contracting and follow-on engagement between researchers declining \citep{HaoXuLiEvans2026}.
+Historically, technologies that accelerate the creation of knowledge have outpaced the institutions designed to evaluate it, and sustained progress has depended on building institutional bridges between production and verification~\citep{Mokyr2002, Walker2026}.
+AI intensifies this pattern: it dramatically lowers the cost of producing a manuscript---drafting, formatting, literature synthesis---but not the cost of verifying one---checking data integrity, replicating analyses, evaluating genuine novelty~\citep{Walker2026, Checco2021}.
+The asymmetry is not uniform across stages of research: AI impact is highest where human verification intensity is lowest, and vice versa (Table~S6 in the Supplementary Material).
+At the population level, AI-adopting scientists publish substantially more but follow narrower research trajectories, with distinct topics contracting and follow-on engagement between researchers declining~\citep{HaoXuLiEvans2026}.
 The question is not whether individual researchers behave ethically, but whether the \emph{system} as a whole can absorb an asymmetric shock to production and verification.
 
 While the conventional response to AI in science focuses on disclosure requirements, detection tools, and editorial guidelines, these measures address individual conduct and leave untouched a structural problem: even if every author is honest, reviewers can scrutinise only a finite number of manuscripts carefully per cycle.
-Peer review is a shared resource under increasing strain: the global system already consumed over 100 million hours of researcher time each year before AI entered the picture \citep{Kovanis2016, Aczel2021}, and screening quality declines even when reviewers act in good faith, simply because competing demands leave too little time per paper \citep{Bianchi2018}.
-When submission volume rises faster than review capacity, screening degrades---not because of misconduct, but because of congestion \citep{gross2019contest}.
+Peer review is a shared resource under increasing strain: the global system already consumed over 100 million hours of researcher time each year before AI entered the picture~\citep{Kovanis2016, Aczel2021}, and screening quality declines even when reviewers act in good faith, simply because competing demands leave too little time per paper~\citep{Bianchi2018}.
+When submission volume rises faster than review capacity, screening degrades---not because of misconduct, but because of congestion~\citep{Bianchi2018}.
 We focus on this feedback between volume and screening quality as the central mechanism.
 
 The consequences of this feedback are not merely individual but collective.
-When the review filter is imprecise, submitting everything regardless of quality can become individually rational \citep{Thurner2011}, and prestige-maximising incentives can reward strategic over honest behaviour \citep{Zollman2024}.
-The honest-submission norm is fragile: it collapses when the cost of mimicking quality falls even slightly \citep{Tiokhin2021}---precisely the shift that AI-assisted writing produces.
-``Publish or perish'' incentives already act as a selection force that spreads high-volume, low-quality strategies through academic communities \citep{Smaldino2016, Ioannidis2005}.
-Because the outcome depends not on any single author's choice but on how submission strategies spread through a population of researchers responding to shared incentives, we frame the problem using evolutionary dynamics \citep{Weibull1995, Hofbauer1998}.
+When the review filter is imprecise, submitting everything regardless of quality can become individually rational~\citep{Thurner2011}, and prestige-maximising incentives can reward strategic over honest behaviour~\citep{Zollman2024}.
+The honest-submission norm is fragile: it collapses when the cost of mimicking quality falls even slightly~\citep{Tiokhin2021}---precisely the shift that AI-assisted writing produces.
+``Publish or perish'' incentives already act as a selection force that spreads high-volume, low-quality strategies through academic communities~\citep{Smaldino2016, Ioannidis2005}.
+Because the outcome depends not on any single author's choice but on how submission strategies spread through a population of researchers responding to shared incentives, we frame the problem using evolutionary dynamics~\citep{Weibull1995, Hofbauer1998}.
 \citet{ZhongEisenmannGarciaRahwan2026} show that when AI adoption spreads through a population, individually rational choices can erode the collective capacity for exploration, and that group-level institutional structures are needed to counteract this drift.
 
 While existing literatures each address part of this problem, none unifies them.
-Models of strategic submission do not treat AI as a structural shock that shifts multiple inputs at once \citep{Thurner2011, Zollman2024, Tiokhin2021}.
-The empirical AI-in-science literature documents faster production, slower review growth, and higher false-positive risk, but does not connect these to a model with clear predictions about the long-run state of the system \citep{NoyZhang2023, Liang2025, Latona2024}.
-The institutional design literature asks how gatekeeping should work \citep{Ellison2002, MullerItten2022, Cotton2013} but does not ask how its proposals must change when drafting cost approaches zero and the screening signal degrades continuously with adoption.
+Models of strategic submission do not treat AI as a structural shock that shifts multiple inputs at once~\citep{Thurner2011, Zollman2024, Tiokhin2021}.
+The empirical AI-in-science literature documents faster production, slower review growth, and higher false-positive risk, but does not connect these to a model with clear predictions about the long-run state of the system~\citep{NoyZhang2023, Liang2025, Latona2024}.
+The institutional design literature asks how gatekeeping should work~\citep{Ellison2002, MullerItten2022, Cotton2013} but does not ask how its proposals must change when drafting cost approaches zero and the screening signal degrades continuously with adoption.
 We close these gaps by connecting all four channels of AI influence---rising volume, falling cost, degraded screening, and lagging review capacity---to the long-run state of the publishing system, characterising conditions under which quality collapses suddenly and is hard to restore, and deriving which institutional levers can prevent or reverse that shift.
-
 
 \section{Results}
 \label{sec:results}
@@ -100,13 +104,13 @@ We model a population of $N$ authors submitting to a single journal over repeate
 Each manuscript has binary quality: good with probability $\alpha$, and bad with probability $1-\alpha$.
 Authors choose between two strategies: \emph{selective submission}, in which an author submits only genuine work, and \emph{universal submission}, in which an author submits regardless of quality, hoping that imperfect screening allows weak papers through.
 We write $x \in [0,1]$ for the share of authors playing the selective strategy.
-Under replicator dynamics, intermediate submission strategies are evolutionarily unstable in the mean-field limit, reducing the effective strategy space to these two options \citep{Weibull1995, Hofbauer1998}.
+We restrict attention to these two pure strategies; agent-based simulations with a continuous strategy space confirm that intermediate submission rates are unstable and the population converges to one of the two extremes (SI Appendix, section~B).
 
 Generative AI affects the publication system through four channels simultaneously, captured by a single adoption parameter $a \in [0,1]$ representing the field-level intensity of AI use.
-First, AI raises total submission volume by lowering the marginal cost of drafting and preparing a manuscript; randomised experiments find that large-language-model access cuts professional writing time by roughly 40\% \citep{NoyZhang2023, StokelWalker2023}.
+First, AI raises total submission volume by lowering the marginal cost of drafting and preparing a manuscript; randomised experiments find that large-language-model access cuts professional writing time by roughly 40\%~\citep{NoyZhang2023, StokelWalker2023}.
 Second, AI directly lowers the cost of each submission attempt, asymmetrically benefiting authors who submit indiscriminately because the same per-paper reduction compounds across a larger submission stream.
-Third, AI-generated text is harder to distinguish from genuine contributions on surface features \citep{StokelWalker2023}, AI-assisted reviews award systematically higher scores \citep{Latona2024, Liang2024ICML}, and automated detection remains unreliable \citep{Liang2023detectors}---each mechanism raises the probability $\lambda$ that a bad paper passes review.
-Fourth, AI can assist reviewers by summarising papers and flagging inconsistencies, raising review capacity---but deep verification remains human-intensive and policy-restricted \citep{Naddaf2025}, so this channel grows more slowly than the others.
+Third, AI-generated text is harder to distinguish from genuine contributions on surface features~\citep{StokelWalker2023}, AI-assisted reviews award systematically higher scores~\citep{Latona2024, Liang2024ICML}, and automated detection remains unreliable~\citep{Liang2023detectors}---each mechanism raises the false-positive rate $\lambda$.
+Fourth, AI can assist reviewers by summarising papers and flagging inconsistencies, raising review capacity---but deep verification remains human-intensive and policy-restricted~\citep{Naddaf2025}, so this channel grows more slowly than the others.
 The structural asymmetry is captured by the condition:
 \begin{equation}
     \label{eq:asymmetry}
@@ -114,11 +118,11 @@ The structural asymmetry is captured by the condition:
 \end{equation}
 where $\gamma$ governs how strongly AI raises submission volume and $\delta$ governs how strongly it raises review capacity.
 This is not an axiom but a testable empirical statement: submission volume grows faster with AI adoption than review capacity does.
-The functional forms for each channel are given in the Materials and Methods; Figure~S3 in the Supplementary Material summarises all four channels and their functional forms.
+The functional forms for each channel are given in the Materials and Methods; Fig.~S3 in the Supplementary Material summarises all four channels and their functional forms.
 
 The publication process has two distinct capacity constraints.
 The first is \emph{verification capacity} $K_{rev}$: the number of papers that can receive careful scrutiny per period.
-When submission volume exceeds review capacity, scrutiny per paper falls and effective screening degrades---not because reviewers are careless, but because there are too many papers for the available expert time \citep{Bianchi2018, Kovanis2016}.
+When submission volume exceeds review capacity, scrutiny per paper falls and effective screening degrades---not because reviewers are careless, but because there are too many papers for the available expert time~\citep{Bianchi2018, Kovanis2016}.
 The second is \emph{allocation capacity} $K$: the number of publication slots the journal can fill per period.
 When the pool of papers that pass review exceeds $K$, the journal must ration: each paper faces a publication lottery, and the probability of acceptance falls below one.
 
@@ -144,7 +148,7 @@ The signs of $\Pi_{bad}$ at the two boundary states determine the long-run outco
 When the net payoff from weak submissions is negative everywhere, the system converges to \emph{Global Honesty} ($x = 1$): all authors submit only genuine work.
 When it is positive everywhere, the system collapses to \emph{Global Corruption} ($x = 0$): everyone submits indiscriminately.
 When the net payoff from weak submissions is negative at the honest boundary but positive at the corrupt boundary, both extremes are stable and an unstable collapse threshold separates their basins of attraction---this is \emph{Bistability}, where history determines the outcome and recovery from corruption requires a large intervention.
-A key structural observation is that the two boundaries are controlled by different parameters: the honest boundary ($x=1$) is secured by keeping $\lambda$ low, while the corrupt boundary ($x=0$) is held by keeping $K$ tight (Figure~S1 in the Supplementary Material illustrates the bistable case; Figure~S2 traces the equilibrium trajectory under two parameter sets).
+A key structural observation is that the two boundaries are controlled by different parameters: the honest boundary ($x=1$) is secured by keeping $\lambda$ low, while the corrupt boundary ($x=0$) is held by keeping $K$ tight (Fig.~S1 in the Supplementary Material illustrates the bistable case; Fig.~S2 traces the equilibrium trajectory under two parameter sets).
 
 The four AI channels act jointly on $\Pi_{bad}$.
 At the honest boundary, where only good papers are submitted and review capacity is not the binding constraint, the net payoff from weak submissions simplifies: a bad paper passes at rate $\lambda(a)$ and costs $c(a)$ to submit.
@@ -161,11 +165,10 @@ Not every AI adoption trajectory leads to quality collapse.
 If review capacity scales nearly as fast as submission volume ($\delta \approx \gamma$) and AI tools do not degrade screening reliability ($\mu \approx 0$), the cost reduction alone is typically insufficient to cross the collapse threshold.
 The critical implication is that the institutional response determines which scenario the system occupies: while AI adoption is largely exogenous, the verification gap ($\gamma - \delta$) and screening vulnerability ($\mu$) are policy choices.
 
-
 \subsection{AI Shifts Regime Boundaries}
 \label{sec:regimes}
 
-Figure~\ref{fig:ai_phase_diagram} presents the core comparative-statics result.
+Fig.~\ref{fig:ai_phase_diagram} presents the core comparative-statics result.
 The left panel shows the baseline ($a = 0$) regime map across the space of review capacity ($K_{rev}$) and publication slots ($K$).
 The right panel shows the same map under high AI adoption ($a = 0.8$).
 The comparison is unambiguous: the Global Honesty region shrinks substantially, the Bistability and Global Corruption zones expand, and the Stable Coexistence region contracts.
@@ -193,11 +196,10 @@ Increasing $K$ raises the rationing probability $\bar{\rho}$, which raises the e
 AI amplifies this effect: when submission cost is already low and screening already degraded, even a modest improvement in the publication lottery is enough to push the system from honesty into bistability.
 More slots increase the prize in a game whose entry barrier has already been eroded---a \emph{slot expansion paradox} that AI adoption amplifies rather than attenuates.
 
-
 \subsection{Critical Transitions and Asymmetric Recovery}
 \label{sec:transitions}
 
-Figure~\ref{fig:hysteresis_loop} makes the asymmetric recovery structure explicit, plotting the long-run honest-author share against AI adoption under two field-pressure levels.
+Fig.~\ref{fig:hysteresis_loop} makes the asymmetric recovery structure explicit, plotting the long-run honest-author share against AI adoption under two field-pressure levels.
 
 \begin{figure}[H]
     \centering
@@ -207,7 +209,7 @@ Figure~\ref{fig:hysteresis_loop} makes the asymmetric recovery structure explici
     \textbf{(a)} A low-pressure field starts honest and collapses at $a \approx 0.50$; recovery requires reducing adoption to $a \approx 0.25$---a recovery gap of 25 percentage points.
     The dashed curve marks the unstable collapse threshold separating the two basins in the bistable corridor.
     \textbf{(b)} A high-pressure field starts in bistability before any AI adoption; the corrupt equilibrium persists for all adoption levels, so reducing AI adoption alone cannot restore honest norms.
-    (Parameters: Set~A; (a) $N=300$, (b) $N=600$.)}
+    (Parameters: Set~A with $N$ varied; (a) $N=300$, (b) $N=600$.)}
     \label{fig:hysteresis_loop}
 \end{figure}
 
@@ -222,12 +224,11 @@ There is no recovery threshold in the admissible range: reducing AI adoption alo
 Escaping the corrupt basin requires an institutional intervention that raises review capacity, reduces the false-positive rate, or both---a shift in the parameter configuration, not merely a reversal of adoption.
 The contrast between panels captures the core asymmetry of the recovery problem: while low-pressure fields retain a restoration option, high-pressure fields require coordinated institutional action regardless of what happens to AI adoption.
 
-
 \subsection{Silent Erosion of Stability}
 \label{sec:erosion}
 
 The system can appear healthy while structural fragility accumulates.
-Figure~\ref{fig:tipping_timeseries} makes this concrete.
+Fig.~\ref{fig:tipping_timeseries} makes this concrete.
 
 \begin{figure}[H]
     \centering
@@ -242,10 +243,10 @@ Figure~\ref{fig:tipping_timeseries} makes this concrete.
 \end{figure}
 
 Under Set~A parameters, the collapse threshold starts at approximately 80\% honest authors and climbs monotonically towards 100\% as AI adoption deepens.
-An identical shock---representing, for example, a coordinated wave of low-quality submissions of the kind documented at major publishers during paper-mill incidents \citep{Bik2016}---produces full recovery when applied early (the safety margin is wide) but triggers irreversible collapse when applied later (the margin has narrowed).
-The practical implication is striking: published quality can remain high while the distance to collapse shrinks silently, giving no reliable warning before a critical transition \citep{Scheffer2009}.
+An identical shock---representing, for example, a coordinated wave of low-quality submissions of the kind documented at major publishers during paper-mill incidents~\citep{Bik2016}---produces full recovery when applied early (the safety margin is wide) but triggers irreversible collapse when applied later (the margin has narrowed).
+The practical implication is striking: published quality can remain high while the distance to collapse shrinks silently, giving no reliable warning before a critical transition~\citep{Scheffer2009}.
 
-Figure~\ref{fig:hysteresis_widening} maps this dynamic across the plane of author population size and AI adoption.
+Fig.~\ref{fig:hysteresis_widening} maps this dynamic across the plane of author population size and AI adoption.
 
 \begin{figure}[H]
     \centering
@@ -274,17 +275,17 @@ Agent-based simulations confirm that the three main results---gradual onset of f
 A safety margin of even 2 percentage points above the collapse threshold prevents collapse across all community sizes tested ($N \in \{200, 500, 1{,}000\}$), while the absence of a margin exposes roughly half of all runs to quality decline regardless of population size.
 Robustness analysis across the $(\delta/\gamma, \mu)$ plane reveals that the false-positive slope $\mu$ is the binding constraint: even if review capacity scales perfectly with submission volume, the system remains in Global Corruption whenever $\mu > 0.09$.
 
-
 \subsection{Intervention Must Target Verification}
 \label{sec:interventions}
 
 Three structural results follow from the analysis (formal statements and proofs in Appendix~A of the Supplementary Material).
-First, AI adoption monotonically destabilises honest submission norms: the net payoff from weak submissions $\Pi_{bad}$ is strictly increasing in $a$ under the asymmetry condition, and the Global Honesty region in parameter space shrinks as adoption deepens (\emph{monotone destabilisation}).
+First, AI adoption monotonically destabilises honest submission norms: the net payoff from weak submissions $\Pi_{bad}$ is strictly increasing in $a$ under the asymmetry condition (analytically when at most one capacity constraint binds; verified numerically when both bind---see SI Appendix, section~A for the sufficient condition), and the Global Honesty region in parameter space shrinks as adoption deepens (\emph{monotone destabilisation}).
+\textcolor{red}{[YF: Please verify the Case~III sufficient condition (eq.~S7 in Appendix~A) holds across the full parameter grid, not just Sets~A and~B. If it fails for any calibration, we need to narrow the claim.]}
 Second, expanding publication slots raises $\Pi_{bad}$ at every composition of the author population, and the marginal destabilising effect of an additional slot is strictly larger at higher $a$ (\emph{slot expansion paradox}).
 Third, the slot constraint required to deter corruption via congestion is strictly tighter at higher $a$, so journals relying on passive slot scarcity for protection may need to actively reduce $K$ as adoption deepens (\emph{erosion of congestion defence}).
 Among the primary policy levers, reducing $\lambda$ and raising $K_{rev}$ are unconditionally beneficial; raising submission friction $c$ is effective but imposes symmetric costs on all authors; and expanding $K$ alone is the unique intervention that can make the system strictly worse.
 
-Figure~\ref{fig:interventions} illustrates the joint effect of institutional interventions.
+Fig.~\ref{fig:interventions} illustrates the joint effect of institutional interventions.
 
 \begin{figure}[H]
   \centering
@@ -301,7 +302,6 @@ The left panel shows that under high AI adoption with baseline parameters, Globa
 Raising review capacity alone leaves the system in corruption because the false-positive rate ($\lambda = 0.26$) exceeds the cost-to-reward ratio ($c/r = 0.17$): even perfectly staffed review cannot restore honesty when the screening signal itself is degraded.
 The right panel applies screening-quality improvement and submission-friction restoration jointly; the corruption zone is eliminated entirely, and combining this with expanded review capacity restores Global Honesty.
 The two levers---screening quality ($\lambda$ down) and review capacity ($K_{rev}$ up)---must be deployed together; neither alone is sufficient.
-
 
 \section{Discussion}
 \label{sec:discussion}
@@ -320,54 +320,54 @@ Five principles follow, ordered by the tightness of the constraint each relieves
 
 The first and most critical is to strengthen the screening signal itself.
 The honest-boundary condition requires $\lambda < c(a)/r$; this is the binding constraint, and no amount of review-capacity expansion or slot restriction restores honesty while $\lambda$ exceeds this threshold.
-Mandatory data, code, and materials sharing makes fabrication costlier and enables post-publication verification \citep{Munafo2017, Nosek2015}.
-Structured reporting checklists---CONSORT for randomised trials \citep{Moher2009}, PRISMA for systematic reviews---force authors to document methods in ways that make gaps visible.
-Registered Reports eliminate outcome-selective reporting by committing authors to their design before results are known \citep{Nosek2018}.
+Mandatory data, code, and materials sharing makes fabrication costlier and enables post-publication verification~\citep{Munafo2017, Nosek2015}.
+Structured reporting checklists---CONSORT for randomised trials~\citep{Schulz2010}, PRISMA for systematic reviews~\citep{Moher2009}---force authors to document methods in ways that make gaps visible.
+Registered Reports eliminate outcome-selective reporting by committing authors to their design before results are known~\citep{Nosek2018}.
 
 The second is to scale verification capacity.
 Higher review capacity raises the screening intensity, reducing the bad-paper pass rate and lowering $\Pi_{bad}$ at the corrupt boundary.
-Practical mechanisms include structured reviewer panels with recognition credits \citep{Aczel2021}, AI-assisted format pre-screening that frees expert time for substantive judgement \citep{Checco2021}, and co-review programmes that train junior reviewers alongside senior ones.
-Crucially, review assistance tools must not themselves raise $\lambda$: format checks are appropriate, but automated quality scoring is not \citep{Naddaf2025}.
+Practical mechanisms include structured reviewer panels with recognition credits~\citep{Aczel2021}, AI-assisted format pre-screening that frees expert time for substantive judgement~\citep{Checco2021}, and co-review programmes that train junior reviewers alongside senior ones.
+Crucially, review assistance tools must not themselves raise $\lambda$: format checks are appropriate, but automated quality scoring is not~\citep{Naddaf2025}.
 
 The third is to add smart friction.
 As AI lowers $c(a)$, the gap $c(a) - r\lambda(a)$ closes and eventually inverts.
-Submission tokens or annual per-journal quotas raise the effective cost of marginal submissions without requiring any detection of AI use \citep{Cotton2013}.
+Submission tokens or annual per-journal quotas raise the effective cost of marginal submissions without requiring any detection of AI use~\citep{Cotton2013}.
 An equity caveat applies: blunt friction raises costs for all authors, including those at under-resourced institutions; targeted exemptions---token grants, preference for low-infrastructure verification tools such as checklists over high-infrastructure requirements---can preserve incentive effects while redistributing the cost.
 
 The fourth is to decouple dissemination from certification.
 The current architecture conflates two functions: disseminating findings quickly and certifying quality carefully.
 When certification degrades under submission pressure, both fail together.
-Preprint servers combined with overlay journals allow dissemination to remain immediate while certification proceeds at the pace required for genuine scrutiny \citep{Ginsparg2011}.
+Preprint servers combined with overlay journals allow dissemination to remain immediate while certification proceeds at the pace required for genuine scrutiny~\citep{Ginsparg2011}.
 The slot expansion paradox applies specifically to certified publication slots, not to preprint availability.
 
 The fifth, operating on a longer horizon, is to reshape evaluation rewards.
-Current career structures treat paper counts as a primary productivity metric \citep{Smaldino2016, casadevall2014reforming}, maximising the reward $r$ for any accepted paper.
-Impact-weighted or reproducibility-indexed assessment would reduce the effective $r$ for marginal submissions while preserving incentives for high-quality work \citep{Stephan2012}.
+Current career structures treat paper counts as a primary productivity metric~\citep{Smaldino2016, casadevall2014reforming}, maximising the reward $r$ for any accepted paper.
+Impact-weighted or reproducibility-indexed assessment would reduce the effective $r$ for marginal submissions while preserving incentives for high-quality work~\citep{Stephan2012}.
 
 Asymmetric recovery means that gradual, journal-by-journal reforms are insufficient once the system has collapsed.
-In Global Corruption, no individual author has an incentive to deviate back towards honesty \citep{Scheffer2001}.
-Recovery requires a large, coordinated intervention that simultaneously restores screening quality, raises review capacity, and rebuilds submission friction---the equivalent of a field-wide mandate rather than a journal-level policy, as illustrated by the ClinicalTrials.gov registration mandate \citep{Moher2009}.
+In Global Corruption, no individual author has an incentive to deviate back towards honesty~\citep{Scheffer2001}.
+Recovery requires a large, coordinated intervention that simultaneously restores screening quality, raises review capacity, and rebuilds submission friction---the equivalent of a field-wide mandate rather than a journal-level policy, as illustrated by the ClinicalTrials.gov registration mandate~\citep{DeAngelis2004}.
 
 The welfare analysis (Appendix~D of the Supplementary Material) formalises the normative case.
-Indiscriminate submissions impose two unpriced externalities: a congestion externality that degrades review quality for all authors, and a certification externality that dilutes the precision of the certified pool for all readers \citep{Akerlof1970, Ostrom1990}.
+Indiscriminate submissions impose two unpriced externalities: a congestion externality that degrades review quality for all authors, and a certification externality that dilutes the precision of the certified pool for all readers~\citep{Akerlof1970, Ostrom1990}.
 Reducing $\lambda$ is a Pareto improvement; raising $K_{rev}$ is welfare-improving when the congestion constraint binds; expanding $K$ without reducing $\lambda$ is the unique lever that unconditionally reduces welfare.
 
 \paragraph{Testable predictions.}
 The bistable structure generates two core empirical signatures.
-First, quality degradation should be nonlinear: metrics hold approximately steady while AI adoption rises below the collapse threshold, then deteriorate rapidly---a cliff, not a slope \citep{Scheffer2009}.
+First, quality degradation should be non-linear: metrics hold approximately steady while AI adoption rises below the collapse threshold, then deteriorate rapidly---a cliff, not a slope~\citep{Scheffer2009}.
 \citet{Kobak2025} find AI-modified text rates exceeding 40\% in some biomedical sub-disciplines while remaining near zero in others, suggesting that different fields sit at different distances from their respective thresholds.
 Second, the gap between collapse and recovery thresholds widens as adoption increases: the intervention required to restore quality in a field that has collapsed is strictly larger than the intervention that would have prevented the collapse.
-Pre-AI evidence confirms this asymmetric recovery pattern: \citet{Bik2016} document that paper-mill image duplication became entrenched in specific sub-fields despite sustained editorial intervention, and \citet{VanNoorden2023} report that annual retractions exceeded 10{,}000 in 2023 without receding.
+Pre-AI evidence confirms this asymmetric recovery pattern:~\citet{Bik2016} document that paper-mill image duplication became entrenched in specific sub-fields despite sustained editorial intervention, and~\citet{VanNoorden2023} report that annual retractions exceeded 10{,}000 in 2023 without receding.
 A direct test would compare the institutional effort required to restore quality in a collapsed field against one that never collapsed but faces equivalent submission pressure; the November 2022 release of ChatGPT provides a natural experiment for difference-in-differences identification across fields with varying AI amenability.
 Extended predictions, data sources, and falsification conditions are developed in Appendix~E of the Supplementary Material.
 
 \paragraph{Model boundaries.}
 The model makes two structural choices that bound its applicability.
 First, we reduce the strategy space to two options; real authors calibrate effort continuously, and intermediate strategies can coexist in finite communities.
-We justify the binary reduction by an evolutionary instability argument \citep{Weibull1995}: intermediate submission rates are unstable under replicator dynamics and the population is driven to one extreme in the mean-field limit.
+We justify the binary reduction with agent-based simulations in which authors choose a continuous submission rate: the population converges to one of the two extremes (SI Appendix, section~B).
 In practice, a continuum of effort levels would smooth the collapse threshold into a region rather than a sharp boundary, making early warning signals harder to detect but not eliminating them.
 Second, we model a single journal with fixed capacity.
-In reality, rejected papers cascade down a prestige hierarchy: \citet{Siler2015} find that roughly 62\% of papers rejected at high-impact journals were eventually published elsewhere.
+In reality, rejected papers cascade down a prestige hierarchy:~\citet{Siler2015} find that roughly 62\% of papers rejected at high-impact journals were eventually published elsewhere.
 A multi-journal extension would predict that collapse first occurs at lower-tier venues---which typically have smaller review capacity and weaker screening---and then propagates upward.
 Our single-journal results are therefore conservative: the threshold at which quality degrades across the system is likely lower than the threshold for any single venue.
 Model extensions---multi-journal competition, heterogeneous adoption, and endogenous reviewer effort---are developed in Appendix~F of the Supplementary Material.
@@ -380,15 +380,14 @@ Fields that wait for a visible quality crisis will face a recovery problem requi
 The asymmetry between production and verification is not temporary: it reflects a fundamental difference in what language models can automate.
 Institutions designed for an era in which producing a credible manuscript was itself difficult will need deliberate redesign to remain effective in an era in which the difficulty has shifted entirely to verification.
 
-
 \section{Materials and Methods}
 \label{sec:methods}
 
 \paragraph{Population and strategies.}
 A population of $N$ authors submits to a single journal over repeated periods.
 Each manuscript is good ($q=1$) with probability $\alpha$ or bad ($q=0$) with probability $1-\alpha$.
-Under \emph{selective submission} (OG), an author submits only when $q=1$; under \emph{universal submission} (AS), an author submits regardless of quality.
-The share of OG authors is $x \in [0,1]$.
+Under \emph{selective submission}, an author submits only when $q=1$; under \emph{universal submission}, an author submits regardless of quality.
+The share of selective authors is $x \in [0,1]$.
 
 \paragraph{AI adoption channels.}
 AI adoption $a \in [0,1]$ affects the system through four functional forms.
@@ -401,12 +400,13 @@ The asymmetry assumption $\gamma > \delta$ ensures that submission volume grows 
 \paragraph{Two capacity constraints.}
 Screening intensity is $\eta(x,a) = \min(1,\; K_{rev}(a)/V(x,a))$: when submissions exceed review capacity, scrutiny per paper falls.
 Peer review is an imperfect filter: a good paper is falsely rejected with probability $\varepsilon$; a bad paper wrongly passes with probability $\lambda(a)$.
+We assume the filter is better than random: $\lambda(a) + \varepsilon < 1$ for all $a \in [0,1]$.
 When $\eta < 1$, the effective pass rates are $\pi_0 = 1 - \eta(1-\lambda)$ (bad paper) and $\pi_1 = 1 - \eta\varepsilon$ (good paper); as $\eta \to 0$, both converge to 1 and the filter loses all discriminatory power.
 The peer-accepted pool is $M(x,a) = (1+\gamma a)[N\alpha\,\pi_1 + N(1-\alpha)(1-x)\,\pi_0]$.
 The rationing probability is $\bar{\rho}(x,a) = \min(1,\; K/M(x,a))$.
 
 \paragraph{Payoffs and dynamics.}
-An OG author earns $f_{OG} = \alpha[r\bar{\rho}\,\pi_1 - c(a)]$; an AS author earns $f_{AS} = f_{OG} + (1-\alpha)\Pi_{bad}$.
+A selective author earns $f_{sel} = \alpha[r\bar{\rho}\,\pi_1 - c(a)]$; a universal author earns $f_{uni} = f_{sel} + (1-\alpha)\Pi_{bad}$.
 The replicator equation $\dot{x} = -x(1-x)(1-\alpha)\Pi_{bad}$ governs the population dynamics, where $\Pi_{bad} = r\bar{\rho}\pi_0 - c(a)$.
 The four long-run outcomes---Global Honesty, Global Corruption, Bistability, and Stable Coexistence---are determined by the signs of $\Pi_{bad}$ at $x=1$ and $x=0$.
 
@@ -423,16 +423,13 @@ $\alpha = 0.2$ (20\% of manuscripts are genuinely good).
 Full calibration rationale is in Appendix~G of the Supplementary Material.
 
 \paragraph{Agent-based validation.}
-We validate the deterministic results with a stochastic agent-based model of $N$ authors using pairwise Fermi strategy revision \citep{Szabo1998, Traulsen2009}.
+We validate the deterministic results with a stochastic agent-based model of $N$ authors using pairwise Fermi strategy revision~\citep{Szabo1998, Traulsen2009}.
 AI adoption rises along a linear ramp from $a = 0$ to $a = 0.8$ over the simulation horizon.
 Results across $N \in \{200, 500, 1{,}000\}$ with 100 replications each are reported in Appendices~B and~C of the Supplementary Material.
-
 
 \clearpage
 
 \bibliographystyle{plainnat}
 \bibliography{references}
-
-
 
 \end{document}

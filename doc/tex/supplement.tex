@@ -40,8 +40,8 @@
 \renewcommand{\theequation}{S\arabic{equation}}
 
 \title{Supplementary Material for:\\[0.5em]
-Flooding the filter: a game-theoretic model of AI, submission pressure, and quality collapse}
-\author{Yuhui Fang}
+More papers, worse science? Why AI-driven publishing needs peer review reform}
+\author{Yuhui Fang \and Toby Handfield \and Julian Garcia}
 \date{\today}
 
 \begin{document}
@@ -526,7 +526,7 @@ An agent-based model (ABM) allows us to test whether our three main results---gr
 \subsection{Model Design}
 
 We simulate a population of $N = 1000$ authors.
-Each author plays one of two strategies: selective submission (OG) or universal submission (AS); intermediate submission strategies are excluded by the evolutionary instability result in the main text.
+Each author plays one of two strategies: selective submission (OG) or universal submission (AS); simulations with a continuous strategy space confirm that intermediate submission rates are unstable and the population converges to one of these two extremes.
 The journal's review capacity and quality parameters evolve with the field-level AI adoption level $a_t$, which rises exogenously along a linear ramp from $a = 0$ to $a = 0.8$ over the simulation horizon---a stylised representation of the diffusion trajectory documented empirically \citep{arXiv2024, Liang2025}.
 At each step, the effective parameters $K_{rev}(a_t)$, $\lambda(a_t)$, and $c(a_t)$ are updated according to the functional forms in the Materials and Methods section of the main text.
 Strategy revision follows the pairwise Fermi comparison process \citep{Szabo1998, Traulsen2009}: a randomly chosen agent $i$ compares its payoff $\Pi_i$ with that of a randomly drawn peer $j$ and switches with probability
@@ -1193,6 +1193,48 @@ $\lambda\downarrow$ and $K_{rev}\uparrow$ are \emph{complements}, not substitute
 $\lambda$ reduction is necessary to exit the GC region; $K_{rev}$ expansion is necessary to convert bistability into Global Honesty.
 The right sequence: quick wins first to arrest the upward drift of $\Pi_{bad}$, deep redesign before any tipping event.
 \end{tcolorbox}
+
+
+\begin{table}[H]
+  \centering
+  \footnotesize
+  \caption{\textbf{The production--verification asymmetry across stages of research.}
+    AI impact is highest at stages where human verification intensity is lowest (drafting, formatting), and lowest at stages where verification is most critical (methodology, experimental design).
+    This pattern explains why AI adoption raises submission volume faster than it raises verification capacity: the tasks AI automates well are precisely those that require the least expert scrutiny.}
+  \label{tab:stage_asymmetry}
+  \renewcommand{\arraystretch}{1.4}
+  \begin{tabularx}{\textwidth}{p{2.8cm} c c X}
+    \toprule
+    \textbf{Stage} & \textbf{AI impact} & \textbf{Verification intensity} & \textbf{Verification dynamics} \\
+    \midrule
+    Ideation \& brainstorming
+      & High & Low
+      & The researcher acts as a filter, discarding weak ideas rapidly.
+        LLMs expand the idea search space but human judgement is required to ground suggestions in feasibility \citep{Si2024, Lu2024}. \\
+    Literature search \& synthesis
+      & Medium--High & High
+      & AI accelerates summarisation but is prone to hallucination.
+        Hallucinated references are increasingly appearing in published work, requiring strict human auditing to trace claims back to source texts \citep{HalluCitations2026, Dahl2024}. \\
+    Methodology \& experimental design
+      & Medium & Very High
+      & A methodological flaw invalidates the paper.
+        Even fully autonomous AI research agents struggle with experimental execution and rely on human oversight for theoretical soundness and physical feasibility \citep{Lu2024}. \\
+    Coding \& data analysis
+      & Very High & Medium--High
+      & AI handles routine scripting, but humans must verify analytical logic.
+        Code verification is structured (it compiles and runs or it does not), making it cognitively cheaper than open-ended prose verification. \\
+    Drafting (prose \& structure)
+      & Very High & Low
+      & AI eliminates the blank-page problem.
+        Humans edit for tone, accuracy, and flow, which is faster than drafting from scratch. \\
+    Formatting \& copyediting
+      & Very High & Very Low
+      & Standard syntax and rule-based tasks.
+        AI is highly reliable at formatting, citation management, and typesetting. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
 
 \clearpage
 

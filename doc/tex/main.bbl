@@ -1,4 +1,4 @@
-\begin{thebibliography}{46}
+\begin{thebibliography}{47}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -72,6 +72,18 @@ Christopher Cotton.
 \newblock \emph{American Economic Review}, 103\penalty0 (1):\penalty0 501--509,
   2013.
 
+\bibitem[{De Angelis} et~al.(2004){De Angelis}, Drazen, Frizelle, Haug, Hoey,
+  Horton, Kotzin, Laine, Marusic, Overbeke, Schroeder, Sox, and Van
+  Der~Weyden]{DeAngelis2004}
+Catherine {De Angelis}, Jeffrey~M. Drazen, Frank~A. Frizelle, Charlotte Haug,
+  John Hoey, Richard Horton, Sheldon Kotzin, Christine Laine, Ana Marusic,
+  A.~John P.~M. Overbeke, Torben~V. Schroeder, Hal~C. Sox, and Martin~B. Van
+  Der~Weyden.
+\newblock Clinical trial registration: A statement from the {International
+  Committee of Medical Journal Editors}.
+\newblock \emph{New England Journal of Medicine}, 351\penalty0 (12):\penalty0
+  1250--1251, 2004.
+
 \bibitem[Ellison(2002)]{Ellison2002}
 Glenn Ellison.
 \newblock Evolving standards for academic publishing: A q-r theory.
@@ -83,13 +95,6 @@ Paul Ginsparg.
 \newblock {arXiv} at 20.
 \newblock \emph{Nature}, 476\penalty0 (7359):\penalty0 145--147, 2011.
 \newblock \doi{10.1038/476145a}.
-
-\bibitem[Gross and Bergstrom(2019)]{gross2019contest}
-Kevin Gross and Carl~T Bergstrom.
-\newblock Contest models highlight inherent inefficiencies of scientific
-  funding competitions.
-\newblock \emph{PLOS Biology}, 17\penalty0 (1):\penalty0 e3000065, 2019.
-\newblock \doi{10.1371/journal.pbio.3000065}.
 
 \bibitem[Hao et~al.(2026)Hao, Xu, Li, and Evans]{HaoXuLiEvans2026}
 Yu~Hao, Yuchen Xu, Yiling Li, and James Evans.
@@ -254,6 +259,13 @@ Marten Scheffer, Steve Carpenter, Jonathan~A Foley, Carl Folke, and Brian
 \newblock Catastrophic shifts in ecosystems.
 \newblock \emph{Nature}, 413\penalty0 (6856):\penalty0 591--596, 2001.
 \newblock \doi{10.1038/35098000}.
+
+\bibitem[Schulz et~al.(2010)Schulz, Altman, Moher, and {CONSORT
+  Group}]{Schulz2010}
+Kenneth~F. Schulz, Douglas~G. Altman, David Moher, and {CONSORT Group}.
+\newblock {CONSORT} 2010 statement: Updated guidelines for reporting parallel
+  group randomised trials.
+\newblock \emph{BMJ}, 340:\penalty0 c332, 2010.
 
 \bibitem[Siler et~al.(2015)Siler, Lee, and Bero]{Siler2015}
 Kyle Siler, Kirby Lee, and Lisa Bero.
