@@ -9,11 +9,43 @@
 - Proofreader found 15 issues (1 high — already fixed, 5 medium, 9 low)
 - Line numbers added to PDF for review discussion
 
-## Resolved So Far
+## All Issues Resolved
 
 ### Issue: Binary strategy reduction (PDF lines 88-90)
-- **Decision:** Reframe as modelling assumption justified by continuous-strategy ABM simulations (SI Appendix B). Student will run the ABM. Circular reference between main text and supplement broken.
-- **Files changed:** main.tex (lines 105, 369), supplement.tex (line 529)
+- **Decision:** Reframe as modelling assumption justified by continuous-strategy ABM simulations (SI Appendix B). Student will run the ABM. Circular reference broken.
+
+### Issue: "cheapest to verify" (PDF line 41)
+- **Decision:** Restructured contrast + new Table S6 in supplement (stage-by-stage AI impact vs verification intensity). New bib entries: Si2024, Lu2024, Dahl2024, HalluCitations2026.
+
+### Issue: λ vs π₀ conflation (PDF line 101)
+- **Decision:** Changed to "false-positive rate λ"
+
+### Issue: Moher2009 for CONSORT (PDF line 264)
+- **Decision:** Added Schulz2010 for CONSORT, kept Moher for PRISMA
+
+### Issue: Moher2009 for ClinicalTrials.gov (PDF line 295)
+- **Decision:** Replaced with DeAngelis2004
+
+### Issue: Gross2019 loose cite (PDF line 55)
+- **Decision:** Replaced with Bianchi2018
+
+### Issue: Prop 1 Case III qualifier
+- **Decision:** Added qualifier + red student note [YF: verify sufficient condition across full parameter grid]
+
+### Issue: Filter condition
+- **Decision:** Added λ + ε < 1 to Materials and Methods
+
+### Issue: OG/AS orphaned in M&M
+- **Decision:** Dropped; use "selective"/"universal" throughout
+
+### Issue: Supplement authors
+- **Decision:** Synced to three authors
+
+### Issue: Title
+- **Decision:** Changed to "More papers, worse science? Why AI-driven publishing needs peer review reform"
+
+### Low-priority style fixes (all applied)
+- Non-breaking spaces before citations, Figure→Fig., nonlinear→non-linear, Set A caption clarity, collapsed blank lines, abstract expanded with prediction sentence (~160 words)
 
 ## Remaining Issues (in priority order)
 
